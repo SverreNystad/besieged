@@ -1,6 +1,31 @@
-# progark
+# Group Project in TDT4240 - Software Architecture
 
 
+## Table of Contents
+- [Group Project in TDT4240 - Software Architecture](#group-project-in-tdt4240---software-architecture)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Installation and Setup](#installation-and-setup)
+    - [Prerequisites](#prerequisites)
+    - [Installing](#installing)
+  - [How to Play](#how-to-play)
+  - [Running the tests](#running-the-tests)
+  - [Contributors](#contributors)
+
+## Introduction
+
+
+## Installation and Setup
+
+
+### Prerequisites
+
+
+### Installing
+
+## How to Play
+
+## Running the tests
 
 
 ## Contributors
