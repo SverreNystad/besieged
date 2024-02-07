@@ -48,6 +48,12 @@
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/SverreNystad">
+            <img src="https://github.com/SverreNystad.png?size=100" width="100px;"/><br />
+            <sub><b>Sverre Nystad</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/Artewald">
             <img src="https://github.com/Artewald.png?size=100" width="100px;" alt="Tim Matras"/><br />
             <sub><b>Tim Matras</b></sub>
