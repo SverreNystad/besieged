@@ -37,7 +37,10 @@
 ## How to Play
 
 ## Running the tests
-
+To run the tests, you can use the following command:
+```cmd
+./gradlew test
+```
 
 ## Contributors
 <table>
