@@ -1,9 +1,10 @@
 # Group Project in TDT4240 - Software Architecture
 
 
-## Table of Contents
+<details>
+    <summary><strong> Table of Contents </strong></summary>
+
 - [Group Project in TDT4240 - Software Architecture](#group-project-in-tdt4240---software-architecture)
-  - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Installation and Setup](#installation-and-setup)
     - [Prerequisites](#prerequisites)
@@ -11,6 +12,8 @@
   - [How to Play](#how-to-play)
   - [Running the tests](#running-the-tests)
   - [Contributors](#contributors)
+
+</details>
 
 ## Introduction
 
