@@ -77,3 +77,13 @@ project(":core") {
         
     }
 }
+
+
+task test {
+    group = 'Testing'
+    description = 'Runs all the specified tasks in the core project'
+    dependsOn ':core:test'
+    doLast {
+        println 'Finished running tests.'
+    }
+}
