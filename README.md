@@ -1,5 +1,13 @@
 # Group Project in TDT4240 - Software Architecture
+<div align="center">
 
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SverreNystad/progark/ci.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/SverreNystad/progark)
+![GitHub language count](https://img.shields.io/github/languages/count/SverreNystad/progark)
+[![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
+
+
+</div>
 
 <details>
     <summary><strong> Table of Contents </strong></summary>
