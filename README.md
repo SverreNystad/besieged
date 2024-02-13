@@ -72,7 +72,7 @@ To run the tests, you can use the following command:
     </td>
     <td align="center">
       <a href="https://github.com/mvbryne">
-            <img src="https://github.com/mvbryne.png?size=100" width="100px;" alt="Mattias Tofte"/><br />
+            <img src="https://github.com/mvbryne.png?size=100" width="100px;" alt="Magnus Vesterøy Bryne"/><br />
             <sub><b>Magnus Vesterøy Bryne</b></sub>
         </a>
     </td>
@@ -84,7 +84,8 @@ To run the tests, you can use the following command:
     </td>
     <td align="center">
         <a href="https://github.com/SverreNystad">
-            <img src="https://github.com/SverreNystad.png?size=100" width="100px;"/><br />
+            <img src="https://github.com/SverreNystad.png?size=100" width="100px;"
+            alt="Sverre Nystad"/><br />
             <sub><b>Sverre Nystad</b></sub>
         </a>
     </td>
