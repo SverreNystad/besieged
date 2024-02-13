@@ -30,9 +30,38 @@
 
 
 ### Prerequisites
-* Git
-* Java JDK 17
-* Gradle 6.7
+<ul>
+<details> <summary><b> Git </b> </summary>
+  Git is a distributed version control system that is used to manage the source code of this project. It is essential for cloning the project from GitHub and collaborating with other developers.
+
+  * Git - Version Control System
+    * Download and install Git from the official [Git website](https://git-scm.com/downloads).
+    * After installation, verify the installation by running ```git --version``` in your command line or terminal.
+</details>
+</ul>
+
+<ul>
+  <details> <summary><b> Java JDK 17 (Download from Oracle's website) </b></summary>
+  This project requires Java JDK to be installed. The project is tested with JDK 17.
+
+  * Java JDK 17 - Java Development Kit is essential for compiling and running Java applications.
+    * Download and install it from [Oracle's Java JDK Download Page](https://www.oracle.com/java/technologies/downloads/#java17) or adopt an open-source JDK like AdoptOpenJDK.
+    * After installation, verify the installation by running ```java -version``` and ```javac -version``` in your command line or terminal.
+  </details>
+</ul>
+<ul>
+  <details> 
+  <summary><b> Gradle 6.7 </b></summary>
+  Gradle is used as the build tool for this project. It automates the process of building, testing, and deploying the application.
+
+  * Gradle 6.7 - Gradle brings advanced build toolkit to manage dependencies and other aspects of the build process.
+    * You can download Gradle from the [Gradle Download Page](https://gradle.org/install/).
+    * Alternatively, if you are using a Gradle Wrapper script (gradlew or gradlew.bat), you do not need to manually install Gradle, as the wrapper script will handle the installation for you.
+    * To confirm that Gradle is properly installed, run ```gradlew -v``` in your command line or terminal which will display the installed Gradle version.
+  </details>
+</ul>
+Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable for seamless execution of this project.
+
 * Android SDK (if you want to run the game on Android)
 
 ### Installing
