@@ -60,9 +60,13 @@
     * To confirm that Gradle is properly installed, run ```gradlew -v``` in your command line or terminal which will display the installed Gradle version.
   </details>
 </ul>
-Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable for seamless execution of this project.
 
-* Android SDK (if you want to run the game on Android)
+<ul>
+  <details> 
+    <summary><b>Android SDK (if you want to run the game on Android)</b></summary>
+    When testing the Android app one can run it either by connecting your Android phone via USB to your computer, or you could use an Android emulator (virtual device). To do this, you need to have the Android SDK installed. 
+</ul>
+Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable for being able to run the game.
 
 ### Installing
 To install the project, you can use the following commands:
