@@ -30,11 +30,30 @@
 
 
 ### Prerequisites
-
+* Git
+* Java JDK 17
+* Gradle 6.7
+* Android SDK (if you want to run the game on Android)
 
 ### Installing
+To install the project, you can use the following commands:
+```cmd
+git clone https://github.com/SverreNystad/progark.git
+```
+
 
 ## How to Play
+The game can be played on both desktop and Android.
+
+To start the game, you can start it on desktop using the following command:
+```cmd
+gradlew desktop:run
+```
+
+To start the game on Android, you can use the following command:
+```cmd
+gradlew android:run
+```
 
 ## Running the tests
 To run the tests, you can use the following command:
