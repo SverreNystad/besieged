@@ -10,7 +10,7 @@ package persistence {
         +build() : DAO
     }
 
-    interface DAO<Type, Key> {
+    interface DAO<Key, Type> {
         +loadAll() : ArrayList<Type>
         +get(id : Key) : Type
         +update(id : Key, object : Type) : boolean
@@ -39,13 +39,14 @@ package persistence {
     DAO <|-- LocalDAO : implements
 
     note right of DAOBuilder : Builder configures which CRUD\noperations are enabled for the DAO
-
     note right of DAO : DAO with configurable CRUD\noperations based on builder settings
 }
 
 package restOfTheSystem {
     Application --> DAOBuilder : uses
     Application --> DAO  : uses
+    DAO --> Models : operates on
+
 }
 
 @enduml
