@@ -1,0 +1,51 @@
+@startuml
+
+package persistence {
+
+    class DAOBuilder {
+        +withCreate() : DAOBuilder
+        +withRead() : DAOBuilder
+        +withUpdate() : DAOBuilder
+        +withDelete() : DAOBuilder
+        +build() : DAO
+    }
+
+    interface DAO<Type, Key> {
+        +loadAll() : ArrayList<Type>
+        +get(id : Key) : Type
+        +update(id : Key, object : Type) : boolean
+        +delete(id : Key) : boolean
+        +add(object : Type) : boolean
+    }
+
+    class FirebaseDAO {
+        +loadAll() : ArrayList<Type>
+        +get(id : Key) : Type
+        +update(id : Key, object : Type) : boolean
+        +delete(id : Key) : boolean
+        +add(object : Type) : boolean
+    }
+
+    class LocalDAO {
+        +loadAll() : ArrayList<Type>
+        +get(id : Key) : Type
+        +update(id : Key, object : Type) : boolean
+        +delete(id : Key) : boolean
+        +add(object : Type) : boolean
+    }
+
+    DAOBuilder --> "1" DAO : builds
+    DAO <|-- FirebaseDAO : implements
+    DAO <|-- LocalDAO : implements
+
+    note right of DAOBuilder : Builder configures which CRUD\noperations are enabled for the DAO
+
+    note right of DAO : DAO with configurable CRUD\noperations based on builder settings
+}
+
+package restOfTheSystem {
+    Application --> DAOBuilder : uses
+    Application --> DAO  : uses
+}
+
+@enduml
