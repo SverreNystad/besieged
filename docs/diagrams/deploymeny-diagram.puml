@@ -1,0 +1,18 @@
+@startuml
+
+node "<<device>> PlayerOne" as PlayerOne {
+    artifact "GameServer" as P1GameServer
+    artifact "GameClient" as P1GameClient
+}
+node "<<device>> PlayerTwo" as PlayerTwo {
+    artifact "GameServer" as P2GameServer
+    artifact "GameClient" as P2GameClient
+}
+database "Firebase Realtime Database" as Firebase
+
+P1GameClient --> Firebase : <<connect>>
+P1GameServer --> Firebase : <<connect>>
+P2GameClient --> Firebase : <<connect>>
+P2GameServer --> Firebase : <<connect>>
+
+@enduml
