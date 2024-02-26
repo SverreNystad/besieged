@@ -1,0 +1,31 @@
+@startuml
+
+[*] --> GameMenu : Starts game
+GameMenu --> SinglePlayer : Presses Single Player
+GameMenu --> Multiplayer : Presses Multiplayer
+GameMenu --> Options : Presses Options
+GameMenu --> Quit : Presses Quit
+
+Options --> GameMenu : Presses Back
+
+Multiplayer --> HostGame : Presses Host Game
+Multiplayer --> JoinGame : Presses Join Game
+
+HostGame : Has a unique id. Can be shared with another player.
+HostGame --> Lobby : Automatically creates lobby
+JoinGame --> Lobby : Joins a lobby after entering a unique id
+Lobby --> GameMenu : Leaves the lobby
+
+SinglePlayer --> Game : Automatically starts
+Lobby --> Game : Presses Start once the lobby is full
+
+Game --> Pause : Presses Pause
+Pause --> Game : Presses Resume
+Pause --> GameMenu : Presses Leave Game
+
+Game --> GameOver : Game ends, either a victory or defeat
+GameOver --> GameMenu : Automatically returns to the main menu
+
+Quit --> [*]
+
+@enduml
