@@ -20,9 +20,9 @@ package "sound" {
     
 }
 
-package "utils" {
+' package "utils" {
     
-}
+' }
 
 package "graphics" {
     
@@ -32,13 +32,13 @@ launcher --> gamecore : creates
 launcher --> input : uses
 launcher --> networking : uses
 launcher --> sound : uses
-launcher --> utils : uses
+' launcher --> utils : uses
 launcher --> graphics : uses
 
 input --> gamecore : implements
 networking --> gamecore : implements
 sound --> gamecore : implements
-utils --> gamecore : implements
+' utils --> gamecore : implements
 graphics --> gamecore : implements
 
 @enduml
