@@ -33,6 +33,7 @@ package "graphics" {
 }
 
 launcher --> gameClient : creates
+
 launcher --> input : uses
 launcher --> networking : uses
 launcher --> sound : uses
@@ -46,6 +47,7 @@ sound --> gameClient : implements
 ' utils --> gameClient : implements
 graphics --> gameClient : implements
 gameServer --> gameClient : implements
+
 gameClient --> gameServer : launches
 
 
