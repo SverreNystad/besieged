@@ -9,7 +9,12 @@ node "<<modbile device>> Player" as PlayerOne {
 
 database "<<database>> Firebase Realtime Database" as Firebase
 
-P1GameClient --> Firebase : <<use>>
-P1GameServer --> Firebase : <<use>>
+
+cloud internet
+
+P1GameClient --> internet : <<use>>
+P1GameServer --> internet : <<use>>
+
+internet --> Firebase
 
 @enduml
