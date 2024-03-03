@@ -1,0 +1,89 @@
+@startuml
+' Shall show how the Entity Component System works
+package ECS {
+
+    class Manager {
+        
+        +getManager(): Manager
+        +getSystems(): List<EntitySystem>
+        +getEntities(): List<Entity>
+        +getComponents(): List<Component>
+        +addSystem(system: EntitySystem)
+        +updateentities(deltatime float): void
+    }
+
+    note left of Manager: The Manager is a singleton
+
+    interface EntitySystem {
+        +update(deltatime float): void
+    }
+
+    package systems {
+        class AudioSystem
+        class InputSystem
+        class RendringSystem
+        class MovementSystem
+        class AttackSystem
+    }
+    
+    AudioSystem -up-|> EntitySystem
+    InputSystem -up-|> EntitySystem
+    RendringSystem -up-|> EntitySystem
+    MovementSystem -up-|> EntitySystem
+    AttackSystem -up-|> EntitySystem
+    
+    interface Entity {
+        +addComponent(component: Component)
+        +removeComponent(component: Component)
+        +getComponents<T extends Component>(component: Class<T>): List<T>
+        
+    }
+
+    package entities {
+        class Tower
+        abstract class Enemy
+        package enemies {
+            class Joetner
+            class Raven
+            class Fafnir
+            class "<<other enemies>>MoreEnemies"
+        }
+        Joetner -up-|> Enemy
+        Ravens -up-|> Enemy
+        Fafnir -up-|> Enemy
+        "<<other enemies>>MoreEnemies" --|> Enemy
+    }
+    Tower -up-|> Entity
+    Enemy -up-|> Entity
+
+    interface Component
+    
+    package components {
+        class Position
+        class Velocity
+        class Health
+        class Sprite
+        class "Card" as cardClass
+        class Base
+        class Player
+    }
+
+    Position -up-|> Component
+    Velocity -up-|> Component
+    Health -up-|> Component
+    Sprite -up-|> Component
+    cardClass -up-|> Component
+    Base -up-|> Component
+    Player -up-|> Component
+
+    Manager -[hidden]--> entities
+    components -[hidden]--> systems
+
+    Manager --> EntitySystem
+    Manager --> Entity
+    Manager --> Component
+}
+
+
+
+@enduml
