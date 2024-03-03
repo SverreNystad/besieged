@@ -1,0 +1,64 @@
+@startuml
+allow_mixing
+
+package "networking" {
+    ' interface DAO<T, K> {
+    '     +get(id : Key) : Type
+    '     +update(id : Key, object : Type) : boolean
+    '     +delete(id : Key) : boolean
+    '     +add(object : Type) : boolean
+    ' }
+    ' note left of DAO : follows DataBase Access\n Object pattern
+    package persistence {
+
+    }
+    
+    package messaging {
+
+    }
+}
+
+package "gameClient" {
+    interface clientMessagingController {
+        +joinGame(gameID : UUID, playerID : UUID) : Optional<GameState>
+        +requestGameState(gameID : UUID) : Optional<GameState>
+        +addAction(gameID : UUID, playerID : UUID, action : Action): void
+    }
+
+    component "<<some other classes>>GameClient" as GameClient
+
+    GameClient --> clientMessagingController
+}
+
+package "gameServer"{
+    interface serverMessagingController {
+        +createGame(): UUID
+        +setGameState(gameID : UUID, playerID : UUID, action : Action) : void
+        +popActions(gameID : UUID) : List<PlayerAction>
+    }
+
+    interface persistenceAccess {
+        +updateHighScore(playerID : UUID, score : int) : void
+    }
+    
+    object PlayerAction {
+        +player : UUID
+        +action : Action
+    }
+
+    component "<<some other classes>>GameServer" as GameServer
+
+    serverMessagingController -left-> PlayerAction
+    serverMessagingController -[hidden]-> persistenceAccess
+    GameServer -> serverMessagingController
+    GameServer -> persistenceAccess
+}
+
+messaging -up-|> clientMessagingController
+messaging -left-|> serverMessagingController 
+
+persistence -right-|> persistenceAccess 
+
+
+
+@enduml
