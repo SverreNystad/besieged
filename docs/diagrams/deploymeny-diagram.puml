@@ -1,6 +1,6 @@
 @startuml
 
-node "<<modbile device>> Player" as PlayerOne {
+node "<<mobile device>> Player" as PlayerOne {
     package "Game" {
         component "GameServer" as P1GameServer
         component "GameClient" as P1GameClient
