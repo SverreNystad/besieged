@@ -1,3 +1,26 @@
 @startuml
+participant Player as player
+participant "GameClient\n(clientMessagingController)" as GameClient
+participant "GameServer\n(serverMessagingController)" as GameServer
+
+' Player initiates an action
+player -> GameClient : Does an action
+
+' GameClient sends action to GameServer
+GameClient -> GameServer : addAction(gameID, playerID, action)
+
+' Server processes action
+GameServer -> GameServer : setGameState(gameID, playerID, action)
+
+' Note on broadcasting to all clients
+note right of GameServer: Game state updates.\nConnected clients continually ask for\nthe gamestate and display it to the player.
+
+' Server broadcasts updated game state to all clients
+GameClient -> GameServer : requestGameState(gameID)
+
+GameServer -> GameClient : current GameState
+GameClient -> player: Display current GameState
+
+
 
 @enduml

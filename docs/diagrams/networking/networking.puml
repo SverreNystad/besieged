@@ -2,13 +2,13 @@
 allow_mixing
 
 package "networking" {
-    interface DAO<T, K> {
-        +get(id : Key) : Type
-        +update(id : Key, object : Type) : boolean
-        +delete(id : Key) : boolean
-        +add(object : Type) : boolean
-    }
-    note left of DAO : follows DataBase Access\n Object pattern
+    ' interface DAO<T, K> {
+    '     +get(id : Key) : Type
+    '     +update(id : Key, object : Type) : boolean
+    '     +delete(id : Key) : boolean
+    '     +add(object : Type) : boolean
+    ' }
+    ' note left of DAO : follows DataBase Access\n Object pattern
     package persistence {
 
     }
