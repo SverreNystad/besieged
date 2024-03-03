@@ -1,0 +1,93 @@
+@startuml
+
+
+package entities{
+
+    enum TowerClassification{
+        +BowTower
+        +FireBowTower
+        +IndustrialBowTower
+        +MagicTower
+        +FireMagicTower
+        +ThunderMagicTower
+
+    }
+
+    class TowerFactory{
+        +createTower(TowerClassification) : Tower
+    }
+
+    class Tower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+    class BowTower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+    class FireBowTower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+    class IndustrialBowTower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+    class MagicTower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+    class FireMagicTower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+    class ThunderMagicTower{
+        +aim() : Enemy
+        +fire() : void
+        +reload() : void
+        +update() : void
+        +dispose() : void
+    }
+
+    ' FireBowTower --|> BowTower : extends
+    ' IndustrialBowTower --|> BowTower : extends
+    BowTower --|> Tower : extends
+    FireBowTower --|> Tower : extends
+    IndustrialBowTower --|> Tower : extends
+    MagicTower --|> Tower : extends
+    FireMagicTower --|> Tower : extends
+    ThunderMagicTower --|> Tower : extends
+
+    TowerFactory --> BowTower : builds
+    TowerFactory --> FireBowTower : builds
+    TowerFactory --> IndustrialBowTower : builds
+    TowerFactory --> MagicTower : builds
+    TowerFactory --> FireMagicTower : builds
+    TowerFactory --> ThunderMagicTower : builds
+    TowerFactory --> TowerClassification : uses
+
+    package restOfTheSystem {
+    Application --> TowerFactory : uses
+
+}
+
+}
+@enduml

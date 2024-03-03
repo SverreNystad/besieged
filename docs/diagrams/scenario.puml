@@ -1,0 +1,32 @@
+@startuml
+participant "Hosting client" as HC
+participant "Other Client" as OC
+participant "Firebase realtime database" as FRDB
+
+activate HC
+HC -> FRDB : Sets up the lobby to host
+activate FRDB
+FRDB --> HC : initiate multiplayer lobby
+deactivate FRDB
+
+HC -> FRDB : Lobby is initiated at a server
+activate FRDB
+FRDB --> HC : initiation-callback
+deactivate FRDB
+
+HC -> HC : Host sets up passcode
+HC -> FRDB : Ready to host
+
+activate FRDB
+FRDB --> OC : Find a client with the passcode
+activate OC
+OC --> FRDB : Handle invitation
+OC -> FRDB : invite client
+
+FRDB --> OC : Connect client to the mesh
+deactivate OC
+deactivate FRDB
+
+OC -> HC : Join lobby
+
+@enduml
