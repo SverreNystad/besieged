@@ -1,26 +1,33 @@
-@startmindmap "Utility Tree"
+@startmindmap "Updated Utility Tree"
 * Utility
 ** Modifiability
-*** Add new enemy, tower card, element card, or map
-**** (H,L) Add new content in < 4 person-hours
+*** Add a new Enemy type
+**** (H, L) Add enemy in < 3 person hours.
+*** Add a new Element card
+**** (H, L) Add element-card in < 3 person hours.
+*** Add a new Map
+**** (H, L) Add map in < 3 person hours.
 ** Usability
-*** Learnability
-**** (M, M) The player should be able to learn the game in < 3 minutes
-*** User Expectations
-**** (H, M) Towers should be sold in < 2 seconds and player should be reimbursed
-**** (H, M) The option menu appears in < 2 seconds and the game is paused
-**** (M, M) Player should be kicked out of the game after > 30 seconds without connection
+*** New player plays the tutorial
+**** (M, M) User learns game via tutorial in < 3 minutes
+*** Sell tower
+**** (H, M) Towers should be sold in < 2 seconds, and the player should be reimbursed
+*** Pause/Resume game
+**** (M, L) The game should pause or unpause in < 2 seconds upon press of pause/resume-button
+*** One player loses connection
+**** (H, L) Player is kicked out after connection is lost for more than 30 seconds, otherwise resume play
 ** Performance
-*** Response Time
-**** (H, H) The game should respond within < 40ms given normal operation in singleplayer
-**** (H, H) The game should respond within < 40ms given normal operation in multiplayer
-
+*** Singleplayer performance
+**** (H, H) End-to-end delay < 40 ms
+*** Multiplayer performance
+**** (H, H) End-to-end delay < 40 ms given stable internet
 ** Availability
-*** Database Availability
-**** (H, L) Database should have uptime of at least 99%
-*** Server Availability
+*** Database availability
+**** (H, L) Uptime > 99%
+*** Server availability
 **** (H, L) Server should always be available
 @endmindmap
+
 
 #Parentesene betyr følgende: 
 #Definisjon:
