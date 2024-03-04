@@ -1,19 +1,30 @@
 @startmindmap "Utility Tree"
 * Utility
 ** Modifiability
-*** Add new enemy, element card, or map
+*** Add new enemy, tower card, element card, or map
 **** (H,L) Add new content in < 4 person-hours
 ** Usability
 *** Learnability
-**** (M, M) The player should learn the game in < 3 minutes
+**** (M, M) The player should be able to learn the game in < 3 minutes
 *** User Expectations
 **** (H, M) Towers should be sold in < 2 seconds and player should be reimbursed
-**** (H, M) The option menu appears in < 2 seconds and pauses the game
+**** (H, M) The option menu appears in < 2 seconds and the game is paused
 **** (M, M) Player should be kicked out of the game after > 30 seconds without connection
 ** Performance
 *** Response Time
 **** (H, H) The game should respond within < 40ms given normal operation in both single- and multiplayer
 ** Availability
 *** Database Availability
-**** Database should be available 99% of time
+**** (H, L) Database should have uptime of at least 99%
+*** Server Availability
+**** (H, L) Server should always be available
 @endmindmap
+
+#Parentesene betyr følgende: 
+#Definisjon:
+#(A, B) = (Business Value, Effort)
+
+#Eksempler:
+#(H, H) = High Business Value, High Effort
+#(M, M) = Medium Business Value, Medium Effort
+#osv...
