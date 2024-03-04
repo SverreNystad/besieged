@@ -12,7 +12,9 @@
 **** (M, M) Player should be kicked out of the game after > 30 seconds without connection
 ** Performance
 *** Response Time
-**** (H, H) The game should respond within < 40ms given normal operation in both single- and multiplayer
+**** (H, H) The game should respond within < 40ms given normal operation in singleplayer
+**** (H, H) The game should respond within < 40ms given normal operation in multiplayer
+
 ** Availability
 *** Database Availability
 **** (H, L) Database should have uptime of at least 99%
