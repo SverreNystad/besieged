@@ -1,0 +1,20 @@
+@startuml
+
+node "<<mobile device>> Player" as PlayerOne {
+    package "Game" {
+        component "GameServer" as P1GameServer
+        component "GameClient" as P1GameClient
+    }
+}
+
+database "<<database>> Firebase Realtime Database" as Firebase
+
+
+cloud internet
+
+P1GameClient --> internet : <<use>>
+P1GameServer --> internet : <<use>>
+
+internet --> Firebase
+
+@enduml
