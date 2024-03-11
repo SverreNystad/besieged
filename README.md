@@ -71,7 +71,7 @@ Ensure that both Java and Gradle are properly installed and configured in your s
 ### Installing
 To install the project, you can use the following commands:
 ```cmd
-git clone https://github.com/SverreNystad/progark.git
+git clone https://github.com/SverreNystad/besieged.git
 ```
 
 
