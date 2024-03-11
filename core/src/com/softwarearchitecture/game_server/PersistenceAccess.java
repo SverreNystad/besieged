@@ -1,5 +1,7 @@
 package com.softwarearchitecture.game_server;
 
-public interface PersistenceAccess {
+import java.util.UUID;
 
+public interface PersistenceAccess {
+    public void updateHighscore(UUID playerID, int score);
 }
