@@ -1,4 +1,4 @@
-package com.softwarearchitecture.networking;
+package com.softwarearchitecture.networking.messaging;
 
 import java.util.List;
 import java.util.UUID;
