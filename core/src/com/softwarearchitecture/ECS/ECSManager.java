@@ -3,16 +3,16 @@ package com.softwarearchitecture.ECS;
 import java.util.*;
 
 public class ECSManager {
-    // Singleton
+    /** Singleton */
     private static ECSManager instance;
 
-    // Stores the entities
+    /** Stores the entities */
     private Set<Entity> entities;
 
-    // Stores the systems
+    /** Stores the systems */
     private Set<System> systems;
 
-    // Stores component managers for different component types
+    /** Stores component managers for different component types */
     private Map<Class<?>, ComponentManager<?>> componentManagers;
 
     // Private constructor to prevent instantiation
@@ -22,7 +22,7 @@ public class ECSManager {
         componentManagers = new HashMap<>();
     }
 
-    // Public method to get the singleton instance
+    /**  Public method to get the singleton instance */
     public static synchronized ECSManager getInstance() {
         if (instance == null) {
             instance = new ECSManager();
