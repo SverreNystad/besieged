@@ -2,6 +2,19 @@ package com.softwarearchitecture.ECS;
 
 import java.util.*;
 
+
+/**
+ * The {@code ECSManager} class serves as the central hub for managing the 
+ * Entity-Component-System (ECS) architecture in Besieged.  
+ * It facilitates the handling of entities, components, and systems to 
+ * enable a decoupled and flexible game or application architecture. 
+ * This class follows the Singleton design pattern to ensure only one instance 
+ * exists throughout the application lifecycle.
+ * <p>
+ * For more information on the ECS pattern, see <a href="https://en.wikipedia.org/wiki/Entity_component_system">Entity Component System</a>.
+ * <p>
+ * For more information on the Singleton design pattern, see <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton Pattern</a>.
+  */ 
 public class ECSManager {
     /** Singleton */
     private static ECSManager instance;
