@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ECS.Components;
+package com.softwarearchitecture.ecs.components;
 
 public class InteractableComponent {
     public float screen_u;

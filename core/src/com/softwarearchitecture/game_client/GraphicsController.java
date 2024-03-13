@@ -1,6 +1,6 @@
 package com.softwarearchitecture.game_client;
 
-import com.softwarearchitecture.ECS.Components.DrawableComponent;
+import com.softwarearchitecture.ecs.components.DrawableComponent;
 
 public interface GraphicsController {
     void draw(DrawableComponent component);
