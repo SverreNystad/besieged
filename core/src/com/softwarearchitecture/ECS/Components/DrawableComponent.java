@@ -37,5 +37,11 @@ public class DrawableComponent {
         this.screen_v = screen_v;
         this.u_size = width;
         this.v_size = height;
+        this.z_index = 0;
+    }
+
+    public DrawableComponent(String texture_path, float screen_u, float screen_v, float width, float height, int z_index) {
+        this(texture_path, screen_u, screen_v, width, height);
+        this.z_index = z_index;
     }
 }
