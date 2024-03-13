@@ -6,6 +6,7 @@ public class DrawableComponent {
     public float screen_v;
     public float u_size;
     public float v_size;
+    public int z_index;
 
     public DrawableComponent(String texture_path, float screen_u, float screen_v, float width, float height) {
         this.texture_path = texture_path;
