@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ECS.systems;
+package com.softwarearchitecture.ecs.systems;
 
 public class AttackSystem {
     

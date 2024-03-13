@@ -4,10 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.softwarearchitecture.ECS.ECSManager;
-import com.softwarearchitecture.ECS.Entity;
-import com.softwarearchitecture.ECS.Components.PositionComponent;
-import com.softwarearchitecture.ECS.Components.VelocityComponent;
+import com.softwarearchitecture.ecs.ECSManager;
+import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.VelocityComponent;
 
 public class GameApp extends ApplicationAdapter {
 	SpriteBatch batch;
