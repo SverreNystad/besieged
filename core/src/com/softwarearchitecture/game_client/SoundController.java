@@ -1,6 +1,6 @@
 package com.softwarearchitecture.game_client;
 
-import com.softwarearchitecture.ECS.Components.SoundComponent;
+import com.softwarearchitecture.ecs.components.SoundComponent;
 
 public interface SoundController {
     void playSound(SoundComponent soundComponent);
