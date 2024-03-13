@@ -70,11 +70,20 @@ project(":android") {
 
 project(":core") {
     apply plugin: "java-library"
-
+    apply plugin: "jacoco"
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         
+    }
+    jacoco {
+        toolVersion = "0.8.7" 
+    }
+
+    jacocoTestReport {
+        reports {
+            html.destination file("${buildDir}/reports/jacocoHtml")
+        }
     }
 }
 
