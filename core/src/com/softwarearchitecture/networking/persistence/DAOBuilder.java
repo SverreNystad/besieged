@@ -78,7 +78,7 @@ public class DAOBuilder<T, K>{
     public DAO<T, K> build() {
         // TODO: add conditional logic to determine which DAO implementation to use
         // based on the configuration of system capabilities
-        DAO<T,K> dao = new DAOLocal<T,K>(create, read, update, delete);
+        DAO<T,K> dao = new LocalDAO<T,K>(create, read, update, delete);
         return dao;
     }
 }

@@ -2,13 +2,13 @@ package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
 
-public class DAOLocal<T,K> implements DAO<T,K> {
+public class LocalDAO<T,K> implements DAO<T,K> {
     private boolean create;
     private boolean read;
     private boolean update;
     private boolean delete;
 
-    public DAOLocal(boolean create, boolean read, boolean update, boolean delete) {
+    public LocalDAO(boolean create, boolean read, boolean update, boolean delete) {
         this.create = create;
         this.read = read;
         this.update = update;

@@ -2,7 +2,7 @@ package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
 
-public class DAOFirebase<T,K> implements DAO<T,K> {
+public class FirebaseDAO<T,K> implements DAO<T,K> {
 
     @Override
     public boolean canCreate() {
