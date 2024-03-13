@@ -83,8 +83,8 @@ public interface DAO<T, K> {
      * already exists, the operation will not proceed.
      * 
      * @param object The instance of type {@code T} to be added to the data storage.
-     * @return {@code true} if the addition was successful; {@code false} otherwise.
+     * @return The primary key of the newly added instance; {@code null} if the operation failed.
      */
-    public boolean add(T object);
+    public K add(T object);
 
 }

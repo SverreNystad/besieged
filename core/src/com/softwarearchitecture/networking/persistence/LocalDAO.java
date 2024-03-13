@@ -60,7 +60,7 @@ public class LocalDAO<T,K> implements DAO<T,K> {
     }
 
     @Override
-    public boolean add(T object) {
+    public K add(T object) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
