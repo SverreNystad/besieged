@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ECS;
+package com.softwarearchitecture.ecs;
 
 import java.util.HashMap;
 import java.util.Map;

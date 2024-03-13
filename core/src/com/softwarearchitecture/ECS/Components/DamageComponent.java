@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ECS.Components;
+package com.softwarearchitecture.ecs.components;
 
 public class DamageComponent {
     public int damage;

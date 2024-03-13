@@ -1,12 +1,12 @@
-package com.softwarearchitecture.ECS.Systems;
+package com.softwarearchitecture.ecs.systems;
 
 import java.util.Set;
 
-import com.softwarearchitecture.ECS.ComponentManager;
-import com.softwarearchitecture.ECS.Components.PositionComponent;
-import com.softwarearchitecture.ECS.Components.VelocityComponent;
-import com.softwarearchitecture.ECS.Entity;
-import com.softwarearchitecture.ECS.System;
+import com.softwarearchitecture.ecs.ComponentManager;
+import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.System;
+import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.VelocityComponent;
 
 public class MovementSystem implements System {
     private ComponentManager<PositionComponent> positionManager;
