@@ -5,6 +5,30 @@ import java.util.List;
 public class DAOFirebase<T,K> implements DAO<T,K> {
 
     @Override
+    public boolean canCreate() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'canCreate'");
+    }
+
+    @Override
+    public boolean canRead() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'canRead'");
+    }
+
+    @Override
+    public boolean canUpdate() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'canUpdate'");
+    }
+
+    @Override
+    public boolean canDelete() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'canDelete'");
+    }
+
+    @Override
     public List<T> loadAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'loadAll'");
