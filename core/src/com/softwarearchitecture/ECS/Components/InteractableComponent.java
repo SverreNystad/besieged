@@ -5,7 +5,6 @@ public class InteractableComponent {
     public float screen_v;
     public float u_size;
     public float v_size;
-    public float z_index;
 
     public InteractableComponent(float screen_u, float screen_v, float width, float height) {
         this.screen_u = screen_u;
