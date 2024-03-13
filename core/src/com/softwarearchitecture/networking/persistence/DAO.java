@@ -27,6 +27,7 @@ public abstract class DAO<T, K> {
     public boolean canCreate() {
         return create;
     }
+    
     /**
      * Indicates whether this DAO implementation supports reading (retrieving) instances.
      * 
@@ -35,6 +36,7 @@ public abstract class DAO<T, K> {
     public boolean canRead() {
         return read;
     }
+
     /**
      * Indicates whether this DAO implementation supports updating existing instances.
      * 
@@ -43,6 +45,7 @@ public abstract class DAO<T, K> {
     public boolean canUpdate() {
         return update;
     }
+
     /**
      * Indicates whether this DAO implementation supports deleting instances.
      * 
@@ -51,8 +54,6 @@ public abstract class DAO<T, K> {
     public boolean canDelete() {
         return delete;
     }
-    
-
 
     /**
      * Retrieves all instances of type {@code T} from the data storage.
