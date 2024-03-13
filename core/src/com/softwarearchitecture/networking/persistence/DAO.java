@@ -3,8 +3,8 @@ package com.softwarearchitecture.networking.persistence;
 import java.util.List;
 
 /**
- * Represents a Data Access Object (DAO) interface, following the Data Access Object pattern.
- * This interface abstracts the interaction with the data storage system, allowing for operations
+ * Represents a Data Access Object (DAO), following the Data Access Object pattern.
+ * This abstract base class abstracts the interaction with the data storage system, allowing for operations
  * on stored data without exposing the details of the implementation. It provides a standardized
  * method to access, modify, and manage data across different types of storage mechanisms.
  * 
