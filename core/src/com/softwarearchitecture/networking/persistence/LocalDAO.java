@@ -2,37 +2,13 @@ package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
 
-public class LocalDAO<T,K> implements DAO<T,K> {
-    private boolean create;
-    private boolean read;
-    private boolean update;
-    private boolean delete;
+public class LocalDAO<T,K> extends DAO<T,K> {
 
     public LocalDAO(boolean create, boolean read, boolean update, boolean delete) {
         this.create = create;
         this.read = read;
         this.update = update;
         this.delete = delete;
-    }
-
-    @Override
-    public boolean canCreate() {
-        return create;
-    }
-
-    @Override
-    public boolean canRead() {
-        return read;
-    }
-
-    @Override
-    public boolean canUpdate() {
-        return update;
-    }
-
-    @Override
-    public boolean canDelete() {
-        return delete;
     }
 
     @Override

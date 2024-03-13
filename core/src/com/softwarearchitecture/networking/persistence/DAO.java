@@ -13,35 +13,46 @@ import java.util.List;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Data_access_object">Data Access Object on Wikipedia</a>
  */
-public interface DAO<T, K> {
+public abstract class DAO<T, K> {
+    protected boolean create;
+    protected boolean read;
+    protected boolean update;
+    protected boolean delete;
 
     /**
      * Indicates whether this DAO implementation supports the creation (addition) of new instances.
      * 
      * @return {@code true} if the DAO supports creating new instances; {@code false} otherwise.
      */
-    public boolean canCreate();
-
+    public boolean canCreate() {
+        return create;
+    }
     /**
      * Indicates whether this DAO implementation supports reading (retrieving) instances.
      * 
      * @return {@code true} if the DAO supports reading instances; {@code false} otherwise.
      */
-    public boolean canRead();
-
+    public boolean canRead() {
+        return read;
+    }
     /**
      * Indicates whether this DAO implementation supports updating existing instances.
      * 
      * @return {@code true} if the DAO supports updating instances; {@code false} otherwise.
      */
-    public boolean canUpdate();
-
+    public boolean canUpdate() {
+        return update;
+    }
     /**
      * Indicates whether this DAO implementation supports deleting instances.
      * 
      * @return {@code true} if the DAO supports deleting instances; {@code false} otherwise.
      */
-    public boolean canDelete();
+    public boolean canDelete() {
+        return delete;
+    }
+    
+
 
     /**
      * Retrieves all instances of type {@code T} from the data storage.
@@ -49,7 +60,7 @@ public interface DAO<T, K> {
      * @return A {@link List} containing all instances of type {@code T} found in the data storage;
      *         an empty list if no instances are found.
      */
-    public List<T> loadAll();
+    public abstract List<T> loadAll();
 
     /**
      * Finds and returns the instance of type {@code T} identified by the given primary key {@code id}.
@@ -58,7 +69,7 @@ public interface DAO<T, K> {
      * @return The instance of type {@code T} associated with the specified {@code id};
      *         {@code null} if no such instance exists.
      */
-    public T get(K id);
+    public abstract T get(K id);
 
     /**
      * Updates the instance of type {@code T} identified by the given primary key {@code id} with
@@ -68,7 +79,7 @@ public interface DAO<T, K> {
      * @param object The updated instance of type {@code T} to replace the existing one.
      * @return {@code true} if the update was successful; {@code false} otherwise.
      */
-    public boolean update(K id, T object);
+    public abstract boolean update(K id, T object);
 
     /**
      * Deletes the instance of type {@code T} identified by the given primary key {@code id}.
@@ -76,7 +87,7 @@ public interface DAO<T, K> {
      * @param id The primary key used to identify the instance to be deleted.
      * @return {@code true} if the deletion was successful; {@code false} otherwise.
      */
-    public boolean delete(K id);
+    public abstract boolean delete(K id);
 
     /**
      * Adds a new instance of type {@code T} to the data storage. If an instance with the same primary key
@@ -85,6 +96,6 @@ public interface DAO<T, K> {
      * @param object The instance of type {@code T} to be added to the data storage.
      * @return The primary key of the newly added instance; {@code null} if the operation failed.
      */
-    public K add(T object);
+    public abstract K add(T object);
 
 }

@@ -2,32 +2,15 @@ package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
 
-public class FirebaseDAO<T,K> implements DAO<T,K> {
+public class FirebaseDAO<T,K> extends DAO<T,K> {
 
-    @Override
-    public boolean canCreate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canCreate'");
+    public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.read = read;
+        this.update = update;
+        this.delete = delete;
     }
-
-    @Override
-    public boolean canRead() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canRead'");
-    }
-
-    @Override
-    public boolean canUpdate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canUpdate'");
-    }
-
-    @Override
-    public boolean canDelete() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canDelete'");
-    }
-
+    
     @Override
     public List<T> loadAll() {
         // TODO Auto-generated method stub

@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class DAOTest {
     
-    private MockDAO<String, Integer> mockDAO;
+    private DAO<String, Integer> mockDAO;
 
     @Before
     public void setUp() {

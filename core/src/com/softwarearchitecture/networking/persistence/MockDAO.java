@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MockDAO<T, K> implements DAO<T, K>{
+public class MockDAO<T, K> extends DAO<T, K>{
 
-    private boolean create;
-    private boolean read;
-    private boolean update;
-    private boolean delete;
+
+    public MockDAO(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.read = read;
+        this.update = update;
+        this.delete = delete;
+    }
     
     // In-memory storage for entities, using a Map to simulate database storage.
     private Map<K, T> storage = new HashMap<>();
@@ -18,33 +21,8 @@ public class MockDAO<T, K> implements DAO<T, K>{
     // Simulating key generation.
     private Integer nextId = 0;
     
-    public MockDAO(boolean create, boolean read, boolean update, boolean delete) {
-        this.create = create;
-        this.read = read;
-        this.update = update;
-        this.delete = delete;
-    }
 
     @Override
-    public boolean canCreate() {
-        return create;
-    }
-
-    @Override
-    public boolean canRead() {
-        return read;
-    }
-
-    @Override
-    public boolean canUpdate() {
-        return update;
-    }
-
-    @Override
-    public boolean canDelete() {
-        return delete;
-    }
- @Override
     public List<T> loadAll() {
         return new ArrayList<>(storage.values());
     }
@@ -76,6 +54,7 @@ public class MockDAO<T, K> implements DAO<T, K>{
     public K add(T object) {
         // Simulating key generation and ensuring type safety via casting.
         // This casting is only safe if K is compatible with the type of nextId's value.
+        @SuppressWarnings("unchecked")
         K key = (K) nextId;
         this.nextId++;
         storage.put(key, object);
