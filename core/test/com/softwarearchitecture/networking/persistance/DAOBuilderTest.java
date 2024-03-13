@@ -17,13 +17,62 @@ public class DAOBuilderTest {
     @Test
     public void testBuildsWithCreate() {
         dao = builder.withCreate().build();
-        
         assertNotNull(dao);
-        // Verify dao has create capability (implementation-specific)
         
-
+        // Verify dao has create capability 
+        assertTrue(dao.canCreate());
+        assertFalse(dao.canRead());
+        assertFalse(dao.canUpdate());
+        assertFalse(dao.canDelete());
     }
 
-// Repeat for withRead, withUpdate, withDelete
+
+    @Test
+    public void testBuildsWithRead() {
+        dao = builder.withRead().build();
+        assertNotNull(dao);
+           
+        // Verify dao has create capability 
+        assertFalse(dao.canCreate());
+        assertTrue(dao.canRead());
+        assertFalse(dao.canUpdate());
+        assertFalse(dao.canDelete());
+    }
+
+    @Test
+    public void testBuildsWithUpdate() {
+        dao = builder.withUpdate().build();
+        assertNotNull(dao);
+        
+        // Verify dao has create capability 
+        assertFalse(dao.canCreate());
+        assertFalse(dao.canRead());
+        assertTrue(dao.canUpdate());
+        assertFalse(dao.canDelete());
+    }
+
+    @Test
+    public void testBuildsWithDelete() {
+        dao = builder.withDelete().build();
+        assertNotNull(dao);
+        
+        // Verify dao has create capability 
+        assertFalse(dao.canCreate());
+        assertFalse(dao.canRead());
+        assertFalse(dao.canUpdate());
+        assertTrue(dao.canDelete());
+    }
+
+    @Test
+    public void testBuildsWithAllCapabilities() {
+        dao = builder.withCreate().withRead().withUpdate().withDelete().build();
+        assertNotNull(dao);
+        
+        // Verify dao has create capability 
+        assertTrue(dao.canCreate());
+        assertTrue(dao.canRead());
+        assertTrue(dao.canUpdate());
+        assertTrue(dao.canDelete());
+    }
 
 }
