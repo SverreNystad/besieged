@@ -16,6 +16,34 @@ import java.util.List;
 public interface DAO<T, K> {
 
     /**
+     * Indicates whether this DAO implementation supports the creation (addition) of new instances.
+     * 
+     * @return {@code true} if the DAO supports creating new instances; {@code false} otherwise.
+     */
+    public boolean canCreate();
+
+    /**
+     * Indicates whether this DAO implementation supports reading (retrieving) instances.
+     * 
+     * @return {@code true} if the DAO supports reading instances; {@code false} otherwise.
+     */
+    public boolean canRead();
+
+    /**
+     * Indicates whether this DAO implementation supports updating existing instances.
+     * 
+     * @return {@code true} if the DAO supports updating instances; {@code false} otherwise.
+     */
+    public boolean canUpdate();
+
+    /**
+     * Indicates whether this DAO implementation supports deleting instances.
+     * 
+     * @return {@code true} if the DAO supports deleting instances; {@code false} otherwise.
+     */
+    public boolean canDelete();
+
+    /**
      * Retrieves all instances of type {@code T} from the data storage.
      * 
      * @return A {@link List} containing all instances of type {@code T} found in the data storage;
@@ -58,4 +86,5 @@ public interface DAO<T, K> {
      * @return {@code true} if the addition was successful; {@code false} otherwise.
      */
     public boolean add(T object);
+
 }
