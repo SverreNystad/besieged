@@ -2,7 +2,7 @@
 allow_mixing
 
 package "networking" {
-    ' interface DAO<T, K> {
+    ' interface DAO<K, T> {
     '     +get(id : Key) : Type
     '     +update(id : Key, object : Type) : boolean
     '     +delete(id : Key) : boolean
