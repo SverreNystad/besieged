@@ -41,7 +41,9 @@ public class ECSManager {
         componentManagers = new HashMap<>();
     }
 
-    /** Public method to get the singleton instance */
+    /**
+     * @return The singleton instance of the ECSManager.
+     */
     public static synchronized ECSManager getInstance() {
         if (instance == null) {
             instance = new ECSManager();
@@ -49,22 +51,47 @@ public class ECSManager {
         return instance;
     }
 
+    /**
+     * Adds an entity to the ECSManager.
+     * 
+     * @param entity The entity to be added.
+     */
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
 
+    /**
+     * @return The set of entities managed by the ECSManager.
+     */
     public Set<Entity> getEntities() {
         return entities;
     }
 
+    /**
+     * Clears all entities from the ECSManager.
+     */
     public void clearEntities() {
         entities.clear();
     }
 
+    /**
+     * Adds a component manager for a specific component type to the ECSManager.
+     * 
+     * @param componentType The class representing the component type.
+     * @param manager       The component manager for the specified component type.
+     * @param <T>           The type of the component.
+     */
     public <T> void addComponentManager(Class<T> componentType, ComponentManager<T> manager) {
         componentManagers.put(componentType, manager);
     }
 
+    /**
+     * Returns the component manager for a specific component type.
+     * 
+     * @param componentType The class representing the component type.
+     * @param <T>           The type of the component.
+     * @return The component manager for the specified component type.
+     */
     public <T> ComponentManager<T> getComponentManager(Class<T> componentType) {
         // Cast is safe due to the controlled way ComponentManagers are added
         @SuppressWarnings("unchecked")
@@ -72,16 +99,32 @@ public class ECSManager {
         return manager;
     }
 
+    /**
+     * Adds a system to the ECSManager.
+     * 
+     * @param system The system to be added.
+     */
     public void addSystem(System system) {
         systems.add(system);
     }
 
+    /**
+     * Returns the set of systems managed by the ECSManager.
+     * 
+     * @return A set of systems.
+     */
     public Set<System> getSystems() {
         return systems;
     }
 
+    /**
+     * Updates all systems managed by the ECSManager.
+     * 
+     * @param deltaTime The time elapsed since the last update.
+     */
     public void update(float deltaTime) {
         for (System system : systems) {
+            // Update each system
             system.update(entities, deltaTime);
         }
     }
