@@ -3,7 +3,7 @@ package com.softwarearchitecture.ecs;
 import java.util.Set;
 
 /**
- * The {@code System} interface defines a contract for systems within the ECS
+ * The {@code System} interface defines a contract for systems within the ecs
  * architecture of Besieged.
  * Systems are responsible for executing game logic and rendering by operating
  * on entities that possess

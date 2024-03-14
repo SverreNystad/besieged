@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Manages components of a specific type for entities in ECS architecture.
- * The ComponentManager allows for the addition, retrieval, and removal of components
+ * Manages components of a specific type for entities in ecs architecture.
+ * The ComponentManager allows for the addition, retrieval, and removal of
+ * components
  * associated with entities, using the entity's UUID as the key.
  *
  * @param <T> The type of component this manager is responsible for.
@@ -26,11 +27,13 @@ public class ComponentManager<T> {
     }
 
     /**
-     * Retrieves a component associated with a given entity. If the entity does not have
+     * Retrieves a component associated with a given entity. If the entity does not
+     * have
      * a component of this type, {@code null} is returned.
      *
      * @param entity The entity whose component is to be retrieved.
-     * @return The component associated with the entity, or {@code null} if the entity does not have
+     * @return The component associated with the entity, or {@code null} if the
+     *         entity does not have
      *         a component of this type.
      */
     public T getComponent(Entity entity) {
@@ -38,7 +41,8 @@ public class ComponentManager<T> {
     }
 
     /**
-     * Removes the component associated with a given entity. If the entity does not have
+     * Removes the component associated with a given entity. If the entity does not
+     * have
      * a component of this type, the method does nothing.
      *
      * @param entity The entity whose component is to be removed.
