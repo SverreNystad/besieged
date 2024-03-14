@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class MockDAO<K, T> extends DAO<K, T>{
 
@@ -28,8 +29,9 @@ public class MockDAO<K, T> extends DAO<K, T>{
     }
 
     @Override
-    public T get(K id) {
-        return storage.get(id);
+    public Optional<T> get(K id) {
+        Optional<T> result = Optional.ofNullable(storage.get(id));
+        return result;
     }
 
     @Override

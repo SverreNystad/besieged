@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -51,7 +52,8 @@ public class DAOTest {
     public void testGet() {
         String testEntity = "Test Entity";
         Integer testId = mockDAO.add(testEntity);
-        String fetchedEntity = mockDAO.get(testId);
+        Optional<String> fetchedData = mockDAO.get(testId);
+        String fetchedEntity = fetchedData.get(); 
         assertEquals("Fetched entity should match added entity", testEntity, fetchedEntity);
     }
 
@@ -61,7 +63,8 @@ public class DAOTest {
         String updatedEntity = "Updated Entity";
         Integer testId = mockDAO.add(testEntity);
         assertTrue("Update should be successful", mockDAO.update(testId, updatedEntity));
-        String fetchedEntity = mockDAO.get(testId);
+        Optional<String> fetchedData = mockDAO.get(testId);
+        String fetchedEntity = fetchedData.get(); 
         assertEquals("Fetched entity should be updated", updatedEntity, fetchedEntity);
     }
 
@@ -70,6 +73,7 @@ public class DAOTest {
         String testEntity = "Test Entity";
         Integer testId = mockDAO.add(testEntity);
         assertTrue("Delete should be successful", mockDAO.delete(testId));
-        assertNull("Deleted entity should not be fetchable", mockDAO.get(testId));
+        Optional<String> fetchedData = mockDAO.get(testId);
+        assertFalse("Deleted entity should not be fetchable", fetchedData.isPresent());
     }
 }

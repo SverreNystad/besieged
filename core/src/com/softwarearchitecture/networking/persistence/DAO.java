@@ -1,6 +1,7 @@
 package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Represents a Data Access Object (DAO), following the Data Access Object pattern.
@@ -64,13 +65,16 @@ public abstract class DAO<K, T> {
     public abstract List<T> loadAll();
 
     /**
-     * Finds and returns the instance of type {@code T} identified by the given primary key {@code id}.
+     * Finds and returns an {@link Optional} wrapper for the instance of type {@code T} identified by the given primary key {@code id}.
+     * 
+     * This method provides a way to safely access instances without risking a {@code NullPointerException}. If no instance is found
+     * for the specified {@code id}, an empty {@link Optional} is returned.
      * 
      * @param id The primary key used to identify the instance in the data storage.
-     * @return The instance of type {@code T} associated with the specified {@code id};
-     *         {@code null} if no such instance exists.
+     * @return An {@link Optional} containing the instance of type {@code T} associated with the specified {@code id}.
+     *         If no such instance exists, an empty {@link Optional} is returned.
      */
-    public abstract T get(K id);
+    public abstract Optional<T> get(K id);
 
     /**
      * Updates the instance of type {@code T} identified by the given primary key {@code id} with

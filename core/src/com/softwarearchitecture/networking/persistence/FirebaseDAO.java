@@ -1,6 +1,7 @@
 package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FirebaseDAO<K, T> extends DAO<K, T> {
 
@@ -18,7 +19,7 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     }
 
     @Override
-    public T get(K id) {
+    public Optional<T> get(K id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'get'");
     }
