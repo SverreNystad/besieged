@@ -8,12 +8,12 @@ import java.util.List;
  * on stored data without exposing the details of the implementation. It provides a standardized
  * method to access, modify, and manage data across different types of storage mechanisms.
  * 
- * @param <T> The type of the object managed by this DAO.
  * @param <K> The type of the primary key used to identify objects of type T.
+ * @param <T> The type of the object managed by this DAO.
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Data_access_object">Data Access Object on Wikipedia</a>
  */
-public abstract class DAO<T, K> {
+public abstract class DAO<K, T> {
     protected boolean create;
     protected boolean read;
     protected boolean update;

@@ -16,12 +16,12 @@ package com.softwarearchitecture.networking.persistence;
  *                          .build();
  * </pre>
  * 
- * @param <T> The type of the entity object managed by the DAO.
  * @param <K> The type of the primary key used by the DAO to identify entities.
+ * @param <T> The type of the entity object managed by the DAO.
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Builder_pattern">Builder pattern on Wikipedia</a>
  */
-public class DAOBuilder<T, K>{
+public class DAOBuilder<K, T>{
     
     private boolean create = false;
     private boolean read = false;
@@ -33,7 +33,7 @@ public class DAOBuilder<T, K>{
      * 
      * @return This builder instance for method chaining.
      */
-    public DAOBuilder<T, K> withCreate() {
+    public DAOBuilder<K, T> withCreate() {
         create = true;
         return this;
     }
@@ -43,7 +43,7 @@ public class DAOBuilder<T, K>{
      * 
      * @return This builder instance for method chaining.
      */
-    public DAOBuilder<T, K> withRead() {
+    public DAOBuilder<K, T> withRead() {
         read = true;
         return this;
     }
@@ -53,7 +53,7 @@ public class DAOBuilder<T, K>{
      * 
      * @return This builder instance for method chaining.
      */
-    public DAOBuilder<T, K> withUpdate() {
+    public DAOBuilder<K, T> withUpdate() {
         update = true;
         return this;
     }
@@ -63,7 +63,7 @@ public class DAOBuilder<T, K>{
      * 
      * @return This builder instance for method chaining.
      */
-    public DAOBuilder<T, K> withDelete() {
+    public DAOBuilder<K, T> withDelete() {
         delete = true;
         return this;
     }
@@ -75,10 +75,10 @@ public class DAOBuilder<T, K>{
      * 
      * @return A configured DAO instance.
      */
-    public DAO<T, K> build() {
+    public DAO<K, T> build() {
         // TODO: add conditional logic to determine which DAO implementation to use
         // based on the configuration of system capabilities
-        DAO<T,K> dao = new LocalDAO<T,K>(create, read, update, delete);
+        DAO<K, T> dao = new LocalDAO<K, T>(create, read, update, delete);
         return dao;
     }
 }

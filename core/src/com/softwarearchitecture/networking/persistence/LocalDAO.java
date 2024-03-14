@@ -2,7 +2,7 @@ package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
 
-public class LocalDAO<T,K> extends DAO<T,K> {
+public class LocalDAO<K, T> extends DAO<K, T> {
 
     public LocalDAO(boolean create, boolean read, boolean update, boolean delete) {
         this.create = create;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MockDAO<T, K> extends DAO<T, K>{
+public class MockDAO<K, T> extends DAO<K, T>{
 
 
     public MockDAO(boolean create, boolean read, boolean update, boolean delete) {

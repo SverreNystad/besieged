@@ -2,7 +2,7 @@ package com.softwarearchitecture.networking.persistence;
 
 import java.util.List;
 
-public class FirebaseDAO<T,K> extends DAO<T,K> {
+public class FirebaseDAO<K, T> extends DAO<K, T> {
 
     public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete) {
         this.create = create;
