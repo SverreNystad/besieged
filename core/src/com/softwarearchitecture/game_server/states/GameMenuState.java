@@ -2,7 +2,7 @@ package com.softwarearchitecture.game_server.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class GameState extends State {
+public class GameMenuState extends State {
 
     @Override
     protected void handleInput() {
@@ -27,5 +27,4 @@ public class GameState extends State {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'dispose'");
     }
-
 }

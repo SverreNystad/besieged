@@ -45,8 +45,9 @@ public class Button {
     }
 
     private void notifyObservers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notifyObservers'");
+        for (ButtonObserver observer : observers) {
+            observer.onAction(type);
+        }
     }
 
     private void attachObserver(ButtonObserver observer) {
@@ -54,8 +55,9 @@ public class Button {
     }
 
     public void update(Vector3 mouse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (isClicked(mouse)) {
+            notifyObservers();
+        }
     }
 
     public Texture getTexture() {
