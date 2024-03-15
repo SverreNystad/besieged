@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_server.buttons;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -7,23 +8,33 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class Button {
-    /**
-     * Abstract class for all menu buttons
-     * 
-     */
+public class Button {
 
-    protected Rectangle hitBox;
-    protected Vector3 position;
-    protected List<ButtonObserver> observers;
-
+    private int width;
+    private int height;
+    private ButtonType type;
+    private Rectangle hitBox;
+    private Vector3 position;
+    private List<ButtonObserver> observers;
     public Texture texture;
 
-    protected abstract void notifyObservers();
+    public Button(int x, int y, ButtonObserver observer, ButtonType type, int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.position = new Vector3(x, y, 0);
+        this.type = type;
+        this.hitBox = new Rectangle(position.x, position.y, width, height);
+        observers = new ArrayList<>();
+        attachObserver(observer);
 
-    protected abstract void attachObserver(ButtonObserver observer);
+        // TODO: Add texture, maybe through a entity component system maybe?
+
+    }
 
     public boolean isClicked(Vector3 mouse) {
+        /*
+         * True if the button is clicked
+         */
         if (!Gdx.input.justTouched())
             return false;
         float mouseX = mouse.x;
@@ -33,7 +44,19 @@ public abstract class Button {
 
     }
 
-    public abstract void update(Vector3 mouse);
+    private void notifyObservers() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notifyObservers'");
+    }
+
+    private void attachObserver(ButtonObserver observer) {
+        observers.add(observer);
+    }
+
+    public void update(Vector3 mouse) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
 
     public Texture getTexture() {
         return texture;
@@ -45,6 +68,11 @@ public abstract class Button {
 
     public Vector3 getPosition() {
         return position;
+    }
+
+    public void dispose() {
+        // dispose of some kind
+
     }
 
 }
