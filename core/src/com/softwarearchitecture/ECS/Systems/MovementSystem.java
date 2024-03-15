@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
-import com.softwarearchitecture.ecs.components.DrawableComponent;
+import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 
@@ -15,11 +15,11 @@ import com.softwarearchitecture.ecs.components.VelocityComponent;
 public class MovementSystem implements System {
     private ComponentManager<PositionComponent> positionManager;
     private ComponentManager<VelocityComponent> velocityManager;
-    private ComponentManager<DrawableComponent> drawableManager;
+    private ComponentManager<SpriteComponent> drawableManager;
     private Viewport viewport;
 
     public MovementSystem(ComponentManager<PositionComponent> positionManager,
-        ComponentManager<VelocityComponent> velocityManager, ComponentManager<DrawableComponent> drawableManager, Viewport viewport) {
+        ComponentManager<VelocityComponent> velocityManager, ComponentManager<SpriteComponent> drawableManager, Viewport viewport) {
         if (positionManager != null && velocityManager != null && drawableManager != null) {
             this.positionManager = positionManager;
             this.velocityManager = velocityManager;
@@ -33,7 +33,7 @@ public class MovementSystem implements System {
         for (Entity entity : entities) {
             PositionComponent pos = positionManager.getComponent(entity);
             VelocityComponent vel = velocityManager.getComponent(entity);
-            DrawableComponent drawable = drawableManager.getComponent(entity);
+            SpriteComponent drawable = drawableManager.getComponent(entity);
 
             if (pos != null && vel != null) {
                 pos.position.x += vel.velocity.x * deltaTime;

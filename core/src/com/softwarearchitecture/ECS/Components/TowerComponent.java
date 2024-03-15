@@ -1,9 +1,15 @@
 package com.softwarearchitecture.ecs.components;
 
-public class DamageComponent {
+public class TowerComponent {
+    public enum DamageType {
+        FIRE, WATER, LIGHTNING // Sample types
+    }
+
+    public DamageType damageType;
     private int damage;
 
-    public DamageComponent(int damage) {
+    public TowerComponent(DamageType damageType, int damage) {
+        this.damageType = damageType;
         if (damage >= 0) {
             this.damage = damage;
         }
