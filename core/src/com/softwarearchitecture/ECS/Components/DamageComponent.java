@@ -4,8 +4,11 @@ public class DamageComponent {
     private int damage;
 
     public DamageComponent(int damage) {
-        if (damage >= 0) {
+        if (damage >= 1) {
             this.damage = damage;
+        }
+        else {
+            this.damage = 1;
         }
     }
 
@@ -14,8 +17,11 @@ public class DamageComponent {
     }
 
     public void setDamage(int damage) {
-        if (damage >= 0) {
+        if (damage >= 1) {
             this.damage = damage;
+        }
+        else {
+            this.damage = 1;
         }
     }
 }

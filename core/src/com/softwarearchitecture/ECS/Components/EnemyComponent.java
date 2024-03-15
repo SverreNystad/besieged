@@ -4,6 +4,11 @@ public class EnemyComponent {
     public int damage;
 
     public EnemyComponent(int damage) {
-        this.damage = damage;
+        if (damage >= 1) {
+            this.damage = damage;
+        }
+        else {
+            this.damage = 1;
+        }
     }
 }

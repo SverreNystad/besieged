@@ -7,6 +7,9 @@ public class HealthComponent {
         if (health >= 0) {
             this.health = health;
         }
+        else {
+            this.health = 0;
+        }
     }
 
     public int getHealth() {
@@ -16,6 +19,9 @@ public class HealthComponent {
     public void setHealth(int health) {
         if (health >= 0) {
             this.health = health;
+        }
+        else {
+            this.health = 0;
         }
     }
 }

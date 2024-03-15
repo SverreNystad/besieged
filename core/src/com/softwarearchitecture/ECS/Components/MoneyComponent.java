@@ -1,9 +1,9 @@
 package com.softwarearchitecture.ecs.components;
 
 public class MoneyComponent {
-    public int balance;
+    public int amount;
 
-    public MoneyComponent(int balance) {
-        this.balance = balance;
+    public MoneyComponent(int amount) {
+        this.amount = amount;
     }
 }
