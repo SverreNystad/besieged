@@ -1,7 +1,7 @@
 package com.softwarearchitecture.ecs.systems;
 
 import com.softwarearchitecture.ecs.System;
-import com.softwarearchitecture.ecs.components.DrawableComponent;
+import com.softwarearchitecture.ecs.components.SpriteComponent;
 
 import java.util.Set;
 
@@ -10,16 +10,16 @@ import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Entity;
 
 /**
- * RenderingSystem is responsible for rendering entities that have a DrawableComponent.
+ * RenderingSystem is responsible for rendering entities that have a SpriteComponent.
  * It implements the System interface and defines logic in the update method to render entities.
  */
 public class RenderingSystem implements System {
-    private ComponentManager<DrawableComponent> drawableManager;
+    private ComponentManager<SpriteComponent> drawableManager;
 
     private float screen_width;
     private float screen_height;
 
-    public RenderingSystem(ComponentManager<DrawableComponent> drawableManager, float screen_width, float screen_height) {
+    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager, float screen_width, float screen_height) {
         // TODO: Validate drawableManager
         this.drawableManager = drawableManager;
         this.screen_width = screen_width;
@@ -29,7 +29,7 @@ public class RenderingSystem implements System {
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         for (Entity entity : entities) {
-            DrawableComponent sprite = drawableManager.getComponent(entity);
+            SpriteComponent sprite = drawableManager.getComponent(entity);
 
             if (sprite != null) {
                 render(sprite);
@@ -38,10 +38,10 @@ public class RenderingSystem implements System {
     }
     
     /**
-     * Renders the entity using its DrawableComponent.
+     * Renders the entity using its SpriteComponent.
      * @param drawable The drawable component assiciated with an 
      */
-    private void render(DrawableComponent drawable) {
+    private void render(SpriteComponent drawable) {
          // Convert relative coordinates and sizes to screen dimensions.
         float x = drawable.screen_u * screen_width;
         float y = drawable.screen_v * screen_height;

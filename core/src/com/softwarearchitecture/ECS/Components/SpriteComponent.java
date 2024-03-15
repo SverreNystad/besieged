@@ -14,7 +14,7 @@ package com.softwarearchitecture.ecs.components;
  *
  * @see <a href="https://en.wikipedia.org/wiki/UV_mapping">UV mapping on Wikipedia</a> for more information on UV mapping.
  */
-public class DrawableComponent {
+public class SpriteComponent {
     public String texture_path;
     public float screen_u;
     public float screen_v;
@@ -23,7 +23,7 @@ public class DrawableComponent {
     public int z_index;
 
     /**
-     * Constructs a new DrawableComponent with specified texture, position, and size.
+     * Constructs a new SpriteComponent with specified texture, position, and size.
      * 
      * @param texture_path Path to the texture image.
      * @param screen_u Relative X-coordinate on the screen.
@@ -31,7 +31,7 @@ public class DrawableComponent {
      * @param width Relative width of the entity.
      * @param height Relative height of the entity.
      */
-    public DrawableComponent(String texture_path, float screen_u, float screen_v, float width, float height) {
+    public SpriteComponent(String texture_path, float screen_u, float screen_v, float width, float height) {
         this.texture_path = texture_path;
         this.screen_u = screen_u;
         this.screen_v = screen_v;
@@ -40,7 +40,7 @@ public class DrawableComponent {
         this.z_index = 0;
     }
 
-    public DrawableComponent(String texture_path, float screen_u, float screen_v, float width, float height, int z_index) {
+    public SpriteComponent(String texture_path, float screen_u, float screen_v, float width, float height, int z_index) {
         this(texture_path, screen_u, screen_v, width, height);
         this.z_index = z_index;
     }
