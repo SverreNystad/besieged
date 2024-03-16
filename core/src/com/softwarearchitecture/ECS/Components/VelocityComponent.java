@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ECS.Components;
+package com.softwarearchitecture.ecs.components;
 
 import com.badlogic.gdx.math.Vector2;
 
