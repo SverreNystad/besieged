@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.softwarearchitecture.game_client.ClientMessagingController;
-import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.game_server.PlayerInput;
+import com.softwarearchitecture.game_server.states.GameState;
 
 public class ClientMessenger implements ClientMessagingController {
 

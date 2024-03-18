@@ -16,6 +16,7 @@ public class ButtonLayout {
     private Stage stage; // Stage where the layout will be displayed
     private int gridWidth;
     private int gridHeight;
+    Vector2[][] gridTable;
 
     public ButtonLayout(int numberOfGridsX, int numberOfGridsY, Layout layout, List<ButtonObserver> observers,
             List<ButtonType> types) {
@@ -28,8 +29,16 @@ public class ButtonLayout {
         this.gridWidth = width / numberOfGridsX;
         this.gridHeight = height / numberOfGridsY;
 
-        Vector2[][] gridTable = createGrids(numberOfGridsX, numberOfGridsY);
+        this.gridTable = createGrids(numberOfGridsX, numberOfGridsY);
 
+    }
+
+    public void printGrids() {
+        for (int i = 0; i < gridTable.length; i++) {
+            for (int j = 0; j < gridTable[0].length; j++) {
+                System.out.println(gridTable[i][j].x + " " + gridTable[i][j].y);
+            }
+        }
     }
 
     private Vector2[][] createGrids(int numberOfGridsX, int numberOfGridsY) {
@@ -47,15 +56,22 @@ public class ButtonLayout {
 
     }
 
-    private int[] calculateCenterGridPosition(int gridColumns, int gridRows) {
+    private Vector2 calculateCenterGridPosition(int gridColumns, int gridRows) {
         /*
          * Calculates the center position of the grid, returns the index of the center
-         * as a int array
+         * as Vector2.
          * 
          */
         int centerX = gridColumns / 2;
         int centerY = gridRows / 2;
-        return new int[] { centerX, centerY };
+        return new Vector2(centerX, centerY);
+    }
+
+    // main
+    public static void main(String[] args) {
+        ButtonLayout layout = new ButtonLayout(10, 10, Layout.MENU_SCREEN, new ArrayList<ButtonObserver>(),
+                new ArrayList<ButtonType>());
+
     }
 
 }

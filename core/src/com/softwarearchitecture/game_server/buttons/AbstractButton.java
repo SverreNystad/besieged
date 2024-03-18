@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class Button {
+public abstract class AbstractButton {
     /**
      * Abstract class for all menu buttons
      * 
@@ -34,22 +34,5 @@ public abstract class Button {
     }
 
     public abstract void update(Vector3 mouse);
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public Rectangle getHitBox() {
-        return hitBox;
-    }
-
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    public void dispose() {
-        // dispose of some kind
-
-    }
 
 }
