@@ -1,5 +1,7 @@
 package com.softwarearchitecture.ecs;
 
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -13,12 +15,12 @@ import java.util.UUID;
  * its corresponding
  * entity efficiently.
  */
-public class Entity {
+public class Entity implements Serializable {
     /** Unique identifier for the entity. */
     private UUID id;
 
     /** Reference to the ECSManager, used for component management. */
-    private ECSManager ecs;
+    private transient ECSManager ecs;
 
     /**
      * Constructs a new Entity with a unique UUID and initializes its connection to
@@ -56,5 +58,10 @@ public class Entity {
         if (manager != null) {
             manager.addComponent(this, component);
         }
+    }
+
+    private void readObject(ObjectInputStream ois) throws Exception {
+        ois.defaultReadObject();
+        this.ecs = ECSManager.getInstance();
     }
 }

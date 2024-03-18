@@ -1,6 +1,8 @@
 package com.softwarearchitecture.ecs.components;
 
-public class SoundComponent {
+import java.io.Serializable;
+
+public class SoundComponent implements Serializable {
     public String sound_path;
 
     public SoundComponent(String sound_path) {

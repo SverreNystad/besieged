@@ -1,6 +1,8 @@
 package com.softwarearchitecture.ecs.components;
 
-public class HealthComponent {
+import java.io.Serializable;
+
+public class HealthComponent implements Serializable {
     private int health;
 
     public HealthComponent(int health) {

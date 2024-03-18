@@ -1,6 +1,8 @@
 package com.softwarearchitecture.ecs.components;
 
-public class EnemyComponent {
+import java.io.Serializable;
+
+public class EnemyComponent implements Serializable {
     public int damage;
 
     public EnemyComponent(int damage) {

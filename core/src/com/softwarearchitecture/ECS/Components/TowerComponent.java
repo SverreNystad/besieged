@@ -1,9 +1,10 @@
 package com.softwarearchitecture.ecs.components;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TowerComponent {
+public class TowerComponent implements Serializable {
     public enum DamageType {
         FIRE, WATER, LIGHTNING // Sample types
     }

@@ -1,5 +1,7 @@
 package com.softwarearchitecture.ecs.components;
 
+import java.io.Serializable;
+
 /**
  * Represents a drawable component of an entity with UV mapping for positioning and sizing on the screen.
  * This component defines where and how an entity's texture is drawn in a 2D space, using relative coordinates and sizes
@@ -14,7 +16,7 @@ package com.softwarearchitecture.ecs.components;
  *
  * @see <a href="https://en.wikipedia.org/wiki/UV_mapping">UV mapping on Wikipedia</a> for more information on UV mapping.
  */
-public class SpriteComponent {
+public class SpriteComponent implements Serializable {
     public String texture_path;
     public float screen_u;
     public float screen_v;
