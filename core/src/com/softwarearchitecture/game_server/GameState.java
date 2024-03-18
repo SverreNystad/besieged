@@ -209,7 +209,7 @@ public class GameState implements Externalizable {
                     if (towers.get(i) instanceof TowerComponent && targets.get(i) instanceof TargetComponent) {
                         // TODO: Find tower with same id and update its components or else create it and add it to the ECS
                         Entity entity = new Entity();
-                        throw new UnsupportedOperationException("Unimplemented method 'readExternal'. We need to identify towers on something else than entity id.");
+                        throw new UnsupportedOperationException("Unimplemented method 'readExternal'. We need to identify towers on something else than entity id unless we can serialize entity.");
                         //towerManager.addComponent(entity, (TowerComponent) towers.get(i));
                         //targetManager.addComponent(entity, (TargetComponent) targets.get(i));
                     } else {
