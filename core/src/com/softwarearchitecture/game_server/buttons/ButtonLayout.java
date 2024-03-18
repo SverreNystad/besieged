@@ -13,7 +13,6 @@ public class ButtonLayout {
 
     private int width = GameApp.WIDTH;
     private int height = GameApp.HEIGHT;
-    private Stage stage; // Stage where the layout will be displayed
     private int gridWidth;
     private int gridHeight;
     Vector2[][] gridTable;
