@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.ecs.Card;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -20,16 +21,19 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 
+
 public class GameState implements Externalizable {
+    public static final List<Class<? extends Card>> card_classes = new ArrayList<>();
+    private static final String game_version = "0.1";
     private UUID id;
     private Entity village;
     private Entity playerOne;
     private Optional<Entity> playerTwo;
     private List<List<MapTile>> map;
 
-
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(game_version);
         ECSManager manager = ECSManager.getInstance();
         // Writing gameID
         out.writeObject(id);
@@ -127,6 +131,17 @@ public class GameState implements Externalizable {
     @SuppressWarnings("unchecked")
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        // Game version
+        Object version_obj = in.readObject();
+        if (version_obj instanceof String) {
+            String version = (String) version_obj;
+            if (!version.equals(game_version)) {
+                throw new IllegalStateException("Game version mismatch");
+            }
+        } else {
+            throw new IllegalStateException("Game version must be a string");
+        }
+
         // Game id
         id = (UUID) in.readObject();
 
