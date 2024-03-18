@@ -1,6 +1,8 @@
 package com.softwarearchitecture.ecs.components;
 
-public class MoneyComponent {
+import java.io.Serializable;
+
+public class MoneyComponent implements Serializable {
     public int amount;
 
     public MoneyComponent(int amount) {

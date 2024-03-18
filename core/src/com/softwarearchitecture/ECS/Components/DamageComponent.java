@@ -1,6 +1,8 @@
 package com.softwarearchitecture.ecs.components;
 
-public class DamageComponent {
+import java.io.Serializable;
+
+public class DamageComponent implements Serializable {
     private int damage;
 
     public DamageComponent(int damage) {

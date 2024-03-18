@@ -1,6 +1,8 @@
 package com.softwarearchitecture.ecs.components;
 
-public class CostComponent {
+import java.io.Serializable;
+
+public class CostComponent implements Serializable {
     private int cost;
 
     public CostComponent(int cost) {

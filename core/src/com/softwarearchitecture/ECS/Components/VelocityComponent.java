@@ -1,8 +1,10 @@
 package com.softwarearchitecture.ecs.components;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.math.Vector2;
 
-public class VelocityComponent {
+public class VelocityComponent implements Serializable {
     public Vector2 velocity = new Vector2();
 
     public VelocityComponent(float x, float y) {
