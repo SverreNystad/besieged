@@ -83,7 +83,7 @@ tasks.register('run', Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.softwarearchitecture/com.softwarearchitecture.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.softwarearchitecture.AndroidLauncher'
 }
 
 eclipse.project.name = appName + "-android"
