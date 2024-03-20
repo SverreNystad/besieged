@@ -81,7 +81,7 @@ public class GameState implements Externalizable {
         HealthComponent villageHealth = (HealthComponent) healthManager.getComponent(village);
         if (villageHealth != null) {
             out.writeObject(village);
-            out.writeInt(villageHealth.getHealth());
+            out.writeObject(villageHealth);
         } else {
             throw new IllegalStateException("Village has no health component");
         }
@@ -92,19 +92,19 @@ public class GameState implements Externalizable {
         ComponentManager<MoneyComponent> goldManager = manager.getComponentManager(MoneyComponent.class);
         MoneyComponent playerOneMoney = (MoneyComponent) goldManager.getComponent(playerOne);
         if (playerOneMoney != null) {
-            out.writeInt(playerOneMoney.amount);
+            out.writeObject(playerOneMoney);
         } else {
             throw new IllegalStateException("Player one has no money component");
         }
         if (playerTwo != null) {
             MoneyComponent playerTwoMoney = (MoneyComponent) goldManager.getComponent(playerTwo);
             if (playerTwoMoney != null) {
-                out.writeInt(playerTwoMoney.amount);
+                out.writeObject(playerTwoMoney);
             } else {
                 throw new IllegalStateException("Player two has no money component");
             }
         } else {
-            out.writeInt(0);
+            out.writeObject(null);
         }
     }
 
@@ -227,11 +227,274 @@ public class GameState implements Externalizable {
         out.writeObject(shopCards);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readExternal'");
+        Object readObject = in.readObject();
+        if (!(readObject instanceof String)) {
+            throw new IllegalStateException("Game version must be a string");
+        }
+        if (game_version != (String) in.readObject()) {
+            throw new IllegalStateException("Game version mismatch");
+        }
+        // Reading gameID
+        readObject = in.readObject();
+        if (!(readObject instanceof UUID)) {
+            throw new IllegalStateException("Game ID must be a UUID");
+        }
+        if (id != (UUID) readObject) {
+            throw new IllegalStateException("Game ID mismatch");
+        }
+        // Players
+        deserializePlayers(in);
+        // Village health
+        deserializeVillageHealth(in);
+        // Player money
+        deserializePlayerMoney(in);
+        // Cards (for each player)
+        deserializePlayerCards(in);
+        // Map
+        readObject = in.readObject();
+        if (!(readObject instanceof List)) {
+            throw new IllegalStateException("Map must be a list");
+        } else {
+            List<?> mapList = (List<?>) readObject;
+            if (mapList.get(0) instanceof List) {
+                throw new IllegalStateException("Map must be a list of lists");
+            } else {
+                List<List<?>> mapListList = (List<List<?>>) mapList;
+                if (mapListList.get(0).get(0) instanceof MapTile) {
+                    throw new IllegalStateException("Map must be a list of lists of MapTiles");
+                }
+            }
+        }
+        map = (List<List<MapTile>>) readObject;
+        // Towers
+        deserializeTowers(in);
+        // Enemies
+        deserializeEnemies(in);
+        // Placed cards
+        deserializePlacedCards(in);
+        // Store cards
+        deserializeShopCards(in);
     }
     
+    private void deserializePlayers(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        Object readObject = in.readObject();
+        if (!(readObject instanceof Entity)) {
+            throw new IllegalStateException("Player one must be an entity");
+        }
+        playerOne = (Entity) readObject;
+        manager.addEntity(playerOne);
+        readObject = in.readObject();
+        if (!(readObject instanceof Entity)) {
+            throw new IllegalStateException("Player two must be an entity");
+        }
+        playerTwo = (Entity) readObject;
+        manager.addEntity(playerTwo);
+    }
+
+    private void deserializeVillageHealth(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof Entity)) {
+            throw new IllegalStateException("Village must be an entity");
+        }
+        village = (Entity) readObject;
+        manager.addEntity(village);
+        readObject = in.readObject();
+        if (!(readObject instanceof HealthComponent)) {
+            throw new IllegalStateException("Village health must be a health component");
+        }
+        HealthComponent villageHealth = (HealthComponent) readObject;
+        healthManager.addComponent(village, villageHealth);
+    }
+
+    private void deserializePlayerMoney(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<MoneyComponent> goldManager = manager.getComponentManager(MoneyComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof MoneyComponent)) {
+            throw new IllegalStateException("Player one money must be a money component");
+        }
+        MoneyComponent playerOneMoney = (MoneyComponent) readObject;
+        goldManager.addComponent(playerOne, playerOneMoney);
+        readObject = in.readObject();
+        if (playerTwo != null) {
+            if (!(readObject instanceof MoneyComponent)) {
+                throw new IllegalStateException("Player two money must be a money component");
+            }
+            MoneyComponent playerTwoMoney = (MoneyComponent) readObject;
+            goldManager.addComponent(playerTwo, playerTwoMoney);
+        } else {
+            if (readObject != null) {
+                throw new IllegalStateException("Player two money must be null, since player two is not part of the game!");
+            }
+        }
+    }
+
+    private void deserializePlayerCards(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<CardHolderComponent> cardHolderManager = manager.getComponentManager(CardHolderComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof CardHolderComponent)) {
+            throw new IllegalStateException("Player one card holder must be a card holder component");
+        }
+        CardHolderComponent playerOneCardHolder = (CardHolderComponent) readObject;
+        cardHolderManager.addComponent(playerOne, playerOneCardHolder);
+        readObject = in.readObject();
+        if (playerTwo != null) {
+            if (!(readObject instanceof CardHolderComponent)) {
+                throw new IllegalStateException("Player two card holder must be a card holder component");
+            }
+            CardHolderComponent playerTwoCardHolder = (CardHolderComponent) readObject;
+            cardHolderManager.addComponent(playerTwo, playerTwoCardHolder);
+        } else {
+            if (readObject != null) {
+                throw new IllegalStateException("Player two card holder must be null, since player two is not part of the game!");
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void deserializeTowers(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<TowerComponent> towerManager = manager.getComponentManager(TowerComponent.class);
+        ComponentManager<TargetComponent> targetManager = manager.getComponentManager(TargetComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
+            throw new IllegalStateException("Towers must be an array list of entities");
+        }
+        ArrayList<Entity> towerEntities = (ArrayList<Entity>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof TowerComponent) {
+            throw new IllegalStateException("Towers must be an array list of tower components");
+        }
+        ArrayList<TowerComponent> towers = (ArrayList<TowerComponent>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof TargetComponent) {
+            throw new IllegalStateException("Towers must be an array list of target components");
+        }
+        ArrayList<TargetComponent> targets = (ArrayList<TargetComponent>) readObject;
+        if (!(towers.size() == targets.size() && towers.size() == towerEntities.size())) {
+            throw new IllegalStateException("Towers and targets must be present in equal numbers");
+        }
+
+        for (int i = 0; i < towerEntities.size(); i++) {
+            Entity towerEntity = towerEntities.get(i);
+            TowerComponent tower = towers.get(i);
+            TargetComponent target = targets.get(i);
+            manager.addEntity(towerEntity);
+            towerManager.addComponent(towerEntity, tower);
+            targetManager.addComponent(towerEntity, target);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void deserializeEnemies(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<PositionComponent> positionManager = manager.getComponentManager(PositionComponent.class);
+        ComponentManager<EnemyComponent> enemyManager = manager.getComponentManager(EnemyComponent.class);
+        ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
+            throw new IllegalStateException("Enemies must be an array list of entities");
+        }
+        ArrayList<Entity> enemyEntities = (ArrayList<Entity>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof HealthComponent) {
+            throw new IllegalStateException("Enemies must be an array list of health components");
+        }
+        ArrayList<HealthComponent> enemyHealths = (ArrayList<HealthComponent>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof PositionComponent) {
+            throw new IllegalStateException("Enemies must be an array list of position components");
+        }
+        ArrayList<PositionComponent> enemyPositions = (ArrayList<PositionComponent>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof EnemyComponent) {
+            throw new IllegalStateException("Enemies must be an array list of enemy components");
+        }
+        ArrayList<EnemyComponent> enemies = (ArrayList<EnemyComponent>) readObject;
+
+        if (!(enemyHealths.size() == enemyPositions.size() && enemyHealths.size() == enemies.size())) {
+            throw new IllegalStateException("Enemy healths, positions, and enemies must be present in equal numbers");
+        }
+
+        for (int i = 0; i < enemyEntities.size(); i++) {
+            Entity enemyEntity = enemyEntities.get(i);
+            HealthComponent health = enemyHealths.get(i);
+            PositionComponent position = enemyPositions.get(i);
+            EnemyComponent enemy = enemies.get(i);
+            manager.addEntity(enemyEntity);
+            healthManager.addComponent(enemyEntity, health);
+            positionManager.addComponent(enemyEntity, position);
+            enemyManager.addComponent(enemyEntity, enemy);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void deserializePlacedCards(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<PlacedCardComponent> placedCardManager = manager.getComponentManager(PlacedCardComponent.class);
+        ComponentManager<PositionComponent> positionManager = manager.getComponentManager(PositionComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
+            throw new IllegalStateException("Placed cards must be an array list of entities");
+        }
+        ArrayList<Entity> placedCardEntities = (ArrayList<Entity>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof PlacedCardComponent) {
+            throw new IllegalStateException("Placed cards must be an array list of placed card components");
+        }
+        ArrayList<PlacedCardComponent> placedCards = (ArrayList<PlacedCardComponent>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof PositionComponent) {
+            throw new IllegalStateException("Placed cards must be an array list of position components");
+        }
+        ArrayList<PositionComponent> placedCardPositions = (ArrayList<PositionComponent>) readObject;
+
+        if (!(placedCards.size() == placedCardPositions.size() && placedCards.size() == placedCardEntities.size())) {
+            throw new IllegalStateException("Placed cards, positions, and entities must be present in equal numbers");
+        }
+
+        for (int i = 0; i < placedCardEntities.size(); i++) {
+            Entity placedCardEntity = placedCardEntities.get(i);
+            PlacedCardComponent placedCard = placedCards.get(i);
+            PositionComponent position = placedCardPositions.get(i);
+            manager.addEntity(placedCardEntity);
+            placedCardManager.addComponent(placedCardEntity, placedCard);
+            positionManager.addComponent(placedCardEntity, position);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void deserializeShopCards(ObjectInput in) throws IOException, ClassNotFoundException {
+        ECSManager manager = ECSManager.getInstance();
+        ComponentManager<ShopComponent> shopManager = manager.getComponentManager(ShopComponent.class);
+        Object readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
+            throw new IllegalStateException("Shop cards must be an array list of entities");
+        }
+        ArrayList<Entity> shopEntities = (ArrayList<Entity>) readObject;
+        readObject = in.readObject();
+        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof ShopComponent) {
+            throw new IllegalStateException("Shop cards must be an array list of shop components");
+        }
+        ArrayList<ShopComponent> shopCards = (ArrayList<ShopComponent>) readObject;
+
+        if (shopEntities.size() != shopCards.size() || shopEntities.size() < 1) {
+            throw new IllegalStateException("Shop cards must be present in equal numbers and at least one must be present");
+        }
+
+        for (int i = 0; i < shopEntities.size(); i++) {
+            Entity shopEntity = shopEntities.get(i);
+            ShopComponent shopCard = shopCards.get(i);
+            manager.addEntity(shopEntity);
+            shopManager.addComponent(shopEntity, shopCard);
+        }
+    }
+
 }
