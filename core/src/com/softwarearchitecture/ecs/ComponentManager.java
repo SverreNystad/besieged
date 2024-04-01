@@ -3,7 +3,7 @@ package com.softwarearchitecture.ecs;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
+import java.util.Optional;
 /**
  * Manages components of a specific type for entities in ecs architecture.
  * The ComponentManager allows for the addition, retrieval, and removal of
@@ -27,17 +27,18 @@ public class ComponentManager<T> {
     }
 
     /**
-     * Retrieves a component associated with a given entity. If the entity does not
-     * have
-     * a component of this type, {@code null} is returned.
-     *
+     * Retrieves a component associated with a given entity. 
+     * 
      * @param entity The entity whose component is to be retrieved.
-     * @return The component associated with the entity, or {@code null} if the
-     *         entity does not have
-     *         a component of this type.
+     * @return An Optional containing the component, If the entity does not
+     * have a component of this type, the method returns an empty Optional.
      */
-    public T getComponent(Entity entity) {
-        return components.get(entity.getId());
+    public Optional<T> getComponent(Entity entity) {
+        T component = components.get(entity.getId());
+        if (component == null) {
+            return Optional.empty();
+        }
+        return Optional.of(component);
     }
 
     /**
