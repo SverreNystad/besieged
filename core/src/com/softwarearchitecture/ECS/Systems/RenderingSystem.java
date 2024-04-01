@@ -3,6 +3,7 @@ package com.softwarearchitecture.ecs.systems;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 
+import java.util.Optional;
 import java.util.Set;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,10 +30,10 @@ public class RenderingSystem implements System {
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         for (Entity entity : entities) {
-            SpriteComponent sprite = drawableManager.getComponent(entity);
+            Optional<SpriteComponent> sprite = drawableManager.getComponent(entity);
 
-            if (sprite != null) {
-                render(sprite);
+            if (sprite.isPresent()) {
+                render(sprite.get());
             }
         }
     }

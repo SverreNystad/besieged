@@ -1,5 +1,6 @@
 package com.softwarearchitecture.ecs.systems;
 
+import java.util.Optional;
 import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -31,32 +32,42 @@ public class MovementSystem implements System {
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         for (Entity entity : entities) {
-            PositionComponent pos = positionManager.getComponent(entity);
-            VelocityComponent vel = velocityManager.getComponent(entity);
-            SpriteComponent drawable = drawableManager.getComponent(entity);
+            Optional<PositionComponent> position = positionManager.getComponent(entity);
+            Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
+            Optional<SpriteComponent> drawable = drawableManager.getComponent(entity);
 
-            if (pos != null && vel != null) {
-                pos.position.x += vel.velocity.x * deltaTime;
-                pos.position.y += vel.velocity.y * deltaTime;
+            if (position.isEmpty() || velocity.isEmpty()) {
+                continue;
+            }
 
-                if (drawable != null) {
-                    float screen_width = viewport.getWorldWidth();
-                    float screen_height = viewport.getWorldHeight();
+            PositionComponent pos = position.get();
+            VelocityComponent vel = velocity.get();
 
-                    // Example conversion - assume game world dimensions match screen dimensions 
-                    float drawableWidthInWorld = 1.0f; // Fixed max-width of the entity in the world
-                    float drawableHeightInWorld = 1.0f; // Fixed max-height of the entity in the world
-                    
-                    // Conversion from world position to screen position
-                    drawable.screen_u = convertWorldToScreenX(pos.position.x, screen_width);
-                    drawable.screen_v = convertWorldToScreenY(pos.position.y, screen_height);
-    
-                   // Conversion from world size to screen size
-                    drawable.u_size = convertWorldToScreenSize(drawableWidthInWorld, screen_width);
-                    drawable.v_size = convertWorldToScreenSize(drawableHeightInWorld, screen_height);
-                }
+
+            pos.position.x += vel.velocity.x * deltaTime;
+            pos.position.y += vel.velocity.y * deltaTime;
+
+            if (drawable.isPresent()) {
+                updateDrawable(drawable.get(), pos);
             }
         }
+    }
+    
+    private void updateDrawable(SpriteComponent drawable, PositionComponent pos) {
+        float screen_width = viewport.getWorldWidth();
+        float screen_height = viewport.getWorldHeight();
+    
+        // Example conversion - assume game world dimensions match screen dimensions 
+        float drawableWidthInWorld = 1.0f; // Fixed max-width of the entity in the world
+        float drawableHeightInWorld = 1.0f; // Fixed max-height of the entity in the world
+        
+        // Conversion from world position to screen position
+        drawable.screen_u = convertWorldToScreenX(pos.position.x, screen_width);
+        drawable.screen_v = convertWorldToScreenY(pos.position.y, screen_height);
+    
+        // Conversion from world size to screen size
+        drawable.u_size = convertWorldToScreenSize(drawableWidthInWorld, screen_width);
+        drawable.v_size = convertWorldToScreenSize(drawableHeightInWorld, screen_height);
     }
 
     // Convert world X-coordinate to screen U coordinate
