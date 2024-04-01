@@ -1,4 +1,4 @@
-package com.softwarearchitecture.testecs.testcomponents;
+package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.softwarearchitecture.testecs;
+package com.softwarearchitecture.ecs;
 
 import java.util.Set;
 
