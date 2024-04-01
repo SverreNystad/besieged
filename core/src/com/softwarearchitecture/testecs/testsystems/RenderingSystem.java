@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ecs.systems;
+package com.softwarearchitecture.testecs.systems;
 
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.SpriteComponent;

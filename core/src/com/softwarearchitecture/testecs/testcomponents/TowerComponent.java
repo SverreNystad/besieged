@@ -1,11 +1,19 @@
-package com.softwarearchitecture.ecs.components;
+package com.softwarearchitecture.testecs.testcomponents;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DamageComponent implements Serializable {
+public class TowerComponent implements Serializable {
+    public enum DamageType {
+        FIRE, WATER, LIGHTNING // Sample types
+    }
+
+    public List<DamageType> damageTypes;
     private int damage;
 
-    public DamageComponent(int damage) {
+    public TowerComponent(List<DamageType> damageTypes, int damage) {
+        this.damageTypes = new ArrayList<>(damageTypes);
         if (damage >= 1) {
             this.damage = damage;
         }

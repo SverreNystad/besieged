@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ecs;
+package com.softwarearchitecture.testecs;
 
 /**
  * The {@code Card} interface serves as a marker interface for all card types

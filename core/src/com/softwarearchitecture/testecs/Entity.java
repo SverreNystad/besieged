@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ecs;
+package com.softwarearchitecture.testecs;
 
 import java.io.ObjectInputStream;
 import java.io.Serializable;
