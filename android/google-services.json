@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "472803327686",
+    "project_id": "besieged-71023",
+    "storage_bucket": "besieged-71023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472803327686:android:efe7d1192fb39e2e2721c7",
+        "android_client_info": {
+          "package_name": "com.softwarearchitecture"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjDnfMbicOnWjWtvclJm-6IrzoIYUBuFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
