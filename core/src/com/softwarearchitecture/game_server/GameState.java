@@ -7,6 +7,7 @@ import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.Card;
@@ -19,7 +20,6 @@ import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
-import com.softwarearchitecture.ecs.components.ShopComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
@@ -72,16 +72,16 @@ public class GameState implements Externalizable {
         // Placed cards
         serializePlacedCards(out);
         // Store cards
-        serializeShopCards(out);
+        // serializeShopCards(out);
     }
 
     private void serializeVillageHealth(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
         ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
-        HealthComponent villageHealth = (HealthComponent) healthManager.getComponent(village);
-        if (villageHealth != null) {
+        Optional<HealthComponent> villageHealth = healthManager.getComponent(village);
+        if (villageHealth.isPresent()) {
             out.writeObject(village);
-            out.writeObject(villageHealth);
+            out.writeObject(villageHealth.get());
         } else {
             throw new IllegalStateException("Village has no health component");
         }
@@ -90,16 +90,16 @@ public class GameState implements Externalizable {
     private void serializePlayerMoney(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
         ComponentManager<MoneyComponent> goldManager = manager.getComponentManager(MoneyComponent.class);
-        MoneyComponent playerOneMoney = (MoneyComponent) goldManager.getComponent(playerOne);
-        if (playerOneMoney != null) {
-            out.writeObject(playerOneMoney);
+        Optional<MoneyComponent> playerOneMoney = goldManager.getComponent(playerOne);
+        if (playerOneMoney.isPresent()) {
+            out.writeObject(playerOneMoney.get());
         } else {
             throw new IllegalStateException("Player one has no money component");
         }
         if (playerTwo != null) {
-            MoneyComponent playerTwoMoney = (MoneyComponent) goldManager.getComponent(playerTwo);
-            if (playerTwoMoney != null) {
-                out.writeObject(playerTwoMoney);
+            Optional<MoneyComponent> playerTwoMoney = goldManager.getComponent(playerTwo);
+            if (playerTwoMoney.isPresent()) {
+                out.writeObject(playerTwoMoney.get());
             } else {
                 throw new IllegalStateException("Player two has no money component");
             }
@@ -111,16 +111,16 @@ public class GameState implements Externalizable {
     private void serializePlayerCards(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
         ComponentManager<CardHolderComponent> cardHolderManager = manager.getComponentManager(CardHolderComponent.class);
-        CardHolderComponent playerOneCardHolder = (CardHolderComponent) cardHolderManager.getComponent(playerOne);
-        if (playerOneCardHolder != null) {
-            out.writeObject(playerOneCardHolder);
+        Optional<CardHolderComponent> playerOneCardHolder = cardHolderManager.getComponent(playerOne);
+        if (playerOneCardHolder.isPresent()) {
+            out.writeObject(playerOneCardHolder.get());
         } else {
             throw new IllegalStateException("Player one has no card holder component");
         }
         if (playerTwo != null) {
-            CardHolderComponent playerTwoCardHolder = (CardHolderComponent) cardHolderManager.getComponent(playerTwo);
-            if (playerTwoCardHolder != null) {
-                out.writeObject(playerTwoCardHolder);
+            Optional<CardHolderComponent> playerTwoCardHolder = cardHolderManager.getComponent(playerTwo);
+            if (playerTwoCardHolder.isPresent()) {
+                out.writeObject(playerTwoCardHolder.get());
             } else {
                 throw new IllegalStateException("Player two has no card holder component");
             }
@@ -137,14 +137,14 @@ public class GameState implements Externalizable {
         ArrayList<TowerComponent> towers = new ArrayList<>();
         ArrayList<TargetComponent> targets = new ArrayList<>();
         for (Entity entity : manager.getEntities()) {
-            TowerComponent tower = (TowerComponent) towerManager.getComponent(entity);
-            TargetComponent target = (TargetComponent) targetManager.getComponent(entity);
+            Optional<TowerComponent> tower = towerManager.getComponent(entity);
+            Optional<TargetComponent> target = targetManager.getComponent(entity);
             
-            if (tower != null && target != null) {
+            if (tower.isPresent() && target.isPresent()) {
                 towerEntities.add(entity);
-                towers.add(tower);
-                targets.add(target);
-            } else if (tower != null && target == null) {
+                towers.add(tower.get());
+                targets.add(target.get());
+            } else if (tower.isPresent() && !target.isPresent()) {
                 throw new IllegalStateException("Tower and target components must be present together");
             }
         }
@@ -166,15 +166,15 @@ public class GameState implements Externalizable {
         ArrayList<PositionComponent> enemyPositions = new ArrayList<>();
         ArrayList<EnemyComponent> enemies = new ArrayList<>();
         for (Entity entity : manager.getEntities()) {
-            PositionComponent position = (PositionComponent) positionManager.getComponent(entity);
-            EnemyComponent enemy = (EnemyComponent) enemyManager.getComponent(entity);
-            HealthComponent health = (HealthComponent) healthManager.getComponent(entity);
+            Optional<PositionComponent> position = positionManager.getComponent(entity);
+            Optional<EnemyComponent> enemy = enemyManager.getComponent(entity);
+            Optional<HealthComponent> health = healthManager.getComponent(entity);
 
-            if (position != null && enemy != null && health != null) {
+            if (position.isPresent() && enemy.isPresent() && health.isPresent()) {
                 enemyEntities.add(entity);
-                enemyHealths.add(health);
-                enemyPositions.add(position);
-                enemies.add(enemy);
+                enemyHealths.add(health.get());
+                enemyPositions.add(position.get());
+                enemies.add(enemy.get());
             } else if (enemy != null && (position == null || health == null)) {
                 throw new IllegalStateException("Enemy, position, and health components must be present together");
             }
@@ -196,35 +196,16 @@ public class GameState implements Externalizable {
         ArrayList<PlacedCardComponent> placedCards = new ArrayList<>();
         ArrayList<PositionComponent> placedCardPositions = new ArrayList<>();
         for (Entity entity : manager.getEntities()) {
-            PlacedCardComponent placedCard = (PlacedCardComponent) placedCardManager.getComponent(entity);
-            PositionComponent position = (PositionComponent) positionManager.getComponent(entity);
-            if (placedCard != null && position != null) {
+            Optional<PlacedCardComponent> placedCard = placedCardManager.getComponent(entity);
+            Optional<PositionComponent> position = positionManager.getComponent(entity);
+            if (placedCard.isPresent() && position.isPresent()) {
                 placedCardEntities.add(entity);
-                placedCards.add(placedCard);
-                placedCardPositions.add(position);
+                placedCards.add(placedCard.get());
+                placedCardPositions.add(position.get());
             } else if (placedCard != null && position == null) {
                 throw new IllegalStateException("Placed card and position components must be present together");
             }
         }
-    }
-
-    private void serializeShopCards(ObjectOutput out) throws IOException {
-        ECSManager manager = ECSManager.getInstance();
-        ComponentManager<ShopComponent> shopManager = manager.getComponentManager(ShopComponent.class);
-        ArrayList<Entity> shopEntities = new ArrayList<>();
-        ArrayList<ShopComponent> shopCards = new ArrayList<>();
-        for (Entity entity : manager.getEntities()) {
-            ShopComponent shopCard = (ShopComponent) shopManager.getComponent(entity);
-            if (shopCard != null) {
-                shopEntities.add(entity);
-                shopCards.add(shopCard);
-            }
-        }
-        if (shopEntities.size() != shopCards.size() || shopEntities.size() < 1) {
-            throw new IllegalStateException("Shop cards must be present in equal numbers and at least one must be present");
-        }
-        out.writeObject(shopEntities);
-        out.writeObject(shopCards);
     }
 
     @SuppressWarnings("unchecked")
@@ -275,8 +256,6 @@ public class GameState implements Externalizable {
         deserializeEnemies(in);
         // Placed cards
         deserializePlacedCards(in);
-        // Store cards
-        deserializeShopCards(in);
     }
     
     private void deserializePlayers(ObjectInput in) throws IOException, ClassNotFoundException {
@@ -467,33 +446,6 @@ public class GameState implements Externalizable {
             manager.addEntity(placedCardEntity);
             placedCardManager.addComponent(placedCardEntity, placedCard);
             positionManager.addComponent(placedCardEntity, position);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void deserializeShopCards(ObjectInput in) throws IOException, ClassNotFoundException {
-        ECSManager manager = ECSManager.getInstance();
-        ComponentManager<ShopComponent> shopManager = manager.getComponentManager(ShopComponent.class);
-        Object readObject = in.readObject();
-        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
-            throw new IllegalStateException("Shop cards must be an array list of entities");
-        }
-        ArrayList<Entity> shopEntities = (ArrayList<Entity>) readObject;
-        readObject = in.readObject();
-        if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof ShopComponent) {
-            throw new IllegalStateException("Shop cards must be an array list of shop components");
-        }
-        ArrayList<ShopComponent> shopCards = (ArrayList<ShopComponent>) readObject;
-
-        if (shopEntities.size() != shopCards.size() || shopEntities.size() < 1) {
-            throw new IllegalStateException("Shop cards must be present in equal numbers and at least one must be present");
-        }
-
-        for (int i = 0; i < shopEntities.size(); i++) {
-            Entity shopEntity = shopEntities.get(i);
-            ShopComponent shopCard = shopCards.get(i);
-            manager.addEntity(shopEntity);
-            shopManager.addComponent(shopEntity, shopCard);
         }
     }
 
