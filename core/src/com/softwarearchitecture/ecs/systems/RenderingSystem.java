@@ -48,7 +48,7 @@ public class RenderingSystem implements System {
         float y = drawable.screen_v * screen_height;
         float width = drawable.u_size * screen_width;
         float height = drawable.v_size * screen_height;
-
+        
     }
 
 }

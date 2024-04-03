@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_client;
+package com.softwarearchitecture.ecs;
 
 import java.util.function.Consumer;
 

@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_client;
+package com.softwarearchitecture.ecs;
 
 public class TouchLocation {
     public float u;

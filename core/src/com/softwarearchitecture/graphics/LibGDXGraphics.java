@@ -1,7 +1,7 @@
 package com.softwarearchitecture.graphics;
 
+import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
-import com.softwarearchitecture.game_client.GraphicsController;
 
 public class LibGDXGraphics implements GraphicsController {
 
