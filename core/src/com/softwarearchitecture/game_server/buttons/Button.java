@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.softwarearchitecture.math.Rectangle;
 
 public class Button {
 
@@ -18,16 +18,14 @@ public class Button {
     private List<ButtonObserver> observers;
     public Texture texture;
 
-    public Button(int x, int y, ButtonObserver observer, ButtonType type, int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.position = new Vector3(x, y, 0);
+    public Button(Rectangle hitbox, ButtonObserver observer, ButtonType type, Texture texture) {
+
         this.type = type;
-        this.hitBox = new Rectangle(position.x, position.y, width, height);
+        this.hitBox = hitbox;
         observers = new ArrayList<>();
         attachObserver(observer);
 
-        // TODO: Add texture, maybe through a entity component system maybe?
+        // TODO: Add texture
 
     }
 

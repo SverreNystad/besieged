@@ -23,6 +23,10 @@ public class GameStateManager {
         states.push(state);
     }
 
+    public void setOverlapping(State state) {
+        states.push(state);
+    }
+
     public State peek() {
         try {
             return states.lastElement();

@@ -1,15 +1,20 @@
 package com.softwarearchitecture.game_server.states;
 
+import java.util.List;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+
 import com.softwarearchitecture.GameApp;
+import com.softwarearchitecture.game_server.buttons.Button;
 
 public abstract class State {
 
     protected GameStateManager gameStateManager;
     protected OrthographicCamera cam;
     protected Vector3 mouse;
+    protected List<Button> buttons;
 
     protected State() {
         this.gameStateManager = new GameStateManager();
