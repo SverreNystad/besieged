@@ -128,4 +128,13 @@ public class ECSManager {
             system.update(entities, deltaTime);
         }
     }
+
+    /**
+     * Clears all entities, systems, and component managers from the ECSManager.
+     */
+    public void clearAll() {
+        entities.clear();
+        systems.clear();
+        componentManagers.clear();
+    }
 }

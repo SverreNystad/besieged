@@ -45,8 +45,8 @@ public class RenderingSystem implements System {
 
         sprites.sort(new Comparator<SpriteComponent>() {
             @Override
-            public int compare(SpriteComponent o1, SpriteComponent o2) {
-                return Integer.compare(o1.z_index, o2.z_index);
+            public int compare(SpriteComponent s1, SpriteComponent s2) {
+                return Integer.compare(s2.z_index, s1.z_index);
             }
         });
         
