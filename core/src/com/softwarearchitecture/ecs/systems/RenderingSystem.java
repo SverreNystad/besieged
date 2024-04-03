@@ -9,6 +9,7 @@ import java.util.Set;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
  * RenderingSystem is responsible for rendering entities that have a SpriteComponent.
@@ -20,11 +21,15 @@ public class RenderingSystem implements System {
     private float screen_width;
     private float screen_height;
 
-    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager, float screen_width, float screen_height) {
+    /** Graphics controller - Not optional and will be needed to check against null. Optional<T> is a option here, but since this is performance critical, we have considered not to use it and instead check for null. */
+    private GraphicsController graphicsController;
+
+    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager, GraphicsController graphicsController, float screen_width, float screen_height) {
         // TODO: Validate drawableManager
         this.drawableManager = drawableManager;
         this.screen_width = screen_width;
         this.screen_height = screen_height;
+        this.graphicsController = graphicsController;
     }
 
     @Override
@@ -33,7 +38,8 @@ public class RenderingSystem implements System {
             Optional<SpriteComponent> sprite = drawableManager.getComponent(entity);
 
             if (sprite.isPresent()) {
-                render(sprite.get());
+                //render(sprite.get());
+                graphicsController.draw(sprite.get());
             }
         }
     }
