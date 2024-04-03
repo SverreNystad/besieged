@@ -3,6 +3,8 @@ package com.softwarearchitecture.ecs.systems;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,29 +19,41 @@ import com.softwarearchitecture.ecs.GraphicsController;
 public class RenderingSystem implements System {
     private ComponentManager<SpriteComponent> drawableManager;
 
-    private float screen_width;
-    private float screen_height;
-
     /** Graphics controller - Not optional and will be needed to check against null. Optional<T> is a option here, but since this is performance critical, we have considered not to use it and instead check for null. */
     private GraphicsController graphicsController;
 
-    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager, GraphicsController graphicsController, float screen_width, float screen_height) {
+    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager, GraphicsController graphicsController) {
         // TODO: Validate drawableManager
         this.drawableManager = drawableManager;
-        this.screen_width = screen_width;
-        this.screen_height = screen_height;
         this.graphicsController = graphicsController;
     }
 
     @Override
-    public void update(Set<Entity> entities, float deltaTime) {
+    public void update(Set<Entity> entities, float deltaTime) throws IllegalStateException {
+        if (graphicsController == null) {
+            throw new IllegalStateException("Graphics controller is not set.");
+        }
+
+        ArrayList<SpriteComponent> sprites = new ArrayList<>();
+
         for (Entity entity : entities) {
             Optional<SpriteComponent> sprite = drawableManager.getComponent(entity);
-
             if (sprite.isPresent()) {
-                graphicsController.draw(sprite.get());
+                sprites.add(sprite.get());
             }
         }
+
+        sprites.sort(new Comparator<SpriteComponent>() {
+            @Override
+            public int compare(SpriteComponent o1, SpriteComponent o2) {
+                return Integer.compare(o1.z_index, o2.z_index);
+            }
+        });
+        
+        for (SpriteComponent sprite : sprites) {
+            graphicsController.draw(sprite);
+        }
+        graphicsController.clearScreen();
     }
 
 }
