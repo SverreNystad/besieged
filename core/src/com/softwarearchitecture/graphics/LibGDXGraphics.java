@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 
@@ -26,10 +27,14 @@ public class LibGDXGraphics implements GraphicsController {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        // batch.draw(texture, component.screen_u, component.screen_v, component.u_size, component.v_size);
+        batch.begin();
+        batch.draw(texture, component.screen_u * width, component.screen_v * height, component.u_size * width, component.v_size * height);
+        batch.end();
+    }
 
-        // // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'draw'");
+    @Override
+    public void clearScreen() {
+        ScreenUtils.clear(0, 0, 0, 1);
     }
 
 }
