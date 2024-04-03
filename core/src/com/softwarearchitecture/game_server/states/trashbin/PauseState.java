@@ -1,6 +1,7 @@
-package com.softwarearchitecture.game_server.states;
+package com.softwarearchitecture.game_server.states.trashbin;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.softwarearchitecture.game_server.states.State;
 
 public class PauseState extends State {
 

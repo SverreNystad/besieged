@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.softwarearchitecture.game_server.states.GameMenuState;
 import com.softwarearchitecture.game_server.states.GameStateManager;
+import com.softwarearchitecture.game_server.states.GenericState;
+import com.softwarearchitecture.game_server.states.GenericStateType;
+import com.softwarearchitecture.game_server.states.trashbin.GameMenuState;
 
 public class GameApp extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -23,7 +25,7 @@ public class GameApp extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gameStateManager = new GameStateManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		gameStateManager.push(new GameMenuState());
+		gameStateManager.push(new GenericState(GenericStateType.MENU));
 	}
 
 	@Override

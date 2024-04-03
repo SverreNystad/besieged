@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class JoinLobbyState extends State {
 
+    public JoinLobbyState() {
+        super();
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented constructor 'JoinLobbyState'");
+    }
+
     @Override
     protected void handleInput() {
         // TODO Auto-generated method stub
@@ -12,6 +18,7 @@ public class JoinLobbyState extends State {
 
     @Override
     protected void update(float deltaTime) {
+        updateButtons(deltaTime);
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }

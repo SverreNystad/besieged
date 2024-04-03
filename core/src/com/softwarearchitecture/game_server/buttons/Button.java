@@ -5,16 +5,19 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
 import com.softwarearchitecture.math.Rectangle;
+import com.softwarearchitecture.math.Vector2;
 
 public class Button {
+
+    // should there also be an interface for other stuff that gets drawn on the
+    // screen, like text and such?
 
     private int width;
     private int height;
     private ButtonType type;
     private Rectangle hitBox;
-    private Vector3 position;
+    private Vector2 position;
     private List<ButtonObserver> observers;
     public Texture texture;
 
@@ -29,7 +32,7 @@ public class Button {
 
     }
 
-    public boolean isClicked(Vector3 mouse) {
+    public boolean isClicked(Vector2 mouse) {
         /*
          * True if the button is clicked
          */
@@ -52,7 +55,7 @@ public class Button {
         observers.add(observer);
     }
 
-    public void update(Vector3 mouse) {
+    public void update(Vector2 mouse) {
         if (isClicked(mouse)) {
             notifyObservers();
         }
@@ -66,7 +69,7 @@ public class Button {
         return hitBox;
     }
 
-    public Vector3 getPosition() {
+    public Vector2 getPosition() {
         return position;
     }
 

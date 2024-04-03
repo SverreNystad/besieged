@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class HostLobbyState extends State {
 
+    public HostLobbyState() {
+        super();
+        // TODO Auto-generated constructor stub
+        throw new UnsupportedOperationException("Unimplemented constructor 'HostLobbyState'");
+    }
+
     @Override
     protected void handleInput() {
         // TODO Auto-generated method stub
@@ -12,6 +18,7 @@ public class HostLobbyState extends State {
 
     @Override
     protected void update(float deltaTime) {
+        updateButtons(deltaTime);
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }

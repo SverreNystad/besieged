@@ -80,9 +80,9 @@ public class GameMenuState extends State implements ButtonObserver {
                 gameStateManager.push(new MultiPlayerState());
                 break;
 
-            case SINGLE_PLAYER:
-                gameStateManager.push(new SinglePlayerState());
-                break;
+            // case SINGLE_PLAYER:
+            // gameStateManager.push(new SinglePlayerState());
+            // break;
 
             default:
                 throw new IllegalArgumentException("Invalid button type");

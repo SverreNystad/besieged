@@ -12,6 +12,8 @@ public class GameState extends State {
 
     @Override
     protected void update(float deltaTime) {
+
+        updateButtons(deltaTime);
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }

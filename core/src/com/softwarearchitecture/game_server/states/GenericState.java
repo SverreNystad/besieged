@@ -3,7 +3,9 @@ package com.softwarearchitecture.game_server.states;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.softwarearchitecture.GameApp;
 import com.softwarearchitecture.game_server.buttons.Button;
 import com.softwarearchitecture.game_server.buttons.ButtonObserver;
 import com.softwarearchitecture.game_server.buttons.ButtonType;
@@ -21,9 +23,12 @@ public class GenericState extends State implements ButtonObserver {
      */
 
     public GenericState(GenericStateType type) {
-
+        super();
         List<ButtonType> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
+        // placeholder background logic not implemented
+        background = new Texture("viking_image2.png");
+
     }
 
     private List<ButtonType> getButtonEnums(GenericStateType type) {
@@ -96,20 +101,29 @@ public class GenericState extends State implements ButtonObserver {
 
     @Override
     protected void handleInput() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleInput'");
+        // do nothing, no input handling in this state
     }
 
     @Override
     protected void update(float deltaTime) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        updateButtons(deltaTime);
+
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+        Rectangle rect;
+        spriteBatch.begin();
+        spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
+        for (Button button : buttons) {
+            // button.render(spriteBatch); Easier to draw from here where spriteBatch is
+            // already open
+            rect = button.getHitBox();
+            spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
+                    rect.getWidth(), rect.getHeight());
+
+        }
+        spriteBatch.end();
     }
 
     @Override
