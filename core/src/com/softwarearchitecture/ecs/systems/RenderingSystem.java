@@ -6,7 +6,6 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import java.util.Optional;
 import java.util.Set;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
@@ -38,23 +37,9 @@ public class RenderingSystem implements System {
             Optional<SpriteComponent> sprite = drawableManager.getComponent(entity);
 
             if (sprite.isPresent()) {
-                //render(sprite.get());
                 graphicsController.draw(sprite.get());
             }
         }
-    }
-    
-    /**
-     * Renders the entity using its SpriteComponent.
-     * @param drawable The drawable component assiciated with an 
-     */
-    private void render(SpriteComponent drawable) {
-         // Convert relative coordinates and sizes to screen dimensions.
-        float x = drawable.screen_u * screen_width;
-        float y = drawable.screen_v * screen_height;
-        float width = drawable.u_size * screen_width;
-        float height = drawable.v_size * screen_height;
-        
     }
 
 }
