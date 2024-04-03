@@ -15,7 +15,7 @@ public class ButtonFactory {
     // return new Button(x, y, observer, type, width, height);
     // }
 
-    public Button createButton(ButtonType button, Rectangle hitBox, ButtonObserver observer) {
+    public static Button createButton(ButtonType button, Rectangle hitBox, ButtonObserver observer) {
 
         /*
          * Creates a button based on the button type

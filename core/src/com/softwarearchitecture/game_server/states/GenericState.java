@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
 import com.softwarearchitecture.game_server.buttons.Button;
+import com.softwarearchitecture.game_server.buttons.ButtonFactory;
 import com.softwarearchitecture.game_server.buttons.ButtonObserver;
 import com.softwarearchitecture.game_server.buttons.ButtonType;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
@@ -92,8 +93,8 @@ public class GenericState extends State implements ButtonObserver {
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            // TODO: add texture
-            buttons.add(new Button(buttonRectangles.get(i), this, buttonTypes.get(i), null));
+            buttons.add(ButtonFactory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+
         }
 
         return buttons;
@@ -128,13 +129,18 @@ public class GenericState extends State implements ButtonObserver {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
+        background.dispose();
     }
 
     @Override
     public void onAction(ButtonType type) {
-        // TODO Auto-generated method stub
+
+        /**
+         * Handles button actions based on the type of the button.
+         * This state is only the intermediary menus that traverses to other states.
+         * parameters: type: ButtonType.
+         */
+
         switch (type) {
 
             case OPTIONS:
