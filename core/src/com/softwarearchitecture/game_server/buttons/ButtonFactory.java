@@ -51,6 +51,9 @@ public class ButtonFactory {
             case SINGLE_PLAYER:
                 texture = new Texture("button_placeholder.png");
                 return new Button(hitBox, observer, button, texture);
+            case PLAY:
+                texture = new Texture("button_placeholder.png");
+                return new Button(hitBox, observer, button, texture);
             default:
                 throw new IllegalArgumentException("Invalid button type");
 

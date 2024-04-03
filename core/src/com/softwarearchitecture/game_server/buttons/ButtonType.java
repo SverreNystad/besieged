@@ -9,6 +9,7 @@ public enum ButtonType {
     HOST,
     PAUSE,
     MULTI_PLAYER,
-    SINGLE_PLAYER
+    SINGLE_PLAYER,
+    PLAY
 
 }

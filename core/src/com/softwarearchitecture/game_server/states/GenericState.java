@@ -12,6 +12,14 @@ import com.softwarearchitecture.math.Rectangle;
 
 public class GenericState extends State implements ButtonObserver {
 
+    /**
+     * Generic state is a state that can be used for multiple purposes
+     * for different types of menus.
+     * 
+     * parameters: type: GenericStateType, wich is an enum that defines
+     * the use of the state
+     */
+
     public GenericState(GenericStateType type) {
 
         List<ButtonType> buttontypes = getButtonEnums(type);
@@ -19,6 +27,13 @@ public class GenericState extends State implements ButtonObserver {
     }
 
     private List<ButtonType> getButtonEnums(GenericStateType type) {
+
+        /**
+         * Returns a list of button types based on the type of the state.
+         * parameters: type: GenericStateType
+         * returns: List<ButtonType>
+         */
+
         List<ButtonType> buttonTypes = new ArrayList<>();
 
         switch (type) {
@@ -46,6 +61,11 @@ public class GenericState extends State implements ButtonObserver {
                 buttonTypes.add(ButtonType.QUIT);
                 break;
 
+            case SINGLE_PLAYER:
+                buttonTypes.add(ButtonType.PLAY);
+                buttonTypes.add(ButtonType.GAME_MENU);
+                break;
+
             default:
                 break;
         }
@@ -53,6 +73,13 @@ public class GenericState extends State implements ButtonObserver {
     }
 
     private List<Button> createButtons(List<ButtonType> buttonTypes) {
+
+        /**
+         * Creates buttons based on the button types
+         * parameters: buttonTypes: List<ButtonType>
+         * returns: List<Button>
+         */
+
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
         List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons + buffergrids, numberOfButtons)
@@ -123,7 +150,10 @@ public class GenericState extends State implements ButtonObserver {
                 break;
 
             case SINGLE_PLAYER:
-                gameStateManager.push(new SinglePlayerState());
+                gameStateManager.push(new GenericState(GenericStateType.SINGLE_PLAYER));
+                break;
+            case PLAY:
+                gameStateManager.push(new GameState());
                 break;
 
             default:

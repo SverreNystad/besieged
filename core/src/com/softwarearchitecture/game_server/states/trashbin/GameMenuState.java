@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server.states;
+package com.softwarearchitecture.game_server.states.trashbin;
 
 import java.util.List;
 
@@ -7,6 +7,10 @@ import com.softwarearchitecture.game_server.buttons.ButtonFactory;
 import com.softwarearchitecture.game_server.buttons.ButtonObserver;
 import com.softwarearchitecture.game_server.buttons.ButtonType;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
+import com.softwarearchitecture.game_server.states.HostLobbyState;
+import com.softwarearchitecture.game_server.states.JoinLobbyState;
+import com.softwarearchitecture.game_server.states.OptionState;
+import com.softwarearchitecture.game_server.states.State;
 import com.softwarearchitecture.math.Rectangle;
 
 public class GameMenuState extends State implements ButtonObserver {
