@@ -2,6 +2,7 @@ package com.softwarearchitecture.graphics;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.ecs.GraphicsController;
@@ -22,7 +23,8 @@ public class LibGDXGraphics implements GraphicsController {
             textures.put(component.texture_path, new Texture(component.texture_path));
         }
         Texture texture = textures.get(component.texture_path);
-        
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
 
         // batch.draw(texture, component.screen_u, component.screen_v, component.u_size, component.v_size);
 
