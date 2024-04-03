@@ -8,41 +8,44 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.softwarearchitecture.game_client.GameClient;
+import com.softwarearchitecture.launcher.GameLauncher;
 
 public class GameApp extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	ECSManager ecs;
+	// SpriteBatch batch;
+	// Texture img;
+	// ECSManager ecs;
 
 	@Override
 	public void create() {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		ecs = ECSManager.getInstance();
+		GameLauncher.startGame();
+		// batch = new SpriteBatch();
+		// img = new Texture("badlogic.jpg");
+		// ecs = ECSManager.getInstance();
 
-		// adding a new entity with position and velocity components
-		Entity entity = new Entity();
+		// // adding a new entity with position and velocity components
+		// Entity entity = new Entity();
 
-		PositionComponent position = new PositionComponent(0, 0); // Example: starting at origin
-		VelocityComponent velocity = new VelocityComponent(5, 5); // Example: moving at a velocity of (5,5)
+		// PositionComponent position = new PositionComponent(0, 0); // Example: starting at origin
+		// VelocityComponent velocity = new VelocityComponent(5, 5); // Example: moving at a velocity of (5,5)
 
-		entity.addComponent(PositionComponent.class, position);
-		entity.addComponent(VelocityComponent.class, velocity);
+		// entity.addComponent(PositionComponent.class, position);
+		// entity.addComponent(VelocityComponent.class, velocity);
 
-		ecs.addEntity(entity);
+		// ecs.addEntity(entity);
 	}
 
 	@Override
 	public void render() {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		// ScreenUtils.clear(1, 0, 0, 1);
+		// batch.begin();
+		// batch.draw(img, 0, 0);
+		// batch.end();
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		img.dispose();
+		// batch.dispose();
+		// img.dispose();
 	}
 }
