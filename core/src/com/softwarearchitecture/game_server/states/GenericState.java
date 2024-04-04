@@ -65,6 +65,8 @@ public class GenericState extends State implements ButtonObserver {
                 buttonTypes.add(ButtonType.GAME_MENU);
                 buttonTypes.add(ButtonType.OPTIONS);
                 buttonTypes.add(ButtonType.QUIT);
+                buttonTypes.add(ButtonType.BACK);
+
                 break;
 
             case SINGLE_PLAYER:
@@ -140,47 +142,7 @@ public class GenericState extends State implements ButtonObserver {
          * This state is only the intermediary menus that traverses to other states.
          * parameters: type: ButtonType.
          */
-
-        switch (type) {
-
-            case OPTIONS:
-                gameStateManager.setOverlapping(new OptionState());
-                break;
-            case GAME_MENU:
-                gameStateManager.push(new GenericState(GenericStateType.MENU));
-                break;
-
-            case QUIT:
-                // not sure what should happen here
-                break;
-            case JOIN:
-                gameStateManager.push(new JoinLobbyState());
-                break;
-
-            case HOST:
-                gameStateManager.push(new HostLobbyState());
-                break;
-
-            case PAUSE:
-                gameStateManager.setOverlapping(new GenericState(GenericStateType.PAUSE));
-                break;
-
-            case MULTI_PLAYER:
-                gameStateManager.push(new GenericState(GenericStateType.MULTI_PLAYER));
-                break;
-
-            case SINGLE_PLAYER:
-                gameStateManager.push(new GenericState(GenericStateType.SINGLE_PLAYER));
-                break;
-            case PLAY:
-                gameStateManager.push(new GameState());
-                break;
-
-            default:
-                throw new IllegalArgumentException("Invalid button type");
-
-        }
-
+        switchState(type); // this method is in the state class
     }
 
 }

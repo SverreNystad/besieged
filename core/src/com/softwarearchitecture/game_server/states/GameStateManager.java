@@ -23,6 +23,14 @@ public class GameStateManager {
         states.push(state);
     }
 
+    public void popTop() {
+        /*
+         * Removes top of stack if the stack has more than one element.
+         */
+        if (states.size() > 1)
+            pop();
+    }
+
     public void setOverlapping(State state) {
         states.push(state);
     }
@@ -43,7 +51,7 @@ public class GameStateManager {
 
     public State popKeepState() {
         State state = peek();
-        states.pop();
+        pop();
         return state;
     }
 

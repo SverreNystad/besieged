@@ -10,6 +10,7 @@ public enum ButtonType {
     PAUSE,
     MULTI_PLAYER,
     SINGLE_PLAYER,
-    PLAY
+    PLAY,
+    BACK
 
 }
