@@ -27,8 +27,7 @@ public class Button {
         this.hitBox = hitbox;
         observers = new ArrayList<>();
         attachObserver(observer);
-
-        // TODO: Add texture
+        this.texture = texture;
 
     }
 

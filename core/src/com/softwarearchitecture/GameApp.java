@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.softwarearchitecture.game_server.states.GameStateManager;
 import com.softwarearchitecture.game_server.states.GenericState;
 import com.softwarearchitecture.game_server.states.GenericStateType;
-import com.softwarearchitecture.game_server.states.trashbin.GameMenuState;
 
 public class GameApp extends ApplicationAdapter {
 	SpriteBatch batch;
