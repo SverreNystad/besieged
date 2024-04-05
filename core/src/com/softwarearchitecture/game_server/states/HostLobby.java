@@ -15,12 +15,12 @@ import com.softwarearchitecture.game_server.buttons.ButtonType;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 
-public class HostLobbyState extends State implements ButtonObserver {
+public class HostLobby extends State implements ButtonObserver {
 
     private String lobbyCode;
     private BitmapFont font;
 
-    public HostLobbyState() {
+    public HostLobby() {
         super();
         List<ButtonType> buttonTypes = new ArrayList<>();
         buttonTypes.add(ButtonType.GAME_MENU);
@@ -119,10 +119,10 @@ public class HostLobbyState extends State implements ButtonObserver {
          */
         switch (type) {
             case GAME_MENU:
-                gameStateManager.push(new GenericState(GenericStateType.MENU));
+                gameStateManager.set(new Generic(GenericStateType.MENU));
                 break;
             case PLAY:
-                gameStateManager.push(new GameState());
+                gameStateManager.set(new InGame());
                 break;
             default:
                 break;

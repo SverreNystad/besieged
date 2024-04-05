@@ -14,14 +14,14 @@ import com.softwarearchitecture.math.Vector2;
 
 public abstract class State {
 
-    protected GameStateManager gameStateManager;
+    protected ScreenManager gameStateManager;
     protected OrthographicCamera cam;
     protected Vector2 mouse = new Vector2(0, 0);
     protected List<Button> buttons;
     protected Texture background;
 
     protected State() {
-        this.gameStateManager = new GameStateManager();
+        this.gameStateManager = new ScreenManager();
         cam = new OrthographicCamera();
         cam.setToOrtho(false, GameApp.WIDTH, GameApp.HEIGHT);
     }

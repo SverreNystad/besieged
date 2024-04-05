@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.softwarearchitecture.game_server.states.GameStateManager;
-import com.softwarearchitecture.game_server.states.GenericState;
+import com.softwarearchitecture.game_server.states.ScreenManager;
+import com.softwarearchitecture.game_server.states.Generic;
 import com.softwarearchitecture.game_server.states.GenericStateType;
 
 public class GameApp extends ApplicationAdapter {
@@ -14,7 +14,7 @@ public class GameApp extends ApplicationAdapter {
 	Texture img;
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 480;
-	private GameStateManager gameStateManager;
+	private ScreenManager gameStateManager;
 
 	@Override
 	public void create() {
@@ -22,9 +22,9 @@ public class GameApp extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 
 		batch = new SpriteBatch();
-		gameStateManager = new GameStateManager();
+		gameStateManager = new ScreenManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		gameStateManager.push(new GenericState(GenericStateType.MENU));
+		gameStateManager.set(new Generic(GenericStateType.MENU));
 	}
 
 	@Override

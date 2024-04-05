@@ -5,18 +5,18 @@ import java.util.UUID;
 
 import com.softwarearchitecture.game_client.ClientMessagingController;
 import com.softwarearchitecture.game_server.PlayerInput;
-import com.softwarearchitecture.game_server.states.GameState;
+import com.softwarearchitecture.game_server.states.InGame;
 
 public class ClientMessenger implements ClientMessagingController {
 
     @Override
-    public Optional<GameState> joinGame(UUID gameID, UUID playerID) {
+    public Optional<InGame> joinGame(UUID gameID, UUID playerID) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'joinGame'");
     }
 
     @Override
-    public Optional<GameState> requestGameState(UUID gameID) {
+    public Optional<InGame> requestGameState(UUID gameID) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'requestGameState'");
     }

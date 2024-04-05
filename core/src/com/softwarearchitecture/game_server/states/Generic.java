@@ -13,7 +13,7 @@ import com.softwarearchitecture.game_server.buttons.ButtonType;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 
-public class GenericState extends State implements ButtonObserver {
+public class Generic extends State implements ButtonObserver {
 
     /**
      * Generic state is a state that can be used for multiple purposes
@@ -23,7 +23,7 @@ public class GenericState extends State implements ButtonObserver {
      * the use of the state
      */
 
-    public GenericState(GenericStateType type) {
+    public Generic(GenericStateType type) {
         super();
         List<ButtonType> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
@@ -152,36 +152,36 @@ public class GenericState extends State implements ButtonObserver {
         switch (type) {
 
             case OPTIONS:
-                gameStateManager.setOverlapping(new OptionState());
+                gameStateManager.setOverlapping(new Options());
                 break;
             case GAME_MENU:
-                gameStateManager.push(new GenericState(GenericStateType.MENU));
+                gameStateManager.set(new Generic(GenericStateType.MENU));
                 break;
 
             case QUIT:
                 // not sure what should happen here
                 break;
             case JOIN:
-                gameStateManager.push(new JoinLobbyState());
+                gameStateManager.set(new JoinLobby());
                 break;
 
             case HOST:
-                gameStateManager.push(new HostLobbyState());
+                gameStateManager.set(new HostLobby());
                 break;
 
             case PAUSE:
-                gameStateManager.setOverlapping(new GenericState(GenericStateType.PAUSE));
+                gameStateManager.setOverlapping(new Generic(GenericStateType.PAUSE));
                 break;
 
             case MULTI_PLAYER:
-                gameStateManager.push(new GenericState(GenericStateType.MULTI_PLAYER));
+                gameStateManager.set(new Generic(GenericStateType.MULTI_PLAYER));
                 break;
 
             case SINGLE_PLAYER:
-                gameStateManager.push(new GenericState(GenericStateType.SINGLE_PLAYER));
+                gameStateManager.set(new Generic(GenericStateType.SINGLE_PLAYER));
                 break;
             case PLAY:
-                gameStateManager.push(new GameState());
+                gameStateManager.set(new InGame());
                 break;
             case BACK:
                 gameStateManager.popTop();

@@ -2,12 +2,12 @@ package com.softwarearchitecture.game_server.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class LobbyState extends State {
+public class Options extends State {
 
-    public LobbyState() {
+    public Options() {
         super();
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented constructor 'LobbyState'");
+        throw new UnsupportedOperationException("Unimplemented constructor 'OptionState'");
     }
 
     @Override

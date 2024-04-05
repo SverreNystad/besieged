@@ -4,7 +4,7 @@ import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class GameStateManager {
+public class ScreenManager {
     /**
      * Keeps track of the current state of the game
      * 
@@ -12,11 +12,11 @@ public class GameStateManager {
      */
     private Stack<State> states;
 
-    public GameStateManager() {
+    public ScreenManager() {
         states = new Stack<State>();
     }
 
-    public void push(State state) {
+    public void set(State state) {
         if (!states.isEmpty()) {
             states.peek().dispose();
         }

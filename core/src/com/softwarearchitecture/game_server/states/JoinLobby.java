@@ -18,14 +18,14 @@ import com.softwarearchitecture.game_server.buttons.ButtonType;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 
-public class JoinLobbyState extends State implements ButtonObserver {
+public class JoinLobby extends State implements ButtonObserver {
 
     private Stage stage;
     private TextField lobbyCodeField;
     private Label enterLobbyLabel;
     private Skin skin;
 
-    public JoinLobbyState() {
+    public JoinLobby() {
         super();
         List<ButtonType> buttonTypes = new ArrayList<>();
         buttonTypes.add(ButtonType.GAME_MENU);
@@ -130,11 +130,11 @@ public class JoinLobbyState extends State implements ButtonObserver {
         switch (type) {
 
             case GAME_MENU:
-                gameStateManager.push(new GenericState(GenericStateType.MENU));
+                gameStateManager.set(new Generic(GenericStateType.MENU));
                 break;
 
             case JOIN:
-                gameStateManager.push(new LobbyState());
+                gameStateManager.set(new Lobby());
                 break;
 
             default:

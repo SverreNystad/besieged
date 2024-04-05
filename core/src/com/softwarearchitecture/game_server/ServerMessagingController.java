@@ -3,12 +3,12 @@ package com.softwarearchitecture.game_server;
 import java.util.List;
 import java.util.UUID;
 
-import com.softwarearchitecture.game_server.states.GameState;
+import com.softwarearchitecture.game_server.states.InGame;
 
 public interface ServerMessagingController {
     public UUID createGame();
 
-    public void setNewGameState(GameState gameState);
+    public void setNewGameState(InGame gameState);
 
     public List<PlayerInput> getActions(UUID gameID);
 }

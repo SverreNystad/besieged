@@ -2,13 +2,7 @@ package com.softwarearchitecture.game_server.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class OptionState extends State {
-
-    public OptionState() {
-        super();
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented constructor 'OptionState'");
-    }
+public class InGame extends State {
 
     @Override
     protected void handleInput() {
@@ -18,6 +12,7 @@ public class OptionState extends State {
 
     @Override
     protected void update(float deltaTime) {
+
         updateButtons(deltaTime);
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
