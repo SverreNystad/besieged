@@ -1,6 +1,6 @@
 package com.softwarearchitecture.game_server.buttons;
 
-public enum ButtonType {
+public enum TypeEnum {
 
     OPTIONS,
     GAME_MENU,

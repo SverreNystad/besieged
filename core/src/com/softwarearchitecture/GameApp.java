@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.softwarearchitecture.game_server.states.ScreenManager;
-import com.softwarearchitecture.game_server.states.Generic;
-import com.softwarearchitecture.game_server.states.GenericStateType;
+import com.softwarearchitecture.game_server.states.Menu;
+import com.softwarearchitecture.game_server.states.MenuEnum;
 
 public class GameApp extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -24,7 +24,7 @@ public class GameApp extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gameStateManager = new ScreenManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		gameStateManager.set(new Generic(GenericStateType.MENU));
+		gameStateManager.set(new Menu(MenuEnum.MENU));
 	}
 
 	@Override

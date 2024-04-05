@@ -15,13 +15,13 @@ public class Button {
 
     private int width;
     private int height;
-    private ButtonType type;
+    private TypeEnum type;
     private Rectangle hitBox;
     private Vector2 position;
-    private List<ButtonObserver> observers;
+    private List<Observer> observers;
     public Texture texture;
 
-    public Button(Rectangle hitbox, ButtonObserver observer, ButtonType type, Texture texture) {
+    public Button(Rectangle hitbox, Observer observer, TypeEnum type, Texture texture) {
 
         this.type = type;
         this.hitBox = hitbox;
@@ -45,12 +45,12 @@ public class Button {
     }
 
     private void notifyObservers() {
-        for (ButtonObserver observer : observers) {
+        for (Observer observer : observers) {
             observer.onAction(type);
         }
     }
 
-    private void attachObserver(ButtonObserver observer) {
+    private void attachObserver(Observer observer) {
         observers.add(observer);
     }
 

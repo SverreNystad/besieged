@@ -9,21 +9,21 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
 import com.softwarearchitecture.game_server.buttons.Button;
-import com.softwarearchitecture.game_server.buttons.ButtonFactory;
-import com.softwarearchitecture.game_server.buttons.ButtonObserver;
-import com.softwarearchitecture.game_server.buttons.ButtonType;
+import com.softwarearchitecture.game_server.buttons.Factory;
+import com.softwarearchitecture.game_server.buttons.Observer;
+import com.softwarearchitecture.game_server.buttons.TypeEnum;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 
-public class HostLobby extends State implements ButtonObserver {
+public class HostLobby extends State implements Observer {
 
     private String lobbyCode;
     private BitmapFont font;
 
     public HostLobby() {
         super();
-        List<ButtonType> buttonTypes = new ArrayList<>();
-        buttonTypes.add(ButtonType.GAME_MENU);
+        List<TypeEnum> buttonTypes = new ArrayList<>();
+        buttonTypes.add(TypeEnum.GAME_MENU);
         buttons = createButtons(buttonTypes);
 
         // placeholder background logic not implemented
@@ -43,7 +43,7 @@ public class HostLobby extends State implements ButtonObserver {
         return code.toString();
     }
 
-    private List<Button> createButtons(List<ButtonType> buttonTypes) {
+    private List<Button> createButtons(List<TypeEnum> buttonTypes) {
 
         /**
          * Creates buttons based on the button types
@@ -58,7 +58,7 @@ public class HostLobby extends State implements ButtonObserver {
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(ButtonFactory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
 
         }
 
@@ -103,7 +103,7 @@ public class HostLobby extends State implements ButtonObserver {
     }
 
     @Override
-    public void onAction(ButtonType type) {
+    public void onAction(TypeEnum type) {
 
         /**
          * Handles button actions based on the type of the button.
@@ -113,13 +113,13 @@ public class HostLobby extends State implements ButtonObserver {
         switchState(type); // this method is in the state class
     }
 
-    public void switchState(ButtonType type) {
+    public void switchState(TypeEnum type) {
         /*
          * Switches the state of the game based on the button type
          */
         switch (type) {
             case GAME_MENU:
-                gameStateManager.set(new Generic(GenericStateType.MENU));
+                gameStateManager.set(new Menu(MenuEnum.MENU));
                 break;
             case PLAY:
                 gameStateManager.set(new InGame());

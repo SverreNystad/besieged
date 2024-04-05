@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
 import com.softwarearchitecture.game_server.buttons.Button;
-import com.softwarearchitecture.game_server.buttons.ButtonFactory;
-import com.softwarearchitecture.game_server.buttons.ButtonObserver;
-import com.softwarearchitecture.game_server.buttons.ButtonType;
+import com.softwarearchitecture.game_server.buttons.Factory;
+import com.softwarearchitecture.game_server.buttons.Observer;
+import com.softwarearchitecture.game_server.buttons.TypeEnum;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 
-public class Generic extends State implements ButtonObserver {
+public class Menu extends State implements Observer {
 
     /**
      * Generic state is a state that can be used for multiple purposes
@@ -23,16 +23,16 @@ public class Generic extends State implements ButtonObserver {
      * the use of the state
      */
 
-    public Generic(GenericStateType type) {
+    public Menu(MenuEnum type) {
         super();
-        List<ButtonType> buttontypes = getButtonEnums(type);
+        List<TypeEnum> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
         // placeholder background logic not implemented
         background = new Texture("badlogic.jpg");
 
     }
 
-    private List<ButtonType> getButtonEnums(GenericStateType type) {
+    private List<TypeEnum> getButtonEnums(MenuEnum type) {
 
         /**
          * Returns a list of button types based on the type of the state.
@@ -40,38 +40,38 @@ public class Generic extends State implements ButtonObserver {
          * returns: List<ButtonType>
          */
 
-        List<ButtonType> buttonTypes = new ArrayList<>();
+        List<TypeEnum> buttonTypes = new ArrayList<>();
 
         switch (type) {
             case MULTI_PLAYER:
-                buttonTypes.add(ButtonType.JOIN);
-                buttonTypes.add(ButtonType.HOST);
-                buttonTypes.add(ButtonType.GAME_MENU);
+                buttonTypes.add(TypeEnum.JOIN);
+                buttonTypes.add(TypeEnum.HOST);
+                buttonTypes.add(TypeEnum.GAME_MENU);
 
                 break;
 
             case MENU:
-                buttonTypes.add(ButtonType.MULTI_PLAYER);
-                buttonTypes.add(ButtonType.SINGLE_PLAYER);
-                buttonTypes.add(ButtonType.OPTIONS);
-                buttonTypes.add(ButtonType.QUIT);
+                buttonTypes.add(TypeEnum.MULTI_PLAYER);
+                buttonTypes.add(TypeEnum.SINGLE_PLAYER);
+                buttonTypes.add(TypeEnum.OPTIONS);
+                buttonTypes.add(TypeEnum.QUIT);
                 break;
 
             case GAME_OVER:
-                buttonTypes.add(ButtonType.GAME_MENU);
+                buttonTypes.add(TypeEnum.GAME_MENU);
                 break;
 
             case PAUSE:
-                buttonTypes.add(ButtonType.GAME_MENU);
-                buttonTypes.add(ButtonType.OPTIONS);
-                buttonTypes.add(ButtonType.QUIT);
-                buttonTypes.add(ButtonType.BACK);
+                buttonTypes.add(TypeEnum.GAME_MENU);
+                buttonTypes.add(TypeEnum.OPTIONS);
+                buttonTypes.add(TypeEnum.QUIT);
+                buttonTypes.add(TypeEnum.BACK);
 
                 break;
 
             case SINGLE_PLAYER:
-                buttonTypes.add(ButtonType.PLAY);
-                buttonTypes.add(ButtonType.GAME_MENU);
+                buttonTypes.add(TypeEnum.PLAY);
+                buttonTypes.add(TypeEnum.GAME_MENU);
                 break;
 
             default:
@@ -80,7 +80,7 @@ public class Generic extends State implements ButtonObserver {
         return buttonTypes;
     }
 
-    private List<Button> createButtons(List<ButtonType> buttonTypes) {
+    private List<Button> createButtons(List<TypeEnum> buttonTypes) {
 
         /**
          * Creates buttons based on the button types
@@ -95,7 +95,7 @@ public class Generic extends State implements ButtonObserver {
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(ButtonFactory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
 
         }
 
@@ -135,7 +135,7 @@ public class Generic extends State implements ButtonObserver {
     }
 
     @Override
-    public void onAction(ButtonType type) {
+    public void onAction(TypeEnum type) {
 
         /**
          * Handles button actions based on the type of the button.
@@ -145,7 +145,7 @@ public class Generic extends State implements ButtonObserver {
         switchState(type); // this method is in the state class
     }
 
-    public void switchState(ButtonType type) {
+    public void switchState(TypeEnum type) {
         /*
          * Switches the state of the game based on the button type
          */
@@ -155,7 +155,7 @@ public class Generic extends State implements ButtonObserver {
                 gameStateManager.setOverlapping(new Options());
                 break;
             case GAME_MENU:
-                gameStateManager.set(new Generic(GenericStateType.MENU));
+                gameStateManager.set(new Menu(MenuEnum.MENU));
                 break;
 
             case QUIT:
@@ -170,15 +170,15 @@ public class Generic extends State implements ButtonObserver {
                 break;
 
             case PAUSE:
-                gameStateManager.setOverlapping(new Generic(GenericStateType.PAUSE));
+                gameStateManager.setOverlapping(new Menu(MenuEnum.PAUSE));
                 break;
 
             case MULTI_PLAYER:
-                gameStateManager.set(new Generic(GenericStateType.MULTI_PLAYER));
+                gameStateManager.set(new Menu(MenuEnum.MULTI_PLAYER));
                 break;
 
             case SINGLE_PLAYER:
-                gameStateManager.set(new Generic(GenericStateType.SINGLE_PLAYER));
+                gameStateManager.set(new Menu(MenuEnum.SINGLE_PLAYER));
                 break;
             case PLAY:
                 gameStateManager.set(new InGame());

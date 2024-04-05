@@ -6,7 +6,7 @@ import com.softwarearchitecture.game_server.states.TexturePack;
 import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.math.Rectangle;
 
-public class ButtonFactory {
+public class Factory {
 
     // TODO: logic for creating buttons
 
@@ -15,7 +15,7 @@ public class ButtonFactory {
     // return new Button(x, y, observer, type, width, height);
     // }
 
-    public static Button createButton(ButtonType button, Rectangle hitBox, ButtonObserver observer) {
+    public static Button createButton(TypeEnum button, Rectangle hitBox, Observer observer) {
 
         /*
          * Creates a button based on the button type

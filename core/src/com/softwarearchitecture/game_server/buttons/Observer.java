@@ -1,8 +1,8 @@
 package com.softwarearchitecture.game_server.buttons;
 
-public interface ButtonObserver {
+public interface Observer {
 
     // action event onclick
-    public void onAction(ButtonType type);
+    public void onAction(TypeEnum type);
 
 }
