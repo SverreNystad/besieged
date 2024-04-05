@@ -27,7 +27,7 @@ public class HostLobby extends State implements Observer {
         buttons = createButtons(buttonTypes);
 
         // placeholder background logic not implemented
-        background = new Texture("badlogic.jpg");
+        background = TexturePack.BACKGROUND_TOR;
 
         this.lobbyCode = generateLobbyCode(6); // Generate a 6-character code
         this.font = new BitmapFont(); // Initialize your font (consider using a specific font file)
@@ -43,13 +43,15 @@ public class HostLobby extends State implements Observer {
         return code.toString();
     }
 
+    /**
+     * Creates buttons based on the button types
+     * parameters: buttonTypes: List<ButtonType>
+     * returns: List<Button>
+     * 
+     * @param buttonTypes
+     * @return List<Button>
+     */
     private List<Button> createButtons(List<TypeEnum> buttonTypes) {
-
-        /**
-         * Creates buttons based on the button types
-         * parameters: buttonTypes: List<ButtonType>
-         * returns: List<Button>
-         */
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
@@ -74,7 +76,6 @@ public class HostLobby extends State implements Observer {
     @Override
     protected void update(float deltaTime) {
         updateButtons(deltaTime);
-
     }
 
     @Override
@@ -84,15 +85,14 @@ public class HostLobby extends State implements Observer {
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
         // Draw the lobby code. Position it as needed.
         font.draw(spriteBatch, "Lobby Code: " + lobbyCode, 100, 200); // Example position
+        System.out.println("number of buttons to be rendered: " + buttons.size());
         for (Button button : buttons) {
             // button.render(spriteBatch); Easier to draw from here where spriteBatch is
             // already open
             rect = button.getHitBox();
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
                     rect.getWidth(), rect.getHeight());
-
         }
-
         spriteBatch.end();
     }
 
@@ -102,27 +102,19 @@ public class HostLobby extends State implements Observer {
         font.dispose();
     }
 
+    /**
+     * Handles button actions based on the type of the button.
+     * This state is only the intermediary menus that traverses to other states.
+     * parameters: type: ButtonType.
+     */
     @Override
     public void onAction(TypeEnum type) {
-
-        /**
-         * Handles button actions based on the type of the button.
-         * This state is only the intermediary menus that traverses to other states.
-         * parameters: type: ButtonType.
-         */
-        switchState(type); // this method is in the state class
-    }
-
-    public void switchState(TypeEnum type) {
-        /*
-         * Switches the state of the game based on the button type
-         */
         switch (type) {
             case GAME_MENU:
-                gameStateManager.set(new Menu(MenuEnum.MENU));
+                screenManager.nextState(new Menu(MenuEnum.MENU));
                 break;
             case PLAY:
-                gameStateManager.set(new InGame());
+                screenManager.nextState(new InGame());
                 break;
             default:
                 break;

@@ -3,6 +3,7 @@ package com.softwarearchitecture.game_server.buttons;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softwarearchitecture.GameApp;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
@@ -33,36 +34,24 @@ public class GridLayout {
     }
 
     public float getGridWidth() {
-        return 1f / columns;
+        return 1f / columns * GameApp.WIDTH;
     }
 
     public float getGridHeight() {
-        return 1f / rows;
+        return 1f / rows * GameApp.HEIGHT;
     }
 
     public Vector2 getGridPosition(int columnNumber, int rowNumber) {
         return new Vector2((float) rowNumber / rows, (float) columnNumber / columns);
     }
 
-    // public List<Vector2> alignCenterX(int numberOfButtons, int rowNumber) {
-    // List<Vector2> buttons = new ArrayList();
-    // float y = getGridPosition(0, rowNumber).y;
-    // float centerX = findCenterGrid().x; // burde kanskje bruke denne
-    // for (int i = numberOfButtons / 2; i < numberOfButtons; i++) {
-    // float x = getGridPosition(i, rowNumber).x;
-    // buttons.add(new Vector2(x, y));
-    // }
-    // return buttons;
-
-    // }
-
+    /**
+     * Finds the psositions the butons can be aligned in the center of the screen
+     * Parameters: numberOfButtons, rowNumber (where on the screen the buttons
+     * should be placed)
+     * Returns: List of Vector2 positions for the buttons
+     */
     public List<Vector2> alignCenterX(int numberOfButtons, int rowNumber) {
-        /*
-         * Finds the psositions the butons can be aligned in the center of the screen
-         * Parameters: numberOfButtons, rowNumber (where on the screen the buttons
-         * should be placed)
-         * Returns: List of Vector2 positions for the buttons
-         */
 
         List<Vector2> buttonPositions = new ArrayList<>();
         float gridWidth = getGridWidth();
@@ -71,6 +60,7 @@ public class GridLayout {
 
         for (int i = 0; i < numberOfButtons; i++) {
             float x = startX + i * gridWidth; // Calculate X position for each button
+
             buttonPositions.add(new Vector2(x, y));
         }
 
@@ -85,17 +75,18 @@ public class GridLayout {
 
         for (int i = 0; i < numberOfButtons; i++) {
             float y = startY + i * gridHeight; // Calculate Y position for each button
+
             buttonPositions.add(new Vector2(x, y));
         }
 
         return buttonPositions;
     }
 
+    /**
+     * Calculate new positions with padding and creating a new rectangle for the
+     * button
+     */
     public Rectangle createPadding(Vector2 pos, float padding) {
-        /*
-         * Calculate new positions with padding and creating a new rectangle for the
-         * button
-         **/
         float paddedX = pos.x + (getGridWidth() * padding) - (getGridWidth() / 2f * padding);
         float paddedY = pos.y + (getGridHeight() * padding) - (getGridHeight() / 2f * padding);
         float paddedWidth = getGridWidth() * (1 - padding * 2);
@@ -104,10 +95,10 @@ public class GridLayout {
 
     }
 
+    /**
+     * Creates a list of rectangles for the buttons to be placed vertically
+     */
     public List<Rectangle> getButtonsVertically(int numberOfButtons) {
-        /*
-         * Creates a list of rectangles for the buttons to be placed vertically
-         **/
         Vector2 center = findCenterGrid();
         int columnNumber = (int) center.x;
         List<Rectangle> buttonRectangles = new ArrayList<>();
@@ -118,10 +109,10 @@ public class GridLayout {
         return buttonRectangles;
     }
 
+    /**
+     * Creates a list of rectangles for the buttons to be placed horizontally
+     */
     public List<Rectangle> getButtonsHorizontally(int numberOfButtons) {
-        /*
-         * Creates a list of rectangles for the buttons to be placed horizontally
-         **/
         int rowNumber = (int) findCenterGrid().y;
         List<Rectangle> buttonRectangles = new ArrayList<>();
         List<Vector2> buttonPositions = alignCenterX(numberOfButtons, rowNumber);

@@ -13,8 +13,6 @@ public class Button {
     // should there also be an interface for other stuff that gets drawn on the
     // screen, like text and such?
 
-    private int width;
-    private int height;
     private TypeEnum type;
     private Rectangle hitBox;
     private Vector2 position;
@@ -31,7 +29,14 @@ public class Button {
 
     }
 
-    public boolean isClicked(Vector2 mouse) {
+    public void update(Vector2 mouse) {
+        if (isClicked(mouse)) {
+            System.out.println("Button clicked");
+            notifyObservers();
+        }
+    }
+
+    private boolean isClicked(Vector2 mouse) {
         /*
          * True if the button is clicked
          */
@@ -52,12 +57,6 @@ public class Button {
 
     private void attachObserver(Observer observer) {
         observers.add(observer);
-    }
-
-    public void update(Vector2 mouse) {
-        if (isClicked(mouse)) {
-            notifyObservers();
-        }
     }
 
     public Texture getTexture() {

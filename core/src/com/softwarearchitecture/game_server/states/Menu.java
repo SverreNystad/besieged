@@ -28,17 +28,16 @@ public class Menu extends State implements Observer {
         List<TypeEnum> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
         // placeholder background logic not implemented
-        background = new Texture("badlogic.jpg");
+        background = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
 
     }
 
+    /**
+     * Returns a list of button types based on the type of the state.
+     * parameters: type: GenericStateType
+     * returns: List<ButtonType>
+     */
     private List<TypeEnum> getButtonEnums(MenuEnum type) {
-
-        /**
-         * Returns a list of button types based on the type of the state.
-         * parameters: type: GenericStateType
-         * returns: List<ButtonType>
-         */
 
         List<TypeEnum> buttonTypes = new ArrayList<>();
 
@@ -80,23 +79,21 @@ public class Menu extends State implements Observer {
         return buttonTypes;
     }
 
+    /**
+     * Creates buttons based on the button types
+     * parameters: buttonTypes: List<ButtonType>
+     * returns: List<Button>
+     */
     private List<Button> createButtons(List<TypeEnum> buttonTypes) {
-
-        /**
-         * Creates buttons based on the button types
-         * parameters: buttonTypes: List<ButtonType>
-         * returns: List<Button>
-         */
-
+        System.out.println("Creating buttons: " + buttonTypes.size());
         int numberOfButtons = buttonTypes.size();
-        int buffergrids = 2;
+        int buffergrids = 2; // buffer between edge of screen and buttons. usage not implemnted
         List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons, numberOfButtons)
                 .getButtonsVertically(numberOfButtons);
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
             buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
-
         }
 
         return buttons;
@@ -115,14 +112,17 @@ public class Menu extends State implements Observer {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
+
         Rectangle rect;
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
+
         for (Button button : buttons) {
             // button.render(spriteBatch); Easier to draw from here where spriteBatch is
             // already open
             rect = button.getHitBox();
-
+            System.out.println("Drawing button at: " + rect.getX() + " " + rect.getY() + " " + rect.getWidth() + " "
+                    + rect.getHeight());
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 
         }
@@ -134,64 +134,58 @@ public class Menu extends State implements Observer {
         background.dispose();
     }
 
+    /**
+     * Handles button actions based on the type of the button.
+     * This state is only the intermediary menus that traverses to other states.
+     * parameters: type: ButtonType.
+     */
     @Override
     public void onAction(TypeEnum type) {
+        // Switches the state of the game based on the button type
 
-        /**
-         * Handles button actions based on the type of the button.
-         * This state is only the intermediary menus that traverses to other states.
-         * parameters: type: ButtonType.
-         */
-        switchState(type); // this method is in the state class
-    }
-
-    public void switchState(TypeEnum type) {
-        /*
-         * Switches the state of the game based on the button type
-         */
         switch (type) {
 
             case OPTIONS:
-                gameStateManager.setOverlapping(new Options());
+                screenManager.nextState(new Options());
                 break;
             case GAME_MENU:
-                gameStateManager.set(new Menu(MenuEnum.MENU));
+                screenManager.nextState(new Menu(MenuEnum.MENU));
                 break;
 
             case QUIT:
                 // not sure what should happen here
                 break;
             case JOIN:
-                gameStateManager.set(new JoinLobby());
+                screenManager.nextState(new JoinLobby());
                 break;
 
             case HOST:
-                gameStateManager.set(new HostLobby());
+                screenManager.nextState(new HostLobby());
                 break;
 
             case PAUSE:
-                gameStateManager.setOverlapping(new Menu(MenuEnum.PAUSE));
+                screenManager.saveState(this);
+                screenManager.nextState(new Menu(MenuEnum.PAUSE));
                 break;
 
             case MULTI_PLAYER:
-                gameStateManager.set(new Menu(MenuEnum.MULTI_PLAYER));
+                screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER));
                 break;
 
             case SINGLE_PLAYER:
-                gameStateManager.set(new Menu(MenuEnum.SINGLE_PLAYER));
+                screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER));
                 break;
             case PLAY:
-                gameStateManager.set(new InGame());
+                screenManager.nextState(new InGame());
                 break;
             case BACK:
-                gameStateManager.popTop();
+                screenManager.previousState();
                 break;
 
             default:
                 throw new IllegalArgumentException("Invalid button type");
 
         }
-
     }
 
 }

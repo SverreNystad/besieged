@@ -50,13 +50,12 @@ public class JoinLobby extends State implements Observer {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Creates buttons based on the button types
+     * parameters: buttonTypes: List<ButtonType>
+     * returns: List<Button>
+     */
     private List<Button> createButtons(List<TypeEnum> buttonTypes) {
-
-        /**
-         * Creates buttons based on the button types
-         * parameters: buttonTypes: List<ButtonType>
-         * returns: List<Button>
-         */
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
@@ -112,29 +111,20 @@ public class JoinLobby extends State implements Observer {
         skin.dispose();
     }
 
+    /**
+     * Handles button actions based on the type of the button.
+     * This state is only the intermediary menus that traverses to other states.
+     * parameters: type: ButtonType.
+     */
     @Override
     public void onAction(TypeEnum type) {
-
-        /**
-         * Handles button actions based on the type of the button.
-         * This state is only the intermediary menus that traverses to other states.
-         * parameters: type: ButtonType.
-         */
-        switchState(type); // this method is in the state class
-    }
-
-    public void switchState(TypeEnum type) {
-        /*
-         * Switches the state of the game based on the button type
-         */
         switch (type) {
-
             case GAME_MENU:
-                gameStateManager.set(new Menu(MenuEnum.MENU));
+                screenManager.nextState(new Menu(MenuEnum.MENU));
                 break;
 
             case JOIN:
-                gameStateManager.set(new Lobby());
+                screenManager.nextState(new Lobby());
                 break;
 
             default:

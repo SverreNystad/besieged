@@ -13,21 +13,21 @@ import com.softwarearchitecture.game_server.buttons.TypeEnum;
 import com.softwarearchitecture.math.Vector2;
 
 public abstract class State {
-
-    protected ScreenManager gameStateManager;
+    protected ScreenManager screenManager;
     protected OrthographicCamera cam;
     protected Vector2 mouse = new Vector2(0, 0);
     protected List<Button> buttons;
     protected Texture background;
 
     protected State() {
-        this.gameStateManager = new ScreenManager();
+        screenManager = ScreenManager.getInstance();
         cam = new OrthographicCamera();
         cam.setToOrtho(false, GameApp.WIDTH, GameApp.HEIGHT);
     }
 
     protected void updateButtons(float deltaTime) {
         mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+        System.out.println("Updating buttons (" + mouse.x + ", " + mouse.y + ") " + buttons.size());
 
         for (Button button : buttons) {
             button.update(mouse);
