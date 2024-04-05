@@ -76,8 +76,7 @@ public class HostLobbyState extends State implements ButtonObserver{
     @Override
     protected void update(float deltaTime) {
         updateButtons(deltaTime);
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+
     }
 
     @Override
@@ -102,7 +101,18 @@ public class HostLobbyState extends State implements ButtonObserver{
 
     @Override
     public void dispose() {
+        background.dispose();
         font.dispose();
     }
 
+    @Override
+    public void onAction(ButtonType type) {
+
+        /**
+         * Handles button actions based on the type of the button.
+         * This state is only the intermediary menus that traverses to other states.
+         * parameters: type: ButtonType.
+         */
+        switchState(type); // this method is in the state class
+    }
 }
