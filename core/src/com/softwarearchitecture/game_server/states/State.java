@@ -34,55 +34,6 @@ public abstract class State {
         }
     }
 
-    public void switchState(ButtonType type) {
-        /*
-         * Switches the state of the game based on the button type
-         */
-        switch (type) {
-
-            case OPTIONS:
-                gameStateManager.setOverlapping(new OptionState());
-                break;
-            case GAME_MENU:
-                gameStateManager.push(new GenericState(GenericStateType.MENU));
-                break;
-
-            case QUIT:
-                // not sure what should happen here
-                break;
-            case JOIN:
-                gameStateManager.push(new JoinLobbyState());
-                break;
-
-            case HOST:
-                gameStateManager.push(new HostLobbyState());
-                break;
-
-            case PAUSE:
-                gameStateManager.setOverlapping(new GenericState(GenericStateType.PAUSE));
-                break;
-
-            case MULTI_PLAYER:
-                gameStateManager.push(new GenericState(GenericStateType.MULTI_PLAYER));
-                break;
-
-            case SINGLE_PLAYER:
-                gameStateManager.push(new GenericState(GenericStateType.SINGLE_PLAYER));
-                break;
-            case PLAY:
-                gameStateManager.push(new GameState());
-                break;
-            case BACK:
-                gameStateManager.popTop();
-                break;
-
-            default:
-                throw new IllegalArgumentException("Invalid button type");
-
-        }
-
-    }
-
     protected abstract void update(float deltaTime);
 
     protected abstract void handleInput();

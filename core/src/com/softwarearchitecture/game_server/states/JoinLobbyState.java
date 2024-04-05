@@ -33,22 +33,23 @@ public class JoinLobbyState extends State implements ButtonObserver {
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("uiskin.json")); // Placeholder
-        
+
         // Create and position the label
         this.enterLobbyLabel = new Label("Enter lobby code: ", skin);
         enterLobbyLabel.setPosition(100, 300); // Adjust position as needed
-        
+
         // Create and position the text field
         this.lobbyCodeField = new TextField("", skin);
         lobbyCodeField.setPosition(100, 250); // Adjust position as needed
-        
+
         // Add the UI elements to the stage
         stage.addActor(enterLobbyLabel);
         stage.addActor(lobbyCodeField);
-        
+
         // Make sure to set the input processor to the stage
         Gdx.input.setInputProcessor(stage);
     }
+
     private List<Button> createButtons(List<ButtonType> buttonTypes) {
 
         /**
@@ -70,7 +71,6 @@ public class JoinLobbyState extends State implements ButtonObserver {
 
         return buttons;
     }
-    
 
     @Override
     protected void handleInput() {
@@ -82,11 +82,11 @@ public class JoinLobbyState extends State implements ButtonObserver {
     protected void update(float deltaTime) {
         updateButtons(deltaTime);
         stage.act(deltaTime);
-        
+
     }
 
     @Override
-     public void render(SpriteBatch spriteBatch) {
+    public void render(SpriteBatch spriteBatch) {
         Rectangle rect;
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
@@ -100,7 +100,6 @@ public class JoinLobbyState extends State implements ButtonObserver {
 
         }
 
-    
         spriteBatch.end();
         // Draw the stage after ending the spriteBatch
         stage.draw();
@@ -122,5 +121,24 @@ public class JoinLobbyState extends State implements ButtonObserver {
          * parameters: type: ButtonType.
          */
         switchState(type); // this method is in the state class
+    }
+
+    public void switchState(ButtonType type) {
+        /*
+         * Switches the state of the game based on the button type
+         */
+        switch (type) {
+
+            case GAME_MENU:
+                gameStateManager.push(new GenericState(GenericStateType.MENU));
+                break;
+
+            case JOIN:
+                gameStateManager.push(new LobbyState());
+                break;
+
+            default:
+                break;
+        }
     }
 }

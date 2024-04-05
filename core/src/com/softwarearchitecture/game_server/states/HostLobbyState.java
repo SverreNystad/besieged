@@ -112,4 +112,20 @@ public class HostLobbyState extends State implements ButtonObserver {
          */
         switchState(type); // this method is in the state class
     }
+
+    public void switchState(ButtonType type) {
+        /*
+         * Switches the state of the game based on the button type
+         */
+        switch (type) {
+            case GAME_MENU:
+                gameStateManager.push(new GenericState(GenericStateType.MENU));
+                break;
+            case PLAY:
+                gameStateManager.push(new GameState());
+                break;
+            default:
+                break;
+        }
+    }
 }
