@@ -23,7 +23,7 @@ public class ButtonFactory {
          */
 
         // factory that makes buttons based on the state enum
-        Texture texture;
+        Texture texture = new Texture("badlogic.jpg");
         switch (button) {
             case OPTIONS:
                 // create options buttons
@@ -31,31 +31,31 @@ public class ButtonFactory {
                 return new Button(hitBox, observer, button, texture);
 
             case GAME_MENU:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case QUIT:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case JOIN:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case HOST:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case PAUSE:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case MULTI_PLAYER:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case SINGLE_PLAYER:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case PLAY:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             case BACK:
-                texture = new Texture("button_placeholder.png");
+                texture = new Texture("badlogic.jpg");
                 return new Button(hitBox, observer, button, texture);
             default:
                 throw new IllegalArgumentException("Invalid button type");

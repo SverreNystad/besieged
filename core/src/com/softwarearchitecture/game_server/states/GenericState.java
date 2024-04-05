@@ -28,7 +28,7 @@ public class GenericState extends State implements ButtonObserver {
         List<ButtonType> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
         // placeholder background logic not implemented
-        background = new Texture("viking_image2.png");
+        background = new Texture("badlogic.jpg");
 
     }
 
@@ -122,8 +122,8 @@ public class GenericState extends State implements ButtonObserver {
             // button.render(spriteBatch); Easier to draw from here where spriteBatch is
             // already open
             rect = button.getHitBox();
-            spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
-                    rect.getWidth(), rect.getHeight());
+
+            spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 
         }
         spriteBatch.end();

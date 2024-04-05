@@ -15,9 +15,7 @@ import com.softwarearchitecture.game_server.buttons.ButtonType;
 import com.softwarearchitecture.game_server.buttons.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 
-
-
-public class HostLobbyState extends State implements ButtonObserver{
+public class HostLobbyState extends State implements ButtonObserver {
 
     private String lobbyCode;
     private BitmapFont font;
@@ -29,7 +27,7 @@ public class HostLobbyState extends State implements ButtonObserver{
         buttons = createButtons(buttonTypes);
 
         // placeholder background logic not implemented
-        background = new Texture("viking_image2.png");
+        background = new Texture("badlogic.jpg");
 
         this.lobbyCode = generateLobbyCode(6); // Generate a 6-character code
         this.font = new BitmapFont(); // Initialize your font (consider using a specific font file)
@@ -44,6 +42,7 @@ public class HostLobbyState extends State implements ButtonObserver{
         }
         return code.toString();
     }
+
     private List<Button> createButtons(List<ButtonType> buttonTypes) {
 
         /**
@@ -65,7 +64,6 @@ public class HostLobbyState extends State implements ButtonObserver{
 
         return buttons;
     }
-
 
     @Override
     protected void handleInput() {
@@ -95,7 +93,6 @@ public class HostLobbyState extends State implements ButtonObserver{
 
         }
 
-    
         spriteBatch.end();
     }
 

@@ -16,7 +16,7 @@ public abstract class State {
 
     protected GameStateManager gameStateManager;
     protected OrthographicCamera cam;
-    protected Vector2 mouse;
+    protected Vector2 mouse = new Vector2(0, 0);
     protected List<Button> buttons;
     protected Texture background;
 
