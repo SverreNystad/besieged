@@ -54,10 +54,8 @@ public class Entity implements Serializable {
      * @param <T>           The type of the component.
      */
     public <T> void addComponent(Class<T> componentType, T component) {
-        ComponentManager<T> manager = ecs.getComponentManager(componentType);
-        if (manager != null) {
-            manager.addComponent(this, component);
-        }
+        ComponentManager<T> manager = ecs.getOrDefaultComponentManager(componentType);
+        manager.addComponent(this, component);
     }
 
     private void readObject(ObjectInputStream ois) throws Exception {
