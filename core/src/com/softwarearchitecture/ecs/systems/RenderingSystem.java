@@ -14,17 +14,24 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
- * RenderingSystem is responsible for rendering entities that have a SpriteComponent.
- * It implements the System interface and defines logic in the update method to render entities.
+ * RenderingSystem is responsible for rendering entities that have a
+ * SpriteComponent.
+ * It implements the System interface and defines logic in the update method to
+ * render entities.
  */
 public class RenderingSystem implements System {
     private ComponentManager<SpriteComponent> drawableManager;
     private ComponentManager<PositionComponent> positionManager;
 
-    /** Graphics controller - Not optional and will be needed to check against null. Optional<T> is a option here, but since this is performance critical, we have considered not to use it and instead check for null. */
+    /**
+     * Graphics controller - Not optional and will be needed to check against null.
+     * Optional<T> is a option here, but since this is performance critical, we have
+     * considered not to use it and instead check for null.
+     */
     private GraphicsController graphicsController;
 
-    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager, ComponentManager<PositionComponent> positionManager, GraphicsController graphicsController) {
+    public RenderingSystem(ComponentManager<SpriteComponent> drawableManager,
+            ComponentManager<PositionComponent> positionManager, GraphicsController graphicsController) {
         // TODO: Validate drawableManager
         this.drawableManager = drawableManager;
         this.graphicsController = graphicsController;
@@ -36,6 +43,7 @@ public class RenderingSystem implements System {
         if (graphicsController == null) {
             throw new IllegalStateException("Graphics controller is not set.");
         }
+        java.lang.System.out.println("RenderingSystem update-----------------------");
 
         ArrayList<SpriteComponent> sprites = new ArrayList<>();
         ArrayList<PositionComponent> positions = new ArrayList<>();
@@ -47,9 +55,11 @@ public class RenderingSystem implements System {
                 sprites.add(sprite.get());
                 positions.add(position.get());
             } else if (sprite.isPresent() && !position.isPresent()) {
-                throw new IllegalStateException("Entity " + entity + " has a SpriteComponent but no PositionComponent.");
+                throw new IllegalStateException(
+                        "Entity " + entity + " has a SpriteComponent but no PositionComponent.");
             } else if (!sprite.isPresent() && position.isPresent()) {
-                throw new IllegalStateException("Entity " + entity + " has a PositionComponent but no SpriteComponent.");
+                throw new IllegalStateException(
+                        "Entity " + entity + " has a PositionComponent but no SpriteComponent.");
             }
         }
 
@@ -59,7 +69,7 @@ public class RenderingSystem implements System {
                 return Integer.compare(s2.z_index, s1.z_index);
             }
         });
-        
+
         for (int i = 0; i < sprites.size(); i++) {
             graphicsController.draw(sprites.get(i), positions.get(i));
         }
