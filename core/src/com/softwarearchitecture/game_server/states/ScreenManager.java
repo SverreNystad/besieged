@@ -8,10 +8,9 @@ public class ScreenManager {
      */
     private State currentState;
     private State savedState;
-    private static ScreenManager instance = new ScreenManager(new Menu(MenuEnum.MENU));
+    private static ScreenManager instance = new ScreenManager();
 
-    private ScreenManager(State state) {
-        this.currentState = state;
+    private ScreenManager() {
     }
 
     public static ScreenManager getInstance() {

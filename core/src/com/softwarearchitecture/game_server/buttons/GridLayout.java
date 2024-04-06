@@ -38,7 +38,7 @@ public class GridLayout {
     }
 
     public float getGridHeight() {
-        return 1f / rows * GameApp.HEIGHT;
+        return 1f / rows * GameApp.HEIGHT * 0.8f; // magic number to make the grid smaller, can be calibrated
     }
 
     public Vector2 getGridPosition(int columnNumber, int rowNumber) {
@@ -131,7 +131,6 @@ public class GridLayout {
         List<Vector2> buttonPositions = grid.alignCenterX(buttons, 5);
         for (Vector2 pos : buttonPositions) {
             pos = grid.createPadding(pos, (float) 0.1).getPosition();
-            System.out.println(pos.x + " " + pos.y);
         }
 
     }

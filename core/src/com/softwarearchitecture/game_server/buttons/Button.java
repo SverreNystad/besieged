@@ -31,7 +31,6 @@ public class Button {
 
     public void update(Vector2 mouse) {
         if (isClicked(mouse)) {
-            System.out.println("Button clicked");
             notifyObservers();
         }
     }

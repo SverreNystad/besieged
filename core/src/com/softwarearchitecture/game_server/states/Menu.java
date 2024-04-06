@@ -39,44 +39,44 @@ public class Menu extends State implements Observer {
      */
     private List<TypeEnum> getButtonEnums(MenuEnum type) {
 
-        List<TypeEnum> buttonTypes = new ArrayList<>();
+        List<TypeEnum> buttons = new ArrayList<>();
 
         switch (type) {
             case MULTI_PLAYER:
-                buttonTypes.add(TypeEnum.JOIN);
-                buttonTypes.add(TypeEnum.HOST);
-                buttonTypes.add(TypeEnum.GAME_MENU);
+                buttons.add(TypeEnum.JOIN);
+                buttons.add(TypeEnum.HOST);
+                buttons.add(TypeEnum.GAME_MENU);
 
                 break;
 
             case MENU:
-                buttonTypes.add(TypeEnum.MULTI_PLAYER);
-                buttonTypes.add(TypeEnum.SINGLE_PLAYER);
-                buttonTypes.add(TypeEnum.OPTIONS);
-                buttonTypes.add(TypeEnum.QUIT);
+                buttons.add(TypeEnum.MULTI_PLAYER);
+                buttons.add(TypeEnum.SINGLE_PLAYER);
+                buttons.add(TypeEnum.OPTIONS);
+                buttons.add(TypeEnum.QUIT);
                 break;
 
             case GAME_OVER:
-                buttonTypes.add(TypeEnum.GAME_MENU);
+                buttons.add(TypeEnum.GAME_MENU);
                 break;
 
             case PAUSE:
-                buttonTypes.add(TypeEnum.GAME_MENU);
-                buttonTypes.add(TypeEnum.OPTIONS);
-                buttonTypes.add(TypeEnum.QUIT);
-                buttonTypes.add(TypeEnum.BACK);
+                buttons.add(TypeEnum.GAME_MENU);
+                buttons.add(TypeEnum.OPTIONS);
+                buttons.add(TypeEnum.QUIT);
+                buttons.add(TypeEnum.BACK);
 
                 break;
 
             case SINGLE_PLAYER:
-                buttonTypes.add(TypeEnum.PLAY);
-                buttonTypes.add(TypeEnum.GAME_MENU);
+                buttons.add(TypeEnum.PLAY);
+                buttons.add(TypeEnum.GAME_MENU);
                 break;
 
             default:
                 break;
         }
-        return buttonTypes;
+        return buttons;
     }
 
     /**
@@ -121,8 +121,6 @@ public class Menu extends State implements Observer {
             // button.render(spriteBatch); Easier to draw from here where spriteBatch is
             // already open
             rect = button.getHitBox();
-            System.out.println("Drawing button at: " + rect.getX() + " " + rect.getY() + " " + rect.getWidth() + " "
-                    + rect.getHeight());
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 
         }
@@ -144,41 +142,51 @@ public class Menu extends State implements Observer {
         // Switches the state of the game based on the button type
 
         switch (type) {
-
             case OPTIONS:
+                System.out.println("Options button pressed");
                 screenManager.nextState(new Options());
                 break;
             case GAME_MENU:
+                System.out.println("Game menu button pressed");
                 screenManager.nextState(new Menu(MenuEnum.MENU));
                 break;
 
             case QUIT:
                 // not sure what should happen here
+                System.out.println("Quit button pressed");
+                System.exit(0);
                 break;
             case JOIN:
+                System.out.println("Join button pressed");
                 screenManager.nextState(new JoinLobby());
                 break;
 
             case HOST:
+                System.out.println("Host button pressed");
                 screenManager.nextState(new HostLobby());
                 break;
 
             case PAUSE:
+                System.out.println("Pause button pressed");
                 screenManager.saveState(this);
                 screenManager.nextState(new Menu(MenuEnum.PAUSE));
                 break;
 
             case MULTI_PLAYER:
+                System.out.println("Multiplayer button pressed");
                 screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER));
                 break;
 
             case SINGLE_PLAYER:
+                System.out.println("Singleplayer button pressed");
                 screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER));
                 break;
             case PLAY:
+                System.out.println("Play button pressed");
                 screenManager.nextState(new InGame());
                 break;
             case BACK:
+                System.out.println("Back button pressed");
                 screenManager.previousState();
                 break;
 

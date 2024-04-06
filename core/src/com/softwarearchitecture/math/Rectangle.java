@@ -7,15 +7,6 @@ public class Rectangle {
     public float width;
     public float height;
 
-    public Rectangle() {
-        this.x = 0;
-        this.y = 0;
-        this.width = 0;
-        this.height = 0;
-    }
-
-    // TODO: add functionality to wrap texture to the rectangle
-
     public Rectangle(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
@@ -23,11 +14,12 @@ public class Rectangle {
         this.height = height;
     }
 
+    public Rectangle() {
+        this(0, 0, 0, 0);
+    }
+
     public Rectangle(Rectangle rectangle) {
-        this.x = rectangle.x;
-        this.y = rectangle.y;
-        this.width = rectangle.width;
-        this.height = rectangle.height;
+        this(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
     public void set(float x, float y, float width, float height) {

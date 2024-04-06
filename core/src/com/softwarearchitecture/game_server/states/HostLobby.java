@@ -85,7 +85,6 @@ public class HostLobby extends State implements Observer {
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
         // Draw the lobby code. Position it as needed.
         font.draw(spriteBatch, "Lobby Code: " + lobbyCode, 100, 200); // Example position
-        System.out.println("number of buttons to be rendered: " + buttons.size());
         for (Button button : buttons) {
             // button.render(spriteBatch); Easier to draw from here where spriteBatch is
             // already open

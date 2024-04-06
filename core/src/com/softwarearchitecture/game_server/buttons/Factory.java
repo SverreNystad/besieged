@@ -8,13 +8,6 @@ import com.softwarearchitecture.math.Rectangle;
 
 public class Factory {
 
-    // TODO: logic for creating buttons
-
-    // public static Button createButton(int x, int y, ButtonObserver observer,
-    // ButtonType type, int width, int height) {
-    // return new Button(x, y, observer, type, width, height);
-    // }
-
     public static Button createButton(TypeEnum button, Rectangle hitBox, Observer observer) {
 
         /*

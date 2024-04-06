@@ -20,14 +20,13 @@ public abstract class State {
     protected Texture background;
 
     protected State() {
-        screenManager = ScreenManager.getInstance();
+        this.screenManager = ScreenManager.getInstance();
         cam = new OrthographicCamera();
         cam.setToOrtho(false, GameApp.WIDTH, GameApp.HEIGHT);
     }
 
     protected void updateButtons(float deltaTime) {
         mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-        System.out.println("Updating buttons (" + mouse.x + ", " + mouse.y + ") " + buttons.size());
 
         for (Button button : buttons) {
             button.update(mouse);
