@@ -1,10 +1,10 @@
-package com.softwarearchitecture.game_server.screen_components;
+package com.softwarearchitecture.game_client.screen_components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.game_client.states.Observer;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 

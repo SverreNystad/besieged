@@ -2,6 +2,8 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
+import com.softwarearchitecture.math.Vector2;
+
 /**
  * Represents a drawable component of an entity with UV mapping for positioning and sizing on the screen.
  * This component defines where and how an entity's texture is drawn in a 2D space, using relative coordinates and sizes
@@ -18,32 +20,18 @@ import java.io.Serializable;
  */
 public class SpriteComponent implements Serializable {
     public String texture_path;
-    public float screen_u;
-    public float screen_v;
-    public float u_size;
-    public float v_size;
+    public Vector2 uv_size;
     public int z_index;
 
     /**
      * Constructs a new SpriteComponent with specified texture, position, and size.
      * 
      * @param texture_path Path to the texture image.
-     * @param screen_u Relative X-coordinate on the screen.
-     * @param screen_v Relative Y-coordinate on the screen.
-     * @param width Relative width of the entity.
-     * @param height Relative height of the entity.
+     * @param uv_size The size of the entity on the screen, expressed as a fraction of the screen's width and height.
      */
-    public SpriteComponent(String texture_path, float screen_u, float screen_v, float width, float height) {
+    public SpriteComponent(String texture_path, Vector2 uv_size, int z_index) {
         this.texture_path = texture_path;
-        this.screen_u = screen_u;
-        this.screen_v = screen_v;
-        this.u_size = width;
-        this.v_size = height;
+        this.uv_size = uv_size;
         this.z_index = 0;
-    }
-
-    public SpriteComponent(String texture_path, float screen_u, float screen_v, float width, float height, int z_index) {
-        this(texture_path, screen_u, screen_v, width, height);
-        this.z_index = z_index;
     }
 }

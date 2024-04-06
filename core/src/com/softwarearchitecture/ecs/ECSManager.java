@@ -118,7 +118,7 @@ public class ECSManager {
     public void update(float deltaTime) {
         for (System system : systems) {
             // Update each system
-            system.update(entities, deltaTime);
+            system.update(entities, deltaTime); // TODO: Render function should be the last system called!
         }
     }
 

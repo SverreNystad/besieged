@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server.states;
+package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_server.screen_components.Button;
-import com.softwarearchitecture.game_server.screen_components.Factory;
-import com.softwarearchitecture.game_server.screen_components.GridLayout;
-import com.softwarearchitecture.game_server.screen_components.Observer;
-import com.softwarearchitecture.game_server.screen_components.TypeEnum;
+import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.game_client.screen_components.Factory;
+import com.softwarearchitecture.game_client.screen_components.GridLayout;
+import com.softwarearchitecture.game_client.states.Observer;
 import com.softwarearchitecture.math.Rectangle;
 
 public class HostLobby extends State implements Observer {
@@ -50,7 +49,7 @@ public class HostLobby extends State implements Observer {
      * @return List<Button>
      * 
      */
-    private List<Button> createButtons(List<TypeEnum> buttonTypes) {
+    private List<com.softwarearchitecture.game_client.screen_components.Button> createButtons(List<TypeEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
@@ -59,7 +58,7 @@ public class HostLobby extends State implements Observer {
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+            buttons.add(Factory.createButtonComponent(buttonTypes.get(i), buttonRectangles.get(i), this));
 
         }
 

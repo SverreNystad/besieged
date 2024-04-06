@@ -19,10 +19,11 @@ public class GameApp extends ApplicationAdapter {
 	// SpriteBatch batch;
 	// Texture img;
 	// ECSManager ecs;
+	GameClient gameClient;
 
 	@Override
 	public void create() {
-		GameLauncher.startGame();
+		gameClient = GameLauncher.createGameClient();
 		// batch = new SpriteBatch();
 		// img = new Texture("badlogic.jpg");
 		// ecs = ECSManager.getInstance();
@@ -41,6 +42,7 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		gameClient.
 		// ScreenUtils.clear(1, 0, 0, 1);
 		// batch.begin();
 		// batch.draw(img, 0, 0);

@@ -1,17 +1,22 @@
-package com.softwarearchitecture.game_server.states;
+package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_server.screen_components.Button;
-import com.softwarearchitecture.game_server.screen_components.Factory;
-import com.softwarearchitecture.game_server.screen_components.GridLayout;
-import com.softwarearchitecture.game_server.screen_components.Observer;
-import com.softwarearchitecture.game_server.screen_components.TypeEnum;
+import com.softwarearchitecture.game_client.screen_components.Button;
+import com.softwarearchitecture.game_client.states.ButtonFactory;
+import com.softwarearchitecture.game_client.screen_components.GridLayout;
+import com.softwarearchitecture.game_client.states.Observer;
+import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;
+import com.softwarearchitecture.math.Vector2;
+
+
 
 public class Menu extends State implements Observer {
 
@@ -28,7 +33,7 @@ public class Menu extends State implements Observer {
         List<TypeEnum> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
         // placeholder background logic not implemented
-        background = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
+        // background = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
 
     }
 
@@ -81,20 +86,22 @@ public class Menu extends State implements Observer {
     }
 
     /**
-     * Creates buttons based on the button types
+     * Creates buttons based on the button types.
+     * The length of the buttonTypes list should be the same as the length of the observers list and the same index should correspond to the same button. 
      * 
-     * @param: buttonTypes: List<ButtonType>
+     * @param: buttonTypes: List<ButtonType> 
+     * @param: observers: List<Observer>
      * @return: List<Button>
      */
-    private List<Button> createButtons(List<TypeEnum> buttonTypes) {
+    private List<Entity> createButtons(List<TypeEnum> buttonTypes, List<Observer> observers) {
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2; // buffer between edge of screen and buttons. usage not implemnted
-        List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons, numberOfButtons)
-                .getButtonsVertically(numberOfButtons);
-        List<Button> buttons = new ArrayList<>();
+        List<Rectangle> buttonPositions = findUVPositions(numberOfButtons, 0.1f, 0.1f); // Num knapper, start posisjon til nederste knapp (nede til venstre), hvor stor del av skjerment alle knappene skal ta, hvor stor avstand skal være mellom knappene.
+
+        List<Entity> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get(i), , , observers.get(i), 0)); // TypeEnum button, Vector2 position, Vector2 size, Observer observer, int z_index
         }
 
         return buttons;
@@ -118,7 +125,7 @@ public class Menu extends State implements Observer {
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
 
-        for (Button button : buttons) {
+        for (com.softwarearchitecture.game_client.screen_components.Button button : buttons) {
             rect = button.getHitBox();
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 
@@ -195,5 +202,29 @@ public class Menu extends State implements Observer {
 
         }
     }
+privprivate List<Vector2> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition, float containerUVWidth, float containerUVHeight) {
+        List<Vector2> positions = new ArrayList<Vector2>();
+
+        // Calculate each button's height as a fraction of the container's height
+        float buttonUVHeight = containerUVHeight / numberOfButtons;
+
+        // Calculate the starting y position for the first button, considering the bottom of the container
+        // plus half the height of a button to center it vertically.
+        float startY = containerUVPosition.y + buttonUVHeight / 2;
+
+        // Calculate each button's position within the container
+        for (int i = 0; i < numberOfButtons; i++) {
+            float xPos = containerUVPosition.x + containerUVWidth / 2; // Centering button horizontally within the container
+            float yPos = startY + i * buttonUVHeight; // Positioning button vertically, moving upwards
+            
+            // Add position to list
+            positions.add(new Vector2(xPos, yPos));
+        }
+
+        return positions;
+}
+    }
+
+    
 
 }

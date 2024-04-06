@@ -8,12 +8,13 @@ import com.softwarearchitecture.sound.LibGDXSound;
 
 public class GameLauncher {
     /**
-     * Start the game.
+     * Create a new game client.
      */
-    public static void startGame() {
+    public static GameClient createGameClient() {
         GraphicsController graphicsController = new LibGDXGraphics();
         SoundController audioController = new LibGDXSound();
 		GameClient gameClient = new GameClient(graphicsController);
-        gameClient.run();
+        gameClient.init();
+        return gameClient;
     }
 }

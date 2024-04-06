@@ -1,0 +1,32 @@
+package com.softwarearchitecture.ecs.components;
+
+import java.io.Serializable;
+
+import com.softwarearchitecture.math.Vector2;
+
+public class ButtonComponent implements Serializable {
+    public Vector2 uv_offset;
+    public Vector2 uv_size;
+    public TypeEnum type;
+    public int z_index;
+    
+    public enum TypeEnum {
+        OPTIONS,
+        GAME_MENU,
+        QUIT,
+        JOIN,
+        HOST,
+        PAUSE,
+        MULTI_PLAYER,
+        SINGLE_PLAYER,
+        PLAY,
+        BACK
+    }
+
+    public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index) {
+        this.uv_offset = uv_offset;
+        this.uv_size = uv_size;
+        this.type = type;
+        this.z_index = z_index;
+    }    
+}

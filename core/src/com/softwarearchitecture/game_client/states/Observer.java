@@ -1,4 +1,6 @@
-package com.softwarearchitecture.game_server.screen_components;
+package com.softwarearchitecture.game_client.states;
+
+import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 
 public interface Observer {
 

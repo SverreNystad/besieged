@@ -65,7 +65,7 @@ public class JoinLobby extends State implements Observer {
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+            buttons.add(Factory.createButtonComponent(buttonTypes.get(i), buttonRectangles.get(i), this));
 
         }
 
