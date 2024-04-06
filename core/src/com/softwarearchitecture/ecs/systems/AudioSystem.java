@@ -13,8 +13,8 @@ public class AudioSystem implements System {
     private ComponentManager<SoundComponent> audioManager;
     private SoundController soundController;
 
-    public AudioSystem(ComponentManager<SoundComponent> audiManager, SoundController soundController) {
-        this.audioManager = audiManager;
+    public AudioSystem(ComponentManager<SoundComponent> audioManager, SoundController soundController) {
+        this.audioManager = audioManager;
         this.soundController = soundController;
     }
 
