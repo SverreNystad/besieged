@@ -2,7 +2,6 @@ package com.softwarearchitecture.ecs.systems;
 
 import java.util.Optional;
 import java.util.Set;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.softwarearchitecture.ecs.ComponentManager;
