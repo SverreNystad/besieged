@@ -1,22 +1,18 @@
-package com.softwarearchitecture.game_server.states;
+package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_server.screen_components.Button;
-import com.softwarearchitecture.game_server.screen_components.Factory;
-import com.softwarearchitecture.game_server.screen_components.GridLayout;
-import com.softwarearchitecture.game_server.screen_components.Observer;
-import com.softwarearchitecture.game_server.screen_components.TypeEnum;
+import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;
+import com.softwarearchitecture.math.Vector2;
 
 public class JoinLobby extends State implements Observer {
 
@@ -56,16 +52,21 @@ public class JoinLobby extends State implements Observer {
      * @param: buttonTypes: List<ButtonType>
      * @return: List<Button>
      */
-    private List<Button> createButtons(List<TypeEnum> buttonTypes) {
+    private List<Entity> createButtons(List<TypeEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
-        List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons + buffergrids, numberOfButtons)
-                .getButtonsVertically(numberOfButtons);
-        List<Button> buttons = new ArrayList<>();
+
+        List<Rectangle> buttonRectangles = ButtonFactory.FindUVButtonPositions(numberOfButtons, new Vector2(0, 0), 1,
+                1);
+        List<Entity> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
+            Rectangle rectangle = buttonRectangles.get(i);
+            Vector2 buttonPosition = rectangle.getPosition();
+            Vector2 buttonDimentions = new Vector2(rectangle.getWidth(), rectangle.getHeight());
+            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get(i), buttonPosition, buttonDimentions,
+                    this, 0));
 
         }
 
@@ -86,28 +87,7 @@ public class JoinLobby extends State implements Observer {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-        Rectangle rect;
-        spriteBatch.begin();
-        spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
-        // Draw the lobby code. Position it as needed.
-        for (Button button : buttons) {
-            // button.render(spriteBatch); Easier to draw from here where spriteBatch is
-            // already open
-            rect = button.getHitBox();
-            spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
-                    rect.getWidth(), rect.getHeight());
-
-        }
-
-        spriteBatch.end();
-        // Draw the stage after ending the spriteBatch
-        stage.draw();
-    }
-
-    @Override
     public void dispose() {
-        background.dispose();
         stage.dispose();
         skin.dispose();
     }

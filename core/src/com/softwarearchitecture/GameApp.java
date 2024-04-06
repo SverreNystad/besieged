@@ -5,9 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.softwarearchitecture.game_server.states.Menu;
-import com.softwarearchitecture.game_server.states.MenuEnum;
-import com.softwarearchitecture.game_server.states.ScreenManager;
+import com.softwarearchitecture.game_client.states.Menu;
+import com.softwarearchitecture.game_client.states.MenuEnum;
+import com.softwarearchitecture.game_client.states.ScreenManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PositionComponent;
@@ -20,10 +20,11 @@ import com.softwarearchitecture.launcher.GameLauncher;
 public class GameApp extends ApplicationAdapter {
 	// SpriteBatch batch;s
 	// ECSManager ecs;
+	GameClient gameClient;
 
 	@Override
 	public void create() {
-		GameLauncher.startGame();
+		gameClient = GameLauncher.createGameClient();
 		// batch = new SpriteBatch();
 		// img = new Texture("badlogic.jpg");
 		// ecs = ECSManager.getInstance();
