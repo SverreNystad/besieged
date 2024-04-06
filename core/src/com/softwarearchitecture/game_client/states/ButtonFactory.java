@@ -68,7 +68,7 @@ public class ButtonFactory {
             observer.onAction(button);
         };
 
-        ButtonComponent buttonComponent = new ButtonComponent(new Vector2(0, 0), size, button, z_index, callback);
+        ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
         PositionComponent positionComponent = new PositionComponent(position);
         SpriteComponent spriteComponent = new SpriteComponent(texture, size, z_index);
 
