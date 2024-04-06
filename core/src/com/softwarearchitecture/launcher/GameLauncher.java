@@ -9,6 +9,7 @@ import com.softwarearchitecture.game_client.GameClient;
 import com.softwarearchitecture.graphics.LibGDXGraphics;
 import com.softwarearchitecture.input.LibGDXInput;
 import com.softwarearchitecture.ecs.SoundController;
+import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.game_client.GameClient;
 import com.softwarearchitecture.graphics.LibGDXGraphics;
@@ -22,11 +23,12 @@ public class GameLauncher {
         GraphicsController graphicsController = new LibGDXGraphics();
 
         // SoundController audioController = new LibGDXSound();
-		// GameClient gameClient = new GameClient(graphicsController);
+        // GameClient gameClient = new GameClient(graphicsController);
         // gameClient.init();
-        
-        InputSystem inputSystem = new InputSystem();
+        ComponentManager<ButtonComponent> buttonManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(ButtonComponent.class);
         LibGDXInput libGDXInput = new LibGDXInput();
+        InputSystem inputSystem = new InputSystem(buttonManager, libGDXInput);
 
         // Set up input-system
         libGDXInput.onTouch(touchLocation -> inputSystem.onTouch(touchLocation));
@@ -36,7 +38,8 @@ public class GameLauncher {
         // TODO: Get volume from settings
         float settingsVolume = 0.5f;
         SoundController audioController = new LibGDXSound(settingsVolume);
-        ComponentManager<SoundComponent> audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
+        ComponentManager<SoundComponent> audioManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(SoundComponent.class);
         AudioSystem audioSystem = new AudioSystem(audioManager, audioController);
         ECSManager.getInstance().addSystem(audioSystem);
         // Initiate client
