@@ -24,8 +24,8 @@ public class LibGDXGraphics implements GraphicsController {
             textures.put(component.texture_path, new Texture(component.texture_path));
         }
         Texture texture = textures.get(component.texture_path);
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
+        int width = this.getScreenWidth();
+        int height = this.getScreenHeight();
 
         batch.begin();
         batch.draw(texture, component.screen_u * width, component.screen_v * height, component.u_size * width, component.v_size * height);
