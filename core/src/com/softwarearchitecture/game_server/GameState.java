@@ -449,4 +449,18 @@ public class GameState implements Externalizable {
         }
     }
 
+    public boolean addPlayer(UUID playerID) {
+        if (playerTwo == null) {
+            playerTwo = new Entity();
+            ECSManager.getInstance().addEntity(playerTwo);
+            return true;
+        }
+        return false;
+    }
+
+    public void addAction(PlayerInput action) {
+        // TODO: Implement this method
+        throw new UnsupportedOperationException("Unimplemented method 'addAction'");
+    }
+
 }
