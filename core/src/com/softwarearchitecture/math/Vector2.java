@@ -30,6 +30,10 @@ public class Vector2 {
         this.y = vector.y;
     }
 
+    public String toString() {
+        return "Vector2{" + "x=" + x + ", y=" + y + '}';
+    }
+
     public Vector2 add(Vector2 vector) {
         this.x += vector.x;
         this.y += vector.y;

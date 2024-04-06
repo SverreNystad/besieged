@@ -26,11 +26,21 @@ public class ButtonComponent implements Serializable {
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index, Runnable callback) {
+
         this.uv_offset = uv_offset;
         this.uv_size = uv_size;
         this.type = type;
         this.z_index = z_index;
         this.callback = callback;
+
+        this.uv_size.x = uv_size.x * 100;
+        this.uv_size.y = uv_size.y * 100;
+        System.out.println(this.toString());
+    }
+
+    public String toString() {
+        return "ButtonComponent{" + "uv_offset=" + uv_offset + ", uv_size=" + uv_size + ", type=" + type + ", z_index="
+                + z_index + ", callback=" + callback + '}';
     }
 
     public void triggerAction() {
