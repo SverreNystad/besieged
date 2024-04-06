@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.softwarearchitecture.game_client.states.InGame;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.ServerMessagingController;
+import com.softwarearchitecture.game_server.GameState;
 
 public class ServerMessenger implements ServerMessagingController {
 
@@ -16,7 +17,7 @@ public class ServerMessenger implements ServerMessagingController {
     }
 
     @Override
-    public void setNewGameState(InGame gameState) {
+    public void setNewGameState(GameState gameState) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setNewGameState'");
     }
