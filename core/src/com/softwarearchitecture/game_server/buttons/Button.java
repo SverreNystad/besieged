@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
-public class Button implements Items {
+public class Button implements ScreenComponents {
 
     private TypeEnum type;
     private Rectangle hitBox;
