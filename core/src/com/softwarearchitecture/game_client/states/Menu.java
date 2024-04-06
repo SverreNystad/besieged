@@ -2,7 +2,6 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,8 +14,6 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
-
-
 
 public class Menu extends State implements Observer {
 
@@ -87,21 +84,31 @@ public class Menu extends State implements Observer {
 
     /**
      * Creates buttons based on the button types.
-     * The length of the buttonTypes list should be the same as the length of the observers list and the same index should correspond to the same button. 
      * 
-     * @param: buttonTypes: List<ButtonType> 
-     * @param: observers: List<Observer>
+     * @param: buttonTypes: List<ButtonType>
      * @return: List<Button>
      */
-    private List<Entity> createButtons(List<TypeEnum> buttonTypes, List<Observer> observers) {
+    private List<Entity> createButtons(List<TypeEnum> buttonTypes) {
         int numberOfButtons = buttonTypes.size();
-        int buffergrids = 2; // buffer between edge of screen and buttons. usage not implemnted
-        List<Rectangle> buttonPositions = findUVPositions(numberOfButtons, 0.1f, 0.1f); // Num knapper, start posisjon til nederste knapp (nede til venstre), hvor stor del av skjerment alle knappene skal ta, hvor stor avstand skal være mellom knappene.
+        Vector2 containerUVPosition = new Vector2(0, 0); // Position of the container in UV coordinates
+        float containerUVWidth = 0.5f; // Width of the container in UV coordinates
+        float containerUVHeight = 0.5f; // Height of the container in UV coordinates
+        List<Rectangle> buttonRectangles = ButtonFactory.FindUVButtonPositions(numberOfButtons, containerUVPosition,
+                containerUVWidth,
+                containerUVHeight); // Num knapper, start posisjon til nederste knapp (nede til venstre), hvor stor
+        // del av skjerment alle knappene skal ta, hvor stor avstand skal være mellom
+        // knappene.
 
         List<Entity> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get(i), , , observers.get(i), 0)); // TypeEnum button, Vector2 position, Vector2 size, Observer observer, int z_index
+            Rectangle rectangle = buttonRectangles.get(i);
+            Vector2 buttonPosition = rectangle.getPosition();
+            Vector2 buttonDimentions = new Vector2(rectangle.getWidth(), rectangle.getHeight());
+
+            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get(i), buttonPosition, buttonDimentions,
+                    this, 0)); // TypeEnum button, Vector2 position, Vector2 size, Observer observer, int
+                               // z_index
         }
 
         return buttons;
@@ -118,24 +125,26 @@ public class Menu extends State implements Observer {
 
     }
 
-    @Override
-    public void render(SpriteBatch spriteBatch) {
+    // @Override
+    // public void render(SpriteBatch spriteBatch) {
 
-        Rectangle rect;
-        spriteBatch.begin();
-        spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
+    // Rectangle rect;
+    // spriteBatch.begin();
+    // spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
 
-        for (com.softwarearchitecture.game_client.screen_components.Button button : buttons) {
-            rect = button.getHitBox();
-            spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+    // for (com.softwarearchitecture.game_client.screen_components.Button button :
+    // buttons) {
+    // rect = button.getHitBox();
+    // spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
+    // rect.getWidth(), rect.getHeight());
 
-        }
-        spriteBatch.end();
-    }
+    // }
+    // spriteBatch.end();
+    // }
 
     @Override
     public void dispose() {
-        background.dispose();
+
     }
 
     /**
@@ -202,29 +211,15 @@ public class Menu extends State implements Observer {
 
         }
     }
-privprivate List<Vector2> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition, float containerUVWidth, float containerUVHeight) {
-        List<Vector2> positions = new ArrayList<Vector2>();
 
-        // Calculate each button's height as a fraction of the container's height
-        float buttonUVHeight = containerUVHeight / numberOfButtons;
-
-        // Calculate the starting y position for the first button, considering the bottom of the container
-        // plus half the height of a button to center it vertically.
-        float startY = containerUVPosition.y + buttonUVHeight / 2;
-
-        // Calculate each button's position within the container
-        for (int i = 0; i < numberOfButtons; i++) {
-            float xPos = containerUVPosition.x + containerUVWidth / 2; // Centering button horizontally within the container
-            float yPos = startY + i * buttonUVHeight; // Positioning button vertically, moving upwards
-            
-            // Add position to list
-            positions.add(new Vector2(xPos, yPos));
-        }
-
-        return positions;
-}
-    }
-
-    
+    /**
+     * Finds the positions of the buttons in the container.
+     * 
+     * @param numberOfButtons:     int
+     * @param containerUVPosition: Vector2
+     * @param containerUVWidth:    float
+     * @param containerUVHeight:   float
+     * @return List<Vector2>
+     */
 
 }

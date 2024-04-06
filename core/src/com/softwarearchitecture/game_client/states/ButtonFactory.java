@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_client.states;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarearchitecture.ecs.ECSManager;
@@ -27,7 +28,8 @@ public class ButtonFactory {
      * @param observer: Observer
      * @throws IllegalArgumentException if the button type is invalid
      */
-    public static Entity createAndAddButtonEntity(TypeEnum button, Vector2 position, Vector2 size, Observer observer, int z_index) throws IllegalArgumentException {
+    public static Entity createAndAddButtonEntity(TypeEnum button, Vector2 position, Vector2 size, Observer observer,
+            int z_index) throws IllegalArgumentException {
         // factory that makes buttons based on the state enum
         String texture = TexturePack.BUTTON_PLACEHOLDER;
         switch (button) {
@@ -77,5 +79,35 @@ public class ButtonFactory {
 
         ECSManager.getInstance().addEntity(buttonEntity);
         return buttonEntity;
+    }
+
+    public static List<Rectangle> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition,
+            float containerUVWidth, float containerUVHeight) {
+        List<Rectangle> rectangles = new ArrayList<Rectangle>();
+
+        // Calculate each button's height as a fraction of the container's height
+        float buttonUVHeight = containerUVHeight / numberOfButtons;
+
+        // Calculate the starting y position for the first button, considering the
+        // bottom of the container plus half the height of a button to center it
+        // vertically.
+        float startY = containerUVPosition.y + buttonUVHeight / 2;
+
+        // Calculate each button's position within the container
+        for (int i = 0; i < numberOfButtons; i++) {
+            float xPos = containerUVPosition.x + containerUVWidth / 2; // Centering button horizontally within the
+                                                                       // container
+            float yPos = startY + i * buttonUVHeight; // Positioning button vertically, moving upwards
+
+            // Calculate the rectangle for each button, with width being the container's
+            // width and height being the calculated button height
+            Rectangle rectangle = new Rectangle(xPos - containerUVWidth / 2, yPos - buttonUVHeight / 2,
+                    containerUVWidth, buttonUVHeight);
+
+            // Add the rectangle to the list
+            rectangles.add(rectangle);
+        }
+
+        return rectangles;
     }
 }

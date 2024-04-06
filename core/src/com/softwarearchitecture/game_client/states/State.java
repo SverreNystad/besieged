@@ -1,13 +1,18 @@
+package com.softwarearchitecture.game_client.states;
+
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
+import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.game_client.screen_components.Button;
 import com.softwarearchitecture.math.Vector2;
 
 public abstract class State {
     protected ScreenManager screenManager;
     protected Vector2 mouse = new Vector2(0, 0);
-    protected List<Button> buttons;
+    protected List<Entity> buttons;
 
     protected State() {
         this.screenManager = ScreenManager.getInstance();
@@ -29,8 +34,6 @@ public abstract class State {
     protected abstract void update(float deltaTime);
 
     protected abstract void handleInput();
-
-    public abstract void render(SpriteBatch spriteBatch);
 
     public abstract void dispose();
 }

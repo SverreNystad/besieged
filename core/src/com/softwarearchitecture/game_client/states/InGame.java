@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server.states;
+package com.softwarearchitecture.game_client.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
