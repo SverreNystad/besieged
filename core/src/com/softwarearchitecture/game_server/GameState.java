@@ -48,7 +48,7 @@ public class GameState implements Externalizable {
     private Entity village;
     private Entity playerOne;
     private Entity playerTwo;
-    private List<List<MapTile>> map;
+    private Map map;
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -244,12 +244,12 @@ public class GameState implements Externalizable {
                 throw new IllegalStateException("Map must be a list of lists");
             } else {
                 List<List<?>> mapListList = (List<List<?>>) mapList;
-                if (mapListList.get(0).get(0) instanceof MapTile) {
+                if (mapListList.get(0).get(0) instanceof TileType) {
                     throw new IllegalStateException("Map must be a list of lists of MapTiles");
                 }
             }
         }
-        map = (List<List<MapTile>>) readObject;
+        map = (Map) readObject;
         // Towers
         deserializeTowers(in);
         // Enemies
