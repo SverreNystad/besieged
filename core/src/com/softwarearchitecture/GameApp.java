@@ -1,9 +1,13 @@
 package com.softwarearchitecture;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.softwarearchitecture.game_server.states.Menu;
+import com.softwarearchitecture.game_server.states.MenuEnum;
+import com.softwarearchitecture.game_server.states.ScreenManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PositionComponent;
@@ -12,11 +16,17 @@ import com.softwarearchitecture.ecs.components.VelocityComponent;
 public class GameApp extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	public static final int WIDTH = 1200;
+	public static final int HEIGHT = 600;
+	private ScreenManager screenManager;
 	ECSManager ecs;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
+		this.screenManager = ScreenManager.getInstance();
+		screenManager.nextState(new Menu(MenuEnum.MENU));
+		Gdx.gl.glClearColor(1, 0, 0, 1);
 		img = new Texture("badlogic.jpg");
 		ecs = ECSManager.getInstance();
 
@@ -35,14 +45,15 @@ public class GameApp extends ApplicationAdapter {
 	@Override
 	public void render() {
 		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+
+		// usikker på om dette skal være her
+		float deltaTime = Gdx.graphics.getDeltaTime();
+		screenManager.update(deltaTime);
+		screenManager.render(batch);
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
-		img.dispose();
 	}
 }
