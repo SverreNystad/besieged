@@ -7,7 +7,7 @@ public class ScreenManager {
      * Keeps track of the current state of the game
      */
     private State currentState;
-    private State savedState;
+    private State savedState; // TODO: might remove later
     private static ScreenManager instance = new ScreenManager();
 
     private ScreenManager() {

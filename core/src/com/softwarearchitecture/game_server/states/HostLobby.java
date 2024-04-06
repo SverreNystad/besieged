@@ -45,11 +45,10 @@ public class HostLobby extends State implements Observer {
 
     /**
      * Creates buttons based on the button types
-     * parameters: buttonTypes: List<ButtonType>
-     * returns: List<Button>
      * 
-     * @param buttonTypes
+     * @param buttonTypes: List<ButtonType>
      * @return List<Button>
+     * 
      */
     private List<Button> createButtons(List<TypeEnum> buttonTypes) {
 
@@ -83,11 +82,9 @@ public class HostLobby extends State implements Observer {
         Rectangle rect;
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
-        // Draw the lobby code. Position it as needed.
         font.draw(spriteBatch, "Lobby Code: " + lobbyCode, 100, 200); // Example position
         for (Button button : buttons) {
-            // button.render(spriteBatch); Easier to draw from here where spriteBatch is
-            // already open
+
             rect = button.getHitBox();
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
                     rect.getWidth(), rect.getHeight());
@@ -104,7 +101,8 @@ public class HostLobby extends State implements Observer {
     /**
      * Handles button actions based on the type of the button.
      * This state is only the intermediary menus that traverses to other states.
-     * parameters: type: ButtonType.
+     * 
+     * @param: type: ButtonType.
      */
     @Override
     public void onAction(TypeEnum type) {

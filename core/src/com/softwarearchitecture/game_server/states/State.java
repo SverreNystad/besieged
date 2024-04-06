@@ -25,6 +25,11 @@ public abstract class State {
         cam.setToOrtho(false, GameApp.WIDTH, GameApp.HEIGHT);
     }
 
+    /**
+     * Updates the buttons in the state, and checks if they are clicked.
+     * 
+     * @param deltaTime: float
+     */
     protected void updateButtons(float deltaTime) {
         mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 

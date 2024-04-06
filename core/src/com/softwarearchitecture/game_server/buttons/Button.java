@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
-public class Button {
-
-    // should there also be an interface for other stuff that gets drawn on the
-    // screen, like text and such?
+public class Button implements Items {
 
     private TypeEnum type;
     private Rectangle hitBox;
@@ -29,16 +26,25 @@ public class Button {
 
     }
 
+    /**
+     * Updates the button
+     * 
+     * @param mouse
+     */
     public void update(Vector2 mouse) {
         if (isClicked(mouse)) {
             notifyObservers();
         }
     }
 
+    /**
+     * Checks if the button is clicked
+     * 
+     * @param mouse
+     * @return
+     */
     private boolean isClicked(Vector2 mouse) {
-        /*
-         * True if the button is clicked
-         */
+
         if (!Gdx.input.justTouched())
             return false;
         float mouseX = mouse.x;
@@ -48,6 +54,10 @@ public class Button {
 
     }
 
+    /**
+     * Notifies the observers of the button
+     * 
+     */
     private void notifyObservers() {
         for (Observer observer : observers) {
             observer.onAction(type);

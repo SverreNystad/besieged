@@ -34,7 +34,7 @@ public class GridLayout {
     }
 
     public float getGridWidth() {
-        return 1f / columns * GameApp.WIDTH;
+        return 1f / columns * GameApp.WIDTH; // TODO: remove width when rendering in ecs is implemented
     }
 
     public float getGridHeight() {

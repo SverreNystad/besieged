@@ -34,8 +34,9 @@ public class Menu extends State implements Observer {
 
     /**
      * Returns a list of button types based on the type of the state.
-     * parameters: type: GenericStateType
-     * returns: List<ButtonType>
+     * 
+     * @param type: GenericStateType
+     * @return List<ButtonType>
      */
     private List<TypeEnum> getButtonEnums(MenuEnum type) {
 
@@ -81,11 +82,11 @@ public class Menu extends State implements Observer {
 
     /**
      * Creates buttons based on the button types
-     * parameters: buttonTypes: List<ButtonType>
-     * returns: List<Button>
+     * 
+     * @param: buttonTypes: List<ButtonType>
+     * @return: List<Button>
      */
     private List<Button> createButtons(List<TypeEnum> buttonTypes) {
-        System.out.println("Creating buttons: " + buttonTypes.size());
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2; // buffer between edge of screen and buttons. usage not implemnted
         List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons, numberOfButtons)
@@ -118,8 +119,6 @@ public class Menu extends State implements Observer {
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
 
         for (Button button : buttons) {
-            // button.render(spriteBatch); Easier to draw from here where spriteBatch is
-            // already open
             rect = button.getHitBox();
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 
@@ -135,7 +134,8 @@ public class Menu extends State implements Observer {
     /**
      * Handles button actions based on the type of the button.
      * This state is only the intermediary menus that traverses to other states.
-     * parameters: type: ButtonType.
+     * 
+     * @param type: ButtonType.
      */
     @Override
     public void onAction(TypeEnum type) {

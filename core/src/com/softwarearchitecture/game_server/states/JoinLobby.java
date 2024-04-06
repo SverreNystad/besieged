@@ -52,8 +52,9 @@ public class JoinLobby extends State implements Observer {
 
     /**
      * Creates buttons based on the button types
-     * parameters: buttonTypes: List<ButtonType>
-     * returns: List<Button>
+     * 
+     * @param: buttonTypes: List<ButtonType>
+     * @return: List<Button>
      */
     private List<Button> createButtons(List<TypeEnum> buttonTypes) {
 
@@ -114,7 +115,8 @@ public class JoinLobby extends State implements Observer {
     /**
      * Handles button actions based on the type of the button.
      * This state is only the intermediary menus that traverses to other states.
-     * parameters: type: ButtonType.
+     * 
+     * @param type: ButtonType.
      */
     @Override
     public void onAction(TypeEnum type) {

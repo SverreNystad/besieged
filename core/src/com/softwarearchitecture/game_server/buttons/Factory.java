@@ -8,12 +8,16 @@ import com.softwarearchitecture.math.Rectangle;
 
 public class Factory {
 
+    /**
+     * Creates a button based on the button type
+     * 
+     * @param button:   TypeEnum
+     * @param hitBox:   Rectangle
+     * @param observer: Observer
+     * @return Button
+     * 
+     */
     public static Button createButton(TypeEnum button, Rectangle hitBox, Observer observer) {
-
-        /*
-         * Creates a button based on the button type
-         * Possible refactor: have the observer in factory instead of as a parameter
-         */
 
         // factory that makes buttons based on the state enum
         Texture texture = TexturePack.BUTTON_PLACEHOLDER;
