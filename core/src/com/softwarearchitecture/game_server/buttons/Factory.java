@@ -6,6 +6,9 @@ import com.softwarearchitecture.game_server.states.TexturePack;
 import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.math.Rectangle;
 
+/**
+ * This is a button factory
+ */
 public class Factory {
 
     /**
@@ -14,11 +17,9 @@ public class Factory {
      * @param button:   TypeEnum
      * @param hitBox:   Rectangle
      * @param observer: Observer
-     * @return Button
-     * 
+     * @return Button created by factory
      */
     public static Button createButton(TypeEnum button, Rectangle hitBox, Observer observer) {
-
         // factory that makes buttons based on the state enum
         Texture texture = TexturePack.BUTTON_PLACEHOLDER;
         switch (button) {
@@ -56,7 +57,6 @@ public class Factory {
                 return new Button(hitBox, observer, button, texture);
             default:
                 throw new IllegalArgumentException("Invalid button type");
-
         }
 
     }
