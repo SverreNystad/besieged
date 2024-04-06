@@ -30,6 +30,7 @@ public class ButtonComponent implements Serializable {
         this.uv_size = uv_size;
         this.type = type;
         this.z_index = z_index;
+        this.callback = callback;
     }
 
     public void triggerAction() {
