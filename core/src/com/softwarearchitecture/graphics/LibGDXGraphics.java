@@ -28,8 +28,9 @@ public class LibGDXGraphics implements GraphicsController {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         batch.begin();
-        batch.draw(texture, positionComponent.position.x * width, positionComponent.position.y * height, component.uv_size.x * width,
-                component.uv_size.y * height);
+        batch.draw(texture, positionComponent.position.x * width, positionComponent.position.y * height,
+                component.v_size * width,
+                component.u_size * height);
         batch.end();
     }
 
