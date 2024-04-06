@@ -18,6 +18,6 @@ public class InputSystem implements System {
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
-        // Update your entities based on the input
+        // Update entities based on the input
     }
 }
