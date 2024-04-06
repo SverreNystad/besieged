@@ -12,12 +12,13 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.game_client.GameClient;
+import com.softwarearchitecture.input.LibGDXInput;
 import com.softwarearchitecture.launcher.GameLauncher;
 
 public class GameApp extends ApplicationAdapter {
-	// SpriteBatch batch;
-	// Texture img;
+	// SpriteBatch batch;s
 	// ECSManager ecs;
 	GameClient gameClient;
 
@@ -42,7 +43,6 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		gameClient.
 		// ScreenUtils.clear(1, 0, 0, 1);
 		// batch.begin();
 		// batch.draw(img, 0, 0);

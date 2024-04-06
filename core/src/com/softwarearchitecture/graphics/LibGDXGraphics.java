@@ -11,7 +11,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 
 public class LibGDXGraphics implements GraphicsController {
     private SpriteBatch batch;
-	private HashMap<String, Texture> textures;
+    private HashMap<String, Texture> textures;
 
     public LibGDXGraphics() {
         batch = new SpriteBatch();
@@ -24,27 +24,16 @@ public class LibGDXGraphics implements GraphicsController {
             textures.put(component.texture_path, new Texture(component.texture_path));
         }
         Texture texture = textures.get(component.texture_path);
-        int width = this.getScreenWidth();
-        int height = this.getScreenHeight();
-
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
         batch.begin();
-        batch.draw(texture, component.screen_u * width, component.screen_v * height, component.u_size * width, component.v_size * height);
+        batch.draw(texture, component.screen_u * width, component.screen_v * height, component.u_size * width,
+                component.v_size * height);
         batch.end();
     }
 
     @Override
     public void clearScreen() {
         ScreenUtils.clear(0, 0, 0, 1);
-    }
-
-
-    @Override
-    public int getScreenWidth() {
-        return Gdx.graphics.getWidth();
-    }
-
-    @Override
-    public int getScreenHeight() {
-        return Gdx.graphics.getHeight();
     }
 }
