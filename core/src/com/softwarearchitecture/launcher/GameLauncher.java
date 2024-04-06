@@ -32,6 +32,7 @@ public class GameLauncher {
                 .getOrDefaultComponentManager(ButtonComponent.class);
         LibGDXInput libGDXInput = new LibGDXInput();
         InputSystem inputSystem = new InputSystem(buttonManager, libGDXInput);
+        ECSManager.getInstance().addSystem(inputSystem);
 
         // Set to main manu
         ScreenManager screenManager = ScreenManager.getInstance();

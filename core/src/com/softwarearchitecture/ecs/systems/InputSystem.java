@@ -39,7 +39,7 @@ public class InputSystem implements System {
     public void update(Set<Entity> entities, float deltaTime) {
         for (Entity entity : entities) {
             Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
-
+            java.lang.System.out.println("ButtonComponent: " + buttonComponent);
             if (buttonComponent.isPresent()) {
                 ButtonComponent button = buttonComponent.get();
 
