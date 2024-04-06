@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_server.buttons.Button;
-import com.softwarearchitecture.game_server.buttons.Factory;
-import com.softwarearchitecture.game_server.buttons.Observer;
-import com.softwarearchitecture.game_server.buttons.TypeEnum;
-import com.softwarearchitecture.game_server.buttons.GridLayout;
+import com.softwarearchitecture.game_server.screen_components.Button;
+import com.softwarearchitecture.game_server.screen_components.Factory;
+import com.softwarearchitecture.game_server.screen_components.GridLayout;
+import com.softwarearchitecture.game_server.screen_components.Observer;
+import com.softwarearchitecture.game_server.screen_components.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;
 
 public class JoinLobby extends State implements Observer {

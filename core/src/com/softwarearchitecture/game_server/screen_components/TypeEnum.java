@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server.buttons;
+package com.softwarearchitecture.game_server.screen_components;
 
 public enum TypeEnum {
 

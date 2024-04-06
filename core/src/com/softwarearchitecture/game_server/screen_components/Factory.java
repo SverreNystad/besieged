@@ -1,7 +1,8 @@
-package com.softwarearchitecture.game_server.buttons;
+package com.softwarearchitecture.game_server.screen_components;
 
 import java.util.List;
-import com.softwarearchitecture.game_server.buttons.Button;
+
+import com.softwarearchitecture.game_server.screen_components.Button;
 import com.softwarearchitecture.game_server.states.TexturePack;
 import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.math.Rectangle;

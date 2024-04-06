@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server.buttons;
+package com.softwarearchitecture.game_server.screen_components;
 
 import java.util.ArrayList;
 import java.util.List;

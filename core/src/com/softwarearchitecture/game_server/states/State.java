@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_server.buttons.Button;
-import com.softwarearchitecture.game_server.buttons.TypeEnum;
+import com.softwarearchitecture.game_server.screen_components.Button;
+import com.softwarearchitecture.game_server.screen_components.TypeEnum;
 import com.softwarearchitecture.math.Vector2;
 
 public abstract class State {

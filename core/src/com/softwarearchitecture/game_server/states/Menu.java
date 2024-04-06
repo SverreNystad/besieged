@@ -6,11 +6,11 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_server.buttons.Button;
-import com.softwarearchitecture.game_server.buttons.Factory;
-import com.softwarearchitecture.game_server.buttons.Observer;
-import com.softwarearchitecture.game_server.buttons.TypeEnum;
-import com.softwarearchitecture.game_server.buttons.GridLayout;
+import com.softwarearchitecture.game_server.screen_components.Button;
+import com.softwarearchitecture.game_server.screen_components.Factory;
+import com.softwarearchitecture.game_server.screen_components.GridLayout;
+import com.softwarearchitecture.game_server.screen_components.Observer;
+import com.softwarearchitecture.game_server.screen_components.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;
 
 public class Menu extends State implements Observer {
