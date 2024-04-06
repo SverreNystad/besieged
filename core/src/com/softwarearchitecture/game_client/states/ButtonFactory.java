@@ -9,9 +9,6 @@ import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
-import com.softwarearchitecture.game_client.screen_components.Button;
-import com.softwarearchitecture.game_client.states.Observer;
-import com.softwarearchitecture.game_client.states.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 

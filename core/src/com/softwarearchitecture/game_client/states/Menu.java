@@ -3,13 +3,6 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.softwarearchitecture.GameApp;
-import com.softwarearchitecture.game_client.screen_components.Button;
-import com.softwarearchitecture.game_client.states.ButtonFactory;
-import com.softwarearchitecture.game_client.screen_components.GridLayout;
-import com.softwarearchitecture.game_client.states.Observer;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;

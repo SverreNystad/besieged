@@ -3,10 +3,7 @@ package com.softwarearchitecture.game_client.states;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.softwarearchitecture.GameApp;
 import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.game_client.screen_components.Button;
 import com.softwarearchitecture.math.Vector2;
 
 public abstract class State {

@@ -7,7 +7,6 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
-import com.softwarearchitecture.game_client.screen_components.GridLayout;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
@@ -47,9 +46,12 @@ public class HostLobby extends State implements Observer {
             List<TypeEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
-        int buffergrids = 2;
-        List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons + buffergrids, numberOfButtons)
-                .getButtonsVertically(numberOfButtons);
+        Vector2 containerUVPosition = new Vector2(0, 0); // Position of the container in UV coordinates
+        float containerUVWidth = 0.5f; // Width of the container in UV coordinates
+        float containerUVHeight = 0.5f; // Height of the container in UV coordinates
+        List<Rectangle> buttonRectangles = ButtonFactory.FindUVButtonPositions(numberOfButtons, containerUVPosition,
+                containerUVWidth,
+                containerUVHeight);
         List<Entity> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {

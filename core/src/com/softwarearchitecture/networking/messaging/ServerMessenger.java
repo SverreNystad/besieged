@@ -3,9 +3,9 @@ package com.softwarearchitecture.networking.messaging;
 import java.util.List;
 import java.util.UUID;
 
+import com.softwarearchitecture.game_client.states.InGame;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.ServerMessagingController;
-import com.softwarearchitecture.game_server.states.InGame;
 
 public class ServerMessenger implements ServerMessagingController {
 
