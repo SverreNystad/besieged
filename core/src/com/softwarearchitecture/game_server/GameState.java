@@ -77,7 +77,7 @@ public class GameState implements Externalizable {
 
     private void serializeVillageHealth(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
+        ComponentManager<HealthComponent> healthManager = manager.getOrDefaultComponentManager(HealthComponent.class);
         Optional<HealthComponent> villageHealth = healthManager.getComponent(village);
         if (villageHealth.isPresent()) {
             out.writeObject(village);
@@ -89,7 +89,7 @@ public class GameState implements Externalizable {
 
     private void serializePlayerMoney(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<MoneyComponent> goldManager = manager.getComponentManager(MoneyComponent.class);
+        ComponentManager<MoneyComponent> goldManager = manager.getOrDefaultComponentManager(MoneyComponent.class);
         Optional<MoneyComponent> playerOneMoney = goldManager.getComponent(playerOne);
         if (playerOneMoney.isPresent()) {
             out.writeObject(playerOneMoney.get());
@@ -110,7 +110,7 @@ public class GameState implements Externalizable {
 
     private void serializePlayerCards(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<CardHolderComponent> cardHolderManager = manager.getComponentManager(CardHolderComponent.class);
+        ComponentManager<CardHolderComponent> cardHolderManager = manager.getOrDefaultComponentManager(CardHolderComponent.class);
         Optional<CardHolderComponent> playerOneCardHolder = cardHolderManager.getComponent(playerOne);
         if (playerOneCardHolder.isPresent()) {
             out.writeObject(playerOneCardHolder.get());
@@ -131,8 +131,8 @@ public class GameState implements Externalizable {
 
     private void serializeTowers(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<TowerComponent> towerManager = manager.getComponentManager(TowerComponent.class);
-        ComponentManager<TargetComponent> targetManager = manager.getComponentManager(TargetComponent.class);
+        ComponentManager<TowerComponent> towerManager = manager.getOrDefaultComponentManager(TowerComponent.class);
+        ComponentManager<TargetComponent> targetManager = manager.getOrDefaultComponentManager(TargetComponent.class);
         ArrayList<Entity> towerEntities = new ArrayList<>();
         ArrayList<TowerComponent> towers = new ArrayList<>();
         ArrayList<TargetComponent> targets = new ArrayList<>();
@@ -158,9 +158,9 @@ public class GameState implements Externalizable {
 
     private void serializeEnemies(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<PositionComponent> positionManager = manager.getComponentManager(PositionComponent.class);
-        ComponentManager<EnemyComponent> enemyManager = manager.getComponentManager(EnemyComponent.class);
-        ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
+        ComponentManager<PositionComponent> positionManager = manager.getOrDefaultComponentManager(PositionComponent.class);
+        ComponentManager<EnemyComponent> enemyManager = manager.getOrDefaultComponentManager(EnemyComponent.class);
+        ComponentManager<HealthComponent> healthManager = manager.getOrDefaultComponentManager(HealthComponent.class);
         ArrayList<Entity> enemyEntities = new ArrayList<>();
         ArrayList<HealthComponent> enemyHealths = new ArrayList<>();
         ArrayList<PositionComponent> enemyPositions = new ArrayList<>();
@@ -190,8 +190,8 @@ public class GameState implements Externalizable {
 
     private void serializePlacedCards(ObjectOutput out) throws IOException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<PlacedCardComponent> placedCardManager = manager.getComponentManager(PlacedCardComponent.class);
-        ComponentManager<PositionComponent> positionManager = manager.getComponentManager(PositionComponent.class);
+        ComponentManager<PlacedCardComponent> placedCardManager = manager.getOrDefaultComponentManager(PlacedCardComponent.class);
+        ComponentManager<PositionComponent> positionManager = manager.getOrDefaultComponentManager(PositionComponent.class);
         ArrayList<Entity> placedCardEntities = new ArrayList<>();
         ArrayList<PlacedCardComponent> placedCards = new ArrayList<>();
         ArrayList<PositionComponent> placedCardPositions = new ArrayList<>();
@@ -276,7 +276,7 @@ public class GameState implements Externalizable {
 
     private void deserializeVillageHealth(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
+        ComponentManager<HealthComponent> healthManager = manager.getOrDefaultComponentManager(HealthComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof Entity)) {
             throw new IllegalStateException("Village must be an entity");
@@ -293,7 +293,7 @@ public class GameState implements Externalizable {
 
     private void deserializePlayerMoney(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<MoneyComponent> goldManager = manager.getComponentManager(MoneyComponent.class);
+        ComponentManager<MoneyComponent> goldManager = manager.getOrDefaultComponentManager(MoneyComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof MoneyComponent)) {
             throw new IllegalStateException("Player one money must be a money component");
@@ -316,7 +316,7 @@ public class GameState implements Externalizable {
 
     private void deserializePlayerCards(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<CardHolderComponent> cardHolderManager = manager.getComponentManager(CardHolderComponent.class);
+        ComponentManager<CardHolderComponent> cardHolderManager = manager.getOrDefaultComponentManager(CardHolderComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof CardHolderComponent)) {
             throw new IllegalStateException("Player one card holder must be a card holder component");
@@ -340,8 +340,8 @@ public class GameState implements Externalizable {
     @SuppressWarnings("unchecked")
     private void deserializeTowers(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<TowerComponent> towerManager = manager.getComponentManager(TowerComponent.class);
-        ComponentManager<TargetComponent> targetManager = manager.getComponentManager(TargetComponent.class);
+        ComponentManager<TowerComponent> towerManager = manager.getOrDefaultComponentManager(TowerComponent.class);
+        ComponentManager<TargetComponent> targetManager = manager.getOrDefaultComponentManager(TargetComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
             throw new IllegalStateException("Towers must be an array list of entities");
@@ -374,9 +374,9 @@ public class GameState implements Externalizable {
     @SuppressWarnings("unchecked")
     private void deserializeEnemies(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<PositionComponent> positionManager = manager.getComponentManager(PositionComponent.class);
-        ComponentManager<EnemyComponent> enemyManager = manager.getComponentManager(EnemyComponent.class);
-        ComponentManager<HealthComponent> healthManager = manager.getComponentManager(HealthComponent.class);
+        ComponentManager<PositionComponent> positionManager = manager.getOrDefaultComponentManager(PositionComponent.class);
+        ComponentManager<EnemyComponent> enemyManager = manager.getOrDefaultComponentManager(EnemyComponent.class);
+        ComponentManager<HealthComponent> healthManager = manager.getOrDefaultComponentManager(HealthComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
             throw new IllegalStateException("Enemies must be an array list of entities");
@@ -417,8 +417,8 @@ public class GameState implements Externalizable {
     @SuppressWarnings("unchecked")
     private void deserializePlacedCards(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<PlacedCardComponent> placedCardManager = manager.getComponentManager(PlacedCardComponent.class);
-        ComponentManager<PositionComponent> positionManager = manager.getComponentManager(PositionComponent.class);
+        ComponentManager<PlacedCardComponent> placedCardManager = manager.getOrDefaultComponentManager(PlacedCardComponent.class);
+        ComponentManager<PositionComponent> positionManager = manager.getOrDefaultComponentManager(PositionComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof ArrayList) && ((ArrayList<?>) readObject).get(0) instanceof Entity) {
             throw new IllegalStateException("Placed cards must be an array list of entities");

@@ -75,27 +75,20 @@ public class ECSManager {
     }
 
     /**
-     * Adds a component manager for a specific component type to the ECSManager.
-     * 
-     * @param componentType The class representing the component type.
-     * @param manager       The component manager for the specified component type.
-     * @param <T>           The type of the component.
-     */
-    public <T> void addComponentManager(Class<T> componentType, ComponentManager<T> manager) {
-        componentManagers.put(componentType, manager);
-    }
-
-    /**
-     * Returns the component manager for a specific component type.
+     * Returns the component manager for the specified component type.
      * 
      * @param componentType The class representing the component type.
      * @param <T>           The type of the component.
      * @return The component manager for the specified component type.
      */
-    public <T> ComponentManager<T> getComponentManager(Class<T> componentType) {
+    public <T> ComponentManager<T> getOrDefaultComponentManager(Class<T> componentType) {
         // Cast is safe due to the controlled way ComponentManagers are added
         @SuppressWarnings("unchecked")
         ComponentManager<T> manager = (ComponentManager<T>) componentManagers.get(componentType);
+        if (manager == null) {
+            manager = new ComponentManager<T>();
+            componentManagers.put(componentType, manager);
+        }
         return manager;
     }
 

@@ -26,8 +26,7 @@ public class MainMenu implements State {
         logo.addComponent(SpriteComponent.class, logoSprite);
         ECSManager.getInstance().addEntity(logo);
 
-        ECSManager.getInstance().addComponentManager(SpriteComponent.class, new ComponentManager<SpriteComponent>());
-        ECSManager.getInstance().addSystem(new RenderingSystem(ECSManager.getInstance().getComponentManager(SpriteComponent.class), graphicsController));
+        ECSManager.getInstance().addSystem(new RenderingSystem(ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class), graphicsController));
     }
 
     @Override
