@@ -2,6 +2,7 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
+import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.math.Vector2;
 
 public class ButtonComponent implements Serializable {
@@ -9,7 +10,8 @@ public class ButtonComponent implements Serializable {
     public Vector2 uv_size;
     public TypeEnum type;
     public int z_index;
-    
+    public Runnable callback;
+
     public enum TypeEnum {
         OPTIONS,
         GAME_MENU,
@@ -23,10 +25,17 @@ public class ButtonComponent implements Serializable {
         BACK
     }
 
-    public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index) {
+    public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index, Runnable callback) {
         this.uv_offset = uv_offset;
         this.uv_size = uv_size;
         this.type = type;
         this.z_index = z_index;
-    }    
+    }
+
+    public void triggerAction() {
+        if (callback != null) {
+            callback.run();
+        }
+    }
+
 }
