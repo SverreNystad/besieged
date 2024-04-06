@@ -11,4 +11,10 @@ public class LibGDXGraphics implements GraphicsController {
         throw new UnsupportedOperationException("Unimplemented method 'draw'");
     }
 
+    @Override
+    public void clearScreen() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'clearScreen'");
+    }
+
 }
