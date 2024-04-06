@@ -37,4 +37,14 @@ public class LibGDXGraphics implements GraphicsController {
         ScreenUtils.clear(0, 0, 0, 1);
     }
 
+
+    @Override
+    public int getScreenWidth() {
+        return Gdx.graphics.getWidth();
+    }
+
+    @Override
+    public int getScreenHeight() {
+        return Gdx.graphics.getHeight();
+    }
 }

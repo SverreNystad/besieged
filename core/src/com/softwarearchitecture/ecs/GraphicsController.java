@@ -13,4 +13,16 @@ public interface GraphicsController {
      * Clear the screen.
      */
     void clearScreen();
+
+    /**
+     * Get the width of the screen.
+     * @return the width of the screen
+     */
+    int getScreenWidth();
+
+    /**
+     * Get the height of the screen.
+     * @return the height of the screen
+     */
+    int getScreenHeight();
 }
