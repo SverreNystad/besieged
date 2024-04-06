@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.softwarearchitecture.ecs.GraphicsController;
+import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 
 public class LibGDXGraphics implements GraphicsController {
@@ -19,7 +20,7 @@ public class LibGDXGraphics implements GraphicsController {
     }
 
     @Override
-    public void draw(SpriteComponent component) {
+    public void draw(SpriteComponent component, PositionComponent positionComponent) {
         if (!textures.containsKey(component.texture_path)) {
             textures.put(component.texture_path, new Texture(component.texture_path));
         }
@@ -27,8 +28,8 @@ public class LibGDXGraphics implements GraphicsController {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         batch.begin();
-        batch.draw(texture, component.screen_u * width, component.screen_v * height, component.u_size * width,
-                component.v_size * height);
+        batch.draw(texture, positionComponent.position.x * width, positionComponent.position.y * height, component.uv_size.x * width,
+                component.uv_size.y * height);
         batch.end();
     }
 

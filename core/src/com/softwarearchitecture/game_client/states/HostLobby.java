@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.softwarearchitecture.GameApp;
+import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
-import com.softwarearchitecture.game_client.screen_components.Factory;
 import com.softwarearchitecture.game_client.screen_components.GridLayout;
-import com.softwarearchitecture.game_client.states.Observer;
 import com.softwarearchitecture.math.Rectangle;
+import com.softwarearchitecture.math.Vector2;
 
 public class HostLobby extends State implements Observer {
 
@@ -24,9 +21,6 @@ public class HostLobby extends State implements Observer {
         List<TypeEnum> buttonTypes = new ArrayList<>();
         buttonTypes.add(TypeEnum.GAME_MENU);
         buttons = createButtons(buttonTypes);
-
-        // placeholder background logic not implemented
-        background = TexturePack.BACKGROUND_TOR;
 
         this.lobbyCode = generateLobbyCode(6); // Generate a 6-character code
         this.font = new BitmapFont(); // Initialize your font (consider using a specific font file)
@@ -49,16 +43,21 @@ public class HostLobby extends State implements Observer {
      * @return List<Button>
      * 
      */
-    private List<com.softwarearchitecture.game_client.screen_components.Button> createButtons(List<TypeEnum> buttonTypes) {
+    private List<Entity> createButtons(
+            List<TypeEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
         List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons + buffergrids, numberOfButtons)
                 .getButtonsVertically(numberOfButtons);
-        List<Button> buttons = new ArrayList<>();
+        List<Entity> buttons = new ArrayList<>();
 
         for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(Factory.createButtonComponent(buttonTypes.get(i), buttonRectangles.get(i), this));
+            Rectangle rectangle = buttonRectangles.get(i);
+            Vector2 buttonPosition = rectangle.getPosition();
+            Vector2 buttonDimentions = new Vector2(rectangle.getWidth(), rectangle.getHeight());
+            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get(i), buttonPosition, buttonDimentions,
+                    this, 0));
 
         }
 
@@ -77,23 +76,7 @@ public class HostLobby extends State implements Observer {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-        Rectangle rect;
-        spriteBatch.begin();
-        spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
-        font.draw(spriteBatch, "Lobby Code: " + lobbyCode, 100, 200); // Example position
-        for (Button button : buttons) {
-
-            rect = button.getHitBox();
-            spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
-                    rect.getWidth(), rect.getHeight());
-        }
-        spriteBatch.end();
-    }
-
-    @Override
     public void dispose() {
-        background.dispose();
         font.dispose();
     }
 

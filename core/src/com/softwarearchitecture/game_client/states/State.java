@@ -26,9 +26,9 @@ public abstract class State {
     protected void updateButtons(float deltaTime) {
         mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
 
-        for (Button button : buttons) {
-            button.update(mouse);
-        }
+        // for (Entity button : buttons) { // how is a button updated?
+        // button.update(mouse);
+        // }
     }
 
     protected abstract void update(float deltaTime);

@@ -19,12 +19,6 @@ public class InGame extends State {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
-    }
-
-    @Override
     public void dispose() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'dispose'");
