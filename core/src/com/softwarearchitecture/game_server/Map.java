@@ -8,6 +8,8 @@ public class Map {
     protected String backgroundImage;
     public Texture placeableTexture = new Texture(Gdx.files.internal("grass.png"));
     public Texture pathTexture = new Texture(Gdx.files.internal("road.jpg"));
+    public Texture waterTexture = new Texture(Gdx.files.internal("water.jpg"));
+    public Texture rockTexture = new Texture(Gdx.files.internal("rock.png"));
     public Texture defaultTexture = new Texture(Gdx.files.internal("chad.jpg"));
 
 
@@ -44,6 +46,10 @@ public class Map {
                 return placeableTexture;
             case PATH:
                 return pathTexture;
+            case BLOCKED_WATER:
+                return waterTexture;
+            case BLOCKED_ROCK:
+                return rockTexture;
             default:
                 return defaultTexture; 
         }
