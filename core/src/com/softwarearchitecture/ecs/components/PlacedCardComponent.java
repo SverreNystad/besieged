@@ -2,7 +2,6 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
-import com.softwarearchitecture.game_server.CardFactory;
 import com.softwarearchitecture.game_server.CardFactory.CardType;
 
 public class PlacedCardComponent implements Serializable {
