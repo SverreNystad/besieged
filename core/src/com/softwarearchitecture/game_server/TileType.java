@@ -6,6 +6,7 @@ public enum TileType {
     PATH,
     PLACEABLE,
     BLOCKED_WATER,
-    BLOCKED_ROCK
+    BLOCKED_ROCK,
+    BLOCKED_TREE
 }
 

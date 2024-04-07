@@ -1,17 +1,10 @@
 package com.softwarearchitecture.game_server;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Map {
     protected Tile[][] tiles;
     protected String backgroundImage;
-    public Texture placeableTexture = new Texture(Gdx.files.internal("grass.png"));
-    public Texture pathTexture = new Texture(Gdx.files.internal("road.jpg"));
-    public Texture waterTexture = new Texture(Gdx.files.internal("water.jpg"));
-    public Texture rockTexture = new Texture(Gdx.files.internal("rock.png"));
-    public Texture defaultTexture = new Texture(Gdx.files.internal("chad.jpg"));
-
 
     public Map(String mapString, String backgroundImage) {
         this.backgroundImage = backgroundImage;
@@ -43,15 +36,17 @@ public class Map {
     public Texture getTextureForTile(Tile tile) {
         switch (tile.getType()) {
             case PLACEABLE:
-                return placeableTexture;
+                return TexturePack.placeableTexture;
             case PATH:
-                return pathTexture;
+                return TexturePack.pathTexture;
             case BLOCKED_WATER:
-                return waterTexture;
+                return TexturePack.waterTexture;
             case BLOCKED_ROCK:
-                return rockTexture;
+                return TexturePack.rockTexture;
+            case BLOCKED_TREE:
+                return TexturePack.treeTexture;
             default:
-                return defaultTexture; 
+                return TexturePack.defaultTexture; 
         }
     }
 }
