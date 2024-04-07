@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("Structura");
+		config.setTitle("Besieged!");
 		config.setWindowedMode(1800, 1000); // TODO: set responsive window size instead of magic numbers.
 		new Lwjgl3Application(new GameApp(), config);
 	}
