@@ -77,6 +77,7 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.google.firebase:firebase-admin:9.2.0"
         implementation 'org.json:json:20210307'
+        implementation 'com.google.code.gson:gson:2.8.9'
     }
     jacoco {
         toolVersion = "0.8.7" 
