@@ -8,17 +8,17 @@ import static org.junit.Assert.assertTrue;
 
 public class DAOBuilderTest {
 
-    private DAOBuilder builder;
-    private DAO dao;
+    private DAOBuilder<String, String> builder;
+    private DAO<String, String> dao;
 
     @Before
     public void setUp() {
-        builder = new DAOBuilder();
+        builder = new DAOBuilder<>();
     }
     
     @Test
     public void testBuildsWithCreate() {
-        dao = builder.withCreate().build();
+        dao = builder.withCreate().build(String.class, String.class);
         assertNotNull(dao);
         
         // Verify dao has create capability 
@@ -31,7 +31,7 @@ public class DAOBuilderTest {
 
     @Test
     public void testBuildsWithRead() {
-        dao = builder.withRead().build();
+        dao = builder.withRead().build(String.class, String.class);
         assertNotNull(dao);
            
         // Verify dao has create capability 
@@ -43,7 +43,7 @@ public class DAOBuilderTest {
 
     @Test
     public void testBuildsWithUpdate() {
-        dao = builder.withUpdate().build();
+        dao = builder.withUpdate().build(String.class, String.class);
         assertNotNull(dao);
         
         // Verify dao has create capability 
@@ -55,7 +55,7 @@ public class DAOBuilderTest {
 
     @Test
     public void testBuildsWithDelete() {
-        dao = builder.withDelete().build();
+        dao = builder.withDelete().build(String.class, String.class);
         assertNotNull(dao);
         
         // Verify dao has create capability 
@@ -67,7 +67,7 @@ public class DAOBuilderTest {
 
     @Test
     public void testBuildsWithAllCapabilities() {
-        dao = builder.withCreate().withRead().withUpdate().withDelete().build();
+        dao = builder.withCreate().withRead().withUpdate().withDelete().build(String.class, String.class);;
         assertNotNull(dao);
         
         // Verify dao has create capability 
