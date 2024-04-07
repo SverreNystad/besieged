@@ -1,20 +1,13 @@
 package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TowerComponent implements Serializable {
-    public enum DamageType {
-        FIRE, WATER, LIGHTNING // Sample types
-    }
 
-    public List<DamageType> damageTypes;
     private int damage;
     private int range;
 
-    public TowerComponent(List<DamageType> damageTypes, int damage, int range) {
-        this.damageTypes = new ArrayList<>(damageTypes);
+    public TowerComponent(int damage, int range) {
         if (damage >= 1 && range >= 1) {
             this.damage = damage;
             this.range = range;
