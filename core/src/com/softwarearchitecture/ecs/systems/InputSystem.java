@@ -6,11 +6,9 @@ import java.util.Set;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.InputController;
-import com.softwarearchitecture.ecs.SoundController;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.TouchLocation;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
-import com.softwarearchitecture.ecs.components.SoundComponent;
 
 public class InputSystem implements System {
     private ComponentManager<ButtonComponent> buttonManager;
