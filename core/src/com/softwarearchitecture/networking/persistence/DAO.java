@@ -98,9 +98,9 @@ public abstract class DAO<K, T> {
      * Adds a new instance of type {@code T} to the data storage. If an instance with the same primary key
      * already exists, the operation will not proceed.
      * 
+     * @param id The primary key used to identify the instance to be added.
      * @param object The instance of type {@code T} to be added to the data storage.
-     * @return The primary key of the newly added instance; {@code null} if the operation failed.
      */
-    public abstract K add(T object);
+    public abstract void add(K id, T object);
 
 }
