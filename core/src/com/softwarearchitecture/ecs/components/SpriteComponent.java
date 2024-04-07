@@ -64,4 +64,8 @@ public class SpriteComponent implements Serializable {
         this(texture, 0, 0, size.x, size.y, z_index2); // TODO find out how to get the screen uv coordinates
 
     }
+
+    public void setSprite(String currentFrame) {
+        this.texture_path = currentFrame;
+    }
 }
