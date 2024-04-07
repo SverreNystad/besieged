@@ -45,6 +45,8 @@ public class RenderingSystem implements System {
         }
         java.lang.System.out.println("RenderingSystem update-----------------------");
 
+        graphicsController.clearScreen();
+
         ArrayList<SpriteComponent> sprites = new ArrayList<>();
         ArrayList<PositionComponent> positions = new ArrayList<>();
 
@@ -73,7 +75,6 @@ public class RenderingSystem implements System {
         for (int i = 0; i < sprites.size(); i++) {
             graphicsController.draw(sprites.get(i), positions.get(i));
         }
-        graphicsController.clearScreen();
     }
 
 }
