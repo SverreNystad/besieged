@@ -32,7 +32,7 @@ import com.softwarearchitecture.game_server.cards.tower_cards.PowerCard;
 
 
 public class GameState implements Externalizable {
-    public static final List<Class<? extends Card>> card_classes = new ArrayList<>(
+    public static final List<Class<? extends Card>> card_classes = new ArrayList<Class<? extends Card>>(
         Arrays.asList(
             IceCard.class,
             LightningCard.class,
