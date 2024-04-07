@@ -11,8 +11,10 @@ public class Map {
     public Texture defaultTexture = new Texture(Gdx.files.internal("chad.jpg"));
 
 
-    public Map(String mapString, int rows, int cols, String backgroundImage) {
+    public Map(String mapString, String backgroundImage) {
         this.backgroundImage = backgroundImage;
+        int rows = mapString.split(";").length;
+        int cols = mapString.split(";")[0].split(",\\s*").length;
         tiles = new Tile[rows][cols];
         populateMapFromMapString(mapString, rows, cols);
     }
