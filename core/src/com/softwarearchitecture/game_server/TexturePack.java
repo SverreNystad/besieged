@@ -23,7 +23,22 @@ public class TexturePack {
     public static final Texture treeTexture = new Texture(Gdx.files.internal("tree.png"));
     public static final Texture defaultTexture = new Texture(Gdx.files.internal("chad.jpg"));
 
+    // Tiles
+    public static final String PLACEABLE = "grass.png";
+    public static final String PATH = "road.jpg";
+    public static final String WATER = "water.jpg";
+    public static final String ROCK = "rock.png";
+    public static final String TREE = "tree.png";
+    public static final String DEFAULT = "chad.jpg";
     // Buttons
     public static final String BUTTON_PLACEHOLDER = "button_placeholder.png";
+
+    // Cards
+    public static final String CARD_ICE = "chad.jpg";
+    public static final String CARD_FIRE = "water.jpg";
+    public static final String CARD_TECHNOLOGY = "chad.jpg";
+    public static final String CARD_LIGHTNING = "chad.jpg";
+    public static final String CARD_BOW = "chad.jpg";
+    public static final String CARD_MAGIC = "chad.jpg";
 
 }
