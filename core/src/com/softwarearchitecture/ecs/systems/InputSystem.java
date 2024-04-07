@@ -23,13 +23,11 @@ public class InputSystem implements System {
 
     public void onTouch(TouchLocation touchLocation) {
         this.lastTouched = touchLocation;
-        java.lang.System.out.println("Touch at: " + touchLocation.u + ", " + touchLocation.v);
         // Process touch input here
     }
 
     public void onRelease(TouchLocation touchLocation) {
         this.lastReleased = touchLocation;
-        java.lang.System.out.println("Release at: " + touchLocation.u + ", " + touchLocation.v);
         // Process release input here
     }
 

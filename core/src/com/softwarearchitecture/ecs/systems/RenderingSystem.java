@@ -43,7 +43,6 @@ public class RenderingSystem implements System {
         if (graphicsController == null) {
             throw new IllegalStateException("Graphics controller is not set.");
         }
-        java.lang.System.out.println("RenderingSystem update-----------------------");
 
         graphicsController.clearScreen();
 

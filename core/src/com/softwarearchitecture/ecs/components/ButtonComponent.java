@@ -35,7 +35,7 @@ public class ButtonComponent implements Serializable {
 
         this.uv_size.x = uv_size.x * 100;
         this.uv_size.y = uv_size.y * 100;
-        System.out.println(this.toString());
+
     }
 
     public String toString() {

@@ -14,6 +14,7 @@ public class LibGDXSound implements SoundController {
 
     /**
      * Create a new LibGDXSound with the specified volume.
+     * 
      * @param volume The volume to play sounds at.
      */
     public LibGDXSound(float volume) {
@@ -33,11 +34,11 @@ public class LibGDXSound implements SoundController {
             sound = Gdx.audio.newSound(Gdx.files.internal(soundComponent.sound_path));
             soundCache.put(soundComponent.sound_path, sound);
         }
-        
+
         // Play the sound
         sound.play(volume);
     }
-    
+
     @Override
     public void playSound(SoundComponent soundComponent) {
         playSound(soundComponent, volume);

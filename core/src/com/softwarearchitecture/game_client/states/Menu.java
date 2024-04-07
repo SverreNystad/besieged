@@ -152,50 +152,40 @@ public class Menu extends State implements Observer {
 
         switch (type) {
             case OPTIONS:
-                System.out.println("Options button pressed");
                 screenManager.nextState(new Options());
                 break;
             case GAME_MENU:
-                System.out.println("Game menu button pressed");
                 screenManager.nextState(new Menu(MenuEnum.MENU));
                 break;
 
             case QUIT:
                 // not sure what should happen here
-                System.out.println("Quit button pressed");
                 System.exit(0);
                 break;
             case JOIN:
-                System.out.println("Join button pressed");
                 screenManager.nextState(new JoinLobby());
                 break;
 
             case HOST:
-                System.out.println("Host button pressed");
                 screenManager.nextState(new HostLobby());
                 break;
 
             case PAUSE:
-                System.out.println("Pause button pressed");
                 screenManager.saveState(this);
                 screenManager.nextState(new Menu(MenuEnum.PAUSE));
                 break;
 
             case MULTI_PLAYER:
-                System.out.println("Multiplayer button pressed");
                 screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER));
                 break;
 
             case SINGLE_PLAYER:
-                System.out.println("Singleplayer button pressed");
                 screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER));
                 break;
             case PLAY:
-                System.out.println("Play button pressed");
                 screenManager.nextState(new InGame());
                 break;
             case BACK:
-                System.out.println("Back button pressed");
                 screenManager.previousState();
                 break;
 
