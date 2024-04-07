@@ -1,7 +1,5 @@
 package com.softwarearchitecture.game_server;
 
-import com.softwarearchitecture.game_server.states.TexturePack;
-
 public class MapFactory {
     public static Map createMap(String mapType) {
         switch (mapType) {
