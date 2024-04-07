@@ -3,9 +3,9 @@ package com.softwarearchitecture.game_server;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
+import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
@@ -67,7 +67,7 @@ public class EnemyFactory {
         HealthComponent healthComponent = new HealthComponent(health);
         SoundComponent soundComponent = new SoundComponent(sound);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
-        MoneyComponent moneyComponent = new MoneyComponent(money);
+        CostComponent costComponent = new CostComponent(money);
         // TODO: Add target component if necessary
 
         Entity enemyEntity = new Entity();
@@ -78,7 +78,7 @@ public class EnemyFactory {
         enemyEntity.addComponent(HealthComponent.class, healthComponent);
         enemyEntity.addComponent(SoundComponent.class, soundComponent);
         enemyEntity.addComponent(VelocityComponent.class, velocityComponent);
-        enemyEntity.addComponent(MoneyComponent.class, moneyComponent);
+        enemyEntity.addComponent(CostComponent.class, costComponent);
 
         return enemyEntity;
 
