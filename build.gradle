@@ -75,7 +75,11 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        
+        
         implementation "com.google.firebase:firebase-admin:9.2.0"
+        implementation 'com.google.firebase:firebase-bom:32.8.0'
+        implementation 'com.google.firebase:firebase-database:20.3.1'
         implementation 'org.json:json:20210307'
         implementation 'com.google.code.gson:gson:2.8.9'
     }
