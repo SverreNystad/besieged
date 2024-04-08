@@ -8,9 +8,12 @@ public class EnemyComponent implements Serializable {
     public EnemyComponent(int damage) {
         if (damage >= 1) {
             this.damage = damage;
-        }
-        else {
+        } else {
             this.damage = 1;
         }
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }
