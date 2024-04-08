@@ -8,7 +8,6 @@ import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
-import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -23,7 +22,7 @@ public class EnemyFactory {
 
     }
 
-    public static Entity createEnemy(EnemyType enemyType) {
+    public static Entity createEnemy(EnemyType enemyType) throws IllegalArgumentException {
         List<String> textures = new ArrayList<String>();
         Vector2 size = new Vector2(1, 1);
         Vector2 position = new Vector2(0, 0); // TODO: Set position to the first path tile
