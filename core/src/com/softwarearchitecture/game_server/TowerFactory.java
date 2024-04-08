@@ -17,6 +17,12 @@ import java.util.Optional;
 
 public class TowerFactory {
     public static Entity createTower(CardType cardType1, CardType cardType2, Vector2 position) {
+        if (cardType1 == null || cardType2 == null) {
+            throw new IllegalArgumentException("Card type cannot be null");
+        }
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null");
+        }
         List<String> textures = new ArrayList<String>();
         Vector2 size = new Vector2(1, 1);
         int damage = 0;
