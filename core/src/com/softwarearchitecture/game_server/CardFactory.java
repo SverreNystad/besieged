@@ -25,7 +25,10 @@ public class CardFactory {
         MAGIC
     }
 
-    public static Entity createCard(CardType type, Vector2 position) {
+    public static Entity createCard(CardType type, Vector2 position) throws NullPointerException {
+        if (type == null) {
+            throw new IllegalArgumentException("Card type cannot be null");
+        }
         String texture = "texturePath";
         Vector2 size = new Vector2(0.02f, 0.02f);
         int cost = 0;
@@ -69,7 +72,7 @@ public class CardFactory {
                 break;
 
             default:
-                throw new IllegalArgumentException("Invalid card type");
+                throw new NullPointerException("Invalid card type");
         }
 
         PlacedCardComponent placedCardComponent = new PlacedCardComponent((int) position.x, (int) position.y, type);
