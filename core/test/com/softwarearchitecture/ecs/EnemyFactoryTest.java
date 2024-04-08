@@ -26,20 +26,24 @@ public class EnemyFactoryTest {
     @Test
     public void testEnemyAttributes() {
         Entity nordicAnt = EnemyFactory.createEnemy(EnemyFactory.EnemyType.NORDIC_ANT);
-        EnemyComponent nordicAntComponentOpt = nordicAnt.getComponent(EnemyComponent.class);
+        Optional<EnemyComponent> nordicAntComponentOpt = nordicAnt.getComponent(EnemyComponent.class);
+        Optional<HealthComponent> nordicAntHealthOpt = nordicAnt.getComponent(HealthComponent.class);
 
-        HealthComponent nordicAntHealthOpt = nordicAnt.getComponent(HealthComponent.class);
+        assertTrue("EnemyComponent should be present for NORDIC_ANT", nordicAntComponentOpt.isPresent());
+        assertTrue("HealthComponent should be present for NORDIC_ANT", nordicAntHealthOpt.isPresent());
 
-        assertEquals("Health should be 10 for NORDIC_ANT", 10, nordicAntHealthOpt.getHealth());
-        assertEquals("Damage should be 1 for NORDIC_ANT", 1, nordicAntComponentOpt.getDamage());
+        assertEquals("Health should be 10 for NORDIC_ANT", 10, nordicAntHealthOpt.get().getHealth());
+        assertEquals("Damage should be 1 for NORDIC_ANT", 1, nordicAntComponentOpt.get().getDamage());
 
         Entity wolf = EnemyFactory.createEnemy(EnemyFactory.EnemyType.WOLF);
-        EnemyComponent wolfComponentOpt = wolf.getComponent(EnemyComponent.class);
+        Optional<EnemyComponent> wolfComponentOpt = wolf.getComponent(EnemyComponent.class);
+        Optional<HealthComponent> wolfHealthOpt = wolf.getComponent(HealthComponent.class);
 
-        HealthComponent wolfHealthOpt = wolf.getComponent(HealthComponent.class);
+        assertTrue("EnemyComponent should be present for WOLF", wolfComponentOpt.isPresent());
+        assertTrue("HealthComponent should be present for WOLF", wolfHealthOpt.isPresent());
 
-        assertEquals("Health should be 100 for WOLF", 100, wolfHealthOpt.getHealth());
-        assertEquals("Damage should be 2 for WOLF", 2, wolfComponentOpt.getDamage());
+        assertEquals("Health should be 100 for WOLF", 100, wolfHealthOpt.get().getHealth());
+        assertEquals("Damage should be 2 for WOLF", 2, wolfComponentOpt.get().getDamage());
     }
 
     @Test
