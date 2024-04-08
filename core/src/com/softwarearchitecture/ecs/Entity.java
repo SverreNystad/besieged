@@ -2,6 +2,7 @@ package com.softwarearchitecture.ecs;
 
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -61,5 +62,10 @@ public class Entity implements Serializable {
     private void readObject(ObjectInputStream ois) throws Exception {
         ois.defaultReadObject();
         this.ecs = ECSManager.getInstance();
+    }
+
+    public <T> Optional<T> getComponent(Class<T> componentType) {
+        ComponentManager<T> manager = ecs.getOrDefaultComponentManager(componentType);
+        return manager.getComponent(this);
     }
 }
