@@ -59,18 +59,6 @@ public class Entity implements Serializable {
         manager.addComponent(this, component);
     }
 
-    /**
-     * Gets a component of a specific type attached to this entity.
-     * @param componentType The class type of the component to retrieve.
-     * @param <T> The type parameter of the component.
-     * @return The component of the specified type if it exists, or null otherwise.
-     */
-    public <T> T getComponent(Class<T> componentType) {
-        ComponentManager<T> manager = ecs.getOrDefaultComponentManager(componentType);
-        return manager.getComponent(this).orElse(null);
-    }
-
-
     private void readObject(ObjectInputStream ois) throws Exception {
         ois.defaultReadObject();
         this.ecs = ECSManager.getInstance();
