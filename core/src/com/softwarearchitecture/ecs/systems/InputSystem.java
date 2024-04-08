@@ -53,4 +53,14 @@ public class InputSystem implements System {
                 && lastReleased.v >= buttonComponent.uv_offset.y
                 && lastReleased.v <= buttonComponent.uv_offset.y + buttonComponent.uv_size.y;
     }
+    
+    // Method to get the last touch location
+    public TouchLocation getLastTouched() {
+        return lastTouched;
+    }
+
+    // Method to clear the last touch location after it's been processed
+    public void clearLastTouched() {
+        lastTouched = null;
+    }
 }
