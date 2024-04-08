@@ -26,31 +26,20 @@ public class EnemyFactoryTest {
     @Test
     public void testEnemyAttributes() {
         Entity nordicAnt = EnemyFactory.createEnemy(EnemyFactory.EnemyType.NORDIC_ANT);
-        Optional<EnemyComponent> nordicAntComponentOpt = nordicAnt.getComponent(EnemyComponent.class);
-        assertTrue("EnemyComponent should be present", nordicAntComponentOpt.isPresent());
-        EnemyComponent nordicAntComponent = nordicAntComponentOpt
-                .orElseThrow(() -> new AssertionError("EnemyComponent not found"));
+        EnemyComponent nordicAntComponentOpt = nordicAnt.getComponent(EnemyComponent.class);
 
-        Optional<HealthComponent> nordicAntHealthOpt = nordicAnt.getComponent(HealthComponent.class);
-        assertTrue("HealthComponent should be present", nordicAntHealthOpt.isPresent());
-        HealthComponent nordicAntHealth = nordicAntHealthOpt
-                .orElseThrow(() -> new AssertionError("HealthComponent not found"));
+        HealthComponent nordicAntHealthOpt = nordicAnt.getComponent(HealthComponent.class);
 
-        assertEquals("Health should be 10 for NORDIC_ANT", 10, nordicAntHealth.getHealth());
-        assertEquals("Damage should be 1 for NORDIC_ANT", 1, nordicAntComponent.getDamage());
+        assertEquals("Health should be 10 for NORDIC_ANT", 10, nordicAntHealthOpt.getHealth());
+        assertEquals("Damage should be 1 for NORDIC_ANT", 1, nordicAntComponentOpt.getDamage());
 
         Entity wolf = EnemyFactory.createEnemy(EnemyFactory.EnemyType.WOLF);
-        Optional<EnemyComponent> wolfComponentOpt = wolf.getComponent(EnemyComponent.class);
-        assertTrue("EnemyComponent should be present", wolfComponentOpt.isPresent());
-        EnemyComponent wolfComponent = wolfComponentOpt
-                .orElseThrow(() -> new AssertionError("EnemyComponent not found"));
+        EnemyComponent wolfComponentOpt = wolf.getComponent(EnemyComponent.class);
 
-        Optional<HealthComponent> wolfHealthOpt = wolf.getComponent(HealthComponent.class);
-        assertTrue("HealthComponent should be present", wolfHealthOpt.isPresent());
-        HealthComponent wolfHealth = wolfHealthOpt.orElseThrow(() -> new AssertionError("HealthComponent not found"));
+        HealthComponent wolfHealthOpt = wolf.getComponent(HealthComponent.class);
 
-        assertEquals("Health should be 100 for WOLF", 100, wolfHealth.getHealth());
-        assertEquals("Damage should be 2 for WOLF", 2, wolfComponent.getDamage());
+        assertEquals("Health should be 100 for WOLF", 100, wolfHealthOpt.getHealth());
+        assertEquals("Damage should be 2 for WOLF", 2, wolfComponentOpt.getDamage());
     }
 
     @Test
