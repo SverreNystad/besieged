@@ -1,4 +1,4 @@
-package com.softwarearchitecture.ecs;
+package com.softwarearchitecture.game_server;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.junit.Test;
 
+import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
