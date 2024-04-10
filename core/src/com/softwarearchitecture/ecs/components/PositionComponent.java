@@ -12,4 +12,8 @@ public class PositionComponent implements Serializable {
         this.position = position;
         this.z_index = z_index;
     }
+
+    public Vector2 getPosition() {
+        return this.position;
+    }
 }

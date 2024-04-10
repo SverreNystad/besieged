@@ -2,7 +2,7 @@ package com.softwarearchitecture.ecs.systems;
 
 import java.util.Optional;
 import java.util.Set;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.Viewport; // TODO: REMOVE THIS LIBGDX IMPORT
 
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Entity;

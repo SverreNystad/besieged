@@ -42,5 +42,4 @@ public class SpriteComponent implements Serializable {
         this.texture_path = texture_path;
         this.size_uv = size_uv;
     }
-
 }

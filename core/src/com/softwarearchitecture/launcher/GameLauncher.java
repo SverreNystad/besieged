@@ -1,6 +1,5 @@
 package com.softwarearchitecture.launcher;
 
-import com.badlogic.gdx.Screen;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
@@ -19,8 +18,6 @@ import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
-import com.softwarearchitecture.game_client.GameClient;
-import com.softwarearchitecture.graphics.LibGDXGraphics;
 import com.softwarearchitecture.sound.LibGDXSound;
 
 public class GameLauncher {

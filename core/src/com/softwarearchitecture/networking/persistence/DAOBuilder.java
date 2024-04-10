@@ -1,5 +1,8 @@
 package com.softwarearchitecture.networking.persistence;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  * A builder class for creating instances of Data Access Objects ({@link DAO}s) with configurable
  * CRUD (Create, Read, Update, Delete) capabilities. This class follows the Builder design pattern
@@ -73,12 +76,28 @@ public class DAOBuilder<K, T>{
      * This method decides the specific DAO implementation to instantiate based on the
      * configuration provided. Currently, defaults to {@code DAOLocal}.
      * 
+     * If it is not possible to create the DAO instance, the method will terminate the application.
+     * 
      * @return A configured DAO instance.
      */
-    public DAO<K, T> build() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public DAO<K, T> build(Class<K> idParameterClass, Class<T> typeParameterClass) {
         // TODO: add conditional logic to determine which DAO implementation to use
         // based on the configuration of system capabilities
-        DAO<K, T> dao = new MockDAO<K, T>(create, read, update, delete);
-        return dao;
+        DAO<K, T> dao;
+        try {
+            dao = new FirebaseDAO(create, read, update, delete, idParameterClass, typeParameterClass);
+            return dao;
+        } catch (FileNotFoundException e) {
+            System.out.println("Firebase secret key file not found. Please check the file and try again.");
+            e.printStackTrace(); 
+            System.exit(1); // Terminate the application with a status code indicating abnormal termination.
+        } catch (IOException e) {
+            System.out.println("Error reading Firebase secret key file. Please check the file and try again.");
+            e.printStackTrace();
+            System.exit(1); // Terminate the application with a status code indicating abnormal termination.
+        }
+        // Need to return a value to satisfy the compiler, but this should never be reached.
+        return null;
     }
 }

@@ -2,12 +2,18 @@ package com.softwarearchitecture.game_server;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class MapTest {
+
+    // private Map abyssMap;
+
+    @Before
+    public void setUp() {
+        // abyssMap = MapFactory.createMap("Abyss");
+    }
 
     @Test
     public void testAbyssMapCreation() {
@@ -26,8 +32,13 @@ public class MapTest {
         // // Check if the last tile has coordinates (9, 9)
         // assertEquals(9, abyssMap.getMapLayout()[9][9].getX());
         // assertEquals(9, abyssMap.getMapLayout()[9][9].getY());
-
-        
-        
+  
+        /*for (int x = 0; x < abyssMap.getMapLayout().length; x++) {
+            for (int y = 0; y < abyssMap.getMapLayout()[x].length; y++) {
+                Tile tile = abyssMap.getMapLayout()[x][y];
+                assertEquals(x, tile.getX());
+                assertEquals(y, tile.getY());
+            }
+        }*/
     }
 }

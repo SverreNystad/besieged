@@ -15,7 +15,7 @@ public class ClientMessenger implements ClientMessagingController {
 
     public ClientMessenger() {
         DAOBuilder<UUID, GameState> daoBuilder = new DAOBuilder<>();
-        this.dao = daoBuilder.withRead().withUpdate().build();
+        this.dao = daoBuilder.withRead().withUpdate().build(UUID.class, GameState.class);
     }
     
     @Override

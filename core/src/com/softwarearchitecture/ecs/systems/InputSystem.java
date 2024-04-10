@@ -7,11 +7,9 @@ import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.InputController;
-import com.softwarearchitecture.ecs.SoundController;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.TouchLocation;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
-import com.softwarearchitecture.ecs.components.SoundComponent;
 
 public class InputSystem implements System {
     private ComponentManager<ButtonComponent> buttonManager;
@@ -55,5 +53,15 @@ public class InputSystem implements System {
                 && lastReleased.u <= buttonComponent.uv_offset.x + buttonComponent.uv_size.x
                 && lastReleased.v >= buttonComponent.uv_offset.y
                 && lastReleased.v <= buttonComponent.uv_offset.y + buttonComponent.uv_size.y;
+    }
+    
+    // Method to get the last touch location
+    public TouchLocation getLastTouched() {
+        return lastTouched;
+    }
+
+    // Method to clear the last touch location after it's been processed
+    public void clearLastTouched() {
+        lastTouched = null;
     }
 }

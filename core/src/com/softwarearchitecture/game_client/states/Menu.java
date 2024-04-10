@@ -159,7 +159,6 @@ public class Menu extends State implements Observer {
 
             case QUIT:
                 // not sure what should happen here
-                System.out.println("Quit button pressed");
                 System.exit(0);
                 break;
             case JOIN:
@@ -192,7 +191,6 @@ public class Menu extends State implements Observer {
                 screenManager.nextState(new InGame(defaultControllers));
                 break;
             case BACK:
-                System.out.println("Back button pressed");
                 screenManager.previousState();
                 break;
 
