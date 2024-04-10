@@ -3,49 +3,48 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.softwarearchitecture.ecs.Controllers;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.GraphicsController;
+import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.SpriteComponent;
+import com.softwarearchitecture.ecs.components.TextComponent;
+import com.softwarearchitecture.ecs.systems.InputSystem;
+import com.softwarearchitecture.ecs.systems.RenderingSystem;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
 public class JoinLobby extends State implements Observer {
 
-    private Stage stage;
-    private TextField lobbyCodeField;
-    private Label enterLobbyLabel;
-    private Skin skin;
+    public JoinLobby(Controllers defaultControllers) {
+        super(defaultControllers);
+    }
 
-    public JoinLobby() {
-        super();
+    @Override
+    protected void activate() {
+        String backgroundPath = TexturePack.BACKGROUND_ABYSS;
+        Entity background = new Entity();
+        SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
+        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+        background.addComponent(SpriteComponent.class, backgroundSprite);
+        background.addComponent(PositionComponent.class, backgroundPosition);
+        ECSManager.getInstance().addEntity(background);
+        TextComponent textComponent = new TextComponent("Join lobby!", new Vector2(0.05f, 0.05f));
+        background.addComponent(TextComponent.class, textComponent);
         List<TypeEnum> buttonTypes = new ArrayList<>();
         buttonTypes.add(TypeEnum.GAME_MENU);
         buttons = createButtons(buttonTypes);
 
-        this.stage = new Stage(new ScreenViewport());
-        this.skin = new Skin(Gdx.files.internal("uiskin.json")); // Placeholder
-
-        // Create and position the label
-        this.enterLobbyLabel = new Label("Enter lobby code: ", skin);
-        enterLobbyLabel.setPosition(100, 300); // Adjust position as needed
-
-        // Create and position the text field
-        this.lobbyCodeField = new TextField("", skin);
-        lobbyCodeField.setPosition(100, 250); // Adjust position as needed
-
-        // Add the UI elements to the stage
-        stage.addActor(enterLobbyLabel);
-        stage.addActor(lobbyCodeField);
-
-        // Make sure to set the input processor to the stage
-        Gdx.input.setInputProcessor(stage);
+        // Add systems to the ECSManager
+        RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
+        InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
+        ECSManager.getInstance().addSystem(renderingSystem);
+        ECSManager.getInstance().addSystem(inputSystem);
     }
-
+    
     /**
      * Creates buttons based on the button types
      * 
@@ -73,25 +72,6 @@ public class JoinLobby extends State implements Observer {
         return buttons;
     }
 
-    @Override
-    protected void handleInput() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleInput'");
-    }
-
-    @Override
-    protected void update(float deltaTime) {
-        updateButtons(deltaTime);
-        stage.act(deltaTime);
-
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
-    }
-
     /**
      * Handles button actions based on the type of the button.
      * This state is only the intermediary menus that traverses to other states.
@@ -102,11 +82,11 @@ public class JoinLobby extends State implements Observer {
     public void onAction(TypeEnum type) {
         switch (type) {
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU));
+                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
                 break;
 
             case JOIN:
-                screenManager.nextState(new Lobby());
+                screenManager.nextState(new Lobby(defaultControllers));
                 break;
 
             default:

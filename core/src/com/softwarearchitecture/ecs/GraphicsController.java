@@ -2,6 +2,7 @@ package com.softwarearchitecture.ecs;
 
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
+import com.softwarearchitecture.ecs.components.TextComponent;
 
 public interface GraphicsController {
     /**
@@ -14,4 +15,9 @@ public interface GraphicsController {
      * Clear the screen.
      */
     void clearScreen();
+
+    /**
+     * Draw text
+     */
+    void drawText(TextComponent textComponent, PositionComponent positionComponent);
 }

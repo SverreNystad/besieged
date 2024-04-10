@@ -22,6 +22,7 @@ import java.util.Set;
  * Pattern</a>.
  */
 public class ECSManager {
+    
     /** Singleton */
     private static ECSManager instance;
 
@@ -81,9 +82,9 @@ public class ECSManager {
      * @param <T>           The type of the component.
      * @return The component manager for the specified component type.
      */
-    public <T> ComponentManager<T> getOrDefaultComponentManager(Class<T> componentType) {
+    @SuppressWarnings("unchecked")
+    public <T> ComponentManager<T> getOrDefaultComponentManager(Class<T> componentType) throws IllegalStateException {
         // Cast is safe due to the controlled way ComponentManagers are added
-        @SuppressWarnings("unchecked")
         ComponentManager<T> manager = (ComponentManager<T>) componentManagers.get(componentType);
         if (manager == null) {
             manager = new ComponentManager<T>();
