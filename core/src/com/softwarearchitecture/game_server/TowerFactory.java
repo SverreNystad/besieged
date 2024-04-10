@@ -83,9 +83,9 @@ public class TowerFactory {
 
         // Create the components for the tower
         TowerComponent towerComponent = new TowerComponent(damage, range);
-        PositionComponent positionComponent = new PositionComponent(position);
+        PositionComponent positionComponent = new PositionComponent(position, 0);
         AnimationComponent animationComponent = new AnimationComponent(textures);
-        SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size, 1);
+        SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         TargetComponent targetComponent = new TargetComponent();
         SoundComponent soundComponent = new SoundComponent(sound); // TODO: Add the correct sound path
 
