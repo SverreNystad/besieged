@@ -76,8 +76,8 @@ public class CardFactory {
         }
 
         PlacedCardComponent placedCardComponent = new PlacedCardComponent((int) position.x, (int) position.y, type);
-        PositionComponent positionComponent = new PositionComponent(position);
-        SpriteComponent spriteComponent = new SpriteComponent(texture, size, 0);
+        PositionComponent positionComponent = new PositionComponent(position, 0);
+        SpriteComponent spriteComponent = new SpriteComponent(texture, size);
         SoundComponent soundComponent = new SoundComponent(sound);
         MoneyComponent moneyComponent = new MoneyComponent(cost);
 

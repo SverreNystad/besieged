@@ -60,9 +60,9 @@ public class EnemyFactory {
                 throw new IllegalArgumentException("Invalid enemy type");
         }
         EnemyComponent enemyComponent = new EnemyComponent(damage);
-        PositionComponent positionComponent = new PositionComponent(position);
+        PositionComponent positionComponent = new PositionComponent(position, 0);
         AnimationComponent animationComponent = new AnimationComponent(textures);
-        SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size, 0);
+        SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         HealthComponent healthComponent = new HealthComponent(health);
         SoundComponent soundComponent = new SoundComponent(sound);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);

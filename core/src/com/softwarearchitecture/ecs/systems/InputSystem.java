@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.softwarearchitecture.ecs.ComponentManager;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.InputController;
 import com.softwarearchitecture.ecs.System;
@@ -16,9 +17,11 @@ public class InputSystem implements System {
     private TouchLocation lastTouched;
     private TouchLocation lastReleased;
 
-    public InputSystem(ComponentManager<ButtonComponent> buttonManager, InputController inputController) {
-        this.buttonManager = buttonManager;
+    public InputSystem(InputController inputController) {
+        this.buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
         this.inputController = inputController;
+        this.inputController.onTouch(this::onTouch);
+        this.inputController.onRelease(this::onRelease);
     }
 
     public void onTouch(TouchLocation touchLocation) {
@@ -35,13 +38,11 @@ public class InputSystem implements System {
     public void update(Set<Entity> entities, float deltaTime) {
         for (Entity entity : entities) {
             Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
-            java.lang.System.out.println("ButtonComponent: " + buttonComponent);
             if (buttonComponent.isPresent()) {
                 ButtonComponent button = buttonComponent.get();
 
                 if (isButtonPressed(button)) {
                     button.triggerAction();
-                    java.lang.System.out.println("Button pressed: " + button.type);
                 }
             }
         }

@@ -3,13 +3,23 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softwarearchitecture.ecs.Controllers;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.GraphicsController;
+import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.SpriteComponent;
+import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.ecs.systems.InputSystem;
+import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
 public class Menu extends State implements Observer {
 
+    private MenuEnum type;
     /**
      * Generic state is a state that can be used for multiple purposes
      * for different types of menus.
@@ -17,15 +27,36 @@ public class Menu extends State implements Observer {
      * parameters: type: GenericStateType, wich is an enum that defines
      * the use of the state
      */
+    public Menu(MenuEnum type, Controllers defaultControllers) {
+        super(defaultControllers);
+        this.type = type;
+    }
 
-    public Menu(MenuEnum type) {
-        super();
+    @Override
+    protected void activate() {
+        // Set background image
+        String backgroundPath = TexturePack.BACKGROUND_ABYSS;
+        Entity background = new Entity();
+        SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
+        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
+        background.addComponent(SpriteComponent.class, backgroundSprite);
+        background.addComponent(PositionComponent.class, backgroundPosition);
+        TextComponent textComponent = new TextComponent("Menu!", new Vector2(0.05f, 0.05f));
+        background.addComponent(TextComponent.class, textComponent);
+        ECSManager.getInstance().addEntity(background);
+
+        // Set up the UI elements
         List<TypeEnum> buttontypes = getButtonEnums(type);
         buttons = createButtons(buttontypes);
-        // placeholder background logic not implemented
-        // background = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
 
-    }
+        // Add systems to the ECSManager
+        RenderingSystem renderingSystem = new RenderingSystem(this.defaultControllers.graphicsController);
+        InputSystem inputSystem = new InputSystem(this.defaultControllers.inputController);
+        ECSManager.getInstance().addSystem(renderingSystem);
+        ECSManager.getInstance().addSystem(inputSystem);
+        
+        System.out.println("Menu created");
+    }    
 
     /**
      * Returns a list of button types based on the type of the state.
@@ -83,7 +114,7 @@ public class Menu extends State implements Observer {
      */
     private List<Entity> createButtons(List<TypeEnum> buttonTypes) {
         int numberOfButtons = buttonTypes.size();
-        Vector2 containerUVPosition = new Vector2(0, 0); // Position of the container in UV coordinates
+        Vector2 containerUVPosition = new Vector2(0.25f, 0.25f); // Position of the container in UV coordinates
         float containerUVWidth = 0.5f; // Width of the container in UV coordinates
         float containerUVHeight = 0.5f; // Height of the container in UV coordinates
         List<Rectangle> buttonRectangles = ButtonFactory.FindUVButtonPositions(numberOfButtons, containerUVPosition,
@@ -98,46 +129,12 @@ public class Menu extends State implements Observer {
             Rectangle rectangle = buttonRectangles.get(i);
             Vector2 buttonPosition = rectangle.getPosition();
             Vector2 buttonDimentions = new Vector2(rectangle.getWidth(), rectangle.getHeight());
-
-            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get(i), buttonPosition, buttonDimentions,
+            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get((buttonTypes.size()-1) - i), buttonPosition, buttonDimentions,
                     this, 0)); // TypeEnum button, Vector2 position, Vector2 size, Observer observer, int
                                // z_index
         }
 
         return buttons;
-    }
-
-    @Override
-    protected void handleInput() {
-        // do nothing, no input handling in this state
-    }
-
-    @Override
-    protected void update(float deltaTime) {
-        updateButtons(deltaTime);
-
-    }
-
-    // @Override
-    // public void render(SpriteBatch spriteBatch) {
-
-    // Rectangle rect;
-    // spriteBatch.begin();
-    // spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
-
-    // for (com.softwarearchitecture.game_client.screen_components.Button button :
-    // buttons) {
-    // rect = button.getHitBox();
-    // spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(),
-    // rect.getWidth(), rect.getHeight());
-
-    // }
-    // spriteBatch.end();
-    // }
-
-    @Override
-    public void dispose() {
-
     }
 
     /**
@@ -152,10 +149,12 @@ public class Menu extends State implements Observer {
 
         switch (type) {
             case OPTIONS:
-                screenManager.nextState(new Options());
+                System.out.println("Options button pressed");
+                screenManager.nextState(new Options(defaultControllers));
                 break;
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU));
+                System.out.println("Game menu button pressed");
+                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
                 break;
 
             case QUIT:
@@ -163,27 +162,33 @@ public class Menu extends State implements Observer {
                 System.exit(0);
                 break;
             case JOIN:
-                screenManager.nextState(new JoinLobby());
+                System.out.println("Join button pressed");
+                screenManager.nextState(new JoinLobby(defaultControllers));
                 break;
 
             case HOST:
-                screenManager.nextState(new HostLobby());
+                System.out.println("Host button pressed");
+                screenManager.nextState(new HostLobby(defaultControllers));
                 break;
 
             case PAUSE:
-                screenManager.saveState(this);
-                screenManager.nextState(new Menu(MenuEnum.PAUSE));
+                System.out.println("Pause button pressed");
+                // screenManager.saveState(this);
+                screenManager.nextState(new Menu(MenuEnum.PAUSE, defaultControllers));
                 break;
 
             case MULTI_PLAYER:
-                screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER));
+                System.out.println("Multiplayer button pressed");
+                screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER, defaultControllers));
                 break;
 
             case SINGLE_PLAYER:
-                screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER));
+                System.out.println("Singleplayer button pressed");
+                screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER, defaultControllers));
                 break;
             case PLAY:
-                screenManager.nextState(new InGame());
+                System.out.println("Play button pressed");
+                screenManager.nextState(new InGame(defaultControllers));
                 break;
             case BACK:
                 screenManager.previousState();
@@ -194,15 +199,5 @@ public class Menu extends State implements Observer {
 
         }
     }
-
-    /**
-     * Finds the positions of the buttons in the container.
-     * 
-     * @param numberOfButtons:     int
-     * @param containerUVPosition: Vector2
-     * @param containerUVWidth:    float
-     * @param containerUVHeight:   float
-     * @return List<Vector2>
-     */
 
 }

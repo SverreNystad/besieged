@@ -119,3 +119,6 @@ Thumbs.db
 # Secrets
 */FirebaseSecretKey.txt
 */FirebaseSecretKey.json
+
+# Other
+classpath.txt

@@ -1,13 +1,15 @@
 package com.softwarearchitecture.game_client.states;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class ScreenManager {
     /**
      * Keeps track of the current state of the game
      */
     private State currentState;
-    private State savedState; // TODO: might remove later
+    private Boolean stateChanged;
+    private Deque<State> stateStack = new ArrayDeque<>();
     private static ScreenManager instance = new ScreenManager();
 
     private ScreenManager() {
@@ -17,31 +19,31 @@ public class ScreenManager {
         return instance;
     }
 
-    public void nextState(State state) {
-        this.currentState = state;
+    public void activateCurrentStateIfChanged() {
+        if (stateChanged) {
+            currentState.init();
+            stateChanged = false;
+        }
     }
 
-    public void saveState(State state) {
-        this.savedState = state;
+    public void nextState(State state) {
+        if (this.currentState != null) saveState(this.currentState);
+        this.currentState = state;
+        stateChanged = true;
+    }
+
+    private void saveState(State state) {
+        this.stateStack.push(state);
     }
 
     public void previousState() {
-        if (this.savedState != null) {
-            this.currentState = this.savedState;
+        if (!this.stateStack.isEmpty()) {
+            this.currentState = this.stateStack.pop();
+            stateChanged = true;
         }
-
     }
 
-    public void handleInput() {
-        this.currentState.handleInput();
+    public void flushPreviousStates() {
+        this.stateStack.clear();
     }
-
-    public void update(float deltaTime) {
-        this.currentState.update(deltaTime);
-    }
-
-    public void render(SpriteBatch spriteBatch) {
-        // currentState.render(spriteBatch);
-    }
-
 }

@@ -70,9 +70,9 @@ public class ButtonFactory {
         };
 
         ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
-        PositionComponent positionComponent = new PositionComponent(position);
-        SpriteComponent spriteComponent = new SpriteComponent(texture, size, z_index);
-
+        PositionComponent positionComponent = new PositionComponent(position, z_index);
+        SpriteComponent spriteComponent = new SpriteComponent(texture, size);
+        
         Entity buttonEntity = new Entity();
         buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
         buttonEntity.addComponent(PositionComponent.class, positionComponent);
@@ -85,7 +85,6 @@ public class ButtonFactory {
     public static List<Rectangle> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition,
             float containerUVWidth, float containerUVHeight) {
         List<Rectangle> rectangles = new ArrayList<Rectangle>();
-
         // Calculate each button's height as a fraction of the container's height
         float buttonUVHeight = containerUVHeight / numberOfButtons;
 
@@ -104,7 +103,6 @@ public class ButtonFactory {
             // width and height being the calculated button height
             Rectangle rectangle = new Rectangle(xPos - containerUVWidth / 2, yPos - buttonUVHeight / 2,
                     containerUVWidth, buttonUVHeight);
-
             // Add the rectangle to the list
             rectangles.add(rectangle);
         }

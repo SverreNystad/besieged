@@ -3,8 +3,11 @@ package com.softwarearchitecture.ecs.systems;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 
+import java.util.Optional;
 import java.util.Set;
 
+import com.softwarearchitecture.ecs.ComponentManager;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
 
@@ -13,24 +16,28 @@ import com.softwarearchitecture.ecs.System;
  */
 public class AnimationSystem implements System {
 
-    public SpriteComponent spriteComponent;
-    public AnimationComponent animationComponent;
+    public ComponentManager<SpriteComponent> spriteManager;
+    public ComponentManager<AnimationComponent> animationManager;
 
     /**
      * Constructor for AnimationSystem.
-     * 
-     * @param spriteComponent    SpriteComponent
-     * @param animationComponent AnimationComponent
      */
-    public AnimationSystem(SpriteComponent spriteComponent, AnimationComponent animationComponent) {
-        this.spriteComponent = spriteComponent;
-        this.animationComponent = animationComponent;
+    public AnimationSystem() {
+        this.spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
+        this.animationManager = ECSManager.getInstance().getOrDefaultComponentManager(AnimationComponent.class);
     }
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
-        animationComponent.nextFrame();
-        spriteComponent.setSprite(animationComponent.getAnimationPath());
+
+        for (Entity entity : entities) {
+            Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
+            Optional<AnimationComponent> animationComponent = animationManager.getComponent(entity);
+
+            if (spriteComponent.isPresent() && animationComponent.isPresent()) {
+                spriteComponent.get().texture_path = animationComponent.get().getAnimationPath();
+            }
+        }
     }
 
 }
