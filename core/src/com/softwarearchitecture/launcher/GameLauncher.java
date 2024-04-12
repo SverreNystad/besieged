@@ -1,5 +1,7 @@
 package com.softwarearchitecture.launcher;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
@@ -24,9 +26,9 @@ public class GameLauncher {
     /**
      * Create a new game client.
      */
-    public static GameClient createGameClient() {
+    public static GameClient createGameClient(OrthographicCamera camera, Viewport viewport) {
         LibGDXInput libGDXInput = new LibGDXInput();
-        GraphicsController graphicsController = new LibGDXGraphics();
+        GraphicsController graphicsController = new LibGDXGraphics(camera, viewport);
 
         // Set to main manu
         Controllers defaultControllers = new Controllers(graphicsController, libGDXInput);
