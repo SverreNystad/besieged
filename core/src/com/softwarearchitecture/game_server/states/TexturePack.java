@@ -37,6 +37,8 @@ public class TexturePack {
     public static final Texture TOWER_BOW_FIRE = new Texture("bow_fire.png");
     public static final Texture TOWER_SHARPSHOOTER = new Texture("sharpshooter_tower.png");
 
+
+    // Enemies
     public static final Texture ENEMY_ANT_FRAME1 = new Texture("ant_frame1.png");
     public static final Texture ENEMY_ANT_FRAME2 = new Texture("ant_frame2.png");
     public static final Texture ENEMY_ANT_FRAME3 = new Texture("ant_frame3.png");
@@ -44,8 +46,7 @@ public class TexturePack {
 
     public static final Texture ENEMY_DEAD_ANT__FRAME1 = new Texture("dead_ant_frame1.png");
     public static final Texture ENEMY_DEAD_ANT__FRAME2 = new Texture("dead_ant_frame2.png");
-    public static final Texture ENEMY_DEAD_ANT__FRAME3 = new Texture("dead_ant_frame3.png");
-    public static final Texture ENEMY_DEAD_ANT__FRAME4 = new Texture("dead_ant_frame4.png");
+
 
 
 }
