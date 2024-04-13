@@ -62,6 +62,9 @@ public class LibGDXGraphics implements GraphicsController {
         float charWidth = Gdx.graphics.getWidth() * textComponent.fontScale.x;
         float charHeight = Gdx.graphics.getHeight() * textComponent.fontScale.y;
 
+        // DON'T REMOVE THIS LINE. IT FIXES A BUG WHERE THE FONT SIZE CHANGES EVERY FRAME
+        font.getData().setScale(1, 1);
+
         // Ensure that charWidth and charHeight are never zero
         if (charWidth <= 0) charWidth = 10; // Minimum width in pixels
         if (charHeight <= 0) charHeight = 10; // Minimum height in pixels
