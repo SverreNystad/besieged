@@ -42,6 +42,7 @@ public class InGame extends State implements Observer {
         
         // Buttons
         Entity backButton = ButtonFactory.createAndAddButtonEntity(TypeEnum.BACK, new Vector2(0, 1), new Vector2(0.1f, 0.2f), this, 0);
+        ECSManager.getInstance().addEntity(backButton);
 
         // Map and tiles
         Map gameMap = MapFactory.createMap("Abyss");
@@ -68,8 +69,8 @@ public class InGame extends State implements Observer {
 
     private void initializeMapEntities(Map gameMap) {
         Tile[][] tiles = gameMap.getMapLayout();
-        int numOfColumns = tiles[0].length;
-        int numOfRows = tiles.length;
+        int numOfColumns = tiles.length;
+        int numOfRows = tiles[0].length;
 
         float tileWidth = 1.0f / numOfColumns;
         float tileHeight = 1.0f / numOfRows;
@@ -78,16 +79,15 @@ public class InGame extends State implements Observer {
         gameMap.setTileWidth(tileWidth);
         gameMap.setTileHeight(tileHeight);
 
-        for (int i = 0; i < numOfRows; i++) {
-            for (int j = 0; j < numOfColumns; j++) {
+        for (int i = 0; i < numOfColumns; i++) {
+            for (int j = numOfRows - 1; j >= 0; j--) {
                 final int finalI = i; // Create a final copy of i
                 final int finalJ = j; // Create a final copy of j
     
                 Entity tileEntity = new Entity();
                 Texture tileTexture = gameMap.getTextureForTile(tiles[i][j]);
 
-                Vector2 position = new Vector2(1 - j * tileWidth, 1 - (i) * tileHeight);
-                System.out.println("Tile at (" + i + ", " + j + ") with texture " + tileTexture.toString());
+                Vector2 position = new Vector2(i * tileWidth, j* tileHeight);
                 Vector2 size = new Vector2(tileWidth, tileHeight);
                 SpriteComponent spriteComponent = new SpriteComponent(tileTexture.toString(), size);
                 PositionComponent positionComponent = new PositionComponent(position, 0);
@@ -113,7 +113,6 @@ public class InGame extends State implements Observer {
     // Callback-function for when a tile is clicked
     private void handleTileClick(int x, int y) {
         Tile tile = gameMap.getMapLayout()[x][y];
-        System.out.println("Tile clicked at (" + x + ", " + y + ")");
         if (tile.isBuildable() && !tile.hasTower()) {
             Entity tower = TowerFactory.createTower(CardType.MAGIC, CardType.FIRE, new Vector2(x, y));
             tile.setTower(tower);
@@ -124,9 +123,7 @@ public class InGame extends State implements Observer {
             // Remove the old sprite component and add the new one
             tile.getEntity().removeComponent(SpriteComponent.class);
             tile.getEntity().addComponent(SpriteComponent.class, spriteComponent);
-    
-            System.out.println("Tower placed at (" + x + ", " + y + ")");
-        }
+            }
     }
     
     
