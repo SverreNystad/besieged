@@ -35,11 +35,14 @@ public class ECSManager {
     /** Stores component managers for different component types */
     private Map<Class<?>, ComponentManager<?>> componentManagers;
 
+    private TileComponentManager tileComponentManager;
+
     // Private constructor to prevent instantiation
     private ECSManager() {
         entities = new HashSet<>();
         systems = new HashSet<>();
         componentManagers = new HashMap<>();
+        tileComponentManager = new TileComponentManager();
     }
 
     /**
@@ -91,6 +94,10 @@ public class ECSManager {
             componentManagers.put(componentType, manager);
         }
         return manager;
+    }
+
+    public TileComponentManager getTileComponentManager() {
+        return tileComponentManager;  // Provide direct access to TileComponentManager
     }
 
     /**

@@ -119,8 +119,9 @@ public class InGame extends State implements Observer {
                 
                 // REMOVE THIS
 
-            // Register the TileComponent with the TileComponentManager
-                ((TileComponentManager) ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class)).addComponent(tileEntity, tileComponent);
+                // Register the TileComponent with the TileComponentManager
+                TileComponentManager tileManager = ECSManager.getInstance().getTileComponentManager();
+                tileManager.addComponent(tileEntity, tileComponent);
                 // REMOVE THIS
                 // Store the entity reference in the Tile for easy access later
                 tiles[i][j].setEntity(tileEntity);
