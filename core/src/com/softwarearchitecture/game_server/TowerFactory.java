@@ -37,8 +37,9 @@ public class TowerFactory {
 
         switch (towerType.get()) {
             case FIRE_MAGIC:
-                textures.add(TexturePack.FIRE_MAGIC); // TODO: Add the correct textures to texturePack
-                // TODO: add more frames to the animation
+                textures.add(TexturePack.TOWER_FIRE_FRAME1);
+                textures.add(TexturePack.TOWER_FIRE_FRAME2);
+                textures.add(TexturePack.TOWER_FIRE_FRAME3);
                 damage = 5;
                 range = 3;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
@@ -50,31 +51,35 @@ public class TowerFactory {
                 sound = AudioPack.TOWER_ICE_MAGIC;
                 break;
             case TOR:
-                textures.add(TexturePack.TOR);
+                textures.add(TexturePack.TOWER_TOR_FRAME1);
+                textures.add(TexturePack.TOWER_TOR_FRAME2);
+                textures.add(TexturePack.TOWER_TOR_FRAME3);
                 damage = 7;
                 range = 5;
                 sound = AudioPack.TOWER_TOR;
                 break;
             case MAGIC:
-                textures.add(TexturePack.MAGIC);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME2);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME3);
                 damage = 8;
                 range = 3;
                 sound = AudioPack.TOWER_MAGIC;
                 break;
             case FIRE_BOW:
-                textures.add(TexturePack.FIRE_BOW);
+                textures.add(TexturePack.TOWER_BOW_FIRE);
                 damage = 6;
                 range = 2;
                 sound = AudioPack.TOWER_FIRE_BOW;
                 break;
             case SHARP_SHOOTER:
-                textures.add(TexturePack.SHARP_SHOOTER);
+                textures.add(TexturePack.TOWER_SHARPSHOOTER);
                 damage = 9;
                 range = 4;
                 sound = AudioPack.TOWER_SHARP_SHOOTER;
                 break;
             case BOW:
-                textures.add(TexturePack.BOW);
+                textures.add(TexturePack.TOWER_BOW);
                 damage = 4;
                 range = 3;
                 sound = AudioPack.TOWER_BOW;

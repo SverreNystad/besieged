@@ -3,6 +3,8 @@ package com.softwarearchitecture.game_server;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.t;
+
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.CostComponent;
@@ -34,8 +36,11 @@ public class EnemyFactory {
 
         switch (enemyType) {
             case NORDIC_ANT:
-                textures.add(TexturePack.BUTTON_PLACEHOLDER);// TODO: Add the correct textures to texturePack
-                textures.add(TexturePack.BUTTON_PLACEHOLDER);
+                textures.add(TexturePack.ENEMY_ANT_FRAME1);
+                textures.add(TexturePack.ENEMY_ANT_FRAME2);
+                textures.add(TexturePack.ENEMY_ANT_FRAME3);
+                textures.add(TexturePack.ENEMY_ANT_FRAME4);
+
                 damage = 1;
                 size.set(0.02f, 0.02f);
                 velocity.set(0.01f, 0.01f);
