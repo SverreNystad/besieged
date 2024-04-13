@@ -91,7 +91,7 @@ public class HostLobby extends State implements Observer {
                 screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
                 break;
             case PLAY:
-                screenManager.nextState(new InGame(defaultControllers));
+                screenManager.nextState(new Lobby(defaultControllers, true));
                 break;
             default:
                 break;
