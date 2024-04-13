@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.softwarearchitecture.ecs.ComponentManager;
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.TileComponentManager;
