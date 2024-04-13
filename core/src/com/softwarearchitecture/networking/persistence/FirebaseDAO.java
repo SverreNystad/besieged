@@ -18,17 +18,9 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     private final FirebaseDatabase database;
     private final Class<K> idParameterClass;
     private final Class<T> typeParameterClass;
-    private boolean create;
-    private boolean read;
-    private boolean update;
-    private boolean delete;
     private final Gson gson;
 
-    public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete, Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
-        this.create = create;
-        this.read = read;
-        this.update = update;
-        this.delete = delete;
+    public FirebaseDAO(Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
         this.typeParameterClass = typeParameterClass;
         this.idParameterClass = idParameterClass;
         this.gson = new Gson();
