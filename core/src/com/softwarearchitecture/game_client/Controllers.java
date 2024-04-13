@@ -10,11 +10,13 @@ public class Controllers {
     public final InputController inputController;
     public final SoundController soundController;
     public final ServerMessagingController serverMessagingController;
+    public final ClientMessagingController clientMessagingController;
 
-    public Controllers(GraphicsController graphicsController, InputController inputController, SoundController soundController, ServerMessagingController serverMessagingController) {
+    public Controllers(GraphicsController graphicsController, InputController inputController, SoundController soundController, ServerMessagingController serverMessagingController, ClientMessagingController clientMessagingController) {
         this.graphicsController = graphicsController;
         this.inputController = inputController;
         this.soundController = soundController;
         this.serverMessagingController = serverMessagingController;
+        this.clientMessagingController = clientMessagingController;
     }
 }
