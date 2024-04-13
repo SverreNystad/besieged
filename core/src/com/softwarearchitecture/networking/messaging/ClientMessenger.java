@@ -1,5 +1,8 @@
 package com.softwarearchitecture.networking.messaging;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,47 +14,48 @@ import com.softwarearchitecture.networking.persistence.DAOBuilder;
 
 public class ClientMessenger implements ClientMessagingController {
 
-    private DAO<UUID, GameState> dao;
+    private DAO<UUID, byte[]> gameDAO;
+    private DAO<UUID, String> actionDAO;
+    private DAO<String, UUID> joinPlayerDAO;
 
     public ClientMessenger() {
-        DAOBuilder<UUID, GameState> daoBuilder = new DAOBuilder<>();
-        this.dao = daoBuilder.withRead().withUpdate().build(UUID.class, GameState.class);
+        DAOBuilder<UUID, byte[]> gameDaoBuilder = new DAOBuilder<>();
+        DAOBuilder<UUID, String> actionDaoBuilder = new DAOBuilder<>();
+        DAOBuilder<String, UUID> joinPlayerDaoBuilder = new DAOBuilder<>();
+        this.gameDAO = gameDaoBuilder.withRead().withUpdate().build(UUID.class, byte[].class);
+        this.actionDAO = actionDaoBuilder.withCreate().build(UUID.class, String.class);
+        this.joinPlayerDAO = joinPlayerDaoBuilder.withCreate().build(String.class, UUID.class);
     }
     
     @Override
-    public Optional<GameState> joinGame(UUID gameID, UUID playerID) {
-        // Check if the game exists.
-        Optional<GameState> gameResponse = dao.get(gameID);
-        if (gameResponse.isPresent()) {
-            // If the game exists, add the player to the game.
-            GameState game = gameResponse.get();
-
-            boolean playerAdded = game.addPlayer(playerID);
-            if (playerAdded) {
-                // If the player was added, update the game in the database.
-                dao.update(gameID, game);
-                return Optional.of(game);
-            }
-        }
-        // If the game does not exist, return an empty optional.
-        return Optional.empty();
+    public void joinGame(UUID gameID, UUID playerID) {
+        joinPlayerDAO.add(gameID.toString() + "JOIN", playerID);
     }
 
     @Override
     public Optional<GameState> requestGameState(UUID gameID) {
-        return dao.get(gameID);
+        Optional<byte[]> data = gameDAO.get(gameID);
+        if (data.isPresent()) {
+            try {
+                GameState gameState = deserializeFromByteArray(data.get());
+                return Optional.of(gameState);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return Optional.empty();
+    }
+
+    public GameState deserializeFromByteArray(byte[] data) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        ObjectInputStream ois = new ObjectInputStream(bais);
+        GameState obj = (GameState) ois.readObject();
+        ois.close();
+        return obj;
     }
 
     @Override
-    public void addAction(UUID gameID, PlayerInput action) {
-        // Get the game state from the database.
-        Optional<GameState> gameResponse = dao.get(gameID);
-        if (gameResponse.isPresent()) {
-            // If the game exists, add the action to the game.
-            GameState game = gameResponse.get();
-            game.addAction(action);
-            // Update the game in the database.
-            dao.update(gameID, game);
-        }
+    public void addAction(PlayerInput action) {
+        actionDAO.add(action.getPlayerID(), action.getAction());
     }
 }
