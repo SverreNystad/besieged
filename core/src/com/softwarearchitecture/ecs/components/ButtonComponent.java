@@ -26,6 +26,7 @@ public class ButtonComponent implements Serializable {
         PLUSS,
         MINUS,
         MUTE,
+        TILE
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index, Runnable callback) {

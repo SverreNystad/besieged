@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 public class Map {
     protected Tile[][] tiles;
     protected String backgroundImage;
+    private float tileHeight;
+    private float tileWidth;
 
     public Map(String mapString, String backgroundImage) {
         this.backgroundImage = backgroundImage;
@@ -48,5 +50,22 @@ public class Map {
             default:
                 return TexturePack.defaultTexture; 
         }
+    }
+
+    // Getters and setters for tileWidth and tileHeight
+    public float getTileHeight() {
+        return tileHeight;
+    }
+
+    public void setTileHeight(float tileHeight) {
+        this.tileHeight = tileHeight;
+    }
+
+    public float getTileWidth() {
+        return tileWidth;
+    }
+
+    public void setTileWidth(float tileWidth) {
+        this.tileWidth = tileWidth;
     }
 }

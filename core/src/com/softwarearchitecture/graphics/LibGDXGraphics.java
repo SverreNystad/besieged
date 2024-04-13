@@ -62,13 +62,25 @@ public class LibGDXGraphics implements GraphicsController {
         float charWidth = Gdx.graphics.getWidth() * textComponent.fontScale.x;
         float charHeight = Gdx.graphics.getHeight() * textComponent.fontScale.y;
 
-        font.getData().setScale(1.0f, 1.0f);
+        // Ensure that charWidth and charHeight are never zero
+        if (charWidth <= 0) charWidth = 10; // Minimum width in pixels
+        if (charHeight <= 0) charHeight = 10; // Minimum height in pixels
+
+        // Set font scale based on character size relative to font cap height
         float scaleHeight = charHeight / font.getCapHeight();
         float scaleWidth = charWidth / font.getCapHeight();
+
+        // Additional safeguard to ensure that scaleWidth and scaleHeight are never zero
+        if (scaleWidth <= 0) scaleWidth = 0.1f;
+        if (scaleHeight <= 0) scaleHeight = 0.1f;
+
         font.getData().setScale(scaleWidth, scaleHeight);
 
         batch.begin();
-        font.draw(batch, textComponent.text, positionComponent.position.x * Gdx.graphics.getWidth(), charHeight + positionComponent.position.y * Gdx.graphics.getHeight());
+        font.draw(batch, textComponent.text, 
+            positionComponent.position.x * Gdx.graphics.getWidth(), 
+            charHeight + positionComponent.position.y * Gdx.graphics.getHeight());
         batch.end();
     }
+
 }

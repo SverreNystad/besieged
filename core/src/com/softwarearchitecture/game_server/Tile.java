@@ -8,6 +8,7 @@ public class Tile {
     private TileType type;
     private Entity tower;
     private String cardOrTowerTexturePath;
+    private Entity tileEntity;
 
     public Tile(int x, int y, TileType type) {
         this.x = x;
@@ -33,6 +34,10 @@ public class Tile {
         return tower;
     }
 
+    public Entity getEntity() {
+        return tileEntity;
+    }
+
     // Setters
     public void setTower(Entity tower) {
         this.tower = tower;
@@ -52,5 +57,9 @@ public class Tile {
 
     public void setCardOrTowerTexturePath(String cardOrTowerTexturePath) {
         this.cardOrTowerTexturePath = cardOrTowerTexturePath;
+    }
+
+    public void setEntity(Entity tileEntity) {
+        this.tileEntity = tileEntity;
     }
 }

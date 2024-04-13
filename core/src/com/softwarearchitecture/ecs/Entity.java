@@ -59,6 +59,20 @@ public class Entity implements Serializable {
         manager.addComponent(this, component);
     }
 
+    /**
+     * Removes a component of a specific type from this entity. If the ECSManager has
+     * a ComponentManager
+     * for the specified component type, the component is removed from this entity
+     * through that manager.
+     * 
+     * @param componentType The class type of the component to remove.
+     * @param <T>           The type of the component.
+     */
+    public <T> void removeComponent(Class<T> componentType) {
+        ComponentManager<T> manager = ecs.getOrDefaultComponentManager(componentType);
+        manager.removeComponent(this);
+    }
+
     private void readObject(ObjectInputStream ois) throws Exception {
         ois.defaultReadObject();
         this.ecs = ECSManager.getInstance();
