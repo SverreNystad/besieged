@@ -15,46 +15,6 @@ import java.util.Optional;
  * @see <a href="https://en.wikipedia.org/wiki/Data_access_object">Data Access Object on Wikipedia</a>
  */
 public abstract class DAO<K, T> {
-    protected boolean create;
-    protected boolean read;
-    protected boolean update;
-    protected boolean delete;
-
-    /**
-     * Indicates whether this DAO implementation supports the creation (addition) of new instances.
-     * 
-     * @return {@code true} if the DAO supports creating new instances; {@code false} otherwise.
-     */
-    public boolean canCreate() {
-        return create;
-    }
-    
-    /**
-     * Indicates whether this DAO implementation supports reading (retrieving) instances.
-     * 
-     * @return {@code true} if the DAO supports reading instances; {@code false} otherwise.
-     */
-    public boolean canRead() {
-        return read;
-    }
-
-    /**
-     * Indicates whether this DAO implementation supports updating existing instances.
-     * 
-     * @return {@code true} if the DAO supports updating instances; {@code false} otherwise.
-     */
-    public boolean canUpdate() {
-        return update;
-    }
-
-    /**
-     * Indicates whether this DAO implementation supports deleting instances.
-     * 
-     * @return {@code true} if the DAO supports deleting instances; {@code false} otherwise.
-     */
-    public boolean canDelete() {
-        return delete;
-    }
 
     /**
      * Retrieves all instances of type {@code T} from the data storage.
