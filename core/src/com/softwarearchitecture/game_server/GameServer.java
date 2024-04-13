@@ -3,7 +3,6 @@ package com.softwarearchitecture.game_server;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
@@ -20,6 +19,7 @@ public class GameServer {
 
     public void run() {
         this.gameId = messageController.createGame();
+        System.out.println("Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
         if (messageController.getGameState(gameId).playerOne == null) {
             gameState.playerOne = new Entity();
@@ -28,20 +28,21 @@ public class GameServer {
         }
         messageController.setNewGameState(this.gameId, gameState);
 
-        while(true) {
-            if (messageController.getGameState(gameId).playerTwo == null) {
-                Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
-                if (playerTwo.isEmpty()) continue;
-
-                gameState.playerTwo = new Entity();
-                gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwo.get()));
-                ECSManager.getInstance().addEntity(gameState.playerTwo);
-
-                messageController.setNewGameState(this.gameId, gameState);
-            } else continue;
-
+        // Wait for player two to join
+        while (messageController.getGameState(gameId).playerTwo == null) {
+            Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
+            if (playerTwo.isEmpty()) continue;
+            gameState.playerTwo = new Entity();
+            gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwo.get()));
+            ECSManager.getInstance().addEntity(gameState.playerTwo);
             
+            messageController.setNewGameState(this.gameId, gameState);
+            System.out.println("[INFO] Player two has joined the game");
+            break;
+        
         }
+        System.out.println("[INFO] Game is now full");
+
     }
 
 }
