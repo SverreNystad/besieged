@@ -1,9 +1,13 @@
 package com.softwarearchitecture.game_server;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -447,18 +451,19 @@ public class GameState implements Externalizable {
         }
     }
 
-    public boolean addPlayer(UUID playerID) {
-        if (playerTwo == null) {
-            playerTwo = new Entity();
-            ECSManager.getInstance().addEntity(playerTwo);
-            return true;
-        }
-        return false;
+    public static GameState deserializeFromByteArray(byte[] data) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        ObjectInputStream ois = new ObjectInputStream(bais);
+        GameState obj = (GameState) ois.readObject();
+        ois.close();
+        return obj;
     }
 
-    public void addAction(PlayerInput action) {
-        // TODO: Implement this method
-        throw new UnsupportedOperationException("Unimplemented method 'addAction'");
+    public static byte[] serializeToByteArray(GameState state) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(state);
+        oos.close();
+        return baos.toByteArray();
     }
-
 }
