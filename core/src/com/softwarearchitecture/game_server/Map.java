@@ -68,4 +68,12 @@ public class Map {
     public void setTileWidth(float tileWidth) {
         this.tileWidth = tileWidth;
     }
+
+    public int getMapWidth() {
+        return tiles[0].length;
+    }
+
+    public int getMapHeight() {
+        return tiles.length;
+    }
 }
