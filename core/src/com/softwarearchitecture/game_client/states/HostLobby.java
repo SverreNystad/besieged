@@ -3,8 +3,8 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
@@ -13,14 +13,15 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
 public class HostLobby extends State implements Observer {
 
-    public HostLobby(Controllers defaultControllers) {
-        super(defaultControllers);
+    public HostLobby(Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
     }
     
     @Override
@@ -88,10 +89,10 @@ public class HostLobby extends State implements Observer {
     public void onAction(TypeEnum type) {
         switch (type) {
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
+                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
                 break;
             case PLAY:
-                screenManager.nextState(new Lobby(defaultControllers, true));
+                screenManager.nextState(new Lobby(defaultControllers, true, yourId));
                 break;
             default:
                 break;

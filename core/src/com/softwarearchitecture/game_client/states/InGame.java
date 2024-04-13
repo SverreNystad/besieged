@@ -1,7 +1,8 @@
 package com.softwarearchitecture.game_client.states;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.graphics.Texture;
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
@@ -11,6 +12,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
@@ -23,8 +25,8 @@ public class InGame extends State implements Observer {
 
     private Map gameMap;
 
-    protected InGame(Controllers defaultControllers) {
-        super(defaultControllers);
+    protected InGame(Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
     }
     
     @Override

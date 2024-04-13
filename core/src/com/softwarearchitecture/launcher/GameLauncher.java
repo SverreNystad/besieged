@@ -2,8 +2,8 @@ package com.softwarearchitecture.launcher;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.GraphicsController;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_client.GameClient;
 import com.softwarearchitecture.graphics.LibGDXGraphics;
 import com.softwarearchitecture.input.LibGDXInput;

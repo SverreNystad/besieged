@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ComponentManager;
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
@@ -22,9 +21,10 @@ public class GameClient {
 
     public GameClient(Controllers defaultControllers) throws IllegalArgumentException {
         this.defaultControllers = defaultControllers;
-        screenManager = ScreenManager.getInstance();
-        screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
         yourId = UUID.randomUUID();
+        
+        screenManager = ScreenManager.getInstance();
+        screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
 
     }
     
@@ -35,28 +35,9 @@ public class GameClient {
 
     public void update() {
         screenManager.activateCurrentStateIfChanged();
-        
-        addSelfPlayerIfNotExists();
 
         float deltaTime = 1f; // TODO: Implement deltatime
 
         ECSManager.getInstance().update(deltaTime);
-    }
-
-    private void addSelfPlayerIfNotExists() {
-        Set<Entity> entities = ECSManager.getInstance().getEntities();
-        boolean hasPlayer = false;
-        for (Entity entity : entities) {
-            ComponentManager<PlayerComponent> playerComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(PlayerComponent.class);
-            Optional<PlayerComponent> playerComponent = playerComponentManager.getComponent(entity);
-            if (!(playerComponent.isPresent() && playerComponent.get().playerID == yourId)) continue;
-            hasPlayer = true;
-            break;
-        }
-        if (!hasPlayer) {
-            Entity player = new Entity();
-            player.addComponent(PlayerComponent.class, new PlayerComponent(yourId));
-            ECSManager.getInstance().addEntity(player);
-        }
     }
 }
