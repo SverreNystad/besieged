@@ -10,7 +10,7 @@ import com.softwarearchitecture.ecs.components.SoundComponent;
 public class LibGDXSound implements SoundController {
     // Cache loaded sounds to avoid loading them multiple times
     private final HashMap<String, Sound> soundCache = new HashMap<>();
-    private float volume;
+    private int volume;
 
     /**
      * Create a new LibGDXSound with the specified volume.
@@ -18,11 +18,17 @@ public class LibGDXSound implements SoundController {
      * @param volume The volume to play sounds at.
      */
     public LibGDXSound(float volume) {
-        this.volume = volume;
+        this.volume = (int) (volume*100);
     }
 
-    public void setVolume(float volume) {
+    public void setVolume(int volume) {
+        System.out.println("Setting volume to: " + volume);
+        if (volume < 0 || volume > 100) {
+            System.out.println("Volume must be between 0 and 100");
+            return;
+        }
         this.volume = volume;
+        System.out.println("Volume set to: " + this.volume);
     }
 
     public void playSound(SoundComponent soundComponent, float volume) {
@@ -36,7 +42,7 @@ public class LibGDXSound implements SoundController {
         }
 
         // Play the sound
-        sound.play(volume);
+        sound.play(((float) volume)/100f);
     }
 
     @Override
@@ -50,5 +56,10 @@ public class LibGDXSound implements SoundController {
             sound.dispose();
         }
         soundCache.clear();
+    }
+
+    @Override
+    public int getVolume() {
+        return volume;
     }
 }

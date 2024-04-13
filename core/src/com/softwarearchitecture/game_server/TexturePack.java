@@ -32,6 +32,19 @@ public class TexturePack {
     public static final String DEFAULT = "chad.jpg";
     // Buttons
     public static final String BUTTON_PLACEHOLDER = "button_placeholder.png";
+    public static final String BUTTON_BACK = "button_placeholder.png";
+    public static final String BUTTON_OPTION = "button_placeholder.png";
+    public static final String BUTTON_GAME_MENU = "button_placeholder.png";
+    public static final String BUTTON_QUIT = "button_placeholder.png";
+    public static final String BUTTON_JOIN = "button_placeholder.png";
+    public static final String BUTTON_HOST = "button_placeholder.png";
+    public static final String BUTTON_PAUSE = "button_placeholder.png";
+    public static final String BUTTON_MULTI_PLAYER = "button_placeholder.png";
+    public static final String BUTTON_SINGLE_PLAYER = "button_placeholder.png";
+    public static final String BUTTON_PLAY = "button_placeholder.png";
+    public static final String BUTTON_PLUSS = "button_placeholder.png";
+    public static final String BUTTON_MINUS = "button_placeholder.png";
+    public static final String BUTTON_MUTE = "button_placeholder.png";
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";

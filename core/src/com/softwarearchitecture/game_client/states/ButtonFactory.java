@@ -33,7 +33,7 @@ public class ButtonFactory {
         switch (button) {
             case OPTIONS:
                 // create options buttons
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BACKGROUND_ABYSS;
                 break;
             case GAME_MENU:
                 texture = TexturePack.BUTTON_PLACEHOLDER;
@@ -60,7 +60,16 @@ public class ButtonFactory {
                 texture = TexturePack.BUTTON_PLACEHOLDER;
                 break;
             case BACK:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_BACK;
+                break;
+            case PLUSS:
+                texture = TexturePack.BUTTON_PLUSS;
+                break;
+            case MINUS:
+                texture = TexturePack.BUTTON_MINUS;
+                break;
+            case MUTE:
+                texture = TexturePack.BUTTON_MUTE;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid button type");

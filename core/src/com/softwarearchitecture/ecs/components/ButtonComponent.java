@@ -22,7 +22,10 @@ public class ButtonComponent implements Serializable {
         MULTI_PLAYER,
         SINGLE_PLAYER,
         PLAY,
-        BACK
+        BACK,
+        PLUSS,
+        MINUS,
+        MUTE,
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index, Runnable callback) {

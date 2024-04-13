@@ -21,7 +21,7 @@ public class InGame extends State implements Observer {
     @Override
     protected void activate() {
         // Background
-        String backgroundPath = TexturePack.BACKGROUND_ABYSS;
+        String backgroundPath = TexturePack.BACKGROUND_TOR;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);

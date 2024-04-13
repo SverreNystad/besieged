@@ -46,6 +46,8 @@ public class InputSystem implements System {
                 }
             }
         }
+        lastTouched = new TouchLocation(-1f, -1f);
+        lastReleased = new TouchLocation(-1f, -1f);
     }
 
     private boolean isButtonPressed(ButtonComponent buttonComponent) {
