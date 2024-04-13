@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_client.states;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.badlogic.gdx.graphics.Color;
@@ -7,8 +8,10 @@ import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.TileComponentManager;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -21,8 +24,6 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
-import com.softwarearchitecture.game_server.PairableCards.TowerType;
-import com.softwarearchitecture.ecs.TileComponentManager;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
@@ -85,12 +86,20 @@ public class InGame extends State implements Observer {
         int numOfColumns = tiles.length;
         int numOfRows = tiles[0].length;
 
+        
         float tileWidth = 1.0f / numOfColumns;
         float tileHeight = 1.0f / numOfRows;
-
+        
         // Set tileWidth and tileHeight in the gameMap
         gameMap.setTileWidth(tileWidth);
         gameMap.setTileHeight(tileHeight);
+        
+        // Create Path entitiy 
+        List<Tile> enemyPath = gameMap.getPath();
+        PathfindingComponent pathfindingComponent = new PathfindingComponent(enemyPath);
+        Entity path = new Entity();
+        path.addComponent(PathfindingComponent.class, pathfindingComponent);
+        ECSManager.getInstance().addEntity(path);
 
         for (int i = 0; i < numOfColumns; i++) {
             for (int j = numOfRows - 1; j >= 0; j--) {

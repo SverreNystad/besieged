@@ -48,20 +48,6 @@ public class MovementSystem implements System {
             Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
             Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
 
-            if (position.isPresent() && velocity.isPresent() && pathfinding.isPresent()) {
-                PositionComponent pos = position.get();
-                VelocityComponent vel = velocity.get();
-                PathfindingComponent find = pathfinding.get();
-
-                if (find.getPath() == null || find.getPath().isEmpty()) {
-                    find.setPath(findPath(pos.position, tileManager));  // Start pathfinding
-                } else {
-                    Vector2 nextWaypoint = find.getPath().peek();
-                    if (moveTowards(pos.position, nextWaypoint, vel.velocity, deltaTime)) {
-                        find.getPath().poll();  // Move to next waypoint and remove it from the path
-                    }
-                }
-            }
         }
     }
 
