@@ -3,9 +3,6 @@ package com.softwarearchitecture.game_server;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.Position;
-
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;

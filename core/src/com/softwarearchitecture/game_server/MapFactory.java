@@ -6,7 +6,7 @@ public class MapFactory {
             case "Abyss":
                 String mapString =
                 "BLOCKED_WATER, BLOCKED_WATER, PLACEABLE, PLACEABLE, PLACEABLE, START, PLACEABLE, BLOCKED_TREE;" +
-                "BLOCKED_WATER, BLOCKED_WATER, PLACEABLE, PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
+                "BLOCKED_WATER, BLOCKED_WATER, PLACEABLE, PLACEABLE, PLACEABLE, PATH, PLACEABLE, BLOCKED_TREE;" +
                 "BLOCKED_WATER, PLACEABLE, PLACEABLE, PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
                 "BLOCKED_WATER, PLACEABLE, PLACEABLE, PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
                 "BLOCKED_WATER, PLACEABLE, PLACEABLE, PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
@@ -26,6 +26,14 @@ public class MapFactory {
                 "PLACEABLE, PLACEABLE, END, PLACEABLE, BLOCKED_WATER, BLOCKED_WATER, BLOCKED_WATER, BLOCKED_WATER;";
                 String backgroundImage = TexturePack.BACKGROUND_ABYSS;
                 return new Map(mapString, backgroundImage);
+            case "TestMap":
+                String mapString2 = 
+                "BLOCKED_WATER, PLACEABLE, PATH, PLACEABLE, BLOCKED_TREE;" +
+                "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
+                "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
+                "BLOCKED_TREE, PLACEABLE, PATH, PLACEABLE, BLOCKED_ROCK;";
+                String backString = TexturePack.BACKGROUND_GRIFFIN;
+                return new Map(mapString2, backString);
             default:
                 throw new IllegalArgumentException("Invalid map type: " + mapType);
         }

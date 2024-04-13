@@ -2,7 +2,6 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
-import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.math.Vector2;
 
 public class ButtonComponent implements Serializable {
@@ -26,7 +25,8 @@ public class ButtonComponent implements Serializable {
         PLUSS,
         MINUS,
         MUTE,
-        TILE
+        TILE,
+        CARD
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index, Runnable callback) {
