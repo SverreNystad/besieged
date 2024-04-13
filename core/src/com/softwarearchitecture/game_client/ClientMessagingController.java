@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_client;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,4 +35,10 @@ public interface ClientMessagingController {
      * @param action to perform in the game
      */
     public void addAction(PlayerInput action);
+
+    /**
+     * Get all games that are currently available.
+     * @return a list of all games that are currently available
+     */
+    public List<GameState> getAllAvailableGames();
 }
