@@ -11,7 +11,7 @@ public class TextComponent {
     public TextComponent(String text, Vector2 fontScale) {
         this.text = text;
         this.fontScale = fontScale;
-        this.color = Color.BLACK; // Default color
+        this.color = Color.BLUE; // Default color
     }
 
     public void setColor(Color color) {
