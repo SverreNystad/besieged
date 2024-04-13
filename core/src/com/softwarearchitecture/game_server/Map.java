@@ -71,78 +71,6 @@ public class Map {
         this.tileWidth = tileWidth;
     }
 
-    // public List<Tile> getPath() {
-    //     //Create start
-    //     Tile start = null;
-    //     //Create queue
-    //     List<Tile> pathTiles = new ArrayList<Tile>();
-    //     //Create end
-    //     Tile end = null;
-    //     for (Tile[]row : this.tiles){
-    //         for (Tile tile : row){
-    //             switch (tile.getType()){
-    //                 case START:
-    //                     start = tile;
-    //                     break;
-    //                 case END:
-    //                     end = tile;
-    //                     break;
-    //                 case PATH:
-    //                 pathTiles.add(tile);
-    //                     break;
-    //                 default:
-    //                     continue;
-    //             }
-    //         }
-    //     }
-    //     System.out.println(pathTiles.size());
-    //     // Construct path
-    //     List<Tile> path = new ArrayList<Tile>();
-    //     path.add(start);
-    //     Tile currentTile = null;
-    //     List<Vector2>neighbors = getNeighbors(start);
-    //     for (Vector2 neighbor : neighbors) {
-    //         if ((neighbor.x > 0 && neighbor.x < tiles.length) && (neighbor.y > 0 && neighbor.y < tiles[(int) neighbor.x].length)){
-    //         currentTile = this.tiles[(int) neighbor.x][(int)neighbor.y];
-    //         if (currentTile.getType() == TileType.PATH){
-    //             path.add(currentTile);
-    //             pathTiles.remove(currentTile);
-    //         }
-    //         }
-    //     }
-        
-    //     while (pathTiles.size() > 0) {
-    //         neighbors = getNeighbors(currentTile);
-    //         for (Vector2 neighbor : neighbors) {
-    //             if ((neighbor.x >= 0  && neighbor.x < tiles.length) && (neighbor.y >= 0 && neighbor.y < tiles[(int) neighbor.x].length)){
-    //                 currentTile = this.tiles[(int) neighbor.x][(int)neighbor.y];
-    //                 if (pathTiles.contains(currentTile)){
-    //                     path.add(currentTile);
-    //                     pathTiles.remove(currentTile);
-    //                     System.out.println(pathTiles.size());
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     path.add(end);
-    //     return path;
-    // }
-
-    // private List<Vector2> getNeighbors(Tile tile) {
-    //     float x = tile.getX();
-    //     float y = tile.getY();
-    //     List<Vector2> neighbors = new ArrayList<>();
-    //     // Example neighbors; modify as needed
-    //     neighbors.add(new Vector2(x + 1, y));
-    //     neighbors.add(new Vector2(x -1, y));
-    //     neighbors.add(new Vector2(x, y + 1));
-    //     neighbors.add(new Vector2(x, y - 1));
-    //     return neighbors;
-    // }
-
-
-    // Assume other methods are correctly implemented
-
     public List<Tile> getPath() {
         Tile start = null;
         Tile end = null;
@@ -206,5 +134,13 @@ public class Map {
             }
         }
         return null; // No adjacent path tiles found
+    }
+
+    public int getMapWidth() {
+        return tiles[0].length;
+    }
+
+    public int getMapHeight() {
+        return tiles.length;
     }
 }

@@ -11,6 +11,7 @@ public class TexturePack {
     public static final String BACKGROUND_FENRIS = "background_fenris.png";
     public static final String BACKGROUND_GRIFFIN = "background_griffin.png";
     public static final String BACKGROUND_ABYSS = "chad.jpg";
+    public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
 
     // Map-textures
     public static final String placeableTexture = "grass.png";
@@ -31,15 +32,15 @@ public class TexturePack {
     // Buttons
     public static final String BUTTON_PLACEHOLDER = "button_placeholder.png";
     public static final String BUTTON_BACK = "button_placeholder.png";
-    public static final String BUTTON_OPTION = "button_placeholder.png";
+    public static final String BUTTON_OPTION = "buttons/options.png";
     public static final String BUTTON_GAME_MENU = "button_placeholder.png";
-    public static final String BUTTON_QUIT = "button_placeholder.png";
+    public static final String BUTTON_QUIT = "buttons/quit.png";
     public static final String BUTTON_JOIN = "button_placeholder.png";
     public static final String BUTTON_HOST = "button_placeholder.png";
     public static final String BUTTON_PAUSE = "button_placeholder.png";
-    public static final String BUTTON_MULTI_PLAYER = "button_placeholder.png";
+    public static final String BUTTON_MULTI_PLAYER = "buttons/multiplayer.png";
     public static final String BUTTON_SINGLE_PLAYER = "button_placeholder.png";
-    public static final String BUTTON_PLAY = "button_placeholder.png";
+    public static final String BUTTON_PLAY = "buttons/play.png";
     public static final String BUTTON_PLUSS = "button_placeholder.png";
     public static final String BUTTON_MINUS = "button_placeholder.png";
     public static final String BUTTON_MUTE = "button_placeholder.png";
@@ -82,7 +83,6 @@ public class TexturePack {
     public static final String TOWER_BOW_FIRE = "bow_fire.png";
     public static final String TOWER_SHARPSHOOTER = "sharpshooter_tower.png";
 
-
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
     public static final String ENEMY_ANT_FRAME2 = "ant_frame2.png";
@@ -92,8 +92,7 @@ public class TexturePack {
     public static final String ENEMY_DEAD_ANT__FRAME1 = "dead_ant_frame1.png";
     public static final String ENEMY_DEAD_ANT__FRAME2 = "dead_ant_frame2.png";
 
-    // Colors 
+    // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
-    
 
 }

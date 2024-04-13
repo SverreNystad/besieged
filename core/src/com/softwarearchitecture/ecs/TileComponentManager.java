@@ -13,15 +13,15 @@ public class TileComponentManager extends ComponentManager<TileComponent> {
     private Map<String, TileComponent> tileMap = new HashMap<>();
 
     public TileComponentManager() {
-        super();
+        // super();
     }
 
     @Override
     public void addComponent(Entity entity, TileComponent component) {
-        super.addComponent(entity, component);
-        Tile tile = component.getTile();
+        // super.addComponent(entity, component);
+        // Tile tile = component.getTile();
         // Indexing tiles by their coordinates
-        tileMap.put(tileKey(tile.getX(), tile.getY()), component);
+        // tileMap.put(tileKey(tile.getX(), tile.getY()), component);
     }
 
     public Tile getTileAt(int x, int y) {
