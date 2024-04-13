@@ -22,8 +22,9 @@ import java.util.Set;
  * Pattern</a>.
  */
 public class ECSManager {
+    
     /** Singleton */
-    private static ECSManager instance;
+    private static ThreadLocal<ECSManager> instance;
 
     /** Stores the entities */
     private Set<Entity> entities;
@@ -46,9 +47,9 @@ public class ECSManager {
      */
     public static synchronized ECSManager getInstance() {
         if (instance == null) {
-            instance = new ECSManager();
+            instance = ThreadLocal.withInitial(ECSManager::new);
         }
-        return instance;
+        return instance.get();
     }
 
     /**
@@ -75,27 +76,20 @@ public class ECSManager {
     }
 
     /**
-     * Adds a component manager for a specific component type to the ECSManager.
-     * 
-     * @param componentType The class representing the component type.
-     * @param manager       The component manager for the specified component type.
-     * @param <T>           The type of the component.
-     */
-    public <T> void addComponentManager(Class<T> componentType, ComponentManager<T> manager) {
-        componentManagers.put(componentType, manager);
-    }
-
-    /**
-     * Returns the component manager for a specific component type.
+     * Returns the component manager for the specified component type.
      * 
      * @param componentType The class representing the component type.
      * @param <T>           The type of the component.
      * @return The component manager for the specified component type.
      */
-    public <T> ComponentManager<T> getComponentManager(Class<T> componentType) {
+    @SuppressWarnings("unchecked")
+    public <T> ComponentManager<T> getOrDefaultComponentManager(Class<T> componentType) throws IllegalStateException {
         // Cast is safe due to the controlled way ComponentManagers are added
-        @SuppressWarnings("unchecked")
         ComponentManager<T> manager = (ComponentManager<T>) componentManagers.get(componentType);
+        if (manager == null) {
+            manager = new ComponentManager<T>();
+            componentManagers.put(componentType, manager);
+        }
         return manager;
     }
 
@@ -125,7 +119,16 @@ public class ECSManager {
     public void update(float deltaTime) {
         for (System system : systems) {
             // Update each system
-            system.update(entities, deltaTime);
+            system.update(entities, deltaTime); // TODO: Render function should be the last system called!
         }
+    }
+
+    /**
+     * Clears all entities, systems, and component managers from the ECSManager.
+     */
+    public void clearAll() {
+        entities.clear();
+        systems.clear();
+        componentManagers.clear();
     }
 }

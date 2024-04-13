@@ -8,4 +8,8 @@ public class MoneyComponent implements Serializable {
     public MoneyComponent(int amount) {
         this.amount = amount;
     }
+
+    public int getAmount() {
+        return amount;
+    }
 }

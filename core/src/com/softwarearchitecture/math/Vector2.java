@@ -30,6 +30,10 @@ public class Vector2 {
         this.y = vector.y;
     }
 
+    public String toString() {
+        return "Vector2{" + "x=" + x + ", y=" + y + '}';
+    }
+
     public Vector2 add(Vector2 vector) {
         this.x += vector.x;
         this.y += vector.y;
@@ -91,5 +95,13 @@ public class Vector2 {
         float x_d = x2 - x1;
         float y_d = y2 - y1;
         return (float) Math.sqrt(x_d * x_d + y_d * y_d);
+    }
+
+    public float x() {
+        return x;
+    }
+
+    public float y() {
+        return y;
     }
 }

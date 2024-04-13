@@ -1,60 +1,129 @@
 package com.softwarearchitecture.networking.persistence;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 
-import java.util.List;
-import java.util.Optional;
+import com.google.gson.Gson;
 
 public class FirebaseDAO<K, T> extends DAO<K, T> {
 
-    public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete) {
+    private final FirebaseDatabase database;
+    private final Class<K> idParameterClass;
+    private final Class<T> typeParameterClass;
+    private boolean create;
+    private boolean read;
+    private boolean update;
+    private boolean delete;
+    private final Gson gson;
+
+    public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete, Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
         this.create = create;
         this.read = read;
         this.update = update;
         this.delete = delete;
-        // Write a message to the database
-        String DatabaseName = "https://besieged-8b842-default-rtdb.europe-west1.firebasedatabase.app/";
-        FirebaseDatabase database = FirebaseDatabase.getInstance(DatabaseName);
-        DatabaseReference myRef = database.getReference("message");
+        this.typeParameterClass = typeParameterClass;
+        this.idParameterClass = idParameterClass;
+        this.gson = new Gson();
+        
+        FileInputStream serviceAccount = new FileInputStream("../android/FirebaseSecretKey.json");
 
-        myRef.setValue("Hello, Firebase!", (error, ref) -> {
-            if (error != null) {
-                System.out.println("Data could not be saved " + error.getMessage());
-            } else {
-                System.out.println("Data saved successfully.");
-            }
-        });
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://besieged-8b842-default-rtdb.europe-west1.firebasedatabase.app")
+                .build();
+
+        FirebaseApp.initializeApp(options);
+
+        this.database = FirebaseDatabase.getInstance();
+    
     }
     
     @Override
     public List<T> loadAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadAll'");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Optional<T> get(K id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        String idJson = gson.toJson(id);
+        DatabaseReference ref = database.getReference(idJson);
+        AtomicReference<T> result = new AtomicReference<>();
+        CompletableFuture<Optional<T>> future = new CompletableFuture<>();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String objectJson = dataSnapshot.getValue(String.class);
+                T value = gson.fromJson(objectJson, typeParameterClass);
+                result.set(value);
+                future.complete(Optional.ofNullable(value));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                future.complete(Optional.empty());
+            }
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override
     public boolean update(K id, T object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        String idJson = gson.toJson(id);
+        DatabaseReference ref = database.getReference(idJson);
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        // Convert object to JSON
+        String objectJson = gson.toJson(object);
+        ref.setValue(objectJson, (databaseError, databaseReference) -> future.complete(databaseError == null));
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean delete(K id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        DatabaseReference ref = database.getReference("path/to/your/data/" + id);
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        ref.removeValue((databaseError, databaseReference) -> future.complete(databaseError == null));
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public K add(T object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    public void add(K id, T object) {
+        String idJson = gson.toJson(id);
+        DatabaseReference ref = database.getReference(idJson);
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        
+        // Convert object to JSON
+        String objectJson = gson.toJson(object);
+
+        ref.setValue(objectJson, (databaseError, databaseReference) -> future.complete(databaseError == null));
     }
 
 }

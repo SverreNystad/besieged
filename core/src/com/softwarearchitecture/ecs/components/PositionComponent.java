@@ -2,13 +2,18 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
-import com.badlogic.gdx.math.Vector2;
+import com.softwarearchitecture.math.Vector2;
 
 public class PositionComponent implements Serializable {
     public Vector2 position = new Vector2();
+    public int z_index;
 
-    public PositionComponent(float x, float y) {
-        position.x = x;
-        position.y = y;
+    public PositionComponent(Vector2 position, int z_index) {
+        this.position = position;
+        this.z_index = z_index;
+    }
+
+    public Vector2 getPosition() {
+        return this.position;
     }
 }

@@ -2,58 +2,37 @@ package com.softwarearchitecture;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.softwarearchitecture.game_server.states.Menu;
-import com.softwarearchitecture.game_server.states.MenuEnum;
-import com.softwarearchitecture.game_server.states.ScreenManager;
-import com.softwarearchitecture.ecs.ECSManager;
-import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.components.PositionComponent;
-import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.softwarearchitecture.game_client.GameClient;
+import com.softwarearchitecture.launcher.GameLauncher;
 
 public class GameApp extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	public static final int WIDTH = 1200;
-	public static final int HEIGHT = 600;
-	private ScreenManager screenManager;
-	ECSManager ecs;
+	GameClient gameClient;
+	OrthographicCamera camera;
+	Viewport viewport;
 
 	@Override
 	public void create() {
-		batch = new SpriteBatch();
-		this.screenManager = ScreenManager.getInstance();
-		screenManager.nextState(new Menu(MenuEnum.MENU));
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		img = new Texture("badlogic.jpg");
-		ecs = ECSManager.getInstance();
-
-		// adding a new entity with position and velocity components
-		Entity entity = new Entity();
-
-		PositionComponent position = new PositionComponent(0, 0); // Example: starting at origin
-		VelocityComponent velocity = new VelocityComponent(5, 5); // Example: moving at a velocity of (5,5)
-
-		entity.addComponent(PositionComponent.class, position);
-		entity.addComponent(VelocityComponent.class, velocity);
-
-		ecs.addEntity(entity);
+		camera = new OrthographicCamera();
+		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);	
+		gameClient = GameLauncher.createGameClient(this.camera, this.viewport);
 	}
 
 	@Override
 	public void render() {
-		ScreenUtils.clear(1, 0, 0, 1);
+		gameClient.update();
+	}
 
-		// usikker på om dette skal være her
-		float deltaTime = Gdx.graphics.getDeltaTime();
-		screenManager.update(deltaTime);
-		screenManager.render(batch);
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+		viewport.apply();
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
+		//gameClient.dispose();
 	}
 }
