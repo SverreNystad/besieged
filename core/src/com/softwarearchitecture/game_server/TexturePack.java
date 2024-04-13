@@ -62,6 +62,37 @@ public class TexturePack {
     public static final String FIRE_BOW = "chad.jpg";
     public static final String SHARP_SHOOTER = "chad.jpg";
     public static final String BOW = "chad.jpg";
+
+    // Towers 2
+    public static final Texture TOWER_TOR_FRAME1 = new Texture("tor_frame1.png");
+    public static final Texture TOWER_TOR_FRAME2 = new Texture("tor_frame2.png");
+    public static final Texture TOWER_TOR_FRAME3 = new Texture("tor_frame3.png");
+
+    public static final Texture TOWER_MAGIC_FRAME1 = new Texture("magic_tower_frame1.png");
+    public static final Texture TOWER_MAGIC_FRAME2 = new Texture("magic_tower_frame2.png");
+    public static final Texture TOWER_MAGIC_FRAME3 = new Texture("magic_tower_frame3.png");
+
+    public static final Texture TOWER_FIRE_FRAME1 = new Texture("magic_fire_frame1.png");
+    public static final Texture TOWER_FIRE_FRAME2 = new Texture("magic_fire_frame2.png");
+    public static final Texture TOWER_FIRE_FRAME3 = new Texture("magic_fire_frame3.png");
+
+    public static final Texture TOWER_FIRE_ATTACK_FRAME1 = new Texture("magic_fire_attack_frame1.png");
+    public static final Texture TOWER_FIRE_ATTACK_FRAME2 = new Texture("magic_fire_attack_frame2.png");
+    public static final Texture TOWER_FIRE_ATTACK_FRAME3 = new Texture("magic_fire_attack_frame3.png");
+
+    public static final Texture TOWER_BOW = new Texture("bow_tower.png");
+    public static final Texture TOWER_BOW_FIRE = new Texture("bow_fire.png");
+    public static final Texture TOWER_SHARPSHOOTER = new Texture("sharpshooter_tower.png");
+
+
+    // Enemies
+    public static final Texture ENEMY_ANT_FRAME1 = new Texture("ant_frame1.png");
+    public static final Texture ENEMY_ANT_FRAME2 = new Texture("ant_frame2.png");
+    public static final Texture ENEMY_ANT_FRAME3 = new Texture("ant_frame3.png");
+    public static final Texture ENEMY_ANT_FRAME4 = new Texture("ant_frame4.png");
+
+    public static final Texture ENEMY_DEAD_ANT__FRAME1 = new Texture("dead_ant_frame1.png");
+    public static final Texture ENEMY_DEAD_ANT__FRAME2 = new Texture("dead_ant_frame2.png");
     
 
 }
