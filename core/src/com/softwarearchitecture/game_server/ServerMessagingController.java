@@ -14,9 +14,10 @@ public interface ServerMessagingController {
     /**
      * Make the server update the game state to the new game state for all clients.
      * 
+     * @param id the game ID of the game to update
      * @param gameState the new game state
      */
-    public void setNewGameState(GameState gameState);
+    public void setNewGameState(UUID id, GameState gameState);
 
     /**
      * Get the actions that have been performed in the game with the given game ID.
