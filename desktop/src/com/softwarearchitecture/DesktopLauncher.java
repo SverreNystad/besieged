@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Besieged!");
-		config.setWindowedMode(1800, 1000); // TODO: set responsive window size instead of magic numbers.
+		config.setWindowedMode(1300, 600); // TODO: set responsive window size instead of magic numbers.
 		new Lwjgl3Application(new GameApp(), config);
 	}
 }
