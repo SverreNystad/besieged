@@ -11,6 +11,8 @@ import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.ServerMessagingController;
 import com.softwarearchitecture.networking.persistence.DAO;
 import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_server.GameState;
 
 public class ServerMessenger implements ServerMessagingController {
@@ -24,7 +26,12 @@ public class ServerMessenger implements ServerMessagingController {
     @Override
     public UUID createGame() {
         UUID gameID = UUID.randomUUID();
+        UUID playerID = UUID.randomUUID();
         GameState gameState = new GameState();
+        // Create a player entity for player one
+        gameState.playerOne = new Entity();
+        gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerID));
+
         try {
             byte[] gameOutput = this.serializeToByteArray(gameState);
             dao.add(gameID, gameOutput);
