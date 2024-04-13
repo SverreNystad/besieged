@@ -16,7 +16,7 @@ import com.softwarearchitecture.ecs.components.VelocityComponent;
 public class GameApp extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	public static final int WIDTH = 1200;
+	public static final int WIDTH = 1300;
 	public static final int HEIGHT = 600;
 	private ScreenManager screenManager;
 	ECSManager ecs;
@@ -25,9 +25,8 @@ public class GameApp extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 		this.screenManager = ScreenManager.getInstance();
-		screenManager.nextState(new Menu(MenuEnum.MENU));
+		screenManager.nextState(new Menu());
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		img = new Texture("badlogic.jpg");
 		ecs = ECSManager.getInstance();
 
 		// adding a new entity with position and velocity components

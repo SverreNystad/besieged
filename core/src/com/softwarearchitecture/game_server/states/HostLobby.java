@@ -54,7 +54,7 @@ public class HostLobby extends State implements Observer {
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
-        List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons + buffergrids, numberOfButtons)
+        List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons + buffergrids, numberOfButtons, 10)
                 .getButtonsVertically(numberOfButtons);
         List<Button> buttons = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class HostLobby extends State implements Observer {
     public void onAction(TypeEnum type) {
         switch (type) {
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU));
+                screenManager.nextState(new Menu());
                 break;
             case PLAY:
                 screenManager.nextState(new InGame());

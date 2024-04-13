@@ -12,7 +12,6 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 
-
 public class MovementSystem implements System {
     private ComponentManager<PositionComponent> positionManager;
     private ComponentManager<VelocityComponent> velocityManager;
@@ -20,7 +19,8 @@ public class MovementSystem implements System {
     private Viewport viewport;
 
     public MovementSystem(ComponentManager<PositionComponent> positionManager,
-        ComponentManager<VelocityComponent> velocityManager, ComponentManager<SpriteComponent> drawableManager, Viewport viewport) {
+            ComponentManager<VelocityComponent> velocityManager, ComponentManager<SpriteComponent> drawableManager,
+            Viewport viewport) {
         if (positionManager != null && velocityManager != null && drawableManager != null) {
             this.positionManager = positionManager;
             this.velocityManager = velocityManager;
@@ -36,13 +36,12 @@ public class MovementSystem implements System {
             Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
             Optional<SpriteComponent> drawable = drawableManager.getComponent(entity);
 
-            if (position.isEmpty() || velocity.isEmpty()) {
+            if (!position.isPresent() || !velocity.isPresent()) {
                 continue;
             }
 
             PositionComponent pos = position.get();
             VelocityComponent vel = velocity.get();
-
 
             pos.position.x += vel.velocity.x * deltaTime;
             pos.position.y += vel.velocity.y * deltaTime;
@@ -52,19 +51,19 @@ public class MovementSystem implements System {
             }
         }
     }
-    
+
     private void updateDrawable(SpriteComponent drawable, PositionComponent pos) {
         float screen_width = viewport.getWorldWidth();
         float screen_height = viewport.getWorldHeight();
-    
-        // Example conversion - assume game world dimensions match screen dimensions 
+
+        // Example conversion - assume game world dimensions match screen dimensions
         float drawableWidthInWorld = 1.0f; // Fixed max-width of the entity in the world
         float drawableHeightInWorld = 1.0f; // Fixed max-height of the entity in the world
-        
+
         // Conversion from world position to screen position
         drawable.screen_u = convertWorldToScreenX(pos.position.x, screen_width);
         drawable.screen_v = convertWorldToScreenY(pos.position.y, screen_height);
-    
+
         // Conversion from world size to screen size
         drawable.u_size = convertWorldToScreenSize(drawableWidthInWorld, screen_width);
         drawable.v_size = convertWorldToScreenSize(drawableHeightInWorld, screen_height);
@@ -85,5 +84,3 @@ public class MovementSystem implements System {
         return worldSize / screenSize;
     }
 }
-
-

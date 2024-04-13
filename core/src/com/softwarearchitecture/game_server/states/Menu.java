@@ -12,6 +12,7 @@ import com.softwarearchitecture.game_server.screen_components.GridLayout;
 import com.softwarearchitecture.game_server.screen_components.Observer;
 import com.softwarearchitecture.game_server.screen_components.TypeEnum;
 import com.softwarearchitecture.math.Rectangle;
+import com.softwarearchitecture.graphics.LibGDXGraphics;
 
 public class Menu extends State implements Observer {
 
@@ -23,92 +24,23 @@ public class Menu extends State implements Observer {
      * the use of the state
      */
 
-    public Menu(MenuEnum type) {
+    public Menu() {
         super();
-        List<TypeEnum> buttontypes = getButtonEnums(type);
-        buttons = createButtons(buttontypes);
         // placeholder background logic not implemented
-        background = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
+        background = TexturePack.BACKGROUND_MAIN_MENU;
+        this.buttons = new ArrayList<>();
 
-    }
-
-    /**
-     * Returns a list of button types based on the type of the state.
-     * 
-     * @param type: GenericStateType
-     * @return List<ButtonType>
-     */
-    private List<TypeEnum> getButtonEnums(MenuEnum type) {
-
-        List<TypeEnum> buttons = new ArrayList<>();
-
-        switch (type) {
-            case MULTI_PLAYER:
-                buttons.add(TypeEnum.JOIN);
-                buttons.add(TypeEnum.HOST);
-                buttons.add(TypeEnum.GAME_MENU);
-
-                break;
-
-            case MENU:
-                buttons.add(TypeEnum.MULTI_PLAYER);
-                buttons.add(TypeEnum.SINGLE_PLAYER);
-                buttons.add(TypeEnum.OPTIONS);
-                buttons.add(TypeEnum.QUIT);
-                break;
-
-            case GAME_OVER:
-                buttons.add(TypeEnum.GAME_MENU);
-                break;
-
-            case PAUSE:
-                buttons.add(TypeEnum.GAME_MENU);
-                buttons.add(TypeEnum.OPTIONS);
-                buttons.add(TypeEnum.QUIT);
-                buttons.add(TypeEnum.BACK);
-
-                break;
-
-            case SINGLE_PLAYER:
-                buttons.add(TypeEnum.PLAY);
-                buttons.add(TypeEnum.GAME_MENU);
-                break;
-
-            default:
-                break;
-        }
-        return buttons;
-    }
-
-    /**
-     * Creates buttons based on the button types
-     * 
-     * @param: buttonTypes: List<ButtonType>
-     * @return: List<Button>
-     */
-    private List<Button> createButtons(List<TypeEnum> buttonTypes) {
-        int numberOfButtons = buttonTypes.size();
-        int buffergrids = 2; // buffer between edge of screen and buttons. usage not implemnted
-        List<Rectangle> buttonRectangles = new GridLayout(numberOfButtons, numberOfButtons)
-                .getButtonsVertically(numberOfButtons);
-        List<Button> buttons = new ArrayList<>();
-
-        for (int i = 0; i < numberOfButtons; i++) {
-            buttons.add(Factory.createButton(buttonTypes.get(i), buttonRectangles.get(i), this));
-        }
-
-        return buttons;
     }
 
     @Override
     protected void handleInput() {
-        // do nothing, no input handling in this state
+        // TODO Auto-generated method stub
+
     }
 
     @Override
     protected void update(float deltaTime) {
         updateButtons(deltaTime);
-
     }
 
     @Override
@@ -118,11 +50,40 @@ public class Menu extends State implements Observer {
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, GameApp.WIDTH, GameApp.HEIGHT);
 
+        // Draw the logo
+        spriteBatch.draw(TexturePack.LOGO, GameApp.WIDTH / 2 - 600 / 2, GameApp.HEIGHT - 250, 600, 230);
+
+        int buttonWidth = 300;
+        int buttonHeight = 60;
+        int gap = 20;
+        int translateY = 50;
+
+        buttons.add(new Button(
+                new Rectangle(GameApp.WIDTH / 2 - buttonWidth / 2, translateY + (buttonHeight + gap) * 3, buttonWidth,
+                        buttonHeight),
+                this, TypeEnum.PLAY,
+                TexturePack.BUTTON_PLAY));
+        buttons.add(new Button(
+                new Rectangle(GameApp.WIDTH / 2 - buttonWidth / 2, translateY + (buttonHeight + gap) * 2, buttonWidth,
+                        buttonHeight),
+                this, TypeEnum.MULTI_PLAYER,
+                TexturePack.BUTTON_MULTIPLAYER));
+        buttons.add(
+                new Button(
+                        new Rectangle(GameApp.WIDTH / 2 - buttonWidth / 2, translateY + buttonHeight + gap, buttonWidth,
+                                buttonHeight),
+                        this, TypeEnum.OPTIONS,
+                        TexturePack.BUTTON_OPTIONS));
+        buttons.add(new Button(
+                new Rectangle(GameApp.WIDTH / 2 - buttonWidth / 2, translateY, buttonWidth, buttonHeight), this,
+                TypeEnum.QUIT,
+                TexturePack.BUTTON_QUIT));
+
         for (Button button : buttons) {
             rect = button.getHitBox();
             spriteBatch.draw(button.getTexture(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-
         }
+
         spriteBatch.end();
     }
 
@@ -146,53 +107,25 @@ public class Menu extends State implements Observer {
                 System.out.println("Options button pressed");
                 screenManager.nextState(new Options());
                 break;
-            case GAME_MENU:
-                System.out.println("Game menu button pressed");
-                screenManager.nextState(new Menu(MenuEnum.MENU));
-                break;
 
             case QUIT:
                 // not sure what should happen here
                 System.out.println("Quit button pressed");
                 System.exit(0);
                 break;
-            case JOIN:
-                System.out.println("Join button pressed");
-                screenManager.nextState(new JoinLobby());
-                break;
-
-            case HOST:
-                System.out.println("Host button pressed");
-                screenManager.nextState(new HostLobby());
-                break;
-
-            case PAUSE:
-                System.out.println("Pause button pressed");
-                screenManager.saveState(this);
-                screenManager.nextState(new Menu(MenuEnum.PAUSE));
-                break;
 
             case MULTI_PLAYER:
                 System.out.println("Multiplayer button pressed");
-                screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER));
+                screenManager.nextState(new Multiplayer());
                 break;
 
-            case SINGLE_PLAYER:
-                System.out.println("Singleplayer button pressed");
-                screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER));
-                break;
             case PLAY:
                 System.out.println("Play button pressed");
                 screenManager.nextState(new InGame());
                 break;
-            case BACK:
-                System.out.println("Back button pressed");
-                screenManager.previousState();
-                break;
 
             default:
                 throw new IllegalArgumentException("Invalid button type");
-
         }
     }
 

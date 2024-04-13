@@ -11,10 +11,12 @@ public class GridLayout {
 
     private int columns;
     private int rows;
+    private int gap;
 
-    public GridLayout(int columns, int rows) {
+    public GridLayout(int columns, int rows, int gap) {
         this.columns = columns;
         this.rows = rows;
+        this.gap = gap;
     }
 
     public int getNumberOfColumns() {
@@ -52,14 +54,13 @@ public class GridLayout {
      * Returns: List of Vector2 positions for the buttons
      */
     public List<Vector2> alignCenterX(int numberOfButtons, int rowNumber) {
-
         List<Vector2> buttonPositions = new ArrayList<>();
         float gridWidth = getGridWidth();
         float startX = (columns - numberOfButtons) * gridWidth * 0.5f; // Starting X position to center buttons
         float y = getGridPosition(0, rowNumber).y; // Y position is constant for all buttons in the row
 
         for (int i = 0; i < numberOfButtons; i++) {
-            float x = startX + i * gridWidth; // Calculate X position for each button
+            float x = startX + i * (gridWidth + gap); // Calculate X position for each button
 
             buttonPositions.add(new Vector2(x, y));
         }
@@ -74,7 +75,7 @@ public class GridLayout {
         float x = getGridPosition(columnNumber, 0).x; // X position is constant for all buttons in the column
 
         for (int i = 0; i < numberOfButtons; i++) {
-            float y = startY + i * gridHeight; // Calculate Y position for each button
+            float y = startY + i * (gridHeight + gap); // Calculate Y position for each button
 
             buttonPositions.add(new Vector2(x, y));
         }
@@ -121,18 +122,4 @@ public class GridLayout {
         }
         return buttonRectangles;
     }
-
-    public static void main(String[] args) {
-        int buttons = 3;
-        int rows = 5;
-        int columns = 5;
-        GridLayout grid = new GridLayout(columns, rows);
-
-        List<Vector2> buttonPositions = grid.alignCenterX(buttons, 5);
-        for (Vector2 pos : buttonPositions) {
-            pos = grid.createPadding(pos, (float) 0.1).getPosition();
-        }
-
-    }
-
 }

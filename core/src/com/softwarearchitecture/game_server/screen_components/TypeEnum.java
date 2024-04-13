@@ -11,6 +11,6 @@ public enum TypeEnum {
     MULTI_PLAYER,
     SINGLE_PLAYER,
     PLAY,
-    BACK
-
+    BACK,
+    RESUME
 }
