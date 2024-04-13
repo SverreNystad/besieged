@@ -17,8 +17,15 @@ public class LibGDXSound implements SoundController {
      * 
      * @param volume The volume to play sounds at.
      */
-    public LibGDXSound(float volume) {
-        this.volume = (int) (volume*100);
+    public LibGDXSound(int volume) {
+        this.volume = volume;
+        if (volume < 0) {
+            System.out.println("Volume must be greater than 0");
+            this.volume = 0;
+        } else if (volume > 100) {
+            System.out.println("Volume must be less than 100");
+            this.volume = 100;
+        }
     }
 
     public void setVolume(int volume) {

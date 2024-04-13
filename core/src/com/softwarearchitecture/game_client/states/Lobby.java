@@ -42,6 +42,9 @@ public class Lobby extends State implements Observer {
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
+
+        // Instantiate GameServer on a new thread
+        
     }
 
     @Override

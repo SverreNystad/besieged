@@ -24,7 +24,7 @@ import java.util.Set;
 public class ECSManager {
     
     /** Singleton */
-    private static ECSManager instance;
+    private static ThreadLocal<ECSManager> instance;
 
     /** Stores the entities */
     private Set<Entity> entities;
@@ -47,9 +47,9 @@ public class ECSManager {
      */
     public static synchronized ECSManager getInstance() {
         if (instance == null) {
-            instance = new ECSManager();
+            instance = ThreadLocal.withInitial(ECSManager::new);
         }
-        return instance;
+        return instance.get();
     }
 
     /**
