@@ -11,6 +11,7 @@ public class TexturePack {
     public static final String BACKGROUND_FENRIS = "background_fenris.png";
     public static final String BACKGROUND_GRIFFIN = "background_griffin.png";
     public static final String BACKGROUND_ABYSS = "chad.jpg";
+    public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
 
     // Map-textures
     public static final String placeableTexture = "grass.png";
@@ -82,7 +83,6 @@ public class TexturePack {
     public static final String TOWER_BOW_FIRE = "bow_fire.png";
     public static final String TOWER_SHARPSHOOTER = "sharpshooter_tower.png";
 
-
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
     public static final String ENEMY_ANT_FRAME2 = "ant_frame2.png";
@@ -92,8 +92,7 @@ public class TexturePack {
     public static final String ENEMY_DEAD_ANT__FRAME1 = "dead_ant_frame1.png";
     public static final String ENEMY_DEAD_ANT__FRAME2 = "dead_ant_frame2.png";
 
-    // Colors 
+    // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
-    
 
 }
