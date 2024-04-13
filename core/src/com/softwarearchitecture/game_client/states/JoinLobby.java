@@ -86,7 +86,7 @@ public class JoinLobby extends State implements Observer {
                 break;
 
             case JOIN:
-                screenManager.nextState(new Lobby(defaultControllers));
+                screenManager.nextState(new Lobby(defaultControllers, false));
                 break;
 
             default:
