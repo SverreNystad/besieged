@@ -35,7 +35,7 @@ public class Map {
         return tiles[row][col].getType() == TileType.PLACEABLE;
     }
 
-    public Texture getTextureForTile(Tile tile) {
+    public String getTextureForTile(Tile tile) {
         switch (tile.getType()) {
             case PLACEABLE:
                 return TexturePack.placeableTexture;

@@ -2,6 +2,7 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.UUID;
 import java.util.Optional;
+
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
@@ -24,6 +25,7 @@ import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.math.Vector3;
 
 public class InGame extends State implements Observer {
 
@@ -95,7 +97,7 @@ public class InGame extends State implements Observer {
                 final int finalJ = j; // Create a final copy of j
     
                 Entity tileEntity = new Entity();
-                Texture tileTexture = gameMap.getTextureForTile(tiles[i][j]);
+                String tileTexture = gameMap.getTextureForTile(tiles[i][j]);
 
                 Vector2 position = new Vector2(i * tileWidth, j* tileHeight);
                 Vector2 size = new Vector2(tileWidth, tileHeight);
@@ -153,7 +155,7 @@ public class InGame extends State implements Observer {
         PositionComponent buttonPositionComponent = new PositionComponent(position, 0);
 
         TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(size.x / 2, size.y / 2)); // Text centered within button
-        buttonText.setColor(Color.BLACK); // Set text color to black
+        buttonText.setColor(new Vector3(0f, 0f, 0f)); // Set text color to black
 
         // Button component also has a callback now
         Runnable onButtonClick = () -> {
