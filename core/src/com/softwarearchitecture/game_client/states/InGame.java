@@ -135,7 +135,8 @@ public class InGame extends State implements Observer {
         // Create menu background entity
         Entity menuBackground = new Entity();
         SpriteComponent menuBackgroundSprite = new SpriteComponent(menuBackgroundTexture, new Vector2(1, menuHeight));
-        PositionComponent menuBackgroundPosition = new PositionComponent(new Vector2(0, menuYPosition), 0);
+        Vector2 position1 = new Vector2(0, menuYPosition);
+        PositionComponent menuBackgroundPosition = new PositionComponent(position1, 0);
         menuBackground.addComponent(SpriteComponent.class, menuBackgroundSprite);
         menuBackground.addComponent(PositionComponent.class, menuBackgroundPosition);
         ECSManager.getInstance().addEntity(menuBackground);
@@ -144,7 +145,9 @@ public class InGame extends State implements Observer {
         float buttonWidth = 1.0f / CardType.values().length - 0.05f;
         float buttonHeight = menuHeight - 0.1f;
         for (CardType type : CardType.values()) {
-            Entity button = createCardTypeButton(type, new Vector2(type.ordinal() * buttonWidth, menuYPosition), new Vector2(buttonWidth, buttonHeight));
+            Vector2 position2 = new Vector2(type.ordinal() * buttonWidth, menuYPosition);
+            Vector2 size = new Vector2(buttonWidth, buttonHeight);
+            Entity button = createCardTypeButton(type, position2, size);
             ECSManager.getInstance().addEntity(button);
         }
     }
@@ -184,7 +187,7 @@ public class InGame extends State implements Observer {
 
         System.out.println("Tile is buildable: " + tile.isBuildable());
         System.out.println("Tile has tower: " + tile.hasTower());
-
+    
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
@@ -211,13 +214,16 @@ public class InGame extends State implements Observer {
         } else {
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
             // Place the first card on the tile
+            
+            
             Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
-            ECSManager.getInstance().addEntity(card);
             tile.setCard(card);
+            ECSManager.getInstance().toAdd(card);
             // Assuming there's a method to get the component manager and add a component to it
-            ComponentManager<PlacedCardComponent> cardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
-            PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
-            cardManager.addComponent(tileEntity, placedCardComponent);
+            // ComponentManager<PlacedCardComponent> cardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
+            // PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
+            // cardManager.addComponent(tileEntity, placedCardComponent);
+
         }
 
         // Reset the selected card type after placing a card

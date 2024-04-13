@@ -1,5 +1,7 @@
 package com.softwarearchitecture.ecs.systems;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ public class InputSystem implements System {
     private InputController inputController;
     private TouchLocation lastTouched;
     private TouchLocation lastReleased;
+    private List<Entity> toAdd = new ArrayList<>();
 
     public InputSystem(InputController inputController) {
         this.buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
@@ -48,6 +51,7 @@ public class InputSystem implements System {
         }
         lastTouched = new TouchLocation(-1f, -1f);
         lastReleased = new TouchLocation(-1f, -1f);
+        entities.addAll(toAdd);
     }
 
     private boolean isButtonPressed(ButtonComponent buttonComponent) {
