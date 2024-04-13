@@ -222,9 +222,6 @@ public class InGame extends State implements Observer {
             }
         } else {
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
-            // Place the first card on the tile
-            
-            
             Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
             tile.setCard(card);
             ECSManager.getInstance().toAdd(card);

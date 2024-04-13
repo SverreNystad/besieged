@@ -28,7 +28,7 @@ public class ECSManager {
 
     /** Stores the entities */
     private Set<Entity> entities;
-    private Set<Entity> toAdd;
+    private Set<Entity> toAdd; // Entities to be added before the next update
 
     /** Stores the systems */
     private Set<System> systems;
