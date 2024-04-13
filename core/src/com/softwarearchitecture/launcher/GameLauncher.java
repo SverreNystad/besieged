@@ -17,7 +17,7 @@ public class GameLauncher {
     public static GameClient createGameClient(OrthographicCamera camera, Viewport viewport) {
         LibGDXInput libGDXInput = new LibGDXInput();
         GraphicsController graphicsController = new LibGDXGraphics(camera, viewport);
-        SoundController soundController = new LibGDXSound(0.5f);
+        SoundController soundController = new LibGDXSound(50);
 
         // Set to main manu
         Controllers defaultControllers = new Controllers(graphicsController, libGDXInput, soundController);
