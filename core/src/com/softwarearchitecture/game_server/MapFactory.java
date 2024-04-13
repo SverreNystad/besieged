@@ -28,10 +28,10 @@ public class MapFactory {
                 return new Map(mapString, backgroundImage);
             case "TestMap":
                 String mapString2 = 
-                "BLOCKED_WATER, PLACEABLE, PATH, PLACEABLE, BLOCKED_TREE;" +
+                "BLOCKED_WATER, START, PATH, PLACEABLE, BLOCKED_TREE;" +
                 "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
                 "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
-                "BLOCKED_TREE, PLACEABLE, PATH, PLACEABLE, BLOCKED_ROCK;";
+                "BLOCKED_TREE, PLACEABLE, PATH, END, BLOCKED_ROCK;";
                 String backString = TexturePack.BACKGROUND_GRIFFIN;
                 return new Map(mapString2, backString);
             default:
