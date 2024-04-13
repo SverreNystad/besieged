@@ -29,10 +29,10 @@ public class MovementSystem implements System {
     private TileComponentManager tileManager;
 
     public MovementSystem(ComponentManager<PositionComponent> positionManager,
-                          ComponentManager<VelocityComponent> velocityManager,
-                          ComponentManager<SpriteComponent> drawableManager,
-                          ComponentManager<PathfindingComponent> pathfindingManager,
-                          Viewport viewport, TileComponentManager tileManager) {
+            ComponentManager<VelocityComponent> velocityManager,
+            ComponentManager<SpriteComponent> drawableManager,
+            ComponentManager<PathfindingComponent> pathfindingManager,
+            Viewport viewport, TileComponentManager tileManager) {
         this.positionManager = positionManager;
         this.velocityManager = velocityManager;
         this.drawableManager = drawableManager;
@@ -54,11 +54,11 @@ public class MovementSystem implements System {
                 PathfindingComponent find = pathfinding.get();
 
                 if (find.getPath() == null || find.getPath().isEmpty()) {
-                    find.setPath(findPath(pos.position, tileManager));  // Start pathfinding
+                    find.setPath(findPath(pos.position, tileManager)); // Start pathfinding
                 } else {
                     Vector2 nextWaypoint = find.getPath().peek();
                     if (moveTowards(pos.position, nextWaypoint, vel.velocity, deltaTime)) {
-                        find.getPath().poll();  // Move to next waypoint and remove it from the path
+                        find.getPath().poll(); // Move to next waypoint and remove it from the path
                     }
                 }
             }
@@ -71,10 +71,10 @@ public class MovementSystem implements System {
         float stepLength = velocity.len() * deltaTime;
         if (distance > stepLength) {
             currentPosition.add(direction.scl(stepLength));
-            return false;  // Target not reached
+            return false; // Target not reached
         } else {
             currentPosition.set(targetPosition);
-            return true;  // Target reached
+            return true; // Target reached
         }
     }
 
@@ -95,7 +95,7 @@ public class MovementSystem implements System {
 
     private Vector2 toTileCoordinates(Vector2 position) {
         // Conversion logic to tile coordinates
-        return new Vector2((float) Math.floor(position.x), (float) Math.floor( position.y));
+        return new Vector2((float) Math.floor(position.x), (float) Math.floor(position.y));
     }
 
     private List<Vector2> getNeighbors(Vector2 tilePosition, TileComponentManager tileManager) {
@@ -108,8 +108,6 @@ public class MovementSystem implements System {
         return neighbors;
     }
 
-
-
     private void updateDrawable(SpriteComponent drawable, PositionComponent pos) {
         float screen_width = viewport.getWorldWidth();
         float screen_height = viewport.getWorldHeight();
@@ -118,14 +116,17 @@ public class MovementSystem implements System {
         float drawableWidthInWorld = 1.0f; // Fixed max-width of the entity in the world
         float drawableHeightInWorld = 1.0f; // Fixed max-height of the entity in the world
 
-        throw new UnsupportedOperationException("Not implemented yet! Only the position needs to be updated. Not the sprite.");
+        throw new UnsupportedOperationException(
+                "Not implemented yet! Only the position needs to be updated. Not the sprite.");
         // // Conversion from world position to screen position
         // drawable.screen_u = convertWorldToScreenX(pos.position.x, screen_width);
         // drawable.screen_v = convertWorldToScreenY(pos.position.y, screen_height);
 
         // // Conversion from world size to screen size
-        // drawable.u_size = convertWorldToScreenSize(drawableWidthInWorld, screen_width);
-        // drawable.v_size = convertWorldToScreenSize(drawableHeightInWorld, screen_height);
+        // drawable.u_size = convertWorldToScreenSize(drawableWidthInWorld,
+        // screen_width);
+        // drawable.v_size = convertWorldToScreenSize(drawableHeightInWorld,
+        // screen_height);
     }
 
     // Convert world X-coordinate to screen U coordinate

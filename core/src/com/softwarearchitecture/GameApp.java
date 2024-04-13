@@ -16,7 +16,7 @@ public class GameApp extends ApplicationAdapter {
 	@Override
 	public void create() {
 		camera = new OrthographicCamera();
-		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);	
+		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		gameClient = GameLauncher.createGameClient(this.camera, this.viewport);
 	}
 
@@ -33,6 +33,6 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		//gameClient.dispose();
+		// gameClient.dispose();
 	}
 }
