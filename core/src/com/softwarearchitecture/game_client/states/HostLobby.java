@@ -2,7 +2,6 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ECSManager;
@@ -40,6 +39,7 @@ public class HostLobby extends State implements Observer {
         // Set up the UI elements
         List<TypeEnum> buttonTypes = new ArrayList<>();
         buttonTypes.add(TypeEnum.GAME_MENU);
+        buttonTypes.add(TypeEnum.PLAY);
         buttons = createButtons(buttonTypes);
     
         // Add systems to the ECSManager
