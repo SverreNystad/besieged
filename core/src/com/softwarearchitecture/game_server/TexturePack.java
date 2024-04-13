@@ -30,6 +30,7 @@ public class TexturePack {
     public static final String ROCK = "rock.png";
     public static final String TREE = "tree.png";
     public static final String DEFAULT = "chad.jpg";
+
     // Buttons
     public static final String BUTTON_PLACEHOLDER = "button_placeholder.png";
     public static final String BUTTON_BACK = "button_placeholder.png";
@@ -93,6 +94,9 @@ public class TexturePack {
 
     public static final Texture ENEMY_DEAD_ANT__FRAME1 = new Texture("dead_ant_frame1.png");
     public static final Texture ENEMY_DEAD_ANT__FRAME2 = new Texture("dead_ant_frame2.png");
+
+    // Colors 
+    public static final String COLOR_WHITE = "white_square.jpg";
     
 
 }

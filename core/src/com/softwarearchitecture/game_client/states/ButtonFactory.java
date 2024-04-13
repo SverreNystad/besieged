@@ -74,6 +74,9 @@ public class ButtonFactory {
             case TILE:
                 texture = TexturePack.BUTTON_PLACEHOLDER;
                 break;
+            case CARD:
+                texture = TexturePack.BUTTON_PLACEHOLDER;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }
