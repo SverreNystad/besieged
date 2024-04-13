@@ -17,7 +17,6 @@ public class ClientMessenger implements ClientMessagingController {
     private DAO<String, UUID> joinPlayerDAO;
 
     public ClientMessenger() {
-         
         this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
         this.actionDAO = new DAOBuilder().build(UUID.class, String.class);
         this.joinPlayerDAO = new DAOBuilder().build(String.class, UUID.class);
@@ -41,8 +40,7 @@ public class ClientMessenger implements ClientMessagingController {
         }
         return Optional.empty();
     }
-
-
+    
 
     @Override
     public void addAction(PlayerInput action) {
