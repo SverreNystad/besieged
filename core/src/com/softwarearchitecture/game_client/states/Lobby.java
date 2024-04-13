@@ -48,6 +48,10 @@ public class Lobby extends State implements Observer {
         ECSManager.getInstance().addSystem(inputSystem);
 
         // Instantiate GameServer on a new thread
+        if (serverThread != null && serverThread.isAlive()) {
+            serverThread.interrupt();
+            serverThread = null;
+        }
         if (isHost) {
             Runnable run_server = () -> {
                 GameServer server = new GameServer();
