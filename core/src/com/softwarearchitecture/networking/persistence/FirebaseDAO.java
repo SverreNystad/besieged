@@ -40,7 +40,11 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
                 .setDatabaseUrl("https://besieged-8b842-default-rtdb.europe-west1.firebasedatabase.app")
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options);
+        } else {
+            FirebaseApp.getInstance();
+        }
 
         this.database = FirebaseDatabase.getInstance();
     
