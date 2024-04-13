@@ -24,6 +24,7 @@ import com.softwarearchitecture.math.Vector2;
 public class GameClient {
     private Controllers defaultControllers;
     private ScreenManager screenManager;
+    private static Process serverProcess = null;
 
     public GameClient(Controllers defaultControllers) throws IllegalArgumentException {
         this.defaultControllers = defaultControllers;
