@@ -1,14 +1,8 @@
 package com.softwarearchitecture.game_client;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
-import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
-import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.MenuEnum;
 import com.softwarearchitecture.game_client.states.ScreenManager;
