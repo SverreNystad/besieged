@@ -22,11 +22,6 @@ public class GameClient {
 
     }
     
-
-    public void init() {
-        // currentState.init(graphicsController);
-    }
-
     public void update() {
         screenManager.activateCurrentStateIfChanged();
 
