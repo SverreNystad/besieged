@@ -28,6 +28,7 @@ public class ECSManager {
 
     /** Stores the entities */
     private Set<Entity> entities;
+    private Set<Entity> toAdd; // Entities to be added before the next update
 
     /** Stores the systems */
     private Set<System> systems;
@@ -35,11 +36,15 @@ public class ECSManager {
     /** Stores component managers for different component types */
     private Map<Class<?>, ComponentManager<?>> componentManagers;
 
+    private TileComponentManager tileComponentManager;
+
     // Private constructor to prevent instantiation
     private ECSManager() {
         entities = new HashSet<>();
+        toAdd = new HashSet<>();
         systems = new HashSet<>();
         componentManagers = new HashMap<>();
+        tileComponentManager = new TileComponentManager();
     }
 
     /**
@@ -59,6 +64,10 @@ public class ECSManager {
      */
     public void addEntity(Entity entity) {
         entities.add(entity);
+    }
+
+    public void toAdd(Entity entity) {
+        toAdd.add(entity);
     }
 
     /**
@@ -93,6 +102,10 @@ public class ECSManager {
         return manager;
     }
 
+    public TileComponentManager getTileComponentManager() {
+        return tileComponentManager;  // Provide direct access to TileComponentManager
+    }
+
     /**
      * Adds a system to the ECSManager.
      * 
@@ -117,9 +130,13 @@ public class ECSManager {
      * @param deltaTime The time elapsed since the last update.
      */
     public void update(float deltaTime) {
-        for (System system : systems) {
+        for (Entity entity : toAdd) {
+            entities.add(entity);
+        }
+
+        for (System system : this.systems) {
             // Update each system
-            system.update(entities, deltaTime); // TODO: Render function should be the last system called!
+            system.update(this.entities, deltaTime); // TODO: Render function should be the last system called!
         }
     }
 

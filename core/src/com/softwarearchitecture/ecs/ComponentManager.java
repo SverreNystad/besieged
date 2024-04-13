@@ -2,8 +2,8 @@ package com.softwarearchitecture.ecs;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Optional;
+import java.util.UUID;
 /**
  * Manages components of a specific type for entities in ecs architecture.
  * The ComponentManager allows for the addition, retrieval, and removal of
@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <T> The type of component this manager is responsible for.
  */
 public class ComponentManager<T> {
-    private Map<UUID, T> components = new HashMap<>();
+    protected Map<UUID, T> components = new HashMap<>();
 
     /**
      * Adds a component to an entity. If the entity already has a component

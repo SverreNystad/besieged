@@ -22,6 +22,7 @@ public class Menu extends State implements Observer {
 
     private static final UUID UUID = null;
     private MenuEnum type;
+
     /**
      * Generic state is a state that can be used for multiple purposes
      * for different types of menus.
@@ -37,7 +38,7 @@ public class Menu extends State implements Observer {
     @Override
     protected void activate() {
         // Set background image
-        String backgroundPath = TexturePack.BACKGROUND_TOR;
+        String backgroundPath = TexturePack.BACKGROUND_MAIN_MENU;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
@@ -56,9 +57,9 @@ public class Menu extends State implements Observer {
         InputSystem inputSystem = new InputSystem(this.defaultControllers.inputController);
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
-        
+
         System.out.println("Menu created");
-    }    
+    }
 
     /**
      * Returns a list of button types based on the type of the state.
@@ -131,7 +132,8 @@ public class Menu extends State implements Observer {
             Rectangle rectangle = buttonRectangles.get(i);
             Vector2 buttonPosition = rectangle.getPosition();
             Vector2 buttonDimentions = new Vector2(rectangle.getWidth(), rectangle.getHeight());
-            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get((buttonTypes.size()-1) - i), buttonPosition, buttonDimentions,
+            buttons.add(ButtonFactory.createAndAddButtonEntity(buttonTypes.get((buttonTypes.size() - 1) - i),
+                    buttonPosition, buttonDimentions,
                     this, 0)); // TypeEnum button, Vector2 position, Vector2 size, Observer observer, int
                                // z_index
         }

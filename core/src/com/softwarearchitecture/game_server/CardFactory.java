@@ -26,44 +26,44 @@ public class CardFactory {
         if (type == null) {
             throw new IllegalArgumentException("Card type cannot be null");
         }
-        String texture = "texturePath";
+        String texturePath = "texturePath";
         Vector2 size = new Vector2(0.02f, 0.02f);
         int cost = 0;
         String sound = "soundPath";
 
         switch (type) {
             case ICE:
-                texture = TexturePack.CARD_ICE;
+                texturePath = TexturePack.CARD_ICE;
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case FIRE:
-                texture = TexturePack.CARD_FIRE;
+                texturePath = TexturePack.CARD_FIRE;
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case TECHNOLOGY:
-                texture = TexturePack.CARD_TECHNOLOGY;
+                texturePath = TexturePack.CARD_TECHNOLOGY;
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case LIGHTNING:
-                texture = TexturePack.CARD_LIGHTNING;
+                texturePath = TexturePack.CARD_LIGHTNING;
                 cost = 500;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case BOW:
-                texture = TexturePack.CARD_BOW;
+                texturePath = TexturePack.CARD_BOW;
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case MAGIC:
-                texture = TexturePack.CARD_MAGIC;
+                texturePath = TexturePack.CARD_MAGIC;
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
@@ -74,7 +74,7 @@ public class CardFactory {
 
         PlacedCardComponent placedCardComponent = new PlacedCardComponent((int) position.x, (int) position.y, type);
         PositionComponent positionComponent = new PositionComponent(position, 0);
-        SpriteComponent spriteComponent = new SpriteComponent(texture, size);
+        SpriteComponent spriteComponent = new SpriteComponent(texturePath, size);
         SoundComponent soundComponent = new SoundComponent(sound);
         MoneyComponent moneyComponent = new MoneyComponent(cost);
 
