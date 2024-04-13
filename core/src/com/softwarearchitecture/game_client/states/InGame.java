@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.TileComponentManager;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
@@ -21,7 +22,6 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
-import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
@@ -118,6 +118,10 @@ public class InGame extends State implements Observer {
                 tileEntity.addComponent(TileComponent.class, tileComponent); // Added
                 ECSManager.getInstance().addEntity(tileEntity);
                 
+                // REMOVE THIS
+
+            // Register the TileComponent with the TileComponentManager
+                ((TileComponentManager) ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class)).addComponent(tileEntity, tileComponent);
                 // REMOVE THIS
                 // Store the entity reference in the Tile for easy access later
                 tiles[i][j].setEntity(tileEntity);
