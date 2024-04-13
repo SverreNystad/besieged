@@ -3,6 +3,7 @@ package com.softwarearchitecture.game_client.states;
 import java.util.Optional;
 
 import com.badlogic.gdx.graphics.Color;
+import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -175,25 +176,20 @@ public class InGame extends State implements Observer {
 
     
     // Callback-function for when a tile is clicked. Responsible for placing either a card or a tower on the tile
-   private void handleTileClick(int x, int y) {
+    private void handleTileClick(int x, int y) {
+        System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
+        Tile tile = gameMap.getMapLayout()[x][y];
+        Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
+        if (tileEntity == null) return; // Exit if there is no entity for this tile
 
-    System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
-    Tile tile = gameMap.getMapLayout()[x][y];
-    Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
-    if (tileEntity == null) return; // Exit if there is no entity for this tile
-    System.out.println("Tile is buildable: " + tile.isBuildable());
-    System.out.println("Tile has tower: " + tile.hasTower());
+        System.out.println("Tile is buildable: " + tile.isBuildable());
+        System.out.println("Tile has tower: " + tile.hasTower());
 
-    if (selectedCardType != null && tile.isBuildable() && !tile.hasTower()) {
-        if (!tile.hasCard()) {
-            System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
-            // Place the first card on the tile
-            Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
-            ECSManager.getInstance().addEntity(card);
-            tile.setCard(card);
-            // Assuming there's a method to get the component manager and add a component to it
-            ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity, new PlacedCardComponent(x, y, selectedCardType));
-        } else {
+        if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
+            return;
+        }
+        
+        if (tile.hasCard()) {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
             // There is already one card placed, try to combine them into a tower
             PlacedCardComponent existingCardComponent = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
@@ -212,12 +208,21 @@ public class InGame extends State implements Observer {
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tower);
             }
+        } else {
+            System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
+            // Place the first card on the tile
+            Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
+            ECSManager.getInstance().addEntity(card);
+            tile.setCard(card);
+            // Assuming there's a method to get the component manager and add a component to it
+            ComponentManager<PlacedCardComponent> cardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
+            PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
+            cardManager.addComponent(tileEntity, placedCardComponent);
         }
 
         // Reset the selected card type after placing a card
         selectedCardType = null;
-        System.out.println("");
-    }
+        System.out.println("[DEBUG] Selected card type reset to null");
 }
 
     private void updateTileWithTower(Tile tile, Entity tower) {
