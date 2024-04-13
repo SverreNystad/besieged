@@ -3,7 +3,6 @@ package com.softwarearchitecture.game_client.states;
 import java.util.Optional;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -97,7 +96,7 @@ public class InGame extends State implements Observer {
                 final int finalJ = j; // Create a final copy of j
     
                 Entity tileEntity = new Entity();
-                Texture tileTexture = gameMap.getTextureForTile(tiles[i][j]);
+                String tileTexture = gameMap.getTextureForTile(tiles[i][j]);
 
                 Vector2 position = new Vector2(i * tileWidth, j* tileHeight);
                 Vector2 size = new Vector2(tileWidth, tileHeight);
