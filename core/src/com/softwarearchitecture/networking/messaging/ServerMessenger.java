@@ -19,8 +19,8 @@ public class ServerMessenger implements ServerMessagingController {
     private DAO<String, UUID> pendingPlayerDao;
 
     public ServerMessenger() {
-        gameDao = new DAOBuilder<UUID, byte[]>().withCreate().withRead().withUpdate().build(UUID.class, byte[].class);
-        pendingPlayerDao = new DAOBuilder<String, UUID>().withCreate().build(String.class, UUID.class);
+        gameDao = new DAOBuilder<UUID, byte[]>().build(UUID.class, byte[].class);
+        pendingPlayerDao = new DAOBuilder<String, UUID>().build(String.class, UUID.class);
     }
 
     @Override
