@@ -37,7 +37,7 @@ public class ClientMessenger implements ClientMessagingController {
         Optional<byte[]> data = gameDAO.get(gameID);
         if (data.isPresent()) {
             try {
-                GameState gameState = deserializeFromByteArray(data.get());
+                GameState gameState = GameState.deserializeFromByteArray(data.get());
                 return Optional.of(gameState);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -46,13 +46,7 @@ public class ClientMessenger implements ClientMessagingController {
         return Optional.empty();
     }
 
-    public GameState deserializeFromByteArray(byte[] data) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(data);
-        ObjectInputStream ois = new ObjectInputStream(bais);
-        GameState obj = (GameState) ois.readObject();
-        ois.close();
-        return obj;
-    }
+
 
     @Override
     public void addAction(PlayerInput action) {

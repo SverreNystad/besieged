@@ -5,22 +5,26 @@ import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.ServerMessagingController;
 import com.softwarearchitecture.networking.persistence.DAO;
 import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.badlogic.gdx.Game;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_server.GameState;
 
 public class ServerMessenger implements ServerMessagingController {
 
-    private DAO<UUID, byte[]> dao;
+    private DAO<UUID, byte[]> gameDao;
+    private DAO<String, UUID> pendingPlayerDao;
 
     public ServerMessenger() {
-        dao = new DAOBuilder<UUID, byte[]>().withCreate().withRead().withUpdate().build(UUID.class, byte[].class);
+        gameDao = new DAOBuilder<UUID, byte[]>().withCreate().withRead().withUpdate().build(UUID.class, byte[].class);
+        pendingPlayerDao = new DAOBuilder<String, UUID>().withCreate().build(String.class, UUID.class);
     }
 
     @Override
@@ -33,8 +37,8 @@ public class ServerMessenger implements ServerMessagingController {
         gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerID));
 
         try {
-            byte[] gameOutput = this.serializeToByteArray(gameState);
-            dao.add(gameID, gameOutput);
+            byte[] gameOutput = GameState.serializeToByteArray(gameState);
+            gameDao.add(gameID, gameOutput);
             
         } catch (IOException e) {
             // TODO: handle exception
@@ -43,19 +47,25 @@ public class ServerMessenger implements ServerMessagingController {
         return gameID;
     }
 
-    private byte[] serializeToByteArray(GameState state) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(state);
-        oos.close();
-        return baos.toByteArray();
+    @Override
+    public GameState getGameState(UUID gameID) {
+        try {
+            Optional<byte[]> gameOutput = gameDao.get(gameID);
+            if (!gameOutput.isPresent()) {
+                return null;
+            }
+            return GameState.deserializeFromByteArray(gameOutput.get());
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error getting game state with ID: " + gameID);
+            return null;
+        }
     }
 
     @Override
     public void setNewGameState(UUID id, GameState gameState) {
         try {
-            byte[] gameOutput = this.serializeToByteArray(gameState);
-            dao.update(id, gameOutput);
+            byte[] gameOutput = GameState.serializeToByteArray(gameState);
+            gameDao.update(id, gameOutput);
         } catch (IOException e) {
             System.out.println("Error updating game state with ID: " + id);
         }
@@ -65,6 +75,12 @@ public class ServerMessenger implements ServerMessagingController {
     public List<PlayerInput> getActions(UUID gameID) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getActions'");
+    }
+
+    @Override
+    public Optional<UUID> lookForPendingPlayer(UUID gameID) {
+        String lookingId = gameID.toString() + "JOIN";
+        return pendingPlayerDao.get(lookingId);
     }
 
 }
