@@ -27,8 +27,25 @@ public class ClientMessenger implements ClientMessagingController {
     }
     
     @Override
-    public void joinGame(UUID gameID, UUID playerID) {
+    public boolean joinGame(UUID gameID, UUID playerID) {
         joinPlayerDAO.add(gameID.toString() + "JOIN", playerID);
+
+        try {
+            wait(1000, 0);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Optional<byte[]> data = gameDAO.get(createGameId(gameID));
+        if (data.isPresent()) {
+            try {
+                GameState gameState = GameState.deserializeFromByteArray(data.get());
+                return gameState.playerTwo.equals(playerID);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     public List<GameState> getAllAvailableGames() {
