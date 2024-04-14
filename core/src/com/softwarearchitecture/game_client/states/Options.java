@@ -6,7 +6,6 @@ import java.util.UUID;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -28,7 +27,7 @@ public class Options extends State implements Observer {
     @Override
     protected void activate() {
         // Background
-        String backgroundPath = TexturePack.BACKGROUND_ABYSS;
+        String backgroundPath = TexturePack.BACKGROUND_GRIFFIN;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
