@@ -7,8 +7,10 @@ import com.softwarearchitecture.game_server.Tile;
 
 public class PathfindingComponent implements Serializable {
     public List<Tile> path;
+    public Tile targetTile;
 
     public PathfindingComponent(List<Tile> path) {
         this.path = path;
+        this.targetTile = path.get(0);
     }
 }

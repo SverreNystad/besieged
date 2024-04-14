@@ -56,12 +56,11 @@ public class MovementSystem implements System {
             Vector2 pos = position.get().position;
             Vector2 vel = velocity.get().velocity;
             List<Tile> find = pathfinding.get().path;
-            java.lang.System.out.println(pos);
-
-            Tile nextTile = find.get(0);
+            Tile nextTile = pathfinding.get().targetTile;
+            int currentIndex = find.indexOf(nextTile);
             Vector2 nextWaypoint = new Vector2(nextTile.getX()*tileSize.x, nextTile.getY()*tileSize.y);
             if (moveTowards(pos, nextWaypoint, vel, deltaTime)) {
-                find.remove(0);  // Move to next waypoint and remove it from the path
+                pathfinding.get().targetTile = find.get(currentIndex+1);  // Move to next waypoint and remove it from the path
             }
 
         }
