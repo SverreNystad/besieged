@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.ScreenManager;
+import com.softwarearchitecture.game_server.GameState;
 
 public class GameClient {
     private Controllers defaultControllers;
@@ -17,7 +18,7 @@ public class GameClient {
         this.defaultControllers = defaultControllers;
         yourId = UUID.randomUUID();
 
-        List<String> games = defaultControllers.clientMessagingController.getAllAvailableGames();
+        List<GameState> games = defaultControllers.clientMessagingController.getAllAvailableGames();
         System.out.println("Available games: " + games);
         screenManager = ScreenManager.getInstance();
         screenManager.nextState(new Menu(defaultControllers, yourId));
