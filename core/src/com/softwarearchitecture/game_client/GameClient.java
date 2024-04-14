@@ -9,13 +9,10 @@ import com.softwarearchitecture.game_client.states.ScreenManager;
 import com.softwarearchitecture.game_server.GameState;
 
 public class GameClient {
-    private Controllers defaultControllers;
     private ScreenManager screenManager;
-    private static Process serverProcess = null;
     private UUID yourId;
 
     public GameClient(Controllers defaultControllers) throws IllegalArgumentException {
-        this.defaultControllers = defaultControllers;
         yourId = UUID.randomUUID();
 
         List<GameState> games = defaultControllers.clientMessagingController.getAllAvailableGames();
