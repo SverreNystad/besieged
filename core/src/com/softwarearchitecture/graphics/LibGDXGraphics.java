@@ -1,18 +1,19 @@
 package com.softwarearchitecture.graphics;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
+
+import java.util.HashMap;
 
 public class LibGDXGraphics implements GraphicsController {
     private SpriteBatch batch;
@@ -24,7 +25,15 @@ public class LibGDXGraphics implements GraphicsController {
     public LibGDXGraphics(OrthographicCamera camera, Viewport viewport) {
         batch = new SpriteBatch();
         textures = new HashMap<>();
-        font = new BitmapFont();
+        // Initialize the font using FreeTypeFontGenerator
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/odinson.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 36; // You can adjust the size here
+        parameter.minFilter = Texture.TextureFilter.Linear;
+        parameter.magFilter = Texture.TextureFilter.Linear;
+        font = generator.generateFont(parameter);
+        generator.dispose(); // Don't forget to dispose of the generator
+
         font.setColor(1, 1, 1, 1);
         this.camera = camera;
         this.viewport = viewport;
@@ -39,7 +48,6 @@ public class LibGDXGraphics implements GraphicsController {
         Texture texture = textures.get(component.texture_path);
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-        // System.out.println(width);
         batch.begin();
         batch.draw(texture, positionComponent.position.x * width, positionComponent.position.y * height,
                 component.size_uv.x * width,
@@ -53,38 +61,24 @@ public class LibGDXGraphics implements GraphicsController {
         camera.viewportWidth = Gdx.graphics.getWidth();
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
-        camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         batch.setProjectionMatrix(camera.combined);
     }
 
     @Override
     public void drawText(TextComponent textComponent, PositionComponent positionComponent) {
+        font.getData().setScale(1, 1);
         float charWidth = Gdx.graphics.getWidth() * textComponent.fontScale.x;
         float charHeight = Gdx.graphics.getHeight() * textComponent.fontScale.y;
+        float scale = charHeight / font.getCapHeight();
 
-        // DON'T REMOVE THIS LINE. IT FIXES A BUG WHERE THE FONT SIZE CHANGES EVERY FRAME
-        font.getData().setScale(1, 1);
-
-        // Ensure that charWidth and charHeight are never zero
-        if (charWidth <= 0) charWidth = 10; // Minimum width in pixels
-        if (charHeight <= 0) charHeight = 10; // Minimum height in pixels
-
-        // Set font scale based on character size relative to font cap height
-        float scaleHeight = charHeight / font.getCapHeight();
-        float scaleWidth = charWidth / font.getCapHeight();
-
-        // Additional safeguard to ensure that scaleWidth and scaleHeight are never zero
-        if (scaleWidth <= 0) scaleWidth = 0.1f;
-        if (scaleHeight <= 0) scaleHeight = 0.1f;
-
-        font.getData().setScale(scaleWidth, scaleHeight);
+        font.getData().setScale(scale); // Set the scale uniformly based on height
         font.setColor(textComponent.color.x, textComponent.color.y, textComponent.color.z, 1);
 
+        float xPos = Math.round(positionComponent.position.x * Gdx.graphics.getWidth());
+        float yPos = Math.round(charHeight + positionComponent.position.y * Gdx.graphics.getHeight());
+
         batch.begin();
-        font.draw(batch, textComponent.text, 
-            positionComponent.position.x * Gdx.graphics.getWidth(), 
-            charHeight + positionComponent.position.y * Gdx.graphics.getHeight());
+        font.draw(batch, textComponent.text, xPos, yPos);
         batch.end();
     }
-
 }

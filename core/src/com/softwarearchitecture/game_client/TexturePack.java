@@ -33,6 +33,7 @@ public class TexturePack {
     // Buttons
     public static final String BUTTON_PLACEHOLDER = "button_placeholder.png";
     public static final String BUTTON_BACK = "gui/buttons/back.png";
+    public static final String BUTTON_BACK_MENU = "gui/buttons/back_menu.png";
     public static final String BUTTON_OPTION = "gui/buttons/options.png";
     public static final String BUTTON_GAME_MENU = "gui/buttons/menu.png";
     public static final String BUTTON_QUIT = "gui/buttons/quit.png";
@@ -45,12 +46,15 @@ public class TexturePack {
     public static final String BUTTON_PLUSS = "gui/buttons/pluss.png";
     public static final String BUTTON_MINUS = "gui/buttons/minus.png";
     public static final String BUTTON_MUTE = "gui/buttons/mute.png";
+    public static final String BUTTON_ABYSS = "gui/buttons/abyss.png";
+    public static final String BUTTON_TEST = "gui/buttons/test.png";
 
     // Logo
     public static final String LOGO = "gui/logo.png";
 
     // Overlays
     public static final String SIGN = "gui/overlay/sign.png";
+    public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";

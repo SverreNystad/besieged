@@ -57,7 +57,7 @@ public class InGame extends State implements Observer {
         ECSManager.getInstance().addEntity(backButton);
 
         // Map and tiles
-        Map gameMap = MapFactory.createMap("TestMap");
+        Map gameMap = MapFactory.createMap("Abyss");
         initializeMapEntities(gameMap);
         this.gameMap = gameMap;
 
@@ -191,7 +191,9 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
         if (tileEntity == null)
             return; // Exit if there is no entity for this tile
-
+        System.out.println(selectedCardType);
+        System.out.println(tile.isBuildable());
+        System.out.println(tile.hasTower());
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
@@ -253,7 +255,7 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
         if (tileEntity != null && tower.getComponent(SpriteComponent.class).isPresent()) {
             SpriteComponent spriteComponent = tower.getComponent(SpriteComponent.class).get();
-            spriteComponent.size_uv.set(gameMap.getTileWidth(), gameMap.getTileHeight());
+            spriteComponent.size_uv.set(gameMap.getTileWidth() * 0.3f, gameMap.getTileWidth() * 0.8f);
             if (spriteComponent != null) {
                 tileEntity.addComponent(SpriteComponent.class, spriteComponent);
             }

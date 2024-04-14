@@ -40,8 +40,6 @@ public class Menu extends State implements Observer {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        TextComponent textComponent = new TextComponent("Menu!", new Vector2(0.05f, 0.05f));
-        background.addComponent(TextComponent.class, textComponent);
         ECSManager.getInstance().addEntity(background);
         System.out.println("Menu activated");
 
