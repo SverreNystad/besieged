@@ -26,7 +26,7 @@ public class ServerMessenger implements ServerMessagingController {
 
     @Override
     public UUID createGame() {
-        UUID gameID = UUID.randomUUID();
+        UUID gameId = UUID.randomUUID();
         UUID playerID = UUID.randomUUID();
         GameState gameState = new GameState();
         // Create a player entity for player one
@@ -35,29 +35,29 @@ public class ServerMessenger implements ServerMessagingController {
 
         try {
             byte[] gameOutput = GameState.serializeToByteArray(gameState);
-            gameDao.add(createGameId(gameID), gameOutput);
+            gameDao.add(createGameId(gameId), gameOutput);
             
         } catch (IOException e) {
             // TODO: handle exception
             System.out.println("Error creating game");
         }
-        return gameID;
+        return gameId;
     }
 
-    private String createGameId(UUID gameID) {
-        return GAME_PREFIX + gameID.toString();
+    private String createGameId(UUID gameId) {
+        return GAME_PREFIX + gameId.toString();
     }
 
     @Override
-    public GameState getGameState(UUID gameID) {
+    public GameState getGameState(UUID gameId) {
         try {
-            Optional<byte[]> gameOutput = gameDao.get(createGameId(gameID));
+            Optional<byte[]> gameOutput = gameDao.get(createGameId(gameId));
             if (!gameOutput.isPresent()) {
                 return null;
             }
             return GameState.deserializeFromByteArray(gameOutput.get());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error getting game state with ID: " + gameID);
+            System.out.println("Error getting game state with ID: " + gameId);
             return null;
         }
     }
@@ -72,17 +72,16 @@ public class ServerMessenger implements ServerMessagingController {
         }
     }
 
-    
-    public List<PlayerInput> lookForPendingActions(UUID gameID) {
+    @Override
+    public List<PlayerInput> lookForPendingActions(UUID gameId) {
         
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
 
     @Override
-    public Optional<UUID> lookForPendingPlayer(UUID gameID) {
-        String lookingId = gameID.toString() + "JOIN";
+    public Optional<UUID> lookForPendingPlayer(UUID gameId) {
+        String lookingId = gameId.toString() + "JOIN";
         return pendingPlayerDao.get(lookingId);
     }
-
 }
