@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -56,8 +57,29 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     }
     
     @Override
-    public List<T> loadAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<K> loadAll() {
+        DatabaseReference ref = database.getReference();
+        CompletableFuture<List<K>> future = new CompletableFuture<>();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<K> keys = (List<K>) dataSnapshot.getChildren();
+                future.complete(keys);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                future.complete(null);
+            }
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     @Override
