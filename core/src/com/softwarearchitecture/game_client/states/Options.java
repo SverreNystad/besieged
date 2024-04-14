@@ -7,14 +7,14 @@ import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
-import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 import com.softwarearchitecture.game_client.Controllers;
-import com.softwarearchitecture.game_server.TexturePack;
+import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.math.Vector2;
 
 public class Options extends State implements Observer {
@@ -24,7 +24,7 @@ public class Options extends State implements Observer {
     public Options(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
     }
-    
+
     @Override
     protected void activate() {
         // Background
@@ -37,17 +37,22 @@ public class Options extends State implements Observer {
         TextComponent textComponent = new TextComponent("Options!", new Vector2(0.05f, 0.05f));
         background.addComponent(TextComponent.class, textComponent);
         ECSManager.getInstance().addEntity(background);
-        
+
         // Buttons
-        Entity backButton = ButtonFactory.createAndAddButtonEntity(TypeEnum.BACK, new Vector2(0.5f-0.25f/2f, 0f), new Vector2(0.25f, 0.25f), this, 0);
-        
+        Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.25f / 2f, 0f),
+                new Vector2(0.25f, 0.25f), this, 0);
+
         // Volume options
-        Entity plussButton = ButtonFactory.createAndAddButtonEntity(TypeEnum.PLUSS, new Vector2(0.75f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
-        Entity minusButton = ButtonFactory.createAndAddButtonEntity(TypeEnum.MINUS, new Vector2(0.25f-0.25f/2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
-        Entity muteButton = ButtonFactory.createAndAddButtonEntity(TypeEnum.MUTE, new Vector2(0.75f+0.25f/2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
+        Entity plussButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLUSS, new Vector2(0.75f, 0.75f),
+                new Vector2(0.125f, 0.125f), this, 0);
+        Entity minusButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.MINUS,
+                new Vector2(0.25f - 0.25f / 2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
+        Entity muteButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.MUTE,
+                new Vector2(0.75f + 0.25f / 2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
         volumeText = new Entity();
-        TextComponent volumeTextComponent = new TextComponent("Volume: " + defaultControllers.soundController.getVolume(), new Vector2(0.05f, 0.05f));
-        PositionComponent volumeTextPosition = new PositionComponent(new Vector2(0.5f-0.25f/2f, 0.75f), 0);
+        TextComponent volumeTextComponent = new TextComponent(
+                "Volume: " + defaultControllers.soundController.getVolume(), new Vector2(0.05f, 0.05f));
+        PositionComponent volumeTextPosition = new PositionComponent(new Vector2(0.5f - 0.25f / 2f, 0.75f), 0);
         volumeText.addComponent(TextComponent.class, volumeTextComponent);
         volumeText.addComponent(PositionComponent.class, volumeTextPosition);
         ECSManager.getInstance().addEntity(volumeText);
@@ -60,7 +65,7 @@ public class Options extends State implements Observer {
     }
 
     @Override
-    public void onAction(TypeEnum type) {
+    public void onAction(ButtonEnum type) {
         switch (type) {
             case BACK:
                 ScreenManager.getInstance().previousState();
@@ -84,7 +89,8 @@ public class Options extends State implements Observer {
             default:
                 break;
         }
-        ComponentManager<TextComponent> textComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<TextComponent> textComponentManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(TextComponent.class);
         Optional<TextComponent> volumeTextComponent = textComponentManager.getComponent(volumeText);
         if (volumeTextComponent.isPresent()) {
             volumeTextComponent.get().text = "Volume: " + defaultControllers.soundController.getVolume();
