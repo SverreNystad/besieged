@@ -62,6 +62,9 @@ public class ButtonFactory {
             case BACK:
                 texture = TexturePack.BUTTON_BACK;
                 break;
+            case BACK_MENU:
+                texture = TexturePack.BUTTON_BACK_MENU;
+                break;
             case PLUSS:
                 texture = TexturePack.BUTTON_PLUSS;
                 break;
@@ -76,6 +79,12 @@ public class ButtonFactory {
                 break;
             case CARD:
                 texture = TexturePack.BUTTON_PLACEHOLDER;
+                break;
+            case ABYSS:
+                texture = TexturePack.BUTTON_ABYSS;
+                break;
+            case TEST:
+                texture = TexturePack.BUTTON_TEST;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid button type");

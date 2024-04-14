@@ -55,7 +55,6 @@ public class JoinLobby extends State implements Observer {
     private List<Entity> createButtons(List<ButtonEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
-        int buffergrids = 2;
 
         List<Rectangle> buttonRectangles = ButtonFactory.FindUVButtonPositions(numberOfButtons, new Vector2(0, 0), 1,
                 1);
@@ -87,11 +86,25 @@ public class JoinLobby extends State implements Observer {
                 break;
 
             case JOIN:
-                screenManager.nextState(new Lobby(defaultControllers, false, yourId));
+                screenManager.nextState(new Lobby(defaultControllers, yourId));
                 break;
 
             default:
                 break;
+        }
+    }
+
+    private void joinGame(UUID gameID) {
+        // Send a message to the server to join the game
+        boolean didJoin = defaultControllers.clientMessagingController.joinGame(gameID, yourId);
+
+        // Wait for the server to respond
+        if (didJoin) {
+            // Change the state to the game
+            screenManager.nextState(new InGame(defaultControllers, yourId));
+        } else {
+            // Notify the user that the game is full
+            System.out.println("Game is full");
         }
     }
 }

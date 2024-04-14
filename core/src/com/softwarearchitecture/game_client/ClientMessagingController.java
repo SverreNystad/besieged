@@ -15,13 +15,13 @@ public interface ClientMessagingController {
 
     /**
      * Try to make the player with the given playerID join the game with the given gameID.
-     * If the game does not exist or does not have space for the player, return an empty optional. 
+     * If the game does not exist or does not have space for the player to join, return false.
      * If the player was added to the game, return the updated game state.
      * @param gameID of the game to join
      * @param playerID of the player to add to the game
-     * @return the game state if the player was added to the game, otherwise an empty optional
+     * @return  true if the player was added to the game, false otherwise
      */
-    public void joinGame(UUID gameID, UUID playerID);
+    public boolean joinGame(UUID gameID, UUID playerID);
 
     /**
      * Get the game state of the game with the given gameID.

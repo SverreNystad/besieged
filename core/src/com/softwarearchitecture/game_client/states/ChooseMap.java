@@ -18,7 +18,7 @@ import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 
-public class Multiplayer extends State implements Observer {
+public class ChooseMap extends State implements Observer {
 
     /**
      * Generic state is a state that can be used for multiple purposes
@@ -27,7 +27,7 @@ public class Multiplayer extends State implements Observer {
      * parameters: type: GenericStateType, wich is an enum that defines
      * the use of the state
      */
-    public Multiplayer(Controllers defaultControllers, UUID yourId) {
+    public ChooseMap(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
     }
 
@@ -49,31 +49,33 @@ public class Multiplayer extends State implements Observer {
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
 
-        // Add the sign in button
+        // Add the choose map
         Entity logo = new Entity();
-        SpriteComponent logoSprite = new SpriteComponent(TexturePack.SIGN, new Vector2(0.5f, 1f));
-        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), 1);
+        SpriteComponent logoSprite = new SpriteComponent(TexturePack.CHOOSE_MAP, new Vector2(0.35f, 0.06f));
+        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.35f / 2, 0.75f), 1);
         logo.addComponent(SpriteComponent.class, logoSprite);
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addEntity(logo);
 
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
-        float buttonWidth = 0.165f;
-        float buttonHeight = 0.1f;
+        float buttonWidth = 0.25f;
+        float buttonHeight = 0.3f;
         float gap = 0.02f;
         float translateY = 0.1f;
 
+        // TODO: Make map fetching dynamic
+
         // Create button rectangles
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.JOIN,
-                new Vector2(0.403f - buttonWidth / 2, translateY + (buttonHeight + gap) * 2),
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.ABYSS,
+                new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.25f),
                 new Vector2(buttonWidth, buttonHeight), this, 2));
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.HOST,
-                new Vector2(0.503f, translateY + (buttonHeight + gap) * 2),
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.TEST,
+                new Vector2(0.5f + 0.01f, translateY + 0.25f),
                 new Vector2(buttonWidth, buttonHeight), this, 2));
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK_MENU,
-                new Vector2(0.495f - 0.35f / 2, translateY + (buttonHeight + gap) * 1),
-                new Vector2(0.35f, buttonHeight), this, 2));
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK,
+                new Vector2(0.495f - 0.35f / 2, translateY),
+                new Vector2(0.35f, 0.1f), this, 2));
     }
 
     /**
@@ -87,19 +89,19 @@ public class Multiplayer extends State implements Observer {
         // Switches the state of the game based on the button type
 
         switch (type) {
-            case JOIN:
+            case ABYSS:
                 System.out.println("Join button pressed");
                 screenManager.nextState(new InGame(defaultControllers, yourId));
                 break;
 
-            case HOST:
+            case TEST:
                 System.out.println("Host button pressed");
-                screenManager.nextState(new ChooseMap(defaultControllers, yourId));
+                screenManager.nextState(new InGame(defaultControllers, yourId));
                 break;
 
-            case BACK_MENU:
+            case BACK:
                 System.out.println("Back button pressed");
-                screenManager.nextState(new Menu(defaultControllers, yourId));
+                screenManager.nextState(new Multiplayer(defaultControllers, yourId));
                 break;
 
             default:
