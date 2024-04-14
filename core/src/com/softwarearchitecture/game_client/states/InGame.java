@@ -22,8 +22,6 @@ import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.game_server.CardFactory;
 import com.softwarearchitecture.game_server.CardFactory.CardType;
-import com.softwarearchitecture.game_server.EnemyFactory;
-import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
@@ -139,11 +137,6 @@ public class InGame extends State implements Observer {
 
             }
         }
-        //Add fist wave
-        Entity testMob = EnemyFactory.createEnemy(EnemyType.WOLF, gameMap);
-        Entity testMob2 = EnemyFactory.createEnemy(EnemyType.NORDIC_ANT, gameMap);
-        ECSManager.getInstance().addEntity(testMob);
-        ECSManager.getInstance().addEntity(testMob2);
 
     }
 
