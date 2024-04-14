@@ -243,6 +243,7 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
         if (tileEntity != null && card.getComponent(SpriteComponent.class).isPresent()) {
             SpriteComponent spriteComponent = card.getComponent(SpriteComponent.class).get();
+            spriteComponent.size_uv.set(gameMap.getTileWidth(), gameMap.getTileHeight());
             if (spriteComponent != null) {
                 tileEntity.addComponent(SpriteComponent.class, spriteComponent);
             }
@@ -270,7 +271,7 @@ public class InGame extends State implements Observer {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
                 // Convert the UV coordinates back to XY coordinates
                 int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = Math.round(positionComponent.getPosition().y / tileHeight);
+                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
                 
                 if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
                     return entity;
