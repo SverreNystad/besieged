@@ -86,7 +86,7 @@ public class JoinLobby extends State implements Observer {
                 break;
 
             case JOIN:
-                screenManager.nextState(new Lobby(defaultControllers, false, yourId));
+                screenManager.nextState(new Lobby(defaultControllers, yourId));
                 break;
 
             default:
@@ -94,17 +94,15 @@ public class JoinLobby extends State implements Observer {
         }
     }
 
-
     private void joinGame(UUID gameID) {
         // Send a message to the server to join the game
         boolean didJoin = defaultControllers.clientMessagingController.joinGame(gameID, yourId);
-        
+
         // Wait for the server to respond
         if (didJoin) {
             // Change the state to the game
             screenManager.nextState(new InGame(defaultControllers, yourId));
-        }
-        else {
+        } else {
             // Notify the user that the game is full
             System.out.println("Game is full");
         }
