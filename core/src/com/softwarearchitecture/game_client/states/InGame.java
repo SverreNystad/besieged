@@ -15,11 +15,14 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
+import com.softwarearchitecture.ecs.systems.MovementSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.game_server.CardFactory;
 import com.softwarearchitecture.game_server.CardFactory.CardType;
+import com.softwarearchitecture.game_server.EnemyFactory;
+import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
@@ -67,8 +70,11 @@ public class InGame extends State implements Observer {
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
+        MovementSystem MovementSystem = new MovementSystem();
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
+        ECSManager.getInstance().addSystem(MovementSystem);
+        
     }
 
     @Override
@@ -130,6 +136,10 @@ public class InGame extends State implements Observer {
 
             }
         }
+        //Add fist wave
+        Entity testMob = EnemyFactory.createEnemy(EnemyType.NORDIC_ANT, gameMap);
+        ECSManager.getInstance().addEntity(testMob);
+
     }
 
     private void createCardSelectionMenu() {
