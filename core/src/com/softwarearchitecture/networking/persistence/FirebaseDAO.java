@@ -1,11 +1,11 @@
 package com.softwarearchitecture.networking.persistence;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -57,9 +57,48 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     }
     
     @Override
-    public List<T> loadAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<K> loadAllIndices() {
+        try {
+            // Call the asynchronous loadAll method and wait for it to complete
+            return getAllIndices().join();  // This blocks the current thread until the future completes
+        } catch (Exception e) {
+            // Log the exception or handle it according to your error handling policy
+            System.err.println("Failed to load all entries: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
+
+    private CompletableFuture<List<K>> getAllIndices() {
+        // Define the path where your data keys are located
+        DatabaseReference ref = database.getReference("");
+        
+        // This will be used to store the result
+        CompletableFuture<List<K>> future = new CompletableFuture<>();
+        List<K> keyList = new ArrayList<>();
+
+        // Listen for a single snapshot of the data at this location
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Assume the keys are the node names at this path
+                    K key = gson.fromJson(snapshot.getKey(), idParameterClass);
+                    keyList.add(key);
+                }
+                // Complete the future with the loaded list of keys
+                future.complete(keyList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors
+                future.completeExceptionally(new Exception(databaseError.getMessage()));
+            }
+        });
+
+        return future;
+    }
+
 
     @Override
     public Optional<T> get(K id) {

@@ -14,14 +14,16 @@ import com.softwarearchitecture.networking.persistence.DAOBuilder;
 
 public class ClientMessenger implements ClientMessagingController {
 
-    private DAO<UUID, byte[]> gameDAO;
+    private DAO<String, byte[]> gameDAO;
     private DAO<UUID, String> actionDAO;
     private DAO<String, UUID> joinPlayerDAO;
+    private DAO<String, String> gamesDAO;
 
     public ClientMessenger() {
         this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
         this.actionDAO = new DAOBuilder().build(UUID.class, String.class);
         this.joinPlayerDAO = new DAOBuilder().build(String.class, UUID.class);
+        this.gamesDAO = new DAOBuilder().build(String.class, String.class);
     }
     
     @Override
@@ -30,13 +32,22 @@ public class ClientMessenger implements ClientMessagingController {
     }
 
     public List<GameState> getAllAvailableGames() {
-        List<byte[]> rawGames = gameDAO.loadAll();
+        List<String> indexes = gamesDAO.loadAllIndices();
         List<GameState> games = new ArrayList<>();
-        for (byte[] rawGame : rawGames) {
-            try {
-                games.add(GameState.deserializeFromByteArray(rawGame));
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+        for (String index : indexes) {
+            if (index.contains("GAME")) {
+                try {
+                    
+                    Optional<byte[]> data = gameDAO.get(index);
+                    if (data.isPresent()) {
+                        GameState gameState = GameState.deserializeFromByteArray(data.get());
+                        if (gameState.playerTwo == null) {
+                            games.add(gameState);
+                        }
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return games;
@@ -44,7 +55,7 @@ public class ClientMessenger implements ClientMessagingController {
 
     @Override
     public Optional<GameState> requestGameState(UUID gameID) {
-        Optional<byte[]> data = gameDAO.get(gameID);
+        Optional<byte[]> data = gameDAO.get(createGameId(gameID));
         if (data.isPresent()) {
             try {
                 // TODO: ADD LOGIC FOR NOT ADDING GAMES THAT ARE FULL
@@ -55,6 +66,10 @@ public class ClientMessenger implements ClientMessagingController {
             }
         }
         return Optional.empty();
+    }
+
+    private String createGameId(UUID gameID) {
+        return "GAME" + gameID.toString();
     }
     
 

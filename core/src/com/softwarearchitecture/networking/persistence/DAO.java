@@ -22,7 +22,7 @@ public abstract class DAO<K, T> {
      * @return A {@link List} containing all instances of type {@code T} found in the data storage;
      *         an empty list if no instances are found.
      */
-    public abstract List<T> loadAll();
+    public abstract List<K> loadAllIndices();
 
     /**
      * Finds and returns an {@link Optional} wrapper for the instance of type {@code T} identified by the given primary key {@code id}.
