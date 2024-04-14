@@ -36,10 +36,12 @@ import com.softwarearchitecture.math.Vector3;
 public class InGame extends State implements Observer {
 
     private Map gameMap;
+    private String mapName;
     private CardType selectedCardType = null;
 
-    protected InGame(Controllers defaultControllers, UUID yourId) {
+    protected InGame(Controllers defaultControllers, UUID yourId, String mapName) {
         super(defaultControllers, yourId);
+        this.mapName = mapName;
     }
 
     @Override
@@ -61,7 +63,7 @@ public class InGame extends State implements Observer {
         ECSManager.getInstance().addEntity(backButton);
 
         // Map and tiles
-        Map gameMap = MapFactory.createMap("Abyss");
+        Map gameMap = MapFactory.createMap(mapName);
         initializeMapEntities(gameMap);
         this.gameMap = gameMap;
 
