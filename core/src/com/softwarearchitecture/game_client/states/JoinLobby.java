@@ -18,6 +18,8 @@ import com.softwarearchitecture.math.Vector2;
 
 public class JoinLobby extends State implements Observer {
 
+    private final int buttonZIndex = 3;
+
     public JoinLobby(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
     }
@@ -41,7 +43,9 @@ public class JoinLobby extends State implements Observer {
         logo.addComponent(PositionComponent.class, textPosition);
         ECSManager.getInstance().addEntity(logo);
 
-
+        // Add menu button
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.MULTI_PLAYER, new Vector2(0.45f, 0.05f), new Vector2(0.1f, 0.1f), this, buttonZIndex);
+        
         
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
@@ -55,7 +59,9 @@ public class JoinLobby extends State implements Observer {
         for (GameState game : games) {
             System.out.println("Game: " + game.playerOne + " " + game.playerTwo);
             ButtonEnum buttonType = ButtonEnum.JOIN;
-            ButtonFactory.createAndAddButtonEntity(buttonType, new Vector2(0.5f, 0.5f), new Vector2(0.1f, 0.1f), this, 3);
+            Vector2 buttonWidth = new Vector2(0.2f, 0.2f);
+            float buttonX = 0.5f - buttonWidth.x / 2;
+            ButtonFactory.createAndAddButtonEntity(buttonType, new Vector2(buttonX, 0.5f), buttonWidth, this, buttonZIndex);
         }
     }
 
@@ -69,8 +75,8 @@ public class JoinLobby extends State implements Observer {
     @Override
     public void onAction(ButtonEnum type) {
         switch (type) {
-            case GAME_MENU:
-                screenManager.nextState(new Menu(defaultControllers, yourId));
+            case MULTI_PLAYER:
+                screenManager.nextState(new Multiplayer(defaultControllers, yourId));
                 break;
             case JOIN:
                 System.out.println("Join button pressed");
