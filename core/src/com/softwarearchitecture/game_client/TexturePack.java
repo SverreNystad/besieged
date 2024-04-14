@@ -57,13 +57,13 @@ public class TexturePack {
     public static final String CARD_MAGIC = "magic_card.png";
 
     // Towers
-    public static final String FIRE_MAGIC = "chad.jpg";
-    public static final String ICE_MAGIC = "chad.jpg";
-    public static final String TOR = "chad.jpg";
-    public static final String MAGIC = "chad.jpg";
-    public static final String FIRE_BOW = "chad.jpg";
-    public static final String SHARP_SHOOTER = "chad.jpg";
-    public static final String BOW = "chad.jpg";
+    // public static final String FIRE_MAGIC = "chad.jpg";
+    // public static final String ICE_MAGIC = "chad.jpg";
+    // public static final String TOR = "chad.jpg";
+    // public static final String MAGIC = "chad.jpg";
+    // public static final String FIRE_BOW = "chad.jpg";
+    // public static final String SHARP_SHOOTER = "chad.jpg";
+    // public static final String BOW = "chad.jpg";
 
     // Towers 2
     public static final String TOWER_TOR_FRAME1 = "tor_frame1.png";

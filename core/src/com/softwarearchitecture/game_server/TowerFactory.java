@@ -46,7 +46,7 @@ public class TowerFactory {
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
                 break;
             case ICE_MAGIC:
-                textures.add(TexturePack.ICE_MAGIC);
+                textures.add(TexturePack.DEFAULT);
                 damage = 6;
                 range = 4;
                 sound = AudioPack.TOWER_ICE_MAGIC;
