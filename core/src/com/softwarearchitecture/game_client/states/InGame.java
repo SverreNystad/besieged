@@ -14,6 +14,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
@@ -71,9 +72,11 @@ public class InGame extends State implements Observer {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
+        EnemySystem EnemySystem = new EnemySystem();
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
+        ECSManager.getInstance().addSystem(EnemySystem);
         
     }
 
@@ -138,7 +141,9 @@ public class InGame extends State implements Observer {
         }
         //Add fist wave
         Entity testMob = EnemyFactory.createEnemy(EnemyType.WOLF, gameMap);
+        Entity testMob2 = EnemyFactory.createEnemy(EnemyType.NORDIC_ANT, gameMap);
         ECSManager.getInstance().addEntity(testMob);
+        ECSManager.getInstance().addEntity(testMob2);
 
     }
 
