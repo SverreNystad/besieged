@@ -15,11 +15,12 @@ import com.softwarearchitecture.game_server.GameState;
 
 public class ServerMessenger implements ServerMessagingController {
 
-    private DAO<UUID, byte[]> gameDao;
+    private DAO<String, byte[]> gameDao;
     private DAO<String, UUID> pendingPlayerDao;
+    private static final String GAME_PREFIX = "GAME";
 
     public ServerMessenger() {
-        gameDao = new DAOBuilder<UUID, byte[]>().build(UUID.class, byte[].class);
+        gameDao = new DAOBuilder<String, byte[]>().build(String.class, byte[].class);
         pendingPlayerDao = new DAOBuilder<String, UUID>().build(String.class, UUID.class);
     }
 
@@ -34,7 +35,7 @@ public class ServerMessenger implements ServerMessagingController {
 
         try {
             byte[] gameOutput = GameState.serializeToByteArray(gameState);
-            gameDao.add(gameID, gameOutput);
+            gameDao.add(createGameId(gameID), gameOutput);
             
         } catch (IOException e) {
             // TODO: handle exception
@@ -43,10 +44,14 @@ public class ServerMessenger implements ServerMessagingController {
         return gameID;
     }
 
+    private String createGameId(UUID gameID) {
+        return GAME_PREFIX + gameID.toString();
+    }
+
     @Override
     public GameState getGameState(UUID gameID) {
         try {
-            Optional<byte[]> gameOutput = gameDao.get(gameID);
+            Optional<byte[]> gameOutput = gameDao.get(createGameId(gameID));
             if (!gameOutput.isPresent()) {
                 return null;
             }
@@ -61,7 +66,7 @@ public class ServerMessenger implements ServerMessagingController {
     public void setNewGameState(UUID id, GameState gameState) {
         try {
             byte[] gameOutput = GameState.serializeToByteArray(gameState);
-            gameDao.update(id, gameOutput);
+            gameDao.update(createGameId(id), gameOutput);
         } catch (IOException e) {
             System.out.println("Error updating game state with ID: " + id);
         }
