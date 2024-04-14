@@ -48,7 +48,7 @@ public class EnemyFactory {
                 size.set(0.025f, 0.025f);
                 velocity.set(0.01f, 0.01f);
                 health = 10;
-                maxHealth = health;
+                maxHealth = 10;
                 sound = "soundPath"; // TODO: Add the correct sound path
                 money = 1;
 
@@ -60,7 +60,7 @@ public class EnemyFactory {
                 size.set(0.1f, 0.1f);
                 velocity.set(0.02f, 0.02f);
                 health = 100;
-                maxHealth = health;
+                maxHealth = 100;
                 sound = "soundPath"; // TODO: Add the correct sound path
                 money = 5;
 
