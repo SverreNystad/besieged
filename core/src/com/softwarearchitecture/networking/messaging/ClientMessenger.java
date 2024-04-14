@@ -17,11 +17,13 @@ public class ClientMessenger implements ClientMessagingController {
     private DAO<UUID, byte[]> gameDAO;
     private DAO<UUID, String> actionDAO;
     private DAO<String, UUID> joinPlayerDAO;
+    private DAO<String, String> gamesDAO;
 
     public ClientMessenger() {
         this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
         this.actionDAO = new DAOBuilder().build(UUID.class, String.class);
         this.joinPlayerDAO = new DAOBuilder().build(String.class, UUID.class);
+        this.gamesDAO = new DAOBuilder().build(String.class, String.class);
     }
     
     @Override
@@ -29,8 +31,12 @@ public class ClientMessenger implements ClientMessagingController {
         joinPlayerDAO.add(gameID.toString() + "JOIN", playerID);
     }
 
-    public List<GameState> getAllAvailableGames() {
-        List<byte[]> rawGames = gameDAO.loadAll();
+    public List<String> getAllAvailableGames() {
+        return gamesDAO.loadAllIndices();
+        /* 
+        
+        List<byte[]> rawGames = gamesDAO.loadAll();
+        
         List<GameState> games = new ArrayList<>();
         for (byte[] rawGame : rawGames) {
             try {
@@ -40,6 +46,7 @@ public class ClientMessenger implements ClientMessagingController {
             }
         }
         return games;
+        */
     }
 
     @Override

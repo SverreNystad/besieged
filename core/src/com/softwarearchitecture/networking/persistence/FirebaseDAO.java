@@ -57,30 +57,48 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     }
     
     @Override
-    public List<K> loadAll() {
-        DatabaseReference ref = database.getReference();
+    public List<K> loadAllIndices() {
+        try {
+            // Call the asynchronous loadAll method and wait for it to complete
+            return getAllIndices().join();  // This blocks the current thread until the future completes
+        } catch (Exception e) {
+            // Log the exception or handle it according to your error handling policy
+            System.err.println("Failed to load all entries: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    private CompletableFuture<List<K>> getAllIndices() {
+        // Define the path where your data keys are located
+        DatabaseReference ref = database.getReference("");
+        
+        // This will be used to store the result
         CompletableFuture<List<K>> future = new CompletableFuture<>();
+        List<K> keyList = new ArrayList<>();
+
+        // Listen for a single snapshot of the data at this location
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<K> keys = (List<K>) dataSnapshot.getChildren();
-                future.complete(keys);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Assume the keys are the node names at this path
+                    K key = gson.fromJson(snapshot.getKey(), idParameterClass);
+                    keyList.add(key);
+                }
+                // Complete the future with the loaded list of keys
+                future.complete(keyList);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                future.complete(null);
+                // Handle possible errors
+                future.completeExceptionally(new Exception(databaseError.getMessage()));
             }
         });
 
-        try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        return future;
     }
+
 
     @Override
     public Optional<T> get(K id) {
