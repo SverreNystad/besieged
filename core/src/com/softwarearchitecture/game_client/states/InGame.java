@@ -5,7 +5,6 @@ import java.util.UUID;
 import java.util.List;
 import java.util.Optional;
 
-import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.TileComponentManager;
@@ -25,6 +24,7 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
+import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
@@ -170,7 +170,7 @@ public class InGame extends State implements Observer {
         // Define the PositionComponent for the button
         PositionComponent buttonPositionComponent = new PositionComponent(position, 2);
 
-        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(size.x / 2, size.y / 2)); // Text centered within button
+        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(0.015f, 0.015f)); // Text centered within button
         buttonText.setColor(new Vector3(0f, 0f, 0f)); // Set text color to black
 
         // Button component also has a callback now
@@ -195,10 +195,6 @@ public class InGame extends State implements Observer {
         Tile tile = gameMap.getMapLayout()[x][y];
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
         if (tileEntity == null) return; // Exit if there is no entity for this tile
-
-        System.out.println("Tile is buildable: " + tile.isBuildable());
-        System.out.println("Tile has card: " + tile.hasCard());
-        System.out.println("Tile has tower: " + tile.hasTower());
     
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
@@ -209,9 +205,9 @@ public class InGame extends State implements Observer {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
             PlacedCardComponent existingCardComponent = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
             CardType existingCardType = existingCardComponent.cardType;
-            Optional<PairableCards.TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
+            Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
             if (towerType.isPresent()) {
-                // Remove the cards
+                // Remove the card thats already there
                 tile.removeCard();
                 ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).removeComponent(tileEntity);
 
@@ -229,6 +225,9 @@ public class InGame extends State implements Observer {
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
             Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
             tile.setCard(card);
+            // Create a PlacedCardComponentManager and add a PlacedCardComponent to the Card entity
+            PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
+            ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity, placedCardComponent);
             ECSManager.getInstance().addEntity(card);
 
             // Update the tile with the new card
@@ -237,7 +236,6 @@ public class InGame extends State implements Observer {
 
         // Reset the selected card type after placing a card
         selectedCardType = null;
-        System.out.println("[DEBUG] Selected card type reset to null");
     }
 
 
@@ -256,6 +254,7 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
         if (tileEntity != null && tower.getComponent(SpriteComponent.class).isPresent()) {
             SpriteComponent spriteComponent = tower.getComponent(SpriteComponent.class).get();
+            spriteComponent.size_uv.set(gameMap.getTileWidth(), gameMap.getTileHeight());
             if (spriteComponent != null) {
                 tileEntity.addComponent(SpriteComponent.class, spriteComponent);
             }
