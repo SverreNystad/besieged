@@ -96,12 +96,4 @@ public class Vector2 {
         float y_d = y2 - y1;
         return (float) Math.sqrt(x_d * x_d + y_d * y_d);
     }
-
-    public float x() {
-        return x;
-    }
-
-    public float y() {
-        return y;
-    }
 }
