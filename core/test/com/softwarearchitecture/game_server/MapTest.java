@@ -16,8 +16,8 @@ public class MapTest {
 
     @Before
     public void setUp() {
-        abyssMap = MapFactory.createMap("Abyss");
-        TestMap = MapFactory.createMap("TestMap");
+        abyssMap = MapFactory.createMap("abyss");
+        TestMap = MapFactory.createMap("test");
     }
 
     @Test

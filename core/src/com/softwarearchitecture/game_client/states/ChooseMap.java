@@ -10,7 +10,6 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
-import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.math.Vector2;
 
@@ -27,7 +26,7 @@ public class ChooseMap extends State implements Observer {
      * parameters: type: GenericStateType, wich is an enum that defines
      * the use of the state
      */
-    public ChooseMap(Controllers defaultControllers, UUID yourId) {
+    public ChooseMap(Controllers defaultControllers, UUID yourId, boolean isMultiplayer) {
         super(defaultControllers, yourId);
     }
 
@@ -88,15 +87,16 @@ public class ChooseMap extends State implements Observer {
     public void onAction(ButtonEnum type) {
         // Switches the state of the game based on the button type
 
+        // TODO: MAKE BUTTON ACTIONS DYNAMIC CHOOSING MAPS
         switch (type) {
             case ABYSS:
                 System.out.println("Join button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId));
+                screenManager.nextState(new InGame(defaultControllers, yourId, "abyss"));
                 break;
 
             case TEST:
                 System.out.println("Host button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId));
+                screenManager.nextState(new InGame(defaultControllers, yourId, "test"));
                 break;
 
             case BACK:

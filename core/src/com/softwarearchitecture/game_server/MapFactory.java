@@ -48,14 +48,14 @@ public class MapFactory {
                         "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE, PLACEABLE, BLOCKED_WATER, BLOCKED_WATER;" +
                         "PLACEABLE, PLACEABLE, END, PLACEABLE, BLOCKED_WATER, BLOCKED_WATER, BLOCKED_WATER, BLOCKED_WATER;";
         String backgroundImage = TexturePack.BACKGROUND_ABYSS;
-        maps.put("Abyss", new Map(abyssMapString, backgroundImage));
+        maps.put("abyss", new Map(abyssMapString, backgroundImage));
 
         String mapString2 = "BLOCKED_WATER, START, PATH, PLACEABLE, BLOCKED_TREE;" +
                         "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
                         "PLACEABLE, PLACEABLE, PATH, PLACEABLE, PLACEABLE;" +
                         "BLOCKED_TREE, PLACEABLE, PATH, END, BLOCKED_ROCK;";
         String backString = TexturePack.BACKGROUND_GRIFFIN;
-        maps.put("testMap", new Map(mapString2, backString));
+        maps.put("test", new Map(mapString2, backString));
         return maps;
     }
 }

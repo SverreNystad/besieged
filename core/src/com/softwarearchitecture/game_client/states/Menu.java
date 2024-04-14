@@ -107,7 +107,7 @@ public class Menu extends State implements Observer {
 
             case PLAY:
                 System.out.println("Play button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId));
+                screenManager.nextState(new ChooseMap(defaultControllers, yourId, false));
                 break;
 
             default:
