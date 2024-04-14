@@ -30,7 +30,7 @@ public class EnemyFactory {
         float tileHeight = gameMap.getTileHeight();
         float tileWidth = gameMap.getTileWidth();
         Vector2 size = new Vector2(1, 1);
-        Vector2 position = new Vector2((float) enemyPath.get(0).getX()/tileWidth, (float) enemyPath.get(0).getY()/tileHeight);
+        Vector2 position = new Vector2((float) enemyPath.get(0).getX()*tileWidth, (float) enemyPath.get(0).getY()*tileHeight);
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int health = 0;
@@ -45,7 +45,7 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_ANT_FRAME4);
 
                 damage = 1;
-                size.set(0.1f, 0.1f);
+                size.set(0.025f, 0.025f);
                 velocity.set(0.01f, 0.01f);
                 health = 10;
                 sound = "soundPath"; // TODO: Add the correct sound path
@@ -53,8 +53,8 @@ public class EnemyFactory {
 
                 break;
             case WOLF:
-                textures.add(TexturePack.BUTTON_PLACEHOLDER);
-                textures.add(TexturePack.BUTTON_PLACEHOLDER);
+                textures.add(TexturePack.ENEMY_FENRIR1);
+                textures.add(TexturePack.ENEMY_FENRIR2);
                 damage = 2;
                 size.set(0.125f, 0.125f);
                 velocity.set(0.02f, 0.02f);
@@ -68,7 +68,7 @@ public class EnemyFactory {
                 throw new IllegalArgumentException("Invalid enemy type");
         }
         EnemyComponent enemyComponent = new EnemyComponent(damage);
-        PositionComponent positionComponent = new PositionComponent(position, 2);
+        PositionComponent positionComponent = new PositionComponent(position, 5);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         HealthComponent healthComponent = new HealthComponent(health);

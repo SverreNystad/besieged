@@ -78,7 +78,7 @@ public class MovementSystem implements System {
 
         Vector2 direction = targetPosition.cpy().sub(currentPosition).nor();
         float distance = currentPosition.dst(targetPosition);
-        float stepLength = velocity.len() * deltaTime;
+        float stepLength = velocity.len() * deltaTime/20;
         if (distance > stepLength) {
             currentPosition.add(direction.scl(stepLength));
             return false;  // Target not reached

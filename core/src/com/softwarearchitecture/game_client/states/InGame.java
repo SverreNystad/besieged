@@ -137,7 +137,7 @@ public class InGame extends State implements Observer {
             }
         }
         //Add fist wave
-        Entity testMob = EnemyFactory.createEnemy(EnemyType.NORDIC_ANT, gameMap);
+        Entity testMob = EnemyFactory.createEnemy(EnemyType.WOLF, gameMap);
         ECSManager.getInstance().addEntity(testMob);
 
     }

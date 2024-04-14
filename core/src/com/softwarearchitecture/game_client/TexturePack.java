@@ -94,6 +94,9 @@ public class TexturePack {
     public static final String ENEMY_DEAD_ANT__FRAME1 = "dead_ant_frame1.png";
     public static final String ENEMY_DEAD_ANT__FRAME2 = "dead_ant_frame2.png";
 
+    public static final String ENEMY_FENRIR1 = "sprites/fenrir/frame_1.png";
+    public static final String ENEMY_FENRIR2 = "sprites/fenrir/frame_2.png";
+
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
 
