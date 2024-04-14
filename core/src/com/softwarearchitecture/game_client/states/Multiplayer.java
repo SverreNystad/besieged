@@ -89,7 +89,7 @@ public class Multiplayer extends State implements Observer {
         switch (type) {
             case JOIN:
                 System.out.println("Join button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId));
+                screenManager.nextState(new JoinLobby(defaultControllers, yourId));
                 break;
 
             case HOST:
