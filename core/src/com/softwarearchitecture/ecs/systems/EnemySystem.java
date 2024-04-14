@@ -9,6 +9,7 @@ import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
+import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -26,6 +27,7 @@ public class EnemySystem implements System {
     private ComponentManager<PathfindingComponent> pathfindingManager;
     private ComponentManager<SpriteComponent> drawableManager;
     private ComponentManager<TileComponent> tileManager;
+    private ComponentManager<HealthComponent> healthManager;
 
 
     public EnemySystem() {
@@ -33,6 +35,7 @@ public class EnemySystem implements System {
         this.drawableManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
         this.pathfindingManager = ECSManager.getInstance().getOrDefaultComponentManager(PathfindingComponent.class);
         this.tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+        this.healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
     }
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
@@ -49,7 +52,8 @@ public class EnemySystem implements System {
         for (Entity entity : entities) {
             Optional<PositionComponent> position = positionManager.getComponent(entity);
             Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
-            if (!position.isPresent() || !pathfinding.isPresent()) {
+            Optional<HealthComponent> health = healthManager.getComponent(entity);
+            if (!position.isPresent() || !pathfinding.isPresent() || !health.isPresent()) {
                 continue;
             }
             Vector2 pos = position.get().position;
@@ -59,6 +63,7 @@ public class EnemySystem implements System {
             if (nextTile.getType() == TileType.END && nextTilePos.sub(pos).len() < 0.001f){
                 pathfinding.get().targetTile = find.get(0);
                 position.get().position = new Vector2(find.get(0).getX()*tileSize.x,find.get(0).getY()*tileSize.y);
+                health.get().setHealth(health.get().getMaxHealth());
             }
 
         }

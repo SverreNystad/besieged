@@ -34,6 +34,7 @@ public class EnemyFactory {
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int health = 0;
+        int maxHealth = 0;
         String sound = "soundPath";
         int money = 0;
 
@@ -48,6 +49,7 @@ public class EnemyFactory {
                 size.set(0.025f, 0.025f);
                 velocity.set(0.01f, 0.01f);
                 health = 10;
+                maxHealth = health;
                 sound = "soundPath"; // TODO: Add the correct sound path
                 money = 1;
 
@@ -59,6 +61,7 @@ public class EnemyFactory {
                 size.set(0.1f, 0.1f);
                 velocity.set(0.02f, 0.02f);
                 health = 100;
+                maxHealth = health;
                 sound = "soundPath"; // TODO: Add the correct sound path
                 money = 5;
 
@@ -71,7 +74,7 @@ public class EnemyFactory {
         PositionComponent positionComponent = new PositionComponent(position, 5);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
-        HealthComponent healthComponent = new HealthComponent(health);
+        HealthComponent healthComponent = new HealthComponent(health, maxHealth);
         SoundComponent soundComponent = new SoundComponent(sound);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
         CostComponent costComponent = new CostComponent(money);
