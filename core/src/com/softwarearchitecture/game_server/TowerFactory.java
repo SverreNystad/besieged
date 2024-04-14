@@ -10,6 +10,7 @@ import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
+import com.softwarearchitecture.game_client.TexturePack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class TowerFactory {
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
                 break;
             case ICE_MAGIC:
-                textures.add(TexturePack.ICE_MAGIC);
+                textures.add(TexturePack.DEFAULT);
                 damage = 6;
                 range = 4;
                 sound = AudioPack.TOWER_ICE_MAGIC;

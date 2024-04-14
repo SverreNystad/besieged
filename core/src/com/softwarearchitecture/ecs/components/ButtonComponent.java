@@ -7,11 +7,11 @@ import com.softwarearchitecture.math.Vector2;
 public class ButtonComponent implements Serializable {
     public Vector2 uv_offset;
     public Vector2 uv_size;
-    public TypeEnum type;
+    public ButtonEnum type;
     public int z_index;
     public Runnable callback;
 
-    public enum TypeEnum {
+    public enum ButtonEnum {
         OPTIONS,
         GAME_MENU,
         QUIT,
@@ -29,7 +29,7 @@ public class ButtonComponent implements Serializable {
         CARD
     }
 
-    public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, TypeEnum type, int z_index, Runnable callback) {
+    public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, ButtonEnum type, int z_index, Runnable callback) {
 
         this.uv_offset = uv_offset;
         this.uv_size = uv_size;

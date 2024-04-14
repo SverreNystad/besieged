@@ -13,6 +13,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.math.Vector2;
 
 public class EnemyFactory {

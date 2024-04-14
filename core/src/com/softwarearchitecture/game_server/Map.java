@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.softwarearchitecture.game_client.TexturePack;
+
 public class Map {
     protected Tile[][] tiles;
     protected String backgroundImage;
@@ -50,7 +52,7 @@ public class Map {
             case BLOCKED_TREE:
                 return TexturePack.treeTexture;
             default:
-                return TexturePack.defaultTexture; 
+                return TexturePack.defaultTexture;
         }
     }
 
@@ -109,11 +111,10 @@ public class Map {
                 break; // No more valid paths
             }
         }
-        if(!path.contains(end)){
+        if (!path.contains(end)) {
             path.add(end);
         }
 
-        
         System.out.println(path.size());
         return path;
     }
@@ -121,7 +122,7 @@ public class Map {
     private Tile findNextTile(Tile currentTile, List<Tile> pathTiles) {
         int x = currentTile.getX();
         int y = currentTile.getY();
-        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // East, West, North, South
+        int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }; // East, West, North, South
 
         for (int[] dir : directions) {
             int nx = x + dir[0];

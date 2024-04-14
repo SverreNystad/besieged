@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server;
+package com.softwarearchitecture.game_client;
 
 /**
  * The TexturePack is a collection contains all the textures used in the game.
@@ -31,19 +31,22 @@ public class TexturePack {
 
     // Buttons
     public static final String BUTTON_PLACEHOLDER = "button_placeholder.png";
-    public static final String BUTTON_BACK = "button_placeholder.png";
-    public static final String BUTTON_OPTION = "buttons/options.png";
-    public static final String BUTTON_GAME_MENU = "button_placeholder.png";
-    public static final String BUTTON_QUIT = "buttons/quit.png";
-    public static final String BUTTON_JOIN = "button_placeholder.png";
-    public static final String BUTTON_HOST = "button_placeholder.png";
-    public static final String BUTTON_PAUSE = "button_placeholder.png";
-    public static final String BUTTON_MULTI_PLAYER = "buttons/multiplayer.png";
-    public static final String BUTTON_SINGLE_PLAYER = "button_placeholder.png";
-    public static final String BUTTON_PLAY = "buttons/play.png";
-    public static final String BUTTON_PLUSS = "button_placeholder.png";
-    public static final String BUTTON_MINUS = "button_placeholder.png";
-    public static final String BUTTON_MUTE = "button_placeholder.png";
+    public static final String BUTTON_BACK = "gui/buttons/back.png";
+    public static final String BUTTON_OPTION = "gui/buttons/options.png";
+    public static final String BUTTON_GAME_MENU = "gui/buttons/menu.png";
+    public static final String BUTTON_QUIT = "gui/buttons/quit.png";
+    public static final String BUTTON_JOIN = "gui/buttons/join.png";
+    public static final String BUTTON_HOST = "gui/buttons/host.png";
+    public static final String BUTTON_PAUSE = "gui/buttons/pause.png";
+    public static final String BUTTON_MULTI_PLAYER = "gui/buttons/multiplayer.png";
+    public static final String BUTTON_SINGLE_PLAYER = "gui/buttons/singleplayer.png";
+    public static final String BUTTON_PLAY = "gui/buttons/play.png";
+    public static final String BUTTON_PLUSS = "gui/buttons/pluss.png";
+    public static final String BUTTON_MINUS = "gui/buttons/minus.png";
+    public static final String BUTTON_MUTE = "gui/buttons/mute.png";
+
+    // Logo
+    public static final String LOGO = "gui/logo.png";
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";
@@ -54,13 +57,13 @@ public class TexturePack {
     public static final String CARD_MAGIC = "magic_card.png";
 
     // Towers
-    public static final String FIRE_MAGIC = "chad.jpg";
-    public static final String ICE_MAGIC = "chad.jpg";
-    public static final String TOR = "chad.jpg";
-    public static final String MAGIC = "chad.jpg";
-    public static final String FIRE_BOW = "chad.jpg";
-    public static final String SHARP_SHOOTER = "chad.jpg";
-    public static final String BOW = "chad.jpg";
+    // public static final String FIRE_MAGIC = "chad.jpg";
+    // public static final String ICE_MAGIC = "chad.jpg";
+    // public static final String TOR = "chad.jpg";
+    // public static final String MAGIC = "chad.jpg";
+    // public static final String FIRE_BOW = "chad.jpg";
+    // public static final String SHARP_SHOOTER = "chad.jpg";
+    // public static final String BOW = "chad.jpg";
 
     // Towers 2
     public static final String TOWER_TOR_FRAME1 = "tor_frame1.png";

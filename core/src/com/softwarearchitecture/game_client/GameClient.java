@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.game_client.states.Menu;
-import com.softwarearchitecture.game_client.states.MenuEnum;
 import com.softwarearchitecture.game_client.states.ScreenManager;
 
 public class GameClient {
@@ -16,12 +15,12 @@ public class GameClient {
     public GameClient(Controllers defaultControllers) throws IllegalArgumentException {
         this.defaultControllers = defaultControllers;
         yourId = UUID.randomUUID();
-        
+
         screenManager = ScreenManager.getInstance();
-        screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
+        screenManager.nextState(new Menu(defaultControllers, yourId));
 
     }
-    
+
     public void update() {
         screenManager.activateCurrentStateIfChanged();
 
