@@ -12,6 +12,7 @@ public class TexturePack {
     public static final String BACKGROUND_GRIFFIN = "background_griffin.png";
     public static final String BACKGROUND_ABYSS = "chad.jpg";
     public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
+    public static final String BACKGROUND_MULTIPLAYER = "gui/backgrounds/multiplayer.png";
 
     // Map-textures
     public static final String placeableTexture = "grass.png";
@@ -47,6 +48,9 @@ public class TexturePack {
 
     // Logo
     public static final String LOGO = "gui/logo.png";
+
+    // Overlays
+    public static final String SIGN = "gui/overlay/sign.png";
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";
