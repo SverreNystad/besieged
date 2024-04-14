@@ -1,12 +1,9 @@
 package com.softwarearchitecture.game_client.states;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -38,9 +35,8 @@ public class Lobby extends State implements Observer {
         ECSManager.getInstance().addEntity(background);
         TextComponent textComponent = new TextComponent("Lobby!", new Vector2(0.05f, 0.05f));
         background.addComponent(TextComponent.class, textComponent);
-        List<ButtonEnum> buttonTypes = new ArrayList<>();
         // Buttons
-        Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0, 1),
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0, 1),
                 new Vector2(0.1f, 0.2f), this, 0);
 
         // Add systems to the ECSManager
