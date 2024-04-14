@@ -29,5 +29,16 @@ public interface ServerMessagingController {
      */
     public List<PlayerInput> getActions(UUID gameID);
 
+    /**
+     * Add all the actions pending to be performed in the game with the given game ID.
+     * @param gameID of the game to add the actions to
+     */
+    public Optional<PlayerInput> lookForPendingActions(UUID gameID);
+
+    /**
+     * Look for a pending player to join the game with the given game ID.
+     * @param gameID of the game to look for a pending player in
+     * @return the player ID of the pending player if there is one, empty otherwise
+     */
     public Optional<UUID> lookForPendingPlayer(UUID gameID);
 }

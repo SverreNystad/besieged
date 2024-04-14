@@ -72,11 +72,12 @@ public class ServerMessenger implements ServerMessagingController {
         }
     }
 
-    @Override
-    public List<PlayerInput> getActions(UUID gameID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getActions'");
+    
+    public List<PlayerInput> lookForPendingActions(UUID gameID) {
+        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+    
 
     @Override
     public Optional<UUID> lookForPendingPlayer(UUID gameID) {
