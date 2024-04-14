@@ -1,7 +1,5 @@
 package com.softwarearchitecture.game_client.states;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import com.softwarearchitecture.game_client.Controllers;
