@@ -40,5 +40,5 @@ public interface ClientMessagingController {
      * Get all games that are currently available.
      * @return a list of all games that are currently available
      */
-    public List<String> getAllAvailableGames();
+    public List<GameState> getAllAvailableGames();
 }
