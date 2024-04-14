@@ -2,8 +2,8 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
@@ -13,13 +13,18 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
+import com.softwarearchitecture.game_server.GameServer;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Vector2;
 
 public class Lobby extends State implements Observer {
+    Thread serverThread = null;
+    boolean isHost;
 
-    public Lobby(Controllers defaultControllers) {
-        super(defaultControllers);
+    public Lobby(Controllers defaultControllers, boolean isHost, UUID yourId) {
+        super(defaultControllers, yourId);
+        this.isHost = isHost;
     }
 
     @Override
@@ -44,7 +49,18 @@ public class Lobby extends State implements Observer {
         ECSManager.getInstance().addSystem(inputSystem);
 
         // Instantiate GameServer on a new thread
-        
+        if (serverThread != null && serverThread.isAlive()) {
+            serverThread.interrupt();
+            serverThread = null;
+        }
+        if (isHost) {
+            Runnable run_server = () -> {
+                GameServer server = new GameServer(defaultControllers.serverMessagingController, yourId);
+                server.run();
+            };
+            serverThread = new Thread(run_server);
+            serverThread.start();
+        }
     }
 
     @Override
@@ -57,5 +73,7 @@ public class Lobby extends State implements Observer {
                 break;
         }
     }
+
+    
 
 }

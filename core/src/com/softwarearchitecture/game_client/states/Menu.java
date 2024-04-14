@@ -2,8 +2,8 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
@@ -13,12 +13,14 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
 public class Menu extends State implements Observer {
 
+    private static final UUID UUID = null;
     private MenuEnum type;
 
     /**
@@ -28,8 +30,8 @@ public class Menu extends State implements Observer {
      * parameters: type: GenericStateType, wich is an enum that defines
      * the use of the state
      */
-    public Menu(MenuEnum type, Controllers defaultControllers) {
-        super(defaultControllers);
+    public Menu(MenuEnum type, Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
         this.type = type;
     }
 
@@ -152,11 +154,11 @@ public class Menu extends State implements Observer {
         switch (type) {
             case OPTIONS:
                 System.out.println("Options button pressed");
-                screenManager.nextState(new Options(defaultControllers));
+                screenManager.nextState(new Options(defaultControllers, yourId));
                 break;
             case GAME_MENU:
                 System.out.println("Game menu button pressed");
-                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
+                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
                 break;
 
             case QUIT:
@@ -165,32 +167,32 @@ public class Menu extends State implements Observer {
                 break;
             case JOIN:
                 System.out.println("Join button pressed");
-                screenManager.nextState(new JoinLobby(defaultControllers));
+                screenManager.nextState(new JoinLobby(defaultControllers, yourId));
                 break;
 
             case HOST:
                 System.out.println("Host button pressed");
-                screenManager.nextState(new HostLobby(defaultControllers));
+                screenManager.nextState(new HostLobby(defaultControllers, yourId));
                 break;
 
             case PAUSE:
                 System.out.println("Pause button pressed");
                 // screenManager.saveState(this);
-                screenManager.nextState(new Menu(MenuEnum.PAUSE, defaultControllers));
+                screenManager.nextState(new Menu(MenuEnum.PAUSE, defaultControllers, yourId));
                 break;
 
             case MULTI_PLAYER:
                 System.out.println("Multiplayer button pressed");
-                screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER, defaultControllers));
+                screenManager.nextState(new Menu(MenuEnum.MULTI_PLAYER, defaultControllers, yourId));
                 break;
 
             case SINGLE_PLAYER:
                 System.out.println("Singleplayer button pressed");
-                screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER, defaultControllers));
+                screenManager.nextState(new Menu(MenuEnum.SINGLE_PLAYER, defaultControllers, yourId));
                 break;
             case PLAY:
                 System.out.println("Play button pressed");
-                screenManager.nextState(new InGame(defaultControllers));
+                screenManager.nextState(new InGame(defaultControllers, yourId));
                 break;
             case BACK:
                 screenManager.previousState();

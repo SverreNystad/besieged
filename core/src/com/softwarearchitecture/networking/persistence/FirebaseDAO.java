@@ -1,16 +1,27 @@
 package com.softwarearchitecture.networking.persistence;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.*;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 public class FirebaseDAO<K, T> extends DAO<K, T> {
@@ -18,29 +29,28 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     private final FirebaseDatabase database;
     private final Class<K> idParameterClass;
     private final Class<T> typeParameterClass;
-    private boolean create;
-    private boolean read;
-    private boolean update;
-    private boolean delete;
     private final Gson gson;
 
-    public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete, Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
-        this.create = create;
-        this.read = read;
-        this.update = update;
-        this.delete = delete;
+    public FirebaseDAO(Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
         this.typeParameterClass = typeParameterClass;
         this.idParameterClass = idParameterClass;
         this.gson = new Gson();
-        
-        FileInputStream serviceAccount = new FileInputStream("../android/FirebaseSecretKey.json");
+       
+        FileHandle serviceHandle = Gdx.files.internal("FirebaseSecretKey.json");
+		String jsonString = serviceHandle.readString();
+
+        InputStream inputStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
 
         FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setCredentials(GoogleCredentials.fromStream(inputStream))
                 .setDatabaseUrl("https://besieged-8b842-default-rtdb.europe-west1.firebasedatabase.app")
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options);
+        } else {
+            FirebaseApp.getInstance();
+        }
 
         this.database = FirebaseDatabase.getInstance();
     

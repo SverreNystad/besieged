@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_client;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public interface ClientMessagingController {
      * @param playerID of the player to add to the game
      * @return the game state if the player was added to the game, otherwise an empty optional
      */
-    public Optional<GameState> joinGame(UUID gameID, UUID playerID);
+    public void joinGame(UUID gameID, UUID playerID);
 
     /**
      * Get the game state of the game with the given gameID.
@@ -30,9 +31,14 @@ public interface ClientMessagingController {
     public Optional<GameState> requestGameState(UUID gameID);
 
     /**
-     * Add an action to the game with the given gameID.
-     * @param gameID of the game to add the action to
+     * Add an action to the game with the playerID contained in action.
      * @param action to perform in the game
      */
-    public void addAction(UUID gameID, PlayerInput action);
+    public void addAction(PlayerInput action);
+
+    /**
+     * Get all games that are currently available.
+     * @return a list of all games that are currently available
+     */
+    public List<GameState> getAllAvailableGames();
 }

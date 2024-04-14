@@ -1,11 +1,11 @@
 package com.softwarearchitecture.game_client.states;
 
+import java.util.UUID;
+
 import java.util.List;
 import java.util.Optional;
 
-import com.badlogic.gdx.graphics.Color;
 import com.softwarearchitecture.ecs.ComponentManager;
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.TileComponentManager;
@@ -19,6 +19,7 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_server.CardFactory;
 import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
@@ -29,14 +30,15 @@ import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.math.Vector3;
 
 public class InGame extends State implements Observer {
 
     private Map gameMap;
     private CardType selectedCardType = null;
 
-    protected InGame(Controllers defaultControllers) {
-        super(defaultControllers);
+    protected InGame(Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
     }
     
     @Override
@@ -169,8 +171,8 @@ public class InGame extends State implements Observer {
         // Define the PositionComponent for the button
         PositionComponent buttonPositionComponent = new PositionComponent(position, 2);
 
-        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(0.01f, 0.01f)); // Text centered within button
-        buttonText.setColor(Color.BLACK); // Set text color to black
+        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(size.x / 2, size.y / 2)); // Text centered within button
+        buttonText.setColor(new Vector3(0f, 0f, 0f)); // Set text color to black
 
         // Button component also has a callback now
         Runnable onButtonClick = () -> {

@@ -1,6 +1,7 @@
 package com.softwarearchitecture.game_client;
 
-import com.softwarearchitecture.ecs.Controllers;
+import java.util.UUID;
+
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.MenuEnum;
@@ -10,21 +11,20 @@ public class GameClient {
     private Controllers defaultControllers;
     private ScreenManager screenManager;
     private static Process serverProcess = null;
+    private UUID yourId;
 
     public GameClient(Controllers defaultControllers) throws IllegalArgumentException {
         this.defaultControllers = defaultControllers;
+        yourId = UUID.randomUUID();
+        
         screenManager = ScreenManager.getInstance();
-        screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
+        screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
+
     }
     
-
-    public void init() {
-        // currentState.init(graphicsController);
-    }
-
     public void update() {
         screenManager.activateCurrentStateIfChanged();
-        
+
         float deltaTime = 1f; // TODO: Implement deltatime
 
         ECSManager.getInstance().update(deltaTime);

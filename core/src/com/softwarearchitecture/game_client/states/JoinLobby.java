@@ -2,8 +2,8 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
@@ -12,6 +12,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
@@ -19,8 +20,8 @@ import com.softwarearchitecture.math.Vector2;
 
 public class JoinLobby extends State implements Observer {
 
-    public JoinLobby(Controllers defaultControllers) {
-        super(defaultControllers);
+    public JoinLobby(Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
     }
 
     @Override
@@ -82,11 +83,11 @@ public class JoinLobby extends State implements Observer {
     public void onAction(TypeEnum type) {
         switch (type) {
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
+                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
                 break;
 
             case JOIN:
-                screenManager.nextState(new Lobby(defaultControllers));
+                screenManager.nextState(new Lobby(defaultControllers, false, yourId));
                 break;
 
             default:

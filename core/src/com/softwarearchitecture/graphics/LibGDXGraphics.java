@@ -78,6 +78,7 @@ public class LibGDXGraphics implements GraphicsController {
         if (scaleHeight <= 0) scaleHeight = 0.1f;
 
         font.getData().setScale(scaleWidth, scaleHeight);
+        font.setColor(textComponent.color.x, textComponent.color.y, textComponent.color.z, 1);
 
         batch.begin();
         font.draw(batch, textComponent.text, 

@@ -1,9 +1,13 @@
 package com.softwarearchitecture.game_server;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,28 +47,29 @@ public class GameState implements Externalizable {
             PowerCard.class
             )
     );
-    private static final String game_version = "0.1";
-    private UUID id;
-    private Entity village;
-    private Entity playerOne;
-    private Entity playerTwo;
+
+    public static final String game_version = "0.1";
+    private Entity village = new Entity();
+    public Entity playerOne;
+    public Entity playerTwo;
     private Map map;
+
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(game_version);
         // Writing gameID
-        out.writeObject(id);
         out.writeObject(playerOne);
         out.writeObject(playerTwo);
+        
         // Village health
-        serializeVillageHealth(out);
+        // serializeVillageHealth(out);
         // Player money
-        serializePlayerMoney(out);
+        // serializePlayerMoney(out);
         // Cards (for each player)
-        serializePlayerCards(out);
+        // serializePlayerCards(out);
         // Map
-        out.writeObject(map);
+        // out.writeObject(map);
         // Towers
         serializeTowers(out);
         // Enemies
@@ -215,17 +220,14 @@ public class GameState implements Externalizable {
         if (!(readObject instanceof String)) {
             throw new IllegalStateException("Game version must be a string");
         }
-        if (game_version != (String) in.readObject()) {
+        if (!game_version.equals((String) readObject)) {
+            System.out.println("Game version: " + game_version + game_version.length());
+            String read_game_version = (String) readObject;
+            System.out.println("Read version: " + read_game_version + read_game_version.length());
+            
             throw new IllegalStateException("Game version mismatch");
         }
-        // Reading gameID
-        readObject = in.readObject();
-        if (!(readObject instanceof UUID)) {
-            throw new IllegalStateException("Game ID must be a UUID");
-        }
-        if (id != (UUID) readObject) {
-            throw new IllegalStateException("Game ID mismatch");
-        }
+        
         // Players
         deserializePlayers(in);
         // Village health
@@ -449,18 +451,19 @@ public class GameState implements Externalizable {
         }
     }
 
-    public boolean addPlayer(UUID playerID) {
-        if (playerTwo == null) {
-            playerTwo = new Entity();
-            ECSManager.getInstance().addEntity(playerTwo);
-            return true;
-        }
-        return false;
+    public static GameState deserializeFromByteArray(byte[] data) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        ObjectInputStream ois = new ObjectInputStream(bais);
+        GameState obj = (GameState) ois.readObject();
+        ois.close();
+        return obj;
     }
 
-    public void addAction(PlayerInput action) {
-        // TODO: Implement this method
-        throw new UnsupportedOperationException("Unimplemented method 'addAction'");
+    public static byte[] serializeToByteArray(GameState state) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(state);
+        oos.close();
+        return baos.toByteArray();
     }
-
 }

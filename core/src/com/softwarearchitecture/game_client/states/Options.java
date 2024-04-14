@@ -1,9 +1,9 @@
 package com.softwarearchitecture.game_client.states;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ComponentManager;
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
@@ -13,6 +13,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
+import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_server.TexturePack;
 import com.softwarearchitecture.math.Vector2;
 
@@ -20,8 +21,8 @@ public class Options extends State implements Observer {
 
     Entity volumeText;
 
-    public Options(Controllers defaultControllers) {
-        super(defaultControllers);
+    public Options(Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
     }
     
     @Override

@@ -1,6 +1,7 @@
 package com.softwarearchitecture.game_server;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ServerMessagingController {
@@ -11,12 +12,14 @@ public interface ServerMessagingController {
      */
     public UUID createGame();
 
+    public GameState getGameState(UUID gameID);
     /**
      * Make the server update the game state to the new game state for all clients.
      * 
+     * @param id the game ID of the game to update
      * @param gameState the new game state
      */
-    public void setNewGameState(GameState gameState);
+    public void setNewGameState(UUID id, GameState gameState);
 
     /**
      * Get the actions that have been performed in the game with the given game ID.
@@ -25,4 +28,6 @@ public interface ServerMessagingController {
      * @return the list of actions that have been performed in the game
      */
     public List<PlayerInput> getActions(UUID gameID);
+
+    public Optional<UUID> lookForPendingPlayer(UUID gameID);
 }
