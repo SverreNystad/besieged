@@ -3,13 +3,12 @@ package com.softwarearchitecture.game_server;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.t;
-
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
+import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -24,10 +23,13 @@ public class EnemyFactory {
 
     }
 
-    public static Entity createEnemy(EnemyType enemyType) throws IllegalArgumentException {
+    public static Entity createEnemy(EnemyType enemyType, Map gameMap) throws IllegalArgumentException {
         List<String> textures = new ArrayList<String>();
+        List<Tile> enemyPath = gameMap.getPath();
+        float tileHeight = gameMap.getTileHeight();
+        float tileWidth = gameMap.getTileWidth();
         Vector2 size = new Vector2(1, 1);
-        Vector2 position = new Vector2(0, 0); // TODO: Set position to the first path tile
+        Vector2 position = new Vector2((float) enemyPath.get(0).getX()/tileWidth, (float) enemyPath.get(0).getY()/tileHeight);
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int health = 0;
@@ -72,6 +74,7 @@ public class EnemyFactory {
         SoundComponent soundComponent = new SoundComponent(sound);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
         CostComponent costComponent = new CostComponent(money);
+        PathfindingComponent PathfindingComponent = new PathfindingComponent(enemyPath);
         // TODO: Add target component if necessary
 
         Entity enemyEntity = new Entity();
@@ -83,6 +86,7 @@ public class EnemyFactory {
         enemyEntity.addComponent(SoundComponent.class, soundComponent);
         enemyEntity.addComponent(VelocityComponent.class, velocityComponent);
         enemyEntity.addComponent(CostComponent.class, costComponent);
+        enemyEntity.addComponent(PathfindingComponent.class, PathfindingComponent);
 
         return enemyEntity;
 
