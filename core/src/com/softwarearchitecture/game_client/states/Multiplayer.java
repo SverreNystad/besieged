@@ -94,7 +94,7 @@ public class Multiplayer extends State implements Observer {
 
             case HOST:
                 System.out.println("Host button pressed");
-                screenManager.nextState(new ChooseMap(defaultControllers, yourId));
+                screenManager.nextState(new ChooseMap(defaultControllers, yourId, true));
                 break;
 
             case BACK_MENU:
