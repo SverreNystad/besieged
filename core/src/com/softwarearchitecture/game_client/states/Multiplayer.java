@@ -18,7 +18,7 @@ import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 
-public class Menu extends State implements Observer {
+public class Multiplayer extends State implements Observer {
 
     /**
      * Generic state is a state that can be used for multiple purposes
@@ -27,14 +27,14 @@ public class Menu extends State implements Observer {
      * parameters: type: GenericStateType, wich is an enum that defines
      * the use of the state
      */
-    public Menu(Controllers defaultControllers, UUID yourId) {
+    public Multiplayer(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
     }
 
     @Override
     protected void activate() {
         // Set background image
-        String backgroundPath = TexturePack.BACKGROUND_MAIN_MENU;
+        String backgroundPath = TexturePack.BACKGROUND_MULTIPLAYER;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
@@ -51,34 +51,31 @@ public class Menu extends State implements Observer {
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
 
-        // Add the logo at the top
+        // Add the sign in button
         Entity logo = new Entity();
-        SpriteComponent logoSprite = new SpriteComponent(TexturePack.LOGO, new Vector2(0.5f, 0.5f));
-        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0.52f), 1);
+        SpriteComponent logoSprite = new SpriteComponent(TexturePack.SIGN, new Vector2(0.5f, 1f));
+        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), 1);
         logo.addComponent(SpriteComponent.class, logoSprite);
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addEntity(logo);
 
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
-        float buttonWidth = 0.3f;
+        float buttonWidth = 0.165f;
         float buttonHeight = 0.1f;
         float gap = 0.02f;
         float translateY = 0.1f;
 
         // Create button rectangles
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLAY,
-                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 3),
-                new Vector2(buttonWidth, buttonHeight), this, 1));
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.MULTI_PLAYER,
-                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 2),
-                new Vector2(buttonWidth, buttonHeight), this, 1));
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.OPTIONS,
-                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 1),
-                new Vector2(buttonWidth, buttonHeight), this, 1));
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.QUIT,
-                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 0),
-                new Vector2(buttonWidth, buttonHeight), this, 1));
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.JOIN,
+                new Vector2(0.403f - buttonWidth / 2, translateY + (buttonHeight + gap) * 2),
+                new Vector2(buttonWidth, buttonHeight), this, 2));
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.HOST,
+                new Vector2(0.503f, translateY + (buttonHeight + gap) * 2),
+                new Vector2(buttonWidth, buttonHeight), this, 2));
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK,
+                new Vector2(0.495f - 0.35f / 2, translateY + (buttonHeight + gap) * 1),
+                new Vector2(0.35f, buttonHeight), this, 2));
     }
 
     /**
@@ -92,24 +89,19 @@ public class Menu extends State implements Observer {
         // Switches the state of the game based on the button type
 
         switch (type) {
-            case OPTIONS:
-                System.out.println("Options button pressed");
-                screenManager.nextState(new Options(defaultControllers, yourId));
-                break;
-
-            case QUIT:
-                // not sure what should happen here
-                System.exit(0);
-                break;
-
-            case MULTI_PLAYER:
-                System.out.println("Multiplayer button pressed");
-                screenManager.nextState(new Multiplayer(defaultControllers, yourId));
-                break;
-
-            case PLAY:
-                System.out.println("Play button pressed");
+            case JOIN:
+                System.out.println("Join button pressed");
                 screenManager.nextState(new InGame(defaultControllers, yourId));
+                break;
+
+            case HOST:
+                System.out.println("Host button pressed");
+                screenManager.nextState(new InGame(defaultControllers, yourId));
+                break;
+
+            case BACK:
+                System.out.println("Back button pressed");
+                screenManager.nextState(new Menu(defaultControllers, yourId));
                 break;
 
             default:
