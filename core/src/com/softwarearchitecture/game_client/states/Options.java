@@ -38,15 +38,15 @@ public class Options extends State implements Observer {
         ECSManager.getInstance().addEntity(background);
 
         // Buttons
-        Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.25f / 2f, 0f),
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.25f / 2f, 0f),
                 new Vector2(0.25f, 0.25f), this, 0);
 
         // Volume options
-        Entity plussButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLUSS, new Vector2(0.75f, 0.75f),
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLUSS, new Vector2(0.75f, 0.75f),
                 new Vector2(0.125f, 0.125f), this, 0);
-        Entity minusButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.MINUS,
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.MINUS,
                 new Vector2(0.25f - 0.25f / 2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
-        Entity muteButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.MUTE,
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.MUTE,
                 new Vector2(0.75f + 0.25f / 2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
         volumeText = new Entity();
         TextComponent volumeTextComponent = new TextComponent(
