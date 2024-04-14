@@ -109,7 +109,7 @@ public class InGame extends State implements Observer {
                 Entity tileEntity = new Entity();
                 String tileTexture = gameMap.getTextureForTile(tiles[i][j]);
 
-                Vector2 position = new Vector2(i * tileWidth, j* tileHeight);
+                Vector2 position = new Vector2(i * tileWidth, j * tileHeight);
                 Vector2 size = new Vector2(tileWidth, tileHeight);
                 SpriteComponent spriteComponent = new SpriteComponent(tileTexture.toString(), size);
                 PositionComponent positionComponent = new PositionComponent(position, 1);
@@ -195,15 +195,16 @@ public class InGame extends State implements Observer {
         if (tileEntity == null) return; // Exit if there is no entity for this tile
 
         System.out.println("Tile is buildable: " + tile.isBuildable());
+        System.out.println("Tile has card: " + tile.hasCard());
         System.out.println("Tile has tower: " + tile.hasTower());
     
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
         
+        // Card already placed, place tower
         if (tile.hasCard()) {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
-            // There is already one card placed, try to combine them into a tower
             PlacedCardComponent existingCardComponent = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
             CardType existingCardType = existingCardComponent.cardType;
             Optional<PairableCards.TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
@@ -220,15 +221,13 @@ public class InGame extends State implements Observer {
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tower);
             }
-        } else {
+        } 
+        // No card on tile, place card
+        else {
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
             Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
             tile.setCard(card);
-            ECSManager.getInstance().toAdd(card);
-            // Assuming there's a method to get the component manager and add a component to it
-            // ComponentManager<PlacedCardComponent> cardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
-            // PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
-            // cardManager.addComponent(tileEntity, placedCardComponent);
+            ECSManager.getInstance().addEntity(card);
 
             // Update the tile with the new card
             updateTileWithCard(tile, card);
@@ -237,7 +236,18 @@ public class InGame extends State implements Observer {
         // Reset the selected card type after placing a card
         selectedCardType = null;
         System.out.println("[DEBUG] Selected card type reset to null");
-}
+    }
+
+
+    private void updateTileWithCard(Tile tile, Entity card) {
+        Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
+        if (tileEntity != null && card.getComponent(SpriteComponent.class).isPresent()) {
+            SpriteComponent spriteComponent = card.getComponent(SpriteComponent.class).get();
+            if (spriteComponent != null) {
+                tileEntity.addComponent(SpriteComponent.class, spriteComponent);
+            }
+        }
+    }
 
     private void updateTileWithTower(Tile tile, Entity tower) {
         Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
@@ -249,16 +259,18 @@ public class InGame extends State implements Observer {
         }
     }
 
-    private Entity getTileEntityByPosition(Vector2 tilePosition) {
-        int mapWidthInTiles = gameMap.getMapWidth();  // Total number of tiles in X direction
-        int mapHeightInTiles = gameMap.getMapHeight();  // Total number of tiles in Y direction
     
+
+    private Entity getTileEntityByPosition(Vector2 tilePosition) {
+        float tileWidth = gameMap.getTileWidth();
+        float tileHeight = gameMap.getTileHeight();
+        
         for (Entity entity : ECSManager.getInstance().getEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent() && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
                 // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x * mapWidthInTiles);
-                int yCoord = (int) (positionComponent.getPosition().y * mapHeightInTiles);
+                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
+                int yCoord = Math.round(positionComponent.getPosition().y / tileHeight);
                 
                 if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
                     return entity;

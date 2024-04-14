@@ -47,7 +47,7 @@ public class TexturePack {
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";
-    public static final String CARD_FIRE = "water.jpg";
+    public static final String CARD_FIRE = "chad.jpg";
     public static final String CARD_TECHNOLOGY = "chad.jpg";
     public static final String CARD_LIGHTNING = "chad.jpg";
     public static final String CARD_BOW = "chad.jpg";
