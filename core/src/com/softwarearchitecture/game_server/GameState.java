@@ -61,15 +61,19 @@ public class GameState implements Externalizable {
         // Writing gameID
         out.writeObject(playerOne);
         out.writeObject(playerTwo);
-        
+
+        if (playerTwo == null) {
+            return;
+        }
+
         // Village health
-        // serializeVillageHealth(out);
+        serializeVillageHealth(out);
         // Player money
-        // serializePlayerMoney(out);
+        serializePlayerMoney(out);
         // Cards (for each player)
-        // serializePlayerCards(out);
+        serializePlayerCards(out);
         // Map
-        // out.writeObject(map);
+        out.writeObject(map);
         // Towers
         serializeTowers(out);
         // Enemies
@@ -230,6 +234,10 @@ public class GameState implements Externalizable {
         
         // Players
         deserializePlayers(in);
+
+        if (playerTwo == null) {
+            return;
+        }
         // Village health
         deserializeVillageHealth(in);
         // Player money
@@ -270,7 +278,7 @@ public class GameState implements Externalizable {
         manager.addEntity(playerOne);
         readObject = in.readObject();
         if (!(readObject instanceof Entity)) {
-            throw new IllegalStateException("Player two must be an entity");
+            return;
         }
         playerTwo = (Entity) readObject;
         manager.addEntity(playerTwo);
