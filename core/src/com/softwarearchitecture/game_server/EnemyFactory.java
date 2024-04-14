@@ -24,11 +24,10 @@ public class EnemyFactory {
 
     }
 
-    public static Entity createEnemy(EnemyType enemyType, Map gameMap) throws IllegalArgumentException {
+    public static Entity createEnemy(EnemyType enemyType, List<Tile> enemyPath, Vector2 tileSize) throws IllegalArgumentException {
         List<String> textures = new ArrayList<String>();
-        List<Tile> enemyPath = gameMap.getPath();
-        float tileHeight = gameMap.getTileHeight();
-        float tileWidth = gameMap.getTileWidth();
+        float tileHeight = tileSize.y;
+        float tileWidth = tileSize.x;
         Vector2 size = new Vector2(1, 1);
         Vector2 position = new Vector2((float) enemyPath.get(0).getX()*tileWidth, (float) enemyPath.get(0).getY()*tileHeight);
         Vector2 velocity = new Vector2(0, 0);
