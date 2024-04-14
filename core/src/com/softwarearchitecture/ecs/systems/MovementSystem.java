@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.softwarearchitecture.ecs.ComponentManager;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -22,46 +23,59 @@ public class MovementSystem implements System {
     private ComponentManager<PathfindingComponent> pathfindingManager;
     private ComponentManager<TileComponent> tileManager;
 
-    public MovementSystem(ComponentManager<PositionComponent> positionManager,
-                          ComponentManager<VelocityComponent> velocityManager,
-                          ComponentManager<SpriteComponent> drawableManager,
-                          ComponentManager<PathfindingComponent> pathfindingManager) {
-        this.positionManager = positionManager;
-        this.velocityManager = velocityManager;
-        this.drawableManager = drawableManager;
-        this.pathfindingManager = pathfindingManager;
+    public MovementSystem() {
+        this.positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
+        this.velocityManager = ECSManager.getInstance().getOrDefaultComponentManager(VelocityComponent.class);
+        this.drawableManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
+        this.pathfindingManager = ECSManager.getInstance().getOrDefaultComponentManager(PathfindingComponent.class);
+        this.tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+
     }
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
+        
+        //Get tile size
         Vector2 tileSize = new Vector2(0,0);
-    for (Entity entity : entities) {
-        Optional<SpriteComponent> sprite = drawableManager.getComponent(entity);
-        Optional<TileComponent> tile = tileManager.getComponent(entity);
-        if (sprite.isPresent() && tile.isPresent()) {
-            tileSize = sprite.get().size_uv;
-        }   
+        for (Entity entity : entities) {
+            Optional<SpriteComponent> sprite = drawableManager.getComponent(entity);
+            Optional<TileComponent> tile = tileManager.getComponent(entity);
+            if (sprite.isPresent() && tile.isPresent()) {
+                tileSize = sprite.get().size_uv;
+                break;
+            }   
         }
+        //Move enemies towards next waypoint
         for (Entity entity : entities) {
             Optional<PositionComponent> position = positionManager.getComponent(entity);
             Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
             Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
-            if (!position.isPresent() && !velocity.isPresent() && !pathfinding.isPresent()){
-                Vector2 pos = position.get().position;
-                Vector2 vel = velocity.get().velocity;
-            
+            if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent()) {
+                continue;
+            }
+            Vector2 pos = position.get().position;
+            Vector2 vel = velocity.get().velocity;
             List<Tile> find = pathfinding.get().path;
+            java.lang.System.out.println(pos);
+
             Tile nextTile = find.get(0);
             Vector2 nextWaypoint = new Vector2(nextTile.getX()*tileSize.x, nextTile.getY()*tileSize.y);
             if (moveTowards(pos, nextWaypoint, vel, deltaTime)) {
                 find.remove(0);  // Move to next waypoint and remove it from the path
             }
-            }
 
         }
     }
-
+    /**
+     * Changes currentPosition by velocity or sets current position as target position if target is reached
+     * @param currentPosition
+     * @param targetPosition
+     * @param velocity
+     * @param deltaTime
+     * @return
+     */
     private boolean moveTowards(Vector2 currentPosition, Vector2 targetPosition, Vector2 velocity, float deltaTime) {
+
         Vector2 direction = targetPosition.cpy().sub(currentPosition).nor();
         float distance = currentPosition.dst(targetPosition);
         float stepLength = velocity.len() * deltaTime;
