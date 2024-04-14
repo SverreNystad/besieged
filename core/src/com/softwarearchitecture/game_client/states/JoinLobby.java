@@ -72,9 +72,9 @@ public class JoinLobby extends State implements Observer {
             case GAME_MENU:
                 screenManager.nextState(new Menu(defaultControllers, yourId));
                 break;
-
             case JOIN:
-                screenManager.nextState(new Lobby(defaultControllers, yourId));
+                System.out.println("Join button pressed");
+                screenManager.nextState(new InGame(defaultControllers, yourId));
                 break;
 
             default:
