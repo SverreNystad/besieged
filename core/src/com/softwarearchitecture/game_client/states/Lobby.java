@@ -56,7 +56,6 @@ public class Lobby extends State implements Observer {
         ECSManager.getInstance().addEntity(logo);
 
         // Set up the UI elements
-        List<Entity> buttons = new ArrayList<>();
         float buttonWidth = 0.165f;
         float buttonHeight = 0.1f;
         float gap = 0.02f;
