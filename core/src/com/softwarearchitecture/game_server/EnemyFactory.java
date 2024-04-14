@@ -45,7 +45,7 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_ANT_FRAME4);
 
                 damage = 1;
-                size.set(0.02f, 0.02f);
+                size.set(0.1f, 0.1f);
                 velocity.set(0.01f, 0.01f);
                 health = 10;
                 sound = "soundPath"; // TODO: Add the correct sound path
@@ -56,7 +56,7 @@ public class EnemyFactory {
                 textures.add(TexturePack.BUTTON_PLACEHOLDER);
                 textures.add(TexturePack.BUTTON_PLACEHOLDER);
                 damage = 2;
-                size.set(0.03f, 0.03f);
+                size.set(0.125f, 0.125f);
                 velocity.set(0.02f, 0.02f);
                 health = 100;
                 sound = "soundPath"; // TODO: Add the correct sound path
@@ -68,7 +68,7 @@ public class EnemyFactory {
                 throw new IllegalArgumentException("Invalid enemy type");
         }
         EnemyComponent enemyComponent = new EnemyComponent(damage);
-        PositionComponent positionComponent = new PositionComponent(position, 0);
+        PositionComponent positionComponent = new PositionComponent(position, 2);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         HealthComponent healthComponent = new HealthComponent(health);

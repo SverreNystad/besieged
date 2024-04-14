@@ -10,12 +10,11 @@ import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 
+/**
+ * This class is supposed to check if enemies are at the end of the map, and if so despawns them
+ * 
+ */
 public class EnemySystem implements System {
-    /*
-     * This class is supposed to check if enemies are at the end of the map, and if so despawns them
-     * 
-     * 
-     */
     private ComponentManager<PositionComponent> positionManager;
     private ComponentManager<PathfindingComponent> pathfindingManager;
 
