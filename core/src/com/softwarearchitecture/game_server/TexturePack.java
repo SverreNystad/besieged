@@ -47,11 +47,11 @@ public class TexturePack {
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";
-    public static final String CARD_FIRE = "water.jpg";
-    public static final String CARD_TECHNOLOGY = "chad.jpg";
-    public static final String CARD_LIGHTNING = "chad.jpg";
-    public static final String CARD_BOW = "chad.jpg";
-    public static final String CARD_MAGIC = "chad.jpg";
+    public static final String CARD_FIRE = "fire_card.png";
+    public static final String CARD_TECHNOLOGY = "technology_card.png";
+    public static final String CARD_LIGHTNING = "lightning_card.png";
+    public static final String CARD_BOW = "bow_card.png";
+    public static final String CARD_MAGIC = "magic_card.png";
 
     // Towers
     public static final String FIRE_MAGIC = "chad.jpg";

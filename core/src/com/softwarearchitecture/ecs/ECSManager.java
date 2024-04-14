@@ -63,10 +63,6 @@ public class ECSManager {
      * @param entity The entity to be added.
      */
     public void addEntity(Entity entity) {
-        entities.add(entity);
-    }
-
-    public void toAdd(Entity entity) {
         toAdd.add(entity);
     }
 
