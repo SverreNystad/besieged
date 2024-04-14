@@ -230,6 +230,8 @@ public class InGame extends State implements Observer {
             // PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
             // cardManager.addComponent(tileEntity, placedCardComponent);
 
+            // Update the tile with the new card
+            updateTileWithCard(tile, card);
         }
 
         // Reset the selected card type after placing a card
