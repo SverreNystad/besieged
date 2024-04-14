@@ -10,6 +10,7 @@ import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
+import com.softwarearchitecture.game_client.TexturePack;
 
 import java.util.ArrayList;
 import java.util.List;

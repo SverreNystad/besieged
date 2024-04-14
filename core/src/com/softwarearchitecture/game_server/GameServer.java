@@ -13,7 +13,7 @@ public class GameServer {
     private ServerMessagingController messageController;
 
     public GameServer(ServerMessagingController messageController, UUID playerOneID) {
-        this.messageController = messageController;        
+        this.messageController = messageController;
         this.playerOneID = playerOneID;
     }
 
@@ -31,15 +31,16 @@ public class GameServer {
         // Wait for player two to join
         while (messageController.getGameState(gameId).playerTwo == null) {
             Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
-            if (playerTwo.isEmpty()) continue;
+            if (!playerTwo.isPresent())
+                continue;
             gameState.playerTwo = new Entity();
             gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwo.get()));
             ECSManager.getInstance().addEntity(gameState.playerTwo);
-            
+
             messageController.setNewGameState(this.gameId, gameState);
             System.out.println("[INFO] Player two has joined the game");
             break;
-        
+
         }
         System.out.println("[INFO] Game is now full");
 

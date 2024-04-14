@@ -13,8 +13,8 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 import com.softwarearchitecture.game_client.Controllers;
-import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
-import com.softwarearchitecture.game_server.TexturePack;
+import com.softwarearchitecture.game_client.TexturePack;
+import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
@@ -35,8 +35,8 @@ public class JoinLobby extends State implements Observer {
         ECSManager.getInstance().addEntity(background);
         TextComponent textComponent = new TextComponent("Join lobby!", new Vector2(0.05f, 0.05f));
         background.addComponent(TextComponent.class, textComponent);
-        List<TypeEnum> buttonTypes = new ArrayList<>();
-        buttonTypes.add(TypeEnum.GAME_MENU);
+        List<ButtonEnum> buttonTypes = new ArrayList<>();
+        buttonTypes.add(ButtonEnum.GAME_MENU);
         buttons = createButtons(buttonTypes);
 
         // Add systems to the ECSManager
@@ -45,14 +45,14 @@ public class JoinLobby extends State implements Observer {
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
     }
-    
+
     /**
      * Creates buttons based on the button types
      * 
      * @param: buttonTypes: List<ButtonType>
      * @return: List<Button>
      */
-    private List<Entity> createButtons(List<TypeEnum> buttonTypes) {
+    private List<Entity> createButtons(List<ButtonEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
         int buffergrids = 2;
@@ -80,10 +80,10 @@ public class JoinLobby extends State implements Observer {
      * @param type: ButtonType.
      */
     @Override
-    public void onAction(TypeEnum type) {
+    public void onAction(ButtonEnum type) {
         switch (type) {
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers, yourId));
+                screenManager.nextState(new Menu(defaultControllers, yourId));
                 break;
 
             case JOIN:

@@ -8,8 +8,8 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
-import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
-import com.softwarearchitecture.game_server.TexturePack;
+import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
+import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
@@ -21,43 +21,43 @@ public class ButtonFactory {
     /**
      * Creates a button based on the button type and adds it to the ECS system
      * 
-     * @param button:   TypeEnum
+     * @param button:   ButtonEnum
      * @param size:     Vector2
      * @param observer: Observer
      * @throws IllegalArgumentException if the button type is invalid
      */
-    public static Entity createAndAddButtonEntity(TypeEnum button, Vector2 position, Vector2 size, Observer observer,
+    public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size, Observer observer,
             int z_index) throws IllegalArgumentException {
         // factory that makes buttons based on the state enum
         String texture = TexturePack.BUTTON_PLACEHOLDER;
         switch (button) {
             case OPTIONS:
                 // create options buttons
-                texture = TexturePack.BACKGROUND_ABYSS;
+                texture = TexturePack.BUTTON_OPTION;
                 break;
             case GAME_MENU:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_GAME_MENU;
                 break;
             case QUIT:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_QUIT;
                 break;
             case JOIN:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_JOIN;
                 break;
             case HOST:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_HOST;
                 break;
             case PAUSE:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_PAUSE;
                 break;
             case MULTI_PLAYER:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_MULTI_PLAYER;
                 break;
             case SINGLE_PLAYER:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_SINGLE_PLAYER;
                 break;
             case PLAY:
-                texture = TexturePack.BUTTON_PLACEHOLDER;
+                texture = TexturePack.BUTTON_PLAY;
                 break;
             case BACK:
                 texture = TexturePack.BUTTON_BACK;
@@ -87,7 +87,7 @@ public class ButtonFactory {
         ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
         PositionComponent positionComponent = new PositionComponent(position, z_index);
         SpriteComponent spriteComponent = new SpriteComponent(texture, size);
-        
+
         Entity buttonEntity = new Entity();
         buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
         buttonEntity.addComponent(PositionComponent.class, positionComponent);
