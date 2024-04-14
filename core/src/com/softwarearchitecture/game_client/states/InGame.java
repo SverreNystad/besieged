@@ -5,7 +5,6 @@ import java.util.UUID;
 import java.util.List;
 import java.util.Optional;
 
-import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.TileComponentManager;
@@ -171,7 +170,7 @@ public class InGame extends State implements Observer {
         // Define the PositionComponent for the button
         PositionComponent buttonPositionComponent = new PositionComponent(position, 2);
 
-        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(size.x / 2, size.y / 2)); // Text centered within button
+        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(0.015f, 0.015f)); // Text centered within button
         buttonText.setColor(new Vector3(0f, 0f, 0f)); // Set text color to black
 
         // Button component also has a callback now
@@ -196,10 +195,6 @@ public class InGame extends State implements Observer {
         Tile tile = gameMap.getMapLayout()[x][y];
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
         if (tileEntity == null) return; // Exit if there is no entity for this tile
-
-        System.out.println("Tile is buildable: " + tile.isBuildable());
-        System.out.println("Tile has card: " + tile.hasCard());
-        System.out.println("Tile has tower: " + tile.hasTower());
     
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
@@ -209,31 +204,20 @@ public class InGame extends State implements Observer {
         if (tile.hasCard()) {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
             PlacedCardComponent existingCardComponent = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
-            System.out.println("[DEBUG] 1");
-            System.out.println("Existing card type: " + existingCardComponent.cardType);
             CardType existingCardType = existingCardComponent.cardType;
-            System.out.println("[DEBUG] 2");
-            System.out.println("Selected card type: " + selectedCardType);
             Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
-            System.out.println("[DEBUG] 3");
-            System.out.println("TowerType = " + towerType);
             if (towerType.isPresent()) {
-                // Remove the cards
+                // Remove the card thats already there
                 tile.removeCard();
                 ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).removeComponent(tileEntity);
-                System.out.println("[DEBUG] 4");
 
                 // Create and place the tower
                 Entity tower = TowerFactory.createTower(selectedCardType, existingCardType, new Vector2(x, y));
-                System.out.println("[DEBUG] 5");
                 ECSManager.getInstance().addEntity(tower);
-                System.out.println("[DEBUG] 6");
                 tile.setTower(tower);
-                System.out.println("[DEBUG] 7");
 
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tower);
-                System.out.println("[DEBUG] 8");
             }
         } 
         // No card on tile, place card
@@ -252,7 +236,6 @@ public class InGame extends State implements Observer {
 
         // Reset the selected card type after placing a card
         selectedCardType = null;
-        System.out.println("[DEBUG] Selected card type reset to null");
     }
 
 
