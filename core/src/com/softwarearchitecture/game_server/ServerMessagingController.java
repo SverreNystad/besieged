@@ -12,7 +12,14 @@ public interface ServerMessagingController {
      */
     public UUID createGame();
 
+    /**
+     * Get the game state of the game with the given game ID.
+     * 
+     * @param gameID of the game to get the game state of
+     * @return the game state of the game with the given game ID
+     */
     public GameState getGameState(UUID gameID);
+
     /**
      * Make the server update the game state to the new game state for all clients.
      * 
