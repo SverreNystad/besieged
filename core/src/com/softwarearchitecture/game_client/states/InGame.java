@@ -1,13 +1,11 @@
 package com.softwarearchitecture.game_client.states;
 
-import java.util.UUID;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.TileComponentManager;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -129,10 +127,6 @@ public class InGame extends State implements Observer {
                 tileEntity.addComponent(ButtonComponent.class, buttonComponent);
                 tileEntity.addComponent(TileComponent.class, tileComponent); // Added
                 ECSManager.getInstance().addEntity(tileEntity);
-
-                // Register the TileComponent with the TileComponentManager
-                TileComponentManager tileManager = ECSManager.getInstance().getTileComponentManager();
-                tileManager.addComponent(tileEntity, tileComponent);
 
             }
         }
