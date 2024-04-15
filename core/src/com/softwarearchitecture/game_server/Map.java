@@ -128,7 +128,7 @@ public class Map {
             path.add(end);
         }
 
-        System.out.println(path.size());
+        // System.out.println(path.size());
         return path;
     }
 
