@@ -17,7 +17,12 @@ public interface GraphicsController {
     void clearScreen();
 
     /**
-     * Draw text
+     * Draw text.
      */
     void drawText(TextComponent textComponent, PositionComponent positionComponent);
+
+    /**
+     * Gets the aspect ratio of the screen.
+     */
+    float getAspectRatio();
 }

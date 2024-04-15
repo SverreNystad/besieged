@@ -83,4 +83,9 @@ public class LibGDXGraphics implements GraphicsController {
         font.draw(batch, textComponent.text, xPos, yPos);
         batch.end();
     }
+
+    @Override
+    public float getAspectRatio() {
+        return ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
+    }
 }
