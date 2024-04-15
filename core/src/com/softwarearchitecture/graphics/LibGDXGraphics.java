@@ -61,6 +61,7 @@ public class LibGDXGraphics implements GraphicsController {
         camera.viewportWidth = Gdx.graphics.getWidth();
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
+        camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         batch.setProjectionMatrix(camera.combined);
     }
 
@@ -69,6 +70,7 @@ public class LibGDXGraphics implements GraphicsController {
         font.getData().setScale(1, 1);
         float charWidth = Gdx.graphics.getWidth() * textComponent.fontScale.x;
         float charHeight = Gdx.graphics.getHeight() * textComponent.fontScale.y;
+
         float scale = charHeight / font.getCapHeight();
 
         font.getData().setScale(scale); // Set the scale uniformly based on height
