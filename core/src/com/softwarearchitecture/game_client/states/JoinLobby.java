@@ -96,7 +96,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
     public void onJoinGame(GameState game) {
 
         // Send a message to the server to join the game
-        UUID gameID = game.playerOne.getId();
+        UUID gameID = game.gameID;
         boolean didJoin = defaultControllers.clientMessagingController.joinGame(gameID, yourId);
         // Wait for the server to respond
         if (didJoin) {
