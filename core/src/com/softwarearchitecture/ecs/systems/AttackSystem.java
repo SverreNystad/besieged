@@ -21,7 +21,7 @@ import com.softwarearchitecture.math.Vector2;
  * Class responsible for handling attacks of Towers on enemies.
  * 
  * <p>
- * @param entities All entities within the game
+ * @param entities All entities in the game
  * @param deltaTime The time between frames
  * </p>
  * 
@@ -43,8 +43,8 @@ public class AttackSystem implements System {
         return new Vector2((float) position.x * tileWidth, (float) position.y * tileHeight);
     }
 
-    private Vector2 convertRangeToUVDistance(int range) {
-        // Get the width and height of each tile in UV coordinates
+    private Vector2 convertRangeToUVDistance(float range) {
+        // Get the width and height of each tile in UV-coordinates
         float tileWidth = gameMap.getTileWidth();
         float tileHeight = gameMap.getTileHeight();
         
@@ -82,23 +82,18 @@ public class AttackSystem implements System {
         // Loop through all towers, and check if any enemies are within its range. If they are, attack. 
         for (Entity tower : towers) {
             TowerComponent towerComp = tower.getComponent(TowerComponent.class).get();
-            int range = tower.getComponent(TowerComponent.class).get().getRange();
+            float range = tower.getComponent(TowerComponent.class).get().getRange();
             int damage = tower.getComponent(TowerComponent.class).get().getDamage();
 
             // Convert range to UV-distance
-            Vector2 uvDistance = convertRangeToUVDistance(range);
+            Vector2 uvDistance = convertRangeToUVDistance(range);            
 
             for (Entity enemy : enemies) {
                 Vector2 towerPositionXY = tower.getComponent(PositionComponent.class).get().getPosition();
-                java.lang.System.out.println("Tower position XY = " + towerPositionXY);
                 Vector2 towerPositionUV = convertFromXYtoUVCoordinates(towerPositionXY);
-                java.lang.System.out.println("Tower position UV = " + towerPositionUV);
                 
                 Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
                 float distance = Vector2.dst(towerPositionUV, enemyPosition);
-                java.lang.System.out.println("Tower position = " + towerPositionUV);
-                java.lang.System.out.println("Enemy position = " + enemyPosition);
-                java.lang.System.out.println("Distance = " + distance);
 
                 if (distance <= uvDistance.len()) {
                     int enemyHealth = enemy.getComponent(HealthComponent.class).get().getHealth();

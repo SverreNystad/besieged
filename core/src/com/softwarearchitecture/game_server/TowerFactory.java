@@ -27,7 +27,7 @@ public class TowerFactory {
         List<String> textures = new ArrayList<String>();
         Vector2 size = new Vector2(1, 1);
         int damage = 0;
-        int range = 0;
+        float range = 0;
         int attackCooldown = 0;
         String sound = "soundPath";
 
@@ -43,8 +43,8 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_FRAME3);
                 damage = 5;
-                range = 5;
-                attackCooldown = 100;
+                range = 2f;
+                attackCooldown = 10;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
                 break;
             case ICE_MAGIC:
