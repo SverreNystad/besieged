@@ -13,6 +13,7 @@ public class HealthComponent implements Serializable {
         else {
             this.health = 0;
         }
+        this.maxHealth = maxHealth;
     }
 
     public int getHealth() {
