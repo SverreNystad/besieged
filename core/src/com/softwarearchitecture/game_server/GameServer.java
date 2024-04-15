@@ -31,6 +31,7 @@ public class GameServer {
         // Wait for player two to join
         while (messageController.getGameState(gameId).playerTwo == null) {
             Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
+            System.out.println("[INFO] Looking for player two");
             if (!playerTwo.isPresent())
                 continue;
             gameState.playerTwo = new Entity();
@@ -46,4 +47,7 @@ public class GameServer {
 
     }
 
+    public void setPlayerId(UUID playerId) {
+        this.playerOneID = playerId;
+    }
 }

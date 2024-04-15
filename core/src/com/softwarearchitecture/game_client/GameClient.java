@@ -8,11 +8,8 @@ import com.softwarearchitecture.game_client.states.ScreenManager;
 
 public class GameClient {
     private ScreenManager screenManager;
-    private UUID yourId;
 
-    public GameClient(Controllers defaultControllers) throws IllegalArgumentException {
-        yourId = UUID.randomUUID();
-
+    public GameClient(Controllers defaultControllers, UUID yourId) throws IllegalArgumentException {
         screenManager = ScreenManager.getInstance();
         screenManager.nextState(new Menu(defaultControllers, yourId));
 

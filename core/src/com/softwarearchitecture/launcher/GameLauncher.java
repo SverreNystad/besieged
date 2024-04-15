@@ -1,11 +1,14 @@
 package com.softwarearchitecture.launcher;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.game_client.ClientMessagingController;
 import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_client.GameClient;
+import com.softwarearchitecture.game_server.GameServer;
 import com.softwarearchitecture.graphics.LibGDXGraphics;
 import com.softwarearchitecture.input.LibGDXInput;
 import com.softwarearchitecture.networking.messaging.ClientMessenger;
@@ -25,7 +28,9 @@ public class GameLauncher {
         ClientMessagingController clientMessaging = new ClientMessenger();
 
         // Set to main manu
-        Controllers defaultControllers = new Controllers(graphicsController, libGDXInput, soundController, serverMessenger, clientMessaging);
-        return new GameClient(defaultControllers);
+        UUID yourId = UUID.randomUUID();
+        GameServer gameServer = new GameServer(serverMessenger, yourId);
+        Controllers defaultControllers = new Controllers(graphicsController, libGDXInput, soundController, serverMessenger, clientMessaging, gameServer);
+        return new GameClient(defaultControllers, yourId);
     }
 }

@@ -16,10 +16,11 @@ import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.math.Vector2;
 
-public class JoinLobby extends State implements Observer {
+public class JoinLobby extends State implements Observer, JoinGameObserver {
 
     private final int buttonZIndex = 3;
-
+    private final float gap = 0.2f;
+    
     public JoinLobby(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
     }
@@ -56,12 +57,15 @@ public class JoinLobby extends State implements Observer {
         // Create buttons for joining a game based on the available games
         List<GameState> games = defaultControllers.clientMessagingController.getAllAvailableGames();
         System.out.println("Games: " + games);
+        float translateY = 0.7f;
         for (GameState game : games) {
             System.out.println("Game: " + game.playerOne + " " + game.playerTwo);
             ButtonEnum buttonType = ButtonEnum.JOIN;
             Vector2 buttonWidth = new Vector2(0.2f, 0.2f);
             float buttonX = 0.5f - buttonWidth.x / 2;
-            ButtonFactory.createAndAddButtonEntity(buttonType, new Vector2(buttonX, 0.5f), buttonWidth, this, buttonZIndex);
+            Vector2 position = new Vector2(buttonX, translateY);
+            ButtonFactory.createAndAddButtonEntity(buttonType, position, buttonWidth, this, game, buttonZIndex);
+            translateY -= gap;
         }
     }
 
@@ -88,8 +92,9 @@ public class JoinLobby extends State implements Observer {
         }
     }
 
-    
-    private void joinGame(GameState game) {
+    @Override
+    public void onJoinGame(GameState game) {
+
         // Send a message to the server to join the game
         UUID gameID = game.playerOne.getId();
         boolean didJoin = defaultControllers.clientMessagingController.joinGame(gameID, yourId);

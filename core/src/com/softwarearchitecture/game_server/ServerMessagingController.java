@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ServerMessagingController {
+
     /**
      * Create a new game and return the game ID.
      * 

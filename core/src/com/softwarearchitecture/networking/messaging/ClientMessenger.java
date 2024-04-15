@@ -28,24 +28,29 @@ public class ClientMessenger implements ClientMessagingController {
     
     @Override
     public boolean joinGame(UUID gameID, UUID playerID) {
-        joinPlayerDAO.add(gameID.toString() + "JOIN", playerID);
-
-        try {
-            wait(1000, 0);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Optional<byte[]> data = gameDAO.get(createGameId(gameID));
-        if (data.isPresent()) {
+       synchronized (this) {
+            joinPlayerDAO.add(gameID.toString() + "JOIN", playerID);
+            System.out.println("Joining game: " + gameID + " with player: " + playerID);
             try {
-                GameState gameState = GameState.deserializeFromByteArray(data.get());
-                return gameState.playerTwo.equals(playerID);
-            } catch (IOException | ClassNotFoundException e) {
+                wait(1000); // Wait for 1 second
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Restore interrupt status
                 e.printStackTrace();
             }
+            Optional<byte[]> data = gameDAO.get(createGameId(gameID));
+            if (data.isPresent()) {
+                try {
+                    GameState gameState = GameState.deserializeFromByteArray(data.get());
+                    System.out.println("Player one: " + gameState.playerOne);
+                    System.out.println("Player two: " + gameState.playerTwo);
+                    System.out.println("Player ID: " + playerID);
+                    return gameState.gameID.equals(gameID);
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return false;
+        return false; 
     }
 
     public List<GameState> getAllAvailableGames() {

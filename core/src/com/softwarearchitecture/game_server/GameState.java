@@ -50,6 +50,7 @@ public class GameState implements Externalizable {
 
     public static final String game_version = "0.1";
     private Entity village = new Entity();
+    public UUID gameID;
     public Entity playerOne;
     public Entity playerTwo;
     private Map map;
@@ -58,7 +59,9 @@ public class GameState implements Externalizable {
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(game_version);
+
         // Writing gameID
+        out.writeObject(gameID);
         out.writeObject(playerOne);
         out.writeObject(playerTwo);
 
