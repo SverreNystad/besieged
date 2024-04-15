@@ -100,4 +100,31 @@ public class TexturePack {
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
 
+    // Tiles
+    public static final String TILE_GRASS_01 = "tiles/grass_01.png";
+    public static final String TILE_GRASS_02 = "tiles/grass_02.png";
+    public static final String TILE_GRASS_03 = "tiles/grass_03.png";
+    public static final String TILE_GRASS_04 = "tiles/grass_04.png";
+    public static final String TILE_OBSTRUCTED_01 = "tiles/obstructed_01.png";
+    public static final String TILE_OBSTRUCTED_02 = "tiles/obstructed_02.png";
+    public static final String TILE_OBSTRUCTED_03 = "tiles/obstructed_03.png";
+    public static final String TILE_OBSTRUCTED_04 = "tiles/obstructed_04.png";
+    public static final String TILE_OBSTRUCTED_05 = "tiles/obstructed_05.png";
+    public static final String TILE_OBSTRUCTED_06 = "tiles/obstructed_06.png";
+    public static final String TILE_TREE_BOTTOM_01 = "tiles/tree_bottom_01.png";
+    public static final String TILE_TREE_BOTTOM_02 = "tiles/tree_bottom_02.png";
+    public static final String TILE_TREE_TOP_01 = "tiles/tree_top_01.png";
+    public static final String TILE_TREE_TOP_02 = "tiles/tree_top_02.png";
+    public static final String TILE_PATH_01 = "tiles/path_01.png";
+    public static final String TILE_PATH_02 = "tiles/path_02.png";
+    public static final String TILE_CORNER = "tiles/path_corner.png";
+    public static final String TILE_WATER = "tiles/water.png";
+    public static final String TILE_WATER_BOTTOM_CORNER = "tiles/water_bottom_corner.png";
+    public static final String TILE_WATER_BOTTOM_EDGE = "tiles/water_bottom_edge.png";
+    public static final String TILE_WATER_TOP_CORNER = "tiles/water_left_corner.png";
+    public static final String TILE_WATER_TOP_EDGE = "tiles/water_top_edge.png";
+    public static final String TILE_END = "tiles/end.png";
+    public static final String TILE_CASTLE_BOTTOM = "tiles/castle_bottom.png";
+    public static final String TILE_CASTLE_TOP = "tiles/castle_top.png";
+
 }
