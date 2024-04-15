@@ -34,6 +34,7 @@ public class GameServer {
             System.out.println("[INFO] Looking for player two");
             if (!playerTwo.isPresent())
                 continue;
+            System.out.println("[INFO] The player two joined with: " + playerTwo.get().toString());
             gameState.playerTwo = new Entity();
             gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwo.get()));
             ECSManager.getInstance().addEntity(gameState.playerTwo);
