@@ -7,17 +7,58 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 
+/**
+ * Represents a game server that manages the lifecycle and state of a multiplayer game.
+ * The server coordinates game creation, state updates, player actions, the main game loop and teardown after game over.
+ */
 public class GameServer {
     private UUID gameId;
     private UUID playerOneID;
     private ServerMessagingController messageController;
 
+    /**
+     * Initializes a new game server with a message controller for communication and the UUID of player one.
+     * @param messageController The communication controller used for interacting with clients.
+     * @param playerOneID The unique identifier for the first player in the game.
+     */
     public GameServer(ServerMessagingController messageController, UUID playerOneID) {
         this.messageController = messageController;
         this.playerOneID = playerOneID;
     }
 
+    /**
+     * Starts the server operation, creating a game instance and entering the main gameplay loop.
+     * The method handles game setup, player joining, and periodic state updates until the game ends.
+     */
     public void run() {
+        GameState gameState = setupGame();
+
+        // Wait for player two to join
+        waitForPlayerToJoin(gameState);
+
+        // TODO: Add relevant systems
+
+        // Main gameplay loop
+        boolean gamesOver = false;
+        while (!gamesOver) {
+
+            float deltatime = 1.0f;
+            ECSManager.getInstance().update(deltatime);
+            
+            // Process each pending player action.
+            for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
+                // Actions to process player inputs and update game state
+            }
+
+            // Update all clients with the latest game state.
+            messageController.setNewGameState(gameId, gameState);
+        }
+
+        // Teardown of server and delete game from games listing
+        messageController.removeGame(gameId);
+    }
+
+    private GameState setupGame() {
         this.gameId = messageController.createGame();
         System.out.println("Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
@@ -27,34 +68,14 @@ public class GameServer {
             ECSManager.getInstance().addEntity(gameState.playerOne);
         }
         messageController.setNewGameState(this.gameId, gameState);
-
-        // Wait for player two to join
-        waitForPlayerToJoin(gameState);
-
-        // TODO: Add relevant systems
-
-        // Main gameplay loop
-        boolean gamesOver = true;
-        while (!gamesOver) {
-
-            float deltatime = 1.0f;
-            ECSManager.getInstance().update(deltatime);
-            
-            // Look for player actions
-            for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
-                // TODO: Check if action can be done by player
-                
-                // TODO: Do action on game
-            }
-            
-            // Send new game state to all clients
-            messageController.setNewGameState(gameId, gameState);
-        }
-
-        // TODO: Teardown of server
-        
+        return gameState;
     }
-    
+    /**
+     * Waits for the second player to join the game.
+     * This method polls the server state until a second player joins the game.
+     * This is a blocking action.
+     * @param gameState The current state of the game.
+     */
     private void waitForPlayerToJoin(GameState gameState) {
         while (messageController.getGameState(gameId).playerTwo == null) {
             Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
@@ -73,8 +94,7 @@ public class GameServer {
         }
     }
 
-    
-
+ 
     public void setPlayerId(UUID playerId) {
         this.playerOneID = playerId;
     }
