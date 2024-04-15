@@ -15,6 +15,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
+import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
@@ -73,11 +74,13 @@ public class InGame extends State implements Observer {
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
         EnemySystem EnemySystem = new EnemySystem();
+        AttackSystem attackSystem = new AttackSystem(gameMap);
+
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
         ECSManager.getInstance().addSystem(EnemySystem);
-        
+        ECSManager.getInstance().addSystem(attackSystem);
     }
 
     @Override
@@ -201,9 +204,6 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
         if (tileEntity == null)
             return; // Exit if there is no entity for this tile
-        System.out.println(selectedCardType);
-        System.out.println(tile.isBuildable());
-        System.out.println(tile.hasTower());
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
@@ -265,7 +265,7 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
         if (tileEntity != null && tower.getComponent(SpriteComponent.class).isPresent()) {
             SpriteComponent spriteComponent = tower.getComponent(SpriteComponent.class).get();
-            spriteComponent.size_uv.set(gameMap.getTileWidth() * 0.3f, gameMap.getTileWidth() * 0.8f);
+            spriteComponent.size_uv.set(gameMap.getTileWidth(), gameMap.getTileHeight());
             if (spriteComponent != null) {
                 tileEntity.addComponent(SpriteComponent.class, spriteComponent);
             }

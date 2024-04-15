@@ -21,7 +21,7 @@ public class GameLauncher {
      * Create a new game client.
      */
     public static GameClient createGameClient(OrthographicCamera camera, Viewport viewport) {
-        LibGDXInput libGDXInput = new LibGDXInput();
+        LibGDXInput libGDXInput = new LibGDXInput(viewport);
         GraphicsController graphicsController = new LibGDXGraphics(camera, viewport);
         SoundController soundController = new LibGDXSound(50);
         ServerMessenger serverMessenger = new ServerMessenger();
