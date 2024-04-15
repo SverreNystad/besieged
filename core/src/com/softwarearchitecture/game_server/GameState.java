@@ -23,6 +23,7 @@ import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
+import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
@@ -36,6 +37,7 @@ import com.softwarearchitecture.game_server.cards.tower_cards.PowerCard;
 
 
 public class GameState implements Externalizable {
+
     public static final List<Class<? extends Card>> card_classes = new ArrayList<Class<? extends Card>>(
         Arrays.asList(
             IceCard.class,
@@ -65,7 +67,7 @@ public class GameState implements Externalizable {
         out.writeObject(playerOne);
         out.writeObject(playerTwo);
 
-        if (playerTwo == null) {
+        if (playerOne == null || playerTwo == null) {
             return;
         }
 
@@ -235,9 +237,15 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Game version mismatch");
         }
         
+        readObject = in.readObject();
+        if (!(readObject instanceof UUID)) {
+            throw new IllegalStateException("The game id was not present");
+        }
+        gameID = (UUID) readObject;
+
+        
         // Players
         deserializePlayers(in);
-
         if (playerTwo == null) {
             return;
         }
@@ -273,12 +281,16 @@ public class GameState implements Externalizable {
     
     private void deserializePlayers(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
+        ComponentManager<PlayerComponent> playerManager = manager.getOrDefaultComponentManager(PlayerComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof Entity)) {
+            System.out.println(readObject);
             throw new IllegalStateException("Player one must be an entity");
         }
         playerOne = (Entity) readObject;
         manager.addEntity(playerOne);
+        
+        // Check for player two
         readObject = in.readObject();
         if (!(readObject instanceof Entity)) {
             return;
