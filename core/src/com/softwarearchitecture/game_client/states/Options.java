@@ -70,7 +70,7 @@ public class Options extends State implements Observer {
                 ScreenManager.getInstance().previousState();
                 break;
             case PLUSS:
-                System.out.println("Pressed pluss!");
+                System.out.println("Pressed plus!");
                 defaultControllers.soundController.setVolume(defaultControllers.soundController.getVolume() + 1);
                 break;
             case MINUS:

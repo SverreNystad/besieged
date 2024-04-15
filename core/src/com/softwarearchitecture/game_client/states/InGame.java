@@ -204,9 +204,6 @@ public class InGame extends State implements Observer {
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
         if (tileEntity == null)
             return; // Exit if there is no entity for this tile
-        System.out.println(selectedCardType);
-        System.out.println(tile.isBuildable());
-        System.out.println(tile.hasTower());
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }

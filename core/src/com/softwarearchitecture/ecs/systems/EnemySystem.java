@@ -55,7 +55,7 @@ public class EnemySystem implements System {
         this.waveNumber = 1;
         this.spawnTimer = 20f;
         this.waveTimer = 1000f;
-        this.maxLiveMonsters = 1;
+        this.maxLiveMonsters = 5;
         this.liveMonsterCounter = 0;
     }
 
