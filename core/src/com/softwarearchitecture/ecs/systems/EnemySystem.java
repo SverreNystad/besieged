@@ -58,6 +58,8 @@ public class EnemySystem implements System {
         this.maxLiveMonsters = 5;
         this.liveMonsterCounter = 0;
     }
+
+    
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         //Get tile size
@@ -94,29 +96,28 @@ public class EnemySystem implements System {
             List<Tile> find = pathfinding.get().path;
             Tile nextTile = pathfinding.get().targetTile;
             int hp = health.get().getHealth();
-            Vector2 nextTilePos = new Vector2(nextTile.getX()*tileSize.x, nextTile.getY()*tileSize.y);
-            if (nextTile.getType() == TileType.END && nextTilePos.sub(pos).len() < 0.001f){
+            Vector2 nextTilePos = new Vector2(nextTile.getX() * tileSize.x, nextTile.getY() * tileSize.y);
+            if (nextTile.getType() == TileType.END && nextTilePos.sub(pos).len() < 0.001f) {
                 pathfinding.get().targetTile = find.get(0);
                 position.get().position = new Vector2(find.get(0).getX()*tileSize.x,find.get(0).getY()*tileSize.y);
                 health.get().setHealth(health.get().getMaxHealth());
                 monsterCounter++;
             }
-            else if (hp <= 0){
+            else if (hp <= 0) {
                 position.get().position = new Vector2(0,0);
                 velocity.get().velocity = new Vector2(0, 0);
                 liveMonsterCounter--;
             }
         }
-        spawnTimer-=deltaTime;
-        if (spawnTimer<=0 && monsterCounter < waveSize){
-            if (liveMonsterCounter < maxLiveMonsters){
-            mob = EnemyFactory.createEnemy(EnemyType.WOLF, path, tileSize);
-            ECSManager.getInstance().addEntity(mob);
-            monsterCounter++;
-            liveMonsterCounter++;
-            spawnTimer = 200f;
-            }
-            else {
+        spawnTimer -= deltaTime;
+        if (spawnTimer<=0 && monsterCounter < waveSize) {
+            if (liveMonsterCounter < maxLiveMonsters) {
+                mob = EnemyFactory.createEnemy(EnemyType.WOLF, path, tileSize);
+                ECSManager.getInstance().addEntity(mob);
+                monsterCounter++;
+                liveMonsterCounter++;
+                spawnTimer = 200f;
+            } else {
                 for (Entity entity : entities) {
                     Optional<PositionComponent> position = positionManager.getComponent(entity);
                     Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
@@ -128,7 +129,7 @@ public class EnemySystem implements System {
                     }
 
                     List<Tile> find = pathfinding.get().path;
-                    if (velocity.get().velocity.len() == 0){
+                    if (velocity.get().velocity.len() == 0) {
                         position.get().position = new Vector2(find.get(0).getX()*tileSize.x,find.get(0).getY()*tileSize.y);
                         pathfinding.get().targetTile = find.get(0);
                         velocity.get().velocity = velocity.get().baseVelocity;
@@ -138,13 +139,13 @@ public class EnemySystem implements System {
                 }
             }
         }
-        if (waveTimer>0) {
-            waveTimer-=deltaTime;
+        if (waveTimer > 0) {
+            waveTimer -= deltaTime;
         }
         if (monsterCounter >= waveSize && waveTimer<=0) {
             waveNumber++;
             monsterCounter = 0;
-            waveSize+=waveNumber*2-2;
+            waveSize+=waveNumber * 2 - 2;
             waveTimer = 60f;
             spawnTimer = 0f;
             maxLiveMonsters++;
