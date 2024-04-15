@@ -31,7 +31,7 @@ public class GameServer {
      * The method handles game setup, player joining, and periodic state updates until the game ends.
      */
     public void run() {
-        GameState gameState = setupGame();
+        GameState gameState = hostGame();
 
         // Wait for player two to join
         waitForPlayerToJoin(gameState);
@@ -58,7 +58,7 @@ public class GameServer {
         messageController.removeGame(gameId);
     }
 
-    private GameState setupGame() {
+    private GameState hostGame() {
         this.gameId = messageController.createGame();
         System.out.println("Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
