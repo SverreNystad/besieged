@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.softwarearchitecture.game_client.TexturePack;
+// random integer
+import java.util.Random;
 
 public class Map {
     protected Tile[][] tiles;
@@ -42,7 +44,18 @@ public class Map {
     public String getTextureForTile(Tile tile) {
         switch (tile.getType()) {
             case PLACEABLE:
-                return TexturePack.placeableTexture;
+                // return TexturePack.GRASS_01 to 04 randomly
+                Random rand = new Random();
+                int randInt = rand.nextInt(4) + 1;
+                if (randInt == 1) {
+                    return TexturePack.TILE_GRASS_01;
+                } else if (randInt == 2) {
+                    return TexturePack.TILE_GRASS_02;
+                } else if (randInt == 3) {
+                    return TexturePack.TILE_GRASS_03;
+                } else {
+                    return TexturePack.TILE_GRASS_04;
+                }
             case PATH:
                 return TexturePack.pathTexture;
             case BLOCKED_WATER:
