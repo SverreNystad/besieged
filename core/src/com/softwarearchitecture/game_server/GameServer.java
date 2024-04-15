@@ -29,24 +29,51 @@ public class GameServer {
         messageController.setNewGameState(this.gameId, gameState);
 
         // Wait for player two to join
+        waitForPlayerToJoin(gameState);
+
+        // TODO: Add relevant systems
+
+        // Main gameplay loop
+        boolean gamesOver = true;
+        while (!gamesOver) {
+
+            float deltatime = 1.0f;
+            ECSManager.getInstance().update(deltatime);
+            
+            // Look for player actions
+            for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
+                // TODO: Check if action can be done by player
+                
+                // TODO: Do action on game
+            }
+            
+            // Send new game state to all clients
+            messageController.setNewGameState(gameId, gameState);
+        }
+
+        // TODO: Teardown of server
+        
+    }
+    
+    private void waitForPlayerToJoin(GameState gameState) {
         while (messageController.getGameState(gameId).playerTwo == null) {
             Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
             System.out.println("[INFO] Looking for player two");
             if (!playerTwo.isPresent())
-                continue;
+            continue;
             System.out.println("[INFO] The player two joined with: " + playerTwo.get().toString());
             gameState.playerTwo = new Entity();
             gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwo.get()));
             ECSManager.getInstance().addEntity(gameState.playerTwo);
-
+            
             messageController.setNewGameState(this.gameId, gameState);
             System.out.println("[INFO] Player two has joined the game");
+            System.out.println("[INFO] Game is now full");
             break;
-
         }
-        System.out.println("[INFO] Game is now full");
-
     }
+
+    
 
     public void setPlayerId(UUID playerId) {
         this.playerOneID = playerId;
