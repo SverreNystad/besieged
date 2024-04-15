@@ -86,6 +86,6 @@ public class LibGDXGraphics implements GraphicsController {
 
     @Override
     public float getAspectRatio() {
-        return ((float) Gdx.graphics.getWidth()) / ((float) Gdx.graphics.getHeight());
+        return ((float) viewport.getScreenWidth()) / ((float) viewport.getScreenHeight());
     }
 }

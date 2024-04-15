@@ -101,7 +101,6 @@ public class InGame extends State implements Observer {
 
         float aspectRatio = defaultControllers.graphicsController.getAspectRatio();
         // System.out.println(aspectRatio);
-        
         // System.out.println("Before" + tileWidth + " " + tileHeight);
         if (tileWidth < tileHeight) {
             tileHeight = tileWidth * aspectRatio;
@@ -109,7 +108,6 @@ public class InGame extends State implements Observer {
             tileWidth = tileHeight / aspectRatio;
         }
         // System.out.println("After" + tileWidth + " " + tileHeight);
-        
         if (tileWidth * numOfColumns > 1) {
             tileHeight = tileHeight / (tileWidth * numOfColumns);
             tileWidth = 1.0f / numOfColumns;
@@ -117,10 +115,8 @@ public class InGame extends State implements Observer {
             tileWidth = tileWidth / (tileHeight * numOfRows);
             tileHeight = 1.0f / numOfRows;
         }
-
         // System.out.println("After correction" + tileWidth + " " + tileHeight);
-
-        System.out.println(tileWidth*numOfColumns + " " + tileHeight*numOfRows);
+        // System.out.println(tileWidth*numOfColumns + " " + tileHeight*numOfRows);
 
         // Set tileWidth and tileHeight in the gameMap
         gameMap.setTileWidth(tileWidth);
