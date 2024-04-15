@@ -82,11 +82,6 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
             case MULTI_PLAYER:
                 screenManager.nextState(new Multiplayer(defaultControllers, yourId));
                 break;
-            case JOIN:
-                System.out.println("Join button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId, "abyss"));
-                break;
-
             default:
                 break;
         }
