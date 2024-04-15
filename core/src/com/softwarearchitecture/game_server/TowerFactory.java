@@ -27,7 +27,8 @@ public class TowerFactory {
         List<String> textures = new ArrayList<String>();
         Vector2 size = new Vector2(1, 1);
         int damage = 0;
-        int range = 0;
+        float range = 0;
+        int attackCooldown = 0;
         String sound = "soundPath";
 
         Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
@@ -42,13 +43,15 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_FRAME3);
                 damage = 5;
-                range = 3;
+                range = 2f;
+                attackCooldown = 40;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
                 break;
             case ICE_MAGIC:
                 textures.add(TexturePack.DEFAULT);
                 damage = 6;
                 range = 4;
+                attackCooldown = 3;
                 sound = AudioPack.TOWER_ICE_MAGIC;
                 break;
             case TOR:
@@ -57,6 +60,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_TOR_FRAME3);
                 damage = 7;
                 range = 5;
+                attackCooldown = 4;
                 sound = AudioPack.TOWER_TOR;
                 break;
             case MAGIC:
@@ -65,30 +69,34 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_FRAME3);
                 damage = 8;
                 range = 3;
+                attackCooldown = 8;
                 sound = AudioPack.TOWER_MAGIC;
                 break;
             case FIRE_BOW:
                 textures.add(TexturePack.TOWER_BOW_FIRE);
                 damage = 6;
                 range = 2;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_FIRE_BOW;
                 break;
             case SHARP_SHOOTER:
                 textures.add(TexturePack.TOWER_SHARPSHOOTER);
                 damage = 9;
-                range = 4;
+                range = 3;
+                attackCooldown = 100;
                 sound = AudioPack.TOWER_SHARP_SHOOTER;
                 break;
             case BOW:
                 textures.add(TexturePack.TOWER_BOW);
                 damage = 4;
                 range = 3;
+                attackCooldown = 6;
                 sound = AudioPack.TOWER_BOW;
                 break;
         }
 
         // Create the components for the tower
-        TowerComponent towerComponent = new TowerComponent(damage, range);
+        TowerComponent towerComponent = new TowerComponent(damage, range, attackCooldown);
         PositionComponent positionComponent = new PositionComponent(position, 0);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);

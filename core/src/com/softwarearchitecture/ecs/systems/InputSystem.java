@@ -39,16 +39,24 @@ public class InputSystem implements System {
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
+        List<ButtonComponent> buttonsPressed = new ArrayList<>();
         for (Entity entity : entities) {
             Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
             if (buttonComponent.isPresent()) {
                 ButtonComponent button = buttonComponent.get();
 
                 if (isButtonPressed(button)) {
-                    button.triggerAction();
+                    buttonsPressed.add(button);
+                    // button.triggerAction();
                 }
             }
         }
+        // Sort the buttons by z-index where the highest z-index is the first element
+        if (buttonsPressed.isEmpty()) return;
+
+        buttonsPressed.sort((b1, b2) -> b2.z_index - b1.z_index);
+        buttonsPressed.get(0).triggerAction();
+
         lastTouched = new TouchLocation(-1f, -1f);
         lastReleased = new TouchLocation(-1f, -1f);
         entities.addAll(toAdd);
