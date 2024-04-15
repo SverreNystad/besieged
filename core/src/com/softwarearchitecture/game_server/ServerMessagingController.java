@@ -41,4 +41,6 @@ public interface ServerMessagingController {
      * @return the player ID of the pending player if there is one, empty otherwise
      */
     public Optional<UUID> lookForPendingPlayer(UUID gameId);
+
+    public void removeGame(UUID gameId);
 }

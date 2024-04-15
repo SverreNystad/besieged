@@ -12,8 +12,6 @@ import com.softwarearchitecture.networking.persistence.DAOBuilder;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_server.GameState;
-import com.softwarearchitecture.game_server.Map;
-
 public class ServerMessenger implements ServerMessagingController {
 
     private DAO<String, byte[]> gameDao;
@@ -95,5 +93,10 @@ public class ServerMessenger implements ServerMessagingController {
     public Optional<UUID> lookForPendingPlayer(UUID gameId) {
         String lookingId = createJoinGameId(gameId);
         return pendingPlayerDao.get(lookingId);
+    }
+
+    @Override
+    public void removeGame(UUID gameId) {
+        gameDao.delete(createGameId(gameId));
     }
 }
