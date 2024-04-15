@@ -52,6 +52,8 @@ public class GameServer {
 
             // Update all clients with the latest game state.
             messageController.setNewGameState(gameId, gameState);
+
+            // TODO: check if game is over
         }
 
         // Teardown of server and delete game from games listing
