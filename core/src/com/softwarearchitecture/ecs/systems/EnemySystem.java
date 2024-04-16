@@ -104,7 +104,7 @@ public class EnemySystem implements System {
                 monsterCounter++;
             }
             else if (hp <= 0) {
-                position.get().position = new Vector2(0,0);
+                position.get().position = new Vector2(-1,-1);
                 velocity.get().velocity = new Vector2(0, 0);
                 liveMonsterCounter--;
             }
