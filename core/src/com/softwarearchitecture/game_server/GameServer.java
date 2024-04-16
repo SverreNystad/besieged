@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_server;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -7,7 +8,17 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
+import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
+import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.SpriteComponent;
+import com.softwarearchitecture.ecs.components.TextComponent;
+import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.systems.AttackSystem;
+import com.softwarearchitecture.ecs.systems.EnemySystem;
+import com.softwarearchitecture.ecs.systems.MovementSystem;
+import com.softwarearchitecture.game_client.TexturePack;
+import com.softwarearchitecture.math.Vector2;
 
 /**
  * Represents a game server that manages the lifecycle and state of a multiplayer game.
@@ -60,8 +71,7 @@ public class GameServer {
         System.out.println("[INFO] Game is now full");
 
         // TODO: Add relevant systems
-        
-
+        setupGame(mapName);
         // Main gameplay loop
         boolean gamesOver = false;
         while (!gamesOver) {
@@ -70,11 +80,12 @@ public class GameServer {
             ECSManager.getInstance().update(deltatime);
             
             // Process each pending player action.
-            for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
+            // for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
                 // Actions to process player inputs and update game state
-            }
+            // }
 
             // Update all clients with the latest game state.
+
             messageController.setNewGameState(gameId, gameState);
 
             // TODO: check if game is over
@@ -96,6 +107,7 @@ public class GameServer {
         messageController.setNewGameState(this.gameId, gameState);
         return gameState;
     }
+    
     /**
      * Waits for the second player to join the game.
      * This method polls the server state until a second player joins the game.
@@ -116,7 +128,76 @@ public class GameServer {
         return playerTwoID;
     }
 
- 
+
+    private void setupGame(String mapName) {
+        String backgroundPath = TexturePack.BACKGROUND_TOR;
+        Entity background = new Entity();
+        SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
+        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+        background.addComponent(SpriteComponent.class, backgroundSprite);
+        background.addComponent(PositionComponent.class, backgroundPosition);
+        TextComponent textComponent = new TextComponent("In Game!", new Vector2(0.05f, 0.05f));
+        background.addComponent(TextComponent.class, textComponent);
+        ECSManager.getInstance().addEntity(background);
+
+        // Map and tiles
+        Map gameMap = MapFactory.createMap(mapName);
+        initializeMapEntities(gameMap);
+    
+
+        // Add systems to the ECSManager
+        MovementSystem MovementSystem = new MovementSystem();
+        EnemySystem EnemySystem = new EnemySystem();
+        AttackSystem attackSystem = new AttackSystem(gameMap);
+
+        ECSManager.getInstance().addSystem(MovementSystem);
+        ECSManager.getInstance().addSystem(EnemySystem);
+        ECSManager.getInstance().addSystem(attackSystem);
+
+    }
+
+    private void initializeMapEntities(Map gameMap) {
+        Tile[][] tiles = gameMap.getMapLayout();
+        int numOfColumns = tiles.length;
+        int numOfRows = tiles[0].length;
+
+        float tileWidth = 1.0f / numOfColumns;
+        float tileHeight = 1.0f / numOfRows;
+
+        // Set tileWidth and tileHeight in the gameMap
+        gameMap.setTileWidth(tileWidth);
+        gameMap.setTileHeight(tileHeight);
+
+        // Create Path entitiy
+        List<Tile> enemyPath = gameMap.getPath();
+        PathfindingComponent pathfindingComponent = new PathfindingComponent(enemyPath);
+        Entity path = new Entity();
+        path.addComponent(PathfindingComponent.class, pathfindingComponent);
+        ECSManager.getInstance().addEntity(path);
+
+        for (int i = 0; i < numOfColumns; i++) {
+            for (int j = numOfRows - 1; j >= 0; j--) {
+
+                Entity tileEntity = new Entity();
+                String tileTexture = gameMap.getTextureForTile(tiles[i][j]);
+
+                Vector2 position = new Vector2(i * tileWidth, j * tileHeight);
+                Vector2 size = new Vector2(tileWidth, tileHeight);
+                SpriteComponent spriteComponent = new SpriteComponent(tileTexture.toString(), size);
+                PositionComponent positionComponent = new PositionComponent(position, 1);
+                TileComponent tileComponent = new TileComponent(tiles[i][j]); // Added
+
+                
+                tileEntity.addComponent(SpriteComponent.class, spriteComponent);
+                tileEntity.addComponent(PositionComponent.class, positionComponent);
+                tileEntity.addComponent(TileComponent.class, tileComponent); // Added
+                ECSManager.getInstance().addEntity(tileEntity);
+
+            }
+        }
+
+    }
+
     public void setPlayerId(UUID playerId) {
         this.playerOneID = playerId;
     }
