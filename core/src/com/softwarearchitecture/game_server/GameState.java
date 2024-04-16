@@ -77,8 +77,6 @@ public class GameState implements Externalizable {
         serializePlayerMoney(out);
         // Cards (for each player)
         serializePlayerCards(out);
-        // Map
-        out.writeObject(map);
         // Towers
         serializeTowers(out);
         // Enemies
@@ -255,7 +253,7 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Map name must be a string");
         }
         mapName = (String) readObject;
-        
+
         // Village health
         deserializeVillageHealth(in);
         // Player money
