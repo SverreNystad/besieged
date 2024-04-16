@@ -8,8 +8,10 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
+import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
+import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
@@ -67,6 +69,9 @@ public class InGame extends State implements Observer {
         // Card selection menu
         createCardSelectionMenu();
 
+        // Initialize the Village-entity
+        initializeVillage();
+
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
@@ -90,6 +95,21 @@ public class InGame extends State implements Observer {
             default:
                 break;
         }
+    }
+
+    public void initializeVillage() {
+        Entity village = new Entity();
+        HealthComponent healthComponent = new HealthComponent(1000);
+        PlayerComponent playerComponent = new PlayerComponent(village.getId());
+        PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
+        TextComponent villageHealthText = new TextComponent("Health: " + healthComponent.getHealth(), new Vector2(0.05f, 0.05f));
+        villageHealthText.setColor(new Vector3(0f, 0f, 0f));
+        village.addComponent(HealthComponent.class, healthComponent);
+        village.addComponent(PlayerComponent.class, playerComponent);
+        village.addComponent(PositionComponent.class, villagePosition);
+        village.addComponent(TextComponent.class, villageHealthText);
+
+        ECSManager.getInstance().addEntity(village);
     }
 
     private void initializeMapEntities(Map gameMap) {
