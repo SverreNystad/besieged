@@ -12,6 +12,7 @@ import com.softwarearchitecture.networking.persistence.DAOBuilder;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_server.GameState;
+
 public class ServerMessenger implements ServerMessagingController {
 
     private DAO<String, byte[]> gameDao;
