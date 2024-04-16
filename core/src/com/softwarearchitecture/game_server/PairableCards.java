@@ -1,43 +1,59 @@
 package com.softwarearchitecture.game_server;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import com.softwarearchitecture.game_server.CardFactory.CardType;
 
 public class PairableCards {
 
-    public static List<CardType> getPairable(CardType cardType) {
-        List<CardType> pairableCards = new ArrayList<CardType>();
-        switch (cardType) {
+    private static final Map<Pair, TowerType> pairableTowers = new HashMap<>();
 
-            case MAGIC:
-                pairableCards.add(CardType.FIRE);
-                pairableCards.add(CardType.ICE);
-                pairableCards.add(CardType.LIGHTNING);
-                pairableCards.add(CardType.MAGIC);
-                break;
-            case BOW:
-                pairableCards.add(CardType.FIRE);
-                pairableCards.add(CardType.BOW);
-                pairableCards.add(CardType.TECHNOLOGY);
-                break;
-            default:
-                break;
+    static {
+        pairableTowers.put(new Pair(CardType.MAGIC, CardType.FIRE), TowerType.FIRE_MAGIC);
+        pairableTowers.put(new Pair(CardType.MAGIC, CardType.ICE), TowerType.ICE_MAGIC);
+        pairableTowers.put(new Pair(CardType.MAGIC, CardType.LIGHTNING), TowerType.TOR);
+        pairableTowers.put(new Pair(CardType.MAGIC, CardType.MAGIC), TowerType.MAGIC);
+        pairableTowers.put(new Pair(CardType.BOW, CardType.FIRE), TowerType.FIRE_BOW);
+        pairableTowers.put(new Pair(CardType.BOW, CardType.TECHNOLOGY), TowerType.SHARP_SHOOTER);
+        pairableTowers.put(new Pair(CardType.BOW, CardType.BOW), TowerType.BOW);
+    }
 
+    public static boolean isPairable(CardType card1, CardType card2) {
+        return pairableTowers.containsKey(new Pair(card1, card2)) || pairableTowers.containsKey(new Pair(card2, card1));
+    }
+
+    public static Optional<TowerType> getTower(CardType card1, CardType card2) {
+        TowerType tower = pairableTowers.get(new Pair(card1, card2));
+        if (tower == null) {
+            tower = pairableTowers.get(new Pair(card2, card1));
         }
-        return pairableCards;
+        return Optional.ofNullable(tower);
     }
 
-    public static boolean isPairable(CardType cardType1, CardType cardType2) {
-        List<CardType> pairableCards = getPairable(cardType1);
-        return pairableCards.contains(cardType2);
-    }
+    public static class Pair {
+        private CardType first;
+        private CardType second;
 
-    // TODO: make is placable method, that checks if the grid you want to place the
-    // card on is empty
-    // if not empty, check if the card is pairable with the card on the grid
+        public Pair(CardType first, CardType second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Pair pair = (Pair) o;
+            return (first == pair.first && second == pair.second);
+        }
+
+        @Override
+        public int hashCode() {
+            return 31 * first.hashCode() + second.hashCode();
+        }
+    }
 
     public enum TowerType {
         BOW,
@@ -48,58 +64,4 @@ public class PairableCards {
         FIRE_MAGIC,
         TOR
     }
-
-    public static Optional<TowerType> getTower(CardType card1, CardType card2) {
-        if (!isPairable(card1, card2)) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(determineTowerType(card1, card2));
-    }
-
-    private static TowerType determineTowerType(CardType card1, CardType card2) {
-        switch (card1) {
-            case MAGIC:
-                return handleMagicCardType(card2);
-            case BOW:
-                return handleBowCardType(card2);
-            default:
-                return handleDefaultCardType(card1, card2);
-        }
-    }
-
-    private static TowerType handleMagicCardType(CardType card2) {
-        switch (card2) {
-            case FIRE:
-                return TowerType.FIRE_MAGIC;
-            case ICE:
-                return TowerType.ICE_MAGIC;
-            case LIGHTNING:
-                return TowerType.TOR;
-            case MAGIC:
-                return TowerType.MAGIC;
-            default:
-                return null;
-        }
-    }
-
-    private static TowerType handleBowCardType(CardType card2) {
-        switch (card2) {
-            case FIRE:
-                return TowerType.FIRE_BOW;
-            case TECHNOLOGY:
-                return TowerType.SHARP_SHOOTER;
-            case BOW:
-                return TowerType.BOW;
-            default:
-                return null;
-        }
-    }
-
-    private static TowerType handleDefaultCardType(CardType card1, CardType card2) {
-        if (card2 == CardType.BOW || card2 == CardType.MAGIC) {
-            return getTower(card2, card1).orElse(null);
-        }
-        return null;
-    }
-
 }
