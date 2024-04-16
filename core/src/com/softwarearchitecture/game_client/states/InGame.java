@@ -147,7 +147,7 @@ public class InGame extends State implements Observer {
 
     private void createCardSelectionMenu() {
         float menuYPosition = 0; // Bottom of the screen
-        float menuHeight = 0.2f; 
+        float menuHeight = 0.2f;
         String menuBackgroundTexture = TexturePack.COLOR_WHITE;
 
         // Create menu background entity
@@ -218,7 +218,8 @@ public class InGame extends State implements Observer {
 
             if (towerType.isPresent()) {
                 // Remove the card thats already there
-                ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).removeComponent(tileEntity);
+                ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
+                        .removeComponent(tileEntity);
                 Entity card = tile.getCard();
                 ECSManager.getInstance().removeEntity(card);
                 tile.removeCard();
@@ -237,7 +238,7 @@ public class InGame extends State implements Observer {
             PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
             ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
                     placedCardComponent);
-            
+
             // Create the card entity
             Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y));
 
@@ -269,35 +270,33 @@ public class InGame extends State implements Observer {
 
     private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
         float padding = 0.05f; // 5% padding on each side
-        
+
         float entityWidth = gameMap.getTileWidth();
         float entityHeight = gameMap.getTileHeight();
         if (entityToPlace.getComponent(PlacedCardComponent.class).isPresent()) {
             // Cards should be slightly smaller than towers
-            entityWidth = gameMap.getTileWidth() * (1 - 2 * padding);
-            entityHeight = gameMap.getTileHeight() * (1 - 2 * padding);
+            entityWidth = gameMap.getTileWidth() * (1 - 2 * padding) * 0.9f;
+            entityHeight = gameMap.getTileHeight() * (1 - 2 * padding) * 0.9f;
         }
-    
+
         // Get the position of the tile (in UV-coordinates)
         PositionComponent tilePositionComponent = tileEntity.getComponent(PositionComponent.class).get();
-        
+
         // Calculate the centered position for the card/tower within the tile
         Vector2 centeredPosition = new Vector2(
-            tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
-            tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight()
-        );
-    
+                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
+                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+
         // Update the PositionComponent of the entity to place
         PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
         entityPositionComponent.position = centeredPosition;
         entityToPlace.addComponent(PositionComponent.class, entityPositionComponent);
-    
+
         // Update the SpriteComponent of the entity to place
         SpriteComponent entitySpriteComponent = entityToPlace.getComponent(SpriteComponent.class).get();
         entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
         entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
     }
-    
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
         float tileWidth = gameMap.getTileWidth();

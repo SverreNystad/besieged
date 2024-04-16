@@ -58,11 +58,16 @@ public class TexturePack {
 
     // Cards
     public static final String CARD_ICE = "chad.jpg";
-    public static final String CARD_FIRE = "fire_card.png";
-    public static final String CARD_TECHNOLOGY = "technology_card.png";
-    public static final String CARD_LIGHTNING = "lightning_card.png";
-    public static final String CARD_BOW = "bow_card.png";
-    public static final String CARD_MAGIC = "magic_card.png";
+    public static final String CARD_FIRE = "cards/flame_placed.png";
+    public static final String CARD_TECHNOLOGY = "cards/technology_placed.png";
+    public static final String CARD_LIGHTNING = "cards/lightning_placed.png";
+    public static final String CARD_BOW = "cards/bow_placed.png";
+    public static final String CARD_MAGIC = "cards/magic_placed.png";
+    public static final String CARD_FIRE_PLACED = "cards/flame_placed.png";
+    public static final String CARD_TECHNOLOGY_PLACED = "cards/technology_placed.png";
+    public static final String CARD_LIGHTNING_PLACED = "cards/lightning_placed.png";
+    public static final String CARD_BOW_PLACED = "cards/bow_placed.png";
+    public static final String CARD_MAGIC_PLACED = "cards/magic_placed.png";
 
     // Towers 2
     public static final String TOWER_TOR_FRAME1 = "tor_frame1.png";
@@ -135,5 +140,6 @@ public class TexturePack {
     public static final String TILE_END = "tiles/end.png";
     public static final String TILE_CASTLE_BOTTOM = "tiles/castle_bottom.png";
     public static final String TILE_CASTLE_TOP = "tiles/castle_top.png";
+    public static final String TILE_SELECTION = "tiles/selection.png";
 
 }
