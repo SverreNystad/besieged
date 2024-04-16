@@ -2,6 +2,7 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.UUID;
 
 public class ScreenManager {
     /**
@@ -11,10 +12,8 @@ public class ScreenManager {
     private Boolean stateChanged;
     private Deque<State> stateStack = new ArrayDeque<>();
     private static ScreenManager instance = new ScreenManager();
-
-    private ScreenManager() {
-    }
-
+    private UUID gameId;
+    
     public static ScreenManager getInstance() {
         return instance;
     }
@@ -45,5 +44,13 @@ public class ScreenManager {
 
     public void flushPreviousStates() {
         this.stateStack.clear();
+    }
+
+    public void setGameId(UUID gameId) {
+        this.gameId = gameId;
+    }
+
+    public UUID getGameId() {
+        return this.gameId;
     }
 }
