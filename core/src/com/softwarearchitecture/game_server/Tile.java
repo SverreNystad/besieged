@@ -1,8 +1,10 @@
 package com.softwarearchitecture.game_server;
 
+import java.io.Serializable;
+
 import com.softwarearchitecture.ecs.Entity;
 
-public class Tile {
+public class Tile implements Serializable {
     private int x;
     private int y;
     private TileType type;

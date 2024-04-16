@@ -10,6 +10,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.game_client.TexturePack;
+import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
@@ -29,10 +30,47 @@ public class ButtonFactory {
     public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size, Observer observer,
             int z_index) throws IllegalArgumentException {
         // factory that makes buttons based on the state enum
+        String texture = chooseTexture(button);
+        Runnable callback = () -> {
+            observer.onAction(button);
+        };
+
+        ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
+        PositionComponent positionComponent = new PositionComponent(position, z_index);
+        SpriteComponent spriteComponent = new SpriteComponent(texture, size);
+
+        Entity buttonEntity = new Entity();
+        buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
+        buttonEntity.addComponent(PositionComponent.class, positionComponent);
+        buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
+
+        ECSManager.getInstance().addEntity(buttonEntity);
+        return buttonEntity;
+    }
+
+    public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size, JoinGameObserver observer, GameState game, int z_index) {
+        String texture = chooseTexture(button);
+
+        // Here, we pass the game to the joinGame method directly in the lambda
+        Runnable callback = () -> observer.onJoinGame(game);
+
+        ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
+        PositionComponent positionComponent = new PositionComponent(position, z_index);
+        SpriteComponent spriteComponent = new SpriteComponent(texture, size);
+
+        Entity buttonEntity = new Entity();
+        buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
+        buttonEntity.addComponent(PositionComponent.class, positionComponent);
+        buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
+
+        ECSManager.getInstance().addEntity(buttonEntity);
+        return buttonEntity;
+    }
+    
+    private static String chooseTexture(ButtonEnum button) {
         String texture = TexturePack.BUTTON_PLACEHOLDER;
         switch (button) {
             case OPTIONS:
-                // create options buttons
                 texture = TexturePack.BUTTON_OPTION;
                 break;
             case GAME_MENU:
@@ -89,23 +127,9 @@ public class ButtonFactory {
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }
-        Runnable callback = () -> {
-            observer.onAction(button);
-        };
-
-        ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
-        PositionComponent positionComponent = new PositionComponent(position, z_index);
-        SpriteComponent spriteComponent = new SpriteComponent(texture, size);
-
-        Entity buttonEntity = new Entity();
-        buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
-        buttonEntity.addComponent(PositionComponent.class, positionComponent);
-        buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
-
-        ECSManager.getInstance().addEntity(buttonEntity);
-        return buttonEntity;
+        return texture;
     }
-
+    
     public static List<Rectangle> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition,
             float containerUVWidth, float containerUVHeight) {
         List<Rectangle> rectangles = new ArrayList<Rectangle>();

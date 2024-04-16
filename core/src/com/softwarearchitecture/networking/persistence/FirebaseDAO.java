@@ -150,7 +150,7 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
 
     @Override
     public boolean delete(K id) {
-        DatabaseReference ref = database.getReference("path/to/your/data/" + id);
+        DatabaseReference ref = database.getReference((String) id);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         ref.removeValue((databaseError, databaseReference) -> future.complete(databaseError == null));
 

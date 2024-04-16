@@ -19,6 +19,10 @@ public class ClientMessenger implements ClientMessagingController {
     private DAO<String, UUID> joinPlayerDAO;
     private DAO<String, String> gamesDAO;
 
+    private final String JOIN_PREFIX = "JOIN";
+    private static final String GAME_PREFIX = "GAME";
+    
+
     public ClientMessenger() {
         this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
         this.actionDAO = new DAOBuilder().build(UUID.class, String.class);
@@ -28,24 +32,35 @@ public class ClientMessenger implements ClientMessagingController {
     
     @Override
     public boolean joinGame(UUID gameID, UUID playerID) {
-        joinPlayerDAO.add(gameID.toString() + "JOIN", playerID);
-
-        try {
-            wait(1000, 0);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Optional<byte[]> data = gameDAO.get(createGameId(gameID));
-        if (data.isPresent()) {
+       synchronized (this) {
+            joinPlayerDAO.add(createJoinGameId(gameID), playerID);
+            System.out.println("Joining game: " + gameID + " with player: " + playerID);
+            
+            // Give server time before checking server 
             try {
-                GameState gameState = GameState.deserializeFromByteArray(data.get());
-                return gameState.playerTwo.equals(playerID);
-            } catch (IOException | ClassNotFoundException e) {
+                wait(1000); 
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Restore interrupt status
                 e.printStackTrace();
             }
+            // Check with server
+            Optional<byte[]> data = gameDAO.get(createGameId(gameID));
+            if (data.isPresent()) {
+                try {
+                    GameState gameState = GameState.deserializeFromByteArray(data.get());
+                    System.out.println("Player one: " + gameState.playerOne);
+                    System.out.println("Player two: " + gameState.playerTwo);
+                    System.out.println("Player ID: " + playerID);
+                    
+                    boolean correctGameId =  gameState.gameID.equals(gameID);
+                    boolean hasJoined = gameState.playerTwo != null;
+                    return correctGameId && hasJoined;
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return false;
+        return false; 
     }
 
     public List<GameState> getAllAvailableGames() {
@@ -85,10 +100,13 @@ public class ClientMessenger implements ClientMessagingController {
         return Optional.empty();
     }
 
-    private String createGameId(UUID gameID) {
-        return "GAME" + gameID.toString();
+    private String createGameId(UUID gameId) {
+        return GAME_PREFIX + gameId.toString();
     }
     
+    private String createJoinGameId(UUID gameId) {
+        return JOIN_PREFIX + gameId.toString();
+    }
 
     @Override
     public void addAction(PlayerInput action) {

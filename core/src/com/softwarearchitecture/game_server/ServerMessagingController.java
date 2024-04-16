@@ -5,12 +5,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ServerMessagingController {
+
     /**
      * Create a new game and return the game ID.
      * 
      * @return the game ID of the new game
      */
-    public UUID createGame();
+    public UUID createGame(String mapName);
 
     /**
      * Get the game state of the game with the given game ID.
@@ -40,4 +41,6 @@ public interface ServerMessagingController {
      * @return the player ID of the pending player if there is one, empty otherwise
      */
     public Optional<UUID> lookForPendingPlayer(UUID gameId);
+
+    public void removeGame(UUID gameId);
 }

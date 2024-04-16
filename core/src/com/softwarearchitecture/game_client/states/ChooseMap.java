@@ -19,6 +19,7 @@ import com.softwarearchitecture.ecs.systems.RenderingSystem;
 
 public class ChooseMap extends State implements Observer {
 
+    private boolean isHost;
     /**
      * Generic state is a state that can be used for multiple purposes
      * for different types of menus.
@@ -28,6 +29,7 @@ public class ChooseMap extends State implements Observer {
      */
     public ChooseMap(Controllers defaultControllers, UUID yourId, boolean isMultiplayer) {
         super(defaultControllers, yourId);
+        isHost = isMultiplayer;
     }
 
     @Override
@@ -99,15 +101,16 @@ public class ChooseMap extends State implements Observer {
         // Switches the state of the game based on the button type
 
         // TODO: MAKE BUTTON ACTIONS DYNAMIC CHOOSING MAPS
+        String map = "";
         switch (type) {
             case ABYSS:
-                System.out.println("Join button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId, "abyss"));
+                System.out.println("Abyss map button pressed");
+                map = "abyss";
                 break;
 
             case TEST:
-                System.out.println("Host button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId, "test"));
+                System.out.println("Test map button pressed");
+                map = "test";
                 break;
 
             case BACK:
@@ -117,8 +120,28 @@ public class ChooseMap extends State implements Observer {
 
             default:
                 throw new IllegalArgumentException("Invalid button type");
-
         }
+        if (isHost) {
+            startServer(map);
+        }
+
+        screenManager.nextState(new InGame(defaultControllers, yourId, map));
+    }
+
+    private void startServer(String mapName) {
+        // Start the server
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Starting server on a new thread");
+                    defaultControllers.gameServer.run(mapName);
+                } catch (Exception e) {
+                    System.out.println("Error running server: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }, "ServerThread").start(); 
     }
 
 }
