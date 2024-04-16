@@ -95,6 +95,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         boolean didJoin = defaultControllers.clientMessagingController.joinGame(gameID, yourId);
         // Wait for the server to respond
         if (didJoin) {
+            screenManager.setGameId(gameID);
             // Change the state to the game
             screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game)));
         } else {
@@ -105,6 +106,6 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
 
     private String getGameName(GameState game) {
         // TODO: Get the name of the game
-        return "abyss";
+        return game.mapName;
     }
 }
