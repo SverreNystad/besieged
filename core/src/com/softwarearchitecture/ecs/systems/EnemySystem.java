@@ -11,6 +11,7 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
+import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
@@ -32,6 +33,7 @@ public class EnemySystem implements System {
     private ComponentManager<SpriteComponent> drawableManager;
     private ComponentManager<TileComponent> tileManager;
     private ComponentManager<HealthComponent> healthManager;
+    private ComponentManager<PlayerComponent> playerManager;
     private int waveSize;
     private int monsterCounter;
     private int waveNumber;
@@ -41,6 +43,7 @@ public class EnemySystem implements System {
     private Entity mob;
     private int liveMonsterCounter;
     private int maxLiveMonsters;
+    private int villageDamage;
 
 
     public EnemySystem() {
@@ -50,6 +53,7 @@ public class EnemySystem implements System {
         this.pathfindingManager = ECSManager.getInstance().getOrDefaultComponentManager(PathfindingComponent.class);
         this.tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
         this.healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+        this.playerManager = ECSManager.getInstance().getOrDefaultComponentManager(PlayerComponent.class);
         this.waveSize = 10;
         this.monsterCounter = 0;
         this.waveNumber = 1;
@@ -57,6 +61,7 @@ public class EnemySystem implements System {
         this.waveTimer = 1000f;
         this.maxLiveMonsters = 5;
         this.liveMonsterCounter = 0;
+        this.villageDamage = 0;
     }
 
 
@@ -102,6 +107,7 @@ public class EnemySystem implements System {
                 position.get().position = new Vector2(find.get(0).getX()*tileSize.x,find.get(0).getY()*tileSize.y);
                 health.get().setHealth(health.get().getMaxHealth());
                 monsterCounter++;
+                villageDamage++;
             }
             else if (hp <= 0) {
                 position.get().position = new Vector2(-1,-1);
@@ -141,6 +147,17 @@ public class EnemySystem implements System {
         }
         if (waveTimer > 0) {
             waveTimer -= deltaTime;
+        }
+        if (villageDamage > 0) {
+            for (Entity entity : entities) {
+                Optional<PlayerComponent> player = playerManager.getComponent(entity);
+                Optional<HealthComponent> health = healthManager.getComponent(entity);
+                if (!player.isPresent() || !health.isPresent()) {
+                    continue;
+                }
+                health.get().setHealth(health.get().getHealth()-villageDamage);
+                villageDamage = 0;
+            }
         }
         if (monsterCounter >= waveSize && waveTimer<=0) {
             waveNumber++;
