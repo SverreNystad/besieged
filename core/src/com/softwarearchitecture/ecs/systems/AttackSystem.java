@@ -74,7 +74,7 @@ public class AttackSystem implements System {
 
         // Loop through all towers, and check if any enemies are within its range. If they are, attack. 
         for (Entity tower : towers) {
-            TowerComponent towerComp = tower.getComponent(TowerComponent.class).get();
+            TowerComponent towerComponent = tower.getComponent(TowerComponent.class).get();
             float range = tower.getComponent(TowerComponent.class).get().getRange();
             int damage = tower.getComponent(TowerComponent.class).get().getDamage();
 
@@ -91,7 +91,7 @@ public class AttackSystem implements System {
                     int enemyHealth = enemy.getComponent(HealthComponent.class).get().getHealth();
                     enemyHealth -= damage;
                     enemy.getComponent(HealthComponent.class).get().setHealth(enemyHealth);
-                    towerComp.resetAttackTimer();
+                    towerComponent.resetAttackTimer();
                     java.lang.System.out.println("Tower " + tower + " attacked enemy " + enemy);
                     java.lang.System.out.println("Enemy now has " + enemyHealth + " health left");
                 } 
