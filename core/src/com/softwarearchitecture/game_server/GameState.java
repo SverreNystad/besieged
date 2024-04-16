@@ -55,8 +55,7 @@ public class GameState implements Externalizable {
     public UUID gameID;
     public Entity playerOne;
     public Entity playerTwo;
-    private Map map;
-
+    public String mapName;
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -66,6 +65,7 @@ public class GameState implements Externalizable {
         out.writeObject(gameID);
         out.writeObject(playerOne);
         out.writeObject(playerTwo);
+        out.writeObject(mapName);
 
         if (playerOne == null || playerTwo == null) {
             return;
@@ -249,6 +249,13 @@ public class GameState implements Externalizable {
         if (playerTwo == null) {
             return;
         }
+
+        readObject = in.readObject();
+        if (!(readObject instanceof String)) {
+            throw new IllegalStateException("Map name must be a string");
+        }
+        mapName = (String) readObject;
+        
         // Village health
         deserializeVillageHealth(in);
         // Player money
@@ -270,7 +277,6 @@ public class GameState implements Externalizable {
                 }
             }
         }
-        map = (Map) readObject;
         // Towers
         deserializeTowers(in);
         // Enemies
