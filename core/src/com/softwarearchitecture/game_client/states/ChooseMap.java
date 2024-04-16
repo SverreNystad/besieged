@@ -56,6 +56,8 @@ public class ChooseMap extends State implements Observer {
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addEntity(logo);
 
+        
+
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
         float buttonWidth = 0.25f;
@@ -75,6 +77,15 @@ public class ChooseMap extends State implements Observer {
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK,
                 new Vector2(0.495f - 0.35f / 2, translateY),
                 new Vector2(0.35f, 0.1f), this, 2));
+
+        // Create Preview Image
+        Entity mapPreview = new Entity();
+        String imagePath = TexturePack.PREVIEW_ABYSS;
+        SpriteComponent mapPreviewSprite = new SpriteComponent(imagePath, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
+        PositionComponent mapPreviewPosition = new PositionComponent(new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.31f), 100); // Adjust the position as necessary
+        mapPreview.addComponent(SpriteComponent.class, mapPreviewSprite);
+        mapPreview.addComponent(PositionComponent.class, mapPreviewPosition);
+        ECSManager.getInstance().addEntity(mapPreview);
     }
 
     /**

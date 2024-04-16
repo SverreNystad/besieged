@@ -33,25 +33,23 @@ public class Options extends State implements Observer {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        TextComponent textComponent = new TextComponent("Options!", new Vector2(0.05f, 0.05f));
-        background.addComponent(TextComponent.class, textComponent);
         ECSManager.getInstance().addEntity(background);
 
         // Buttons
-        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.25f / 2f, 0f),
-                new Vector2(0.25f, 0.25f), this, 0);
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.30f / 2f, 0.10f),
+                new Vector2(0.30f, 0.10f), this, 0);
 
         // Volume options
-        ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLUSS, new Vector2(0.75f, 0.75f),
-                new Vector2(0.125f, 0.125f), this, 0);
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLUSS, new Vector2(0.61f, 0.74f),
+                new Vector2(0.07f, 0.07f), this, 0);
         ButtonFactory.createAndAddButtonEntity(ButtonEnum.MINUS,
-                new Vector2(0.25f - 0.25f / 2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
+                new Vector2(0.33f, 0.74f), new Vector2(0.07f, 0.07f), this, 0);
         ButtonFactory.createAndAddButtonEntity(ButtonEnum.MUTE,
-                new Vector2(0.75f + 0.25f / 2f, 0.75f), new Vector2(0.125f, 0.125f), this, 0);
+                new Vector2(0.71f, 0.74f), new Vector2(0.07f, 0.07f), this, 0);
         volumeText = new Entity();
         TextComponent volumeTextComponent = new TextComponent(
                 "Volume: " + defaultControllers.soundController.getVolume(), new Vector2(0.05f, 0.05f));
-        PositionComponent volumeTextPosition = new PositionComponent(new Vector2(0.5f - 0.25f / 2f, 0.75f), 0);
+        PositionComponent volumeTextPosition = new PositionComponent(new Vector2(0.43f, 0.75f), 0);
         volumeText.addComponent(TextComponent.class, volumeTextComponent);
         volumeText.addComponent(PositionComponent.class, volumeTextPosition);
         ECSManager.getInstance().addEntity(volumeText);
