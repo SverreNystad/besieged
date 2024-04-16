@@ -52,7 +52,7 @@ public class GameServer {
 
         // TODO: Add relevant entities
         Entity village = new Entity();
-        village.addComponent(HealthComponent.class, new HealthComponent(100, 100));
+        village.addComponent(HealthComponent.class, new HealthComponent(100));
         ECSManager.getInstance().addEntity(village);
         gameState.village = village;
         
