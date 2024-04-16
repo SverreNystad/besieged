@@ -6,14 +6,14 @@ public class HealthComponent implements Serializable {
     private int health;
     private int maxHealth;
 
-    public HealthComponent(int health, int maxHealth) {
-        if (health >= 0) {
-            this.health = health;
+    public HealthComponent(int maxHealth) {
+        if (maxHealth >= 0) {
+            this.maxHealth = maxHealth;
         }
         else {
-            this.health = 0;
+            this.maxHealth = 1;
         }
-        this.maxHealth = maxHealth;
+        this.health = maxHealth;
     }
 
     public int getHealth() {
