@@ -11,6 +11,6 @@ public class PathfindingComponent implements Serializable {
 
     public PathfindingComponent(List<Tile> path) {
         this.path = path;
-        this.targetTile = path.get(0);
+        this.targetTile = path.get(1);
     }
 }
