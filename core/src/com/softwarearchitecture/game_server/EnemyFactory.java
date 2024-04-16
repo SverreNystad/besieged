@@ -29,7 +29,7 @@ public class EnemyFactory {
         float tileHeight = tileSize.y;
         float tileWidth = tileSize.x;
         Vector2 size = new Vector2(1, 1);
-        Vector2 position = new Vector2((float) enemyPath.get(0).getX()*tileWidth, (float) enemyPath.get(0).getY()*tileHeight);
+        Vector2 position = new Vector2((float) enemyPath.get(0).getX()*tileWidth-tileWidth/4, (float) enemyPath.get(0).getY()*tileHeight+tileHeight/4);
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int maxHealth = 0;
