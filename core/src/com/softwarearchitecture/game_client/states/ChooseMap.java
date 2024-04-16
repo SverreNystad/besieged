@@ -111,20 +111,20 @@ public class ChooseMap extends State implements Observer {
                 throw new IllegalArgumentException("Invalid button type");
         }
         if (isHost) {
-            startServer();
+            startServer(map);
         }
 
         screenManager.nextState(new InGame(defaultControllers, yourId, map));
     }
 
-    private void startServer() {
+    private void startServer(String mapName) {
         // Start the server
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     System.out.println("Starting server on a new thread");
-                    defaultControllers.gameServer.run();
+                    defaultControllers.gameServer.run(mapName);
                 } catch (Exception e) {
                     System.out.println("Error running server: " + e.getMessage());
                     e.printStackTrace();

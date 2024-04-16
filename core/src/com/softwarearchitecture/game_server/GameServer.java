@@ -30,8 +30,8 @@ public class GameServer {
      * Starts the server operation, creating a game instance and entering the main gameplay loop.
      * The method handles game setup, player joining, and periodic state updates until the game ends.
      */
-    public void run() {
-        GameState gameState = hostGame();
+    public void run(String mapName) {
+        GameState gameState = hostGame(mapName);
 
         // Wait for player two to join
         waitForPlayerToJoin(gameState);
@@ -60,8 +60,8 @@ public class GameServer {
         messageController.removeGame(gameId);
     }
 
-    private GameState hostGame() {
-        this.gameId = messageController.createGame();
+    private GameState hostGame(String mapName) {
+        this.gameId = messageController.createGame(mapName);
         System.out.println("Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
         if (messageController.getGameState(gameId).playerOne == null) {

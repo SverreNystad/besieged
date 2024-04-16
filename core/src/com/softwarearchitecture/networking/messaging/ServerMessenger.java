@@ -27,7 +27,7 @@ public class ServerMessenger implements ServerMessagingController {
     }
 
     @Override
-    public UUID createGame() {
+    public UUID createGame(String mapName) {
         UUID gameId = UUID.randomUUID();
         UUID playerID = UUID.randomUUID();
         // Create a player entity for player one
@@ -36,6 +36,7 @@ public class ServerMessenger implements ServerMessagingController {
         GameState gameState = new GameState();
         gameState.playerOne = playerOne;
         gameState.gameID = gameId;
+        gameState.mapName = mapName;
         
 
         System.out.println("The gameStates player one" + gameState.playerOne);
