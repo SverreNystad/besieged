@@ -119,7 +119,18 @@ public class ChooseMap extends State implements Observer {
 
     private void startServer() {
         // Start the server
-        defaultControllers.gameServer.run();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Starting server on a new thread");
+                    defaultControllers.gameServer.run();
+                } catch (Exception e) {
+                    System.out.println("Error running server: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }, "ServerThread").start(); 
     }
 
 }
