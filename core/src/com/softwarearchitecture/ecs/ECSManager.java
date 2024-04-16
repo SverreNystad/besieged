@@ -29,6 +29,7 @@ public class ECSManager {
     /** Stores the entities */
     private Set<Entity> entities;
     private Set<Entity> toAdd; // Entities to be added before the next update
+    private Set<Entity> toRemove; // Entities to be removed before the next update
 
     /** Stores the systems */
     private Set<System> systems;
@@ -41,6 +42,7 @@ public class ECSManager {
     private ECSManager() {
         entities = new HashSet<>();
         toAdd = new HashSet<>();
+        toRemove = new HashSet<>();
         systems = new HashSet<>();
         componentManagers = new HashMap<>();
 
@@ -70,6 +72,13 @@ public class ECSManager {
      */
     public Set<Entity> getEntities() {
         return entities;
+    }
+
+    /**
+     * Removes an entity from the ECSManager.
+     */
+    public void removeEntity(Entity entity) {
+        toRemove.add(entity);
     }
 
     /**
@@ -125,10 +134,16 @@ public class ECSManager {
             entities.add(entity);
         }
 
+        for (Entity entity : toRemove) {
+            entities.remove(entity);
+        }
+
         for (System system : this.systems) {
             // Update each system
             system.update(this.entities, deltaTime); // TODO: Render function should be the last system called!
         }
+
+        
     }
 
     /**
