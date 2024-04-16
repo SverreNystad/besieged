@@ -97,7 +97,7 @@ public class TowerFactory {
 
         // Create the components for the tower
         TowerComponent towerComponent = new TowerComponent(damage, range, attackCooldown);
-        PositionComponent positionComponent = new PositionComponent(position, 0);
+        PositionComponent positionComponent = new PositionComponent(position, 10);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         TargetComponent targetComponent = new TargetComponent();
