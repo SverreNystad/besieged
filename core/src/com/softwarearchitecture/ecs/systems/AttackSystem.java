@@ -82,10 +82,10 @@ public class AttackSystem implements System {
             Vector2 uvDistance = convertRangeToUVDistance(range);    
 
             for (Entity enemy : enemies) {
-                Vector2 towerPositionXY = tower.getComponent(PositionComponent.class).get().getPosition();
+                Vector2 towerPosition = tower.getComponent(PositionComponent.class).get().getPosition();
                 
                 Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
-                float distance = Vector2.dst(towerPositionXY, enemyPosition);
+                float distance = Vector2.dst(towerPosition, enemyPosition);
 
                 if (distance <= uvDistance.len()) {
                     int enemyHealth = enemy.getComponent(HealthComponent.class).get().getHealth();

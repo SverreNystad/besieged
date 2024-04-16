@@ -14,6 +14,9 @@ public class TexturePack {
     public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
     public static final String BACKGROUND_MULTIPLAYER = "gui/backgrounds/multiplayer.png";
 
+    // Previews of maps
+    public static final String PREVIEW_ABYSS = "besieged_abyss_map.png";
+
     // Map-textures
     public static final String placeableTexture = "grass.png";
     public static final String pathTexture = "road.jpg";
