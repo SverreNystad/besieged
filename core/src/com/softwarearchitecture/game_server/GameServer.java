@@ -100,4 +100,8 @@ public class GameServer {
     public void setPlayerId(UUID playerId) {
         this.playerOneID = playerId;
     }
+
+    public UUID getGameId() {
+        return gameId;
+    }
 }
