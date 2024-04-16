@@ -80,6 +80,7 @@ public class ServerMessenger implements ServerMessagingController {
             byte[] gameOutput = GameState.serializeToByteArray(gameState);
             gameDao.update(createGameId(gameId), gameOutput);
         } catch (IOException e) {
+            System.out.println(e);
             System.out.println("Error updating game state with ID: " + gameId);
         }
     }
