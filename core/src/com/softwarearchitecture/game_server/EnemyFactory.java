@@ -55,7 +55,7 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_FENRIR1);
                 textures.add(TexturePack.ENEMY_FENRIR2);
                 damage = 2;
-                size.set(0.1f, 0.1f);
+                size.set(0.075f, 0.075f);
                 velocity.set(0.02f, 0.02f);
                 maxHealth = 100;
                 sound = "soundPath"; // TODO: Add the correct sound path
