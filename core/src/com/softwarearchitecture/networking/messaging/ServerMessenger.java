@@ -1,6 +1,7 @@
 package com.softwarearchitecture.networking.messaging;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class ServerMessenger implements ServerMessagingController {
 
     private DAO<String, byte[]> gameDao;
     private DAO<String, UUID> pendingPlayerDao;
+    private DAO<String, PlayerInput> actionDao;
     
     private final String JOIN_PREFIX = "JOIN";
     private static final String GAME_PREFIX = "GAME";
@@ -24,6 +26,7 @@ public class ServerMessenger implements ServerMessagingController {
     public ServerMessenger() {
         gameDao = new DAOBuilder<String, byte[]>().build(String.class, byte[].class);
         pendingPlayerDao = new DAOBuilder<String, UUID>().build(String.class, UUID.class);
+        actionDao = new DAOBuilder<String, PlayerInput>().build(String.class, PlayerInput.class);
     }
 
     @Override
@@ -87,8 +90,13 @@ public class ServerMessenger implements ServerMessagingController {
 
     @Override
     public List<PlayerInput> lookForPendingActions(UUID gameId) {
-        
-        throw new UnsupportedOperationException("Not supported yet.");
+        String lookingActionId = createJoinGameId(gameId); 
+        List<PlayerInput> actions = new ArrayList<>();
+        Optional<PlayerInput> action = actionDao.get(lookingActionId);
+        if (action.isPresent()) {
+            actions.add(action.get());
+        }
+        return actions;
     }
     
 
