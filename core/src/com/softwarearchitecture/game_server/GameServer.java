@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.HealthComponent;
+import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 
 /**
@@ -14,6 +16,7 @@ import com.softwarearchitecture.ecs.components.PlayerComponent;
 public class GameServer {
     private UUID gameId;
     private UUID playerOneID;
+    private UUID playerTwoID;
     private ServerMessagingController messageController;
 
     /**
@@ -34,9 +37,23 @@ public class GameServer {
         GameState gameState = hostGame();
 
         // Wait for player two to join
-        waitForPlayerToJoin(gameState);
+        playerTwoID = waitForPlayerToJoin(gameState);
+
+        // TODO: Add relevant entities
+        Entity village = new Entity();
+        village.addComponent(HealthComponent.class, new HealthComponent(100, 100));
+        ECSManager.getInstance().addEntity(village);
+        gameState.village = village;
+        
+        gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerOneID));
+        gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwoID));
+        gameState.playerOne.addComponent(MoneyComponent.class, new MoneyComponent(0));
+        gameState.playerTwo.addComponent(MoneyComponent.class, new MoneyComponent(0));
+
+
 
         // TODO: Add relevant systems
+        
 
         // Main gameplay loop
         boolean gamesOver = false;
@@ -78,22 +95,22 @@ public class GameServer {
      * This is a blocking action.
      * @param gameState The current state of the game.
      */
-    private void waitForPlayerToJoin(GameState gameState) {
+    private UUID waitForPlayerToJoin(GameState gameState) {
+        UUID playerTwoID = null;
         while (messageController.getGameState(gameId).playerTwo == null) {
             Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
             System.out.println("[INFO] Looking for player two");
             if (!playerTwo.isPresent())
-            continue;
+                continue;
+            playerTwoID = playerTwo.get();
             System.out.println("[INFO] The player two joined with: " + playerTwo.get().toString());
-            gameState.playerTwo = new Entity();
-            gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwo.get()));
-            ECSManager.getInstance().addEntity(gameState.playerTwo);
-            
+
             messageController.setNewGameState(this.gameId, gameState);
             System.out.println("[INFO] Player two has joined the game");
             System.out.println("[INFO] Game is now full");
             break;
         }
+        return playerTwoID;
     }
 
  
