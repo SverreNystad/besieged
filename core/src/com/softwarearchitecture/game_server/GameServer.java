@@ -80,9 +80,10 @@ public class GameServer {
             ECSManager.getInstance().update(deltatime);
             
             // Process each pending player action.
-            // for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
+            for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
                 // Actions to process player inputs and update game state
-            // }
+                System.out.println("[INFO] Processing player action: " + action.getAction());
+            }
 
             // Update all clients with the latest game state.
 
