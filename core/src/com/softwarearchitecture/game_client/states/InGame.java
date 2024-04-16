@@ -268,11 +268,15 @@ public class InGame extends State implements Observer {
     }
 
     private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
-        float padding = 0.1f; // 10% padding on each side
-    
-        // Calculate the size of the card/tower, slightly smaller than the tile
-        float entityWidth = gameMap.getTileWidth() * (1 - 2 * padding);
-        float entityHeight = gameMap.getTileHeight() * (1 - 2 * padding);
+        float padding = 0.05f; // 5% padding on each side
+        
+        float entityWidth = gameMap.getTileWidth();
+        float entityHeight = gameMap.getTileHeight();
+        if (entityToPlace.getComponent(PlacedCardComponent.class).isPresent()) {
+            // Cards should be slightly smaller than towers
+            entityWidth = gameMap.getTileWidth() * (1 - 2 * padding);
+            entityHeight = gameMap.getTileHeight() * (1 - 2 * padding);
+        }
     
         // Get the position of the tile (in UV-coordinates)
         PositionComponent tilePositionComponent = tileEntity.getComponent(PositionComponent.class).get();
@@ -284,12 +288,12 @@ public class InGame extends State implements Observer {
         );
     
         // Update the PositionComponent of the entity to place
-        PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).orElse(new PositionComponent(new Vector2(), 2));
+        PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
         entityPositionComponent.position = centeredPosition;
         entityToPlace.addComponent(PositionComponent.class, entityPositionComponent);
     
         // Update the SpriteComponent of the entity to place
-        SpriteComponent entitySpriteComponent = entityToPlace.getComponent(SpriteComponent.class).orElse(new SpriteComponent("", new Vector2()));
+        SpriteComponent entitySpriteComponent = entityToPlace.getComponent(SpriteComponent.class).get();
         entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
         entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
     }
