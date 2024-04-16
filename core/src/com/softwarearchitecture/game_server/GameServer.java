@@ -33,8 +33,8 @@ public class GameServer {
      * Starts the server operation, creating a game instance and entering the main gameplay loop.
      * The method handles game setup, player joining, and periodic state updates until the game ends.
      */
-    public void run() {
-        GameState gameState = hostGame();
+    public void run(String mapName) {
+        GameState gameState = hostGame(mapName);
 
         // Wait for player two to join
         playerTwoID = waitForPlayerToJoin(gameState);
@@ -45,12 +45,19 @@ public class GameServer {
         ECSManager.getInstance().addEntity(village);
         gameState.village = village;
         
+        gameState.playerTwo = new Entity();
+        gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwoID));
+        ECSManager.getInstance().addEntity(gameState.playerTwo);
+        
         gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerOneID));
         gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwoID));
         gameState.playerOne.addComponent(MoneyComponent.class, new MoneyComponent(0));
         gameState.playerTwo.addComponent(MoneyComponent.class, new MoneyComponent(0));
 
 
+        messageController.setNewGameState(this.gameId, gameState);
+        System.out.println("[INFO] Player two has joined the game");
+        System.out.println("[INFO] Game is now full");
 
         // TODO: Add relevant systems
         
@@ -77,8 +84,8 @@ public class GameServer {
         messageController.removeGame(gameId);
     }
 
-    private GameState hostGame() {
-        this.gameId = messageController.createGame();
+    private GameState hostGame(String mapName) {
+        this.gameId = messageController.createGame(mapName);
         System.out.println("Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
         if (messageController.getGameState(gameId).playerOne == null) {
@@ -104,10 +111,6 @@ public class GameServer {
                 continue;
             playerTwoID = playerTwo.get();
             System.out.println("[INFO] The player two joined with: " + playerTwo.get().toString());
-
-            messageController.setNewGameState(this.gameId, gameState);
-            System.out.println("[INFO] Player two has joined the game");
-            System.out.println("[INFO] Game is now full");
             break;
         }
         return playerTwoID;

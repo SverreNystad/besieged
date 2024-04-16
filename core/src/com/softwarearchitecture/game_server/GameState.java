@@ -59,8 +59,7 @@ public class GameState implements Externalizable {
     public UUID gameID;
     public Entity playerOne;
     public Entity playerTwo;
-    private Map map;
-
+    public String mapName;
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -69,17 +68,14 @@ public class GameState implements Externalizable {
 
         // Writing gameID
         out.writeObject(gameID);
+        // Player entities
         out.writeObject(playerOne);
         out.writeObject(playerTwo);
-
-        if (playerOne == null || playerTwo == null) {
-            return;
-        }
+        // Map
+        out.writeObject(mapName);
 
         // Player components
         serializeComponent(out, PlayerComponent.class);
-        // Map
-        out.writeObject(map);
         // Position
         serializeComponent(out, PositionComponent.class);
         // Sprite
@@ -138,26 +134,14 @@ public class GameState implements Externalizable {
         
         // Players
         deserializePlayers(in);
-        if (playerTwo == null) {
-            return;
-        }
-        deserializeComponent(in, PlayerComponent.class);
         // Map
         readObject = in.readObject();
-        if (!(readObject instanceof List)) {
-            throw new IllegalStateException("Map must be a list");
-        } else {
-            List<?> mapList = (List<?>) readObject;
-            if (mapList.get(0) instanceof List) {
-                throw new IllegalStateException("Map must be a list of lists");
-            } else {
-                List<List<?>> mapListList = (List<List<?>>) mapList;
-                if (mapListList.get(0).get(0) instanceof TileType) {
-                    throw new IllegalStateException("Map must be a list of lists of MapTiles");
-                }
-            }
+        if (!(readObject instanceof String)) {
+            throw new IllegalStateException("Map name must be a string");
         }
-        map = (Map) readObject;
+        mapName = (String) readObject;
+
+        deserializeComponent(in, PlayerComponent.class);
         // Position
         deserializeComponent(in, PositionComponent.class);
         // Sprite

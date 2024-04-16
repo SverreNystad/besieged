@@ -11,7 +11,7 @@ public interface ServerMessagingController {
      * 
      * @return the game ID of the new game
      */
-    public UUID createGame();
+    public UUID createGame(String mapName);
 
     /**
      * Get the game state of the game with the given game ID.
