@@ -28,6 +28,7 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
+import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
@@ -154,7 +155,14 @@ public class InGame extends State implements Observer {
 
                 // Create the callback-function for the button
                 Runnable callback = () -> {
+                    // Do action client side
                     handleTileClick(finalI, finalJ);
+                    
+                    // Send action to server
+                    if (this.isMultiplayer) {
+                        PlayerInput action = new PlayerInput(yourId, selectedCardType, finalI, finalJ);
+                        defaultControllers.clientMessagingController.addAction(action);
+                    }
                 };
 
                 ButtonComponent buttonComponent = new ButtonComponent(position, size, ButtonEnum.TILE, 0, callback);
@@ -232,6 +240,7 @@ public class InGame extends State implements Observer {
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
+        
 
         // Card already placed, place tower
         if (tile.hasCard()) {
