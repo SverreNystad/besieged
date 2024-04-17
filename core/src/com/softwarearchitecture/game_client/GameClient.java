@@ -33,7 +33,7 @@ public class GameClient {
             Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
                 game.get();
-                System.out.println("[CLIENT] Requested game gotten: " + game.get());
+                // System.out.println("[CLIENT] Requested game gotten: " + game.get());
             }
         }
         if (defaultControllers.gameServer.getGameId() != null) {
@@ -41,8 +41,9 @@ public class GameClient {
             Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
                 game.get();
-                System.out.println("[CLIENT] Requested game gotten: " + game.get());
+                // System.out.println("[CLIENT] Requested game gotten: " + game.get());
             }
         }
+        // System.out.println("[CLIENT] Entities " + ECSManager.getInstance().getEntities().size());
     }
 }

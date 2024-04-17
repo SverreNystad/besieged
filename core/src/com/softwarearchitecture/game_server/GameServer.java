@@ -65,13 +65,15 @@ public class GameServer {
         gameState.playerOne.addComponent(MoneyComponent.class, new MoneyComponent(0));
         gameState.playerTwo.addComponent(MoneyComponent.class, new MoneyComponent(0));
 
-
+        ECSManager.getInstance().update(0f);
+        // System.out.println("[SERVER] Entities 1: " + ECSManager.getInstance().getEntities().size());
         messageController.setNewGameState(this.gameId, gameState);
         System.out.println("[SERVER] Player two has joined the game");
         System.out.println("[SERVER] Game is now full");
 
         // TODO: Add relevant systems
         setupGame(mapName);
+
         // Main gameplay loop
         boolean gamesOver = false;
         while (!gamesOver) {

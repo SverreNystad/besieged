@@ -39,33 +39,44 @@ public class InGame extends State implements Observer {
     private Map gameMap;
     private String mapName;
     private CardType selectedCardType = null;
+    private boolean isMultiplayer;
 
-    protected InGame(Controllers defaultControllers, UUID yourId, String mapName) {
+    protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer) {
         super(defaultControllers, yourId);
         this.mapName = mapName;
+        this.isMultiplayer = isMultiplayer;
     }
 
     @Override
     protected void activate() {
-        // Background
-        String backgroundPath = TexturePack.BACKGROUND_TOR;
-        Entity background = new Entity();
-        SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
-        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
-        background.addComponent(SpriteComponent.class, backgroundSprite);
-        background.addComponent(PositionComponent.class, backgroundPosition);
-        ECSManager.getInstance().addEntity(background);
+        if (!isMultiplayer) {
+            // Background
+            String backgroundPath = TexturePack.BACKGROUND_TOR;
+            Entity background = new Entity();
+            SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
+            PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+            background.addComponent(SpriteComponent.class, backgroundSprite);
+            background.addComponent(PositionComponent.class, backgroundPosition);
+            ECSManager.getInstance().addEntity(background);
+
+            // Map and tiles
+            Map gameMap = MapFactory.createMap(mapName);
+            initializeMapEntities(gameMap);
+            this.gameMap = gameMap;
+            
+            EnemySystem EnemySystem = new EnemySystem();
+            AttackSystem attackSystem = new AttackSystem(gameMap);
+            ECSManager.getInstance().addSystem(EnemySystem);
+            ECSManager.getInstance().addSystem(attackSystem);
+        }
 
         // Buttons
         Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0, 1),
                 new Vector2(0.1f, 0.2f), this, 0);
         ECSManager.getInstance().addEntity(backButton);
 
-        // Map and tiles
-        Map gameMap = MapFactory.createMap(mapName);
-        initializeMapEntities(gameMap);
-        this.gameMap = gameMap;
 
+        // TODO: Check if multiplayer and add multiplayer-specific button functionality
         // Card selection menu
         createCardSelectionMenu();
 
@@ -76,14 +87,10 @@ public class InGame extends State implements Observer {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
-        EnemySystem EnemySystem = new EnemySystem();
-        AttackSystem attackSystem = new AttackSystem(gameMap);
 
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
-        ECSManager.getInstance().addSystem(EnemySystem);
-        ECSManager.getInstance().addSystem(attackSystem);
     }
 
     @Override

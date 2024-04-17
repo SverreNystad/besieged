@@ -97,7 +97,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         if (didJoin) {
             screenManager.setGameId(gameID);
             // Change the state to the game
-            screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game)));
+            screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game), true));
         } else {
             // Notify the user that the game is full
             System.out.println("Game is full");
