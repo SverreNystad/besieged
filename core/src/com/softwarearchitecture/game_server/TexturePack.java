@@ -92,6 +92,11 @@ public class TexturePack {
     public static final String ENEMY_DEAD_ANT__FRAME1 = "dead_ant_frame1.png";
     public static final String ENEMY_DEAD_ANT__FRAME2 = "dead_ant_frame2.png";
 
+    public static final String VIKING_SPEAR_FRAME1 = "viking_spear_frame1.png";
+    public static final String VIKING_SPEAR_FRAME2 = "viking_spear_frame2.png";
+    public static final String VIKING_SPEAR_FRAME3 = "viking_spear_frame3.png";
+    public static final String VIKING_SPEAR_FRAME4 = "viking_spear_frame4.png";
+
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
 
