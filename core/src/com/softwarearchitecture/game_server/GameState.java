@@ -102,10 +102,8 @@ public class GameState implements Externalizable {
             if (component.isPresent()) {
                 entities.add(entity);
                 components.add(component.get());
-                System.out.println("[SERVER] Entity: " + entity + ". Component: " + component.get().toString());
             }
         }
-        System.out.println("[SERVER] Entities: " + entities.size() + ". Component type: " + componentClass.getName());
         out.writeObject(entities);
         out.writeObject(components);
     }
@@ -205,6 +203,7 @@ public class GameState implements Externalizable {
             Entity entity = (Entity) entities.get(i);
             T component = componentClass.cast(components.get(i));
             componentManager.addComponent(entity, component);
+            manager.addEntity(entity);
         }
     }    
 

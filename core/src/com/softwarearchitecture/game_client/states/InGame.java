@@ -69,6 +69,9 @@ public class InGame extends State implements Observer {
             AttackSystem attackSystem = new AttackSystem(gameMap);
             ECSManager.getInstance().addSystem(EnemySystem);
             ECSManager.getInstance().addSystem(attackSystem);
+            
+            // Initialize the Village-entity
+            initializeVillage();
         }
 
         // Buttons
@@ -81,8 +84,6 @@ public class InGame extends State implements Observer {
         // Card selection menu
         createCardSelectionMenu();
 
-        // Initialize the Village-entity
-        initializeVillage();
 
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
