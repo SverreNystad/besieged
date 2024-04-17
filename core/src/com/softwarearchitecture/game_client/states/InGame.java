@@ -8,8 +8,10 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
+import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
+import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
@@ -52,8 +54,6 @@ public class InGame extends State implements Observer {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        TextComponent textComponent = new TextComponent("In Game!", new Vector2(0.05f, 0.05f));
-        background.addComponent(TextComponent.class, textComponent);
         ECSManager.getInstance().addEntity(background);
 
         // Buttons
@@ -68,6 +68,9 @@ public class InGame extends State implements Observer {
 
         // Card selection menu
         createCardSelectionMenu();
+
+        // Initialize the Village-entity
+        initializeVillage();
 
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
@@ -92,6 +95,21 @@ public class InGame extends State implements Observer {
             default:
                 break;
         }
+    }
+
+    public void initializeVillage() {
+        Entity village = new Entity();
+        HealthComponent healthComponent = new HealthComponent(1000);
+        PlayerComponent playerComponent = new PlayerComponent(village.getId());
+        PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
+        TextComponent villageHealthText = new TextComponent("Health: " + healthComponent.getHealth(), new Vector2(0.05f, 0.05f));
+        villageHealthText.setColor(new Vector3(0f, 0f, 0f));
+        village.addComponent(HealthComponent.class, healthComponent);
+        village.addComponent(PlayerComponent.class, playerComponent);
+        village.addComponent(PositionComponent.class, villagePosition);
+        village.addComponent(TextComponent.class, villageHealthText);
+
+        ECSManager.getInstance().addEntity(village);
     }
 
     private void initializeMapEntities(Map gameMap) {
@@ -160,8 +178,8 @@ public class InGame extends State implements Observer {
     }
 
     private void createCardSelectionMenu() {
-        float menuYPosition = 0; // Position the menu at the bottom of the screen
-        float menuHeight = 0.2f; // Height of the menu
+        float menuYPosition = 0; // Bottom of the screen
+        float menuHeight = 0.2f;
         String menuBackgroundTexture = TexturePack.COLOR_WHITE;
 
         // Create menu background entity
@@ -229,61 +247,87 @@ public class InGame extends State implements Observer {
                     .getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
             CardType existingCardType = existingCardComponent.cardType;
             Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
+
             if (towerType.isPresent()) {
                 // Remove the card thats already there
-                tile.removeCard();
                 ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
                         .removeComponent(tileEntity);
+                Entity card = tile.getCard();
+                ECSManager.getInstance().removeEntity(card);
+                tile.removeCard();
 
-                // Create and place the tower
-                Entity tower = TowerFactory.createTower(selectedCardType, existingCardType, new Vector2(x, y));
-                ECSManager.getInstance().addEntity(tower);
-                tile.setTower(tower);
+                // Create the tower entity
+                Entity towerEntity = TowerFactory.createTower(selectedCardType, existingCardType, new Vector2(x, y));
 
                 // Update the tile with the new tower
-                updateTileWithTower(tile, tower);
+                updateTileWithTower(tile, tileEntity, towerEntity);
             }
         }
         // No card on tile, place card
         else {
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
-            Entity card = CardFactory.createCard(selectedCardType, new Vector2(x, y));
-            tile.setCard(card);
-            // Create a PlacedCardComponentManager and add a PlacedCardComponent to the Card
-            // entity
-            PlacedCardComponent placedCardComponent = new PlacedCardComponent(x, y, selectedCardType);
+            // Add a PlacedCardComponent the Tile-entity (to keep track of the cards' type)
+            PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
             ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
                     placedCardComponent);
-            ECSManager.getInstance().addEntity(card);
+
+            // Create the card entity
+            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y));
 
             // Update the tile with the new card
-            updateTileWithCard(tile, card);
+            updateTileWithCard(tile, tileEntity, cardEntity);
         }
 
         // Reset the selected card type after placing a card
         selectedCardType = null;
     }
 
-    private void updateTileWithCard(Tile tile, Entity card) {
-        Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
-        if (tileEntity != null && card.getComponent(SpriteComponent.class).isPresent()) {
-            SpriteComponent spriteComponent = card.getComponent(SpriteComponent.class).get();
-            spriteComponent.size_uv.set(gameMap.getTileWidth(), gameMap.getTileHeight());
-            if (spriteComponent != null) {
-                tileEntity.addComponent(SpriteComponent.class, spriteComponent);
-            }
+    private void updateTileWithCard(Tile tile, Entity tileEntity, Entity cardEntity) {
+        if (tileEntity != null) {
+            centerAndResizeEntity(cardEntity, tileEntity, gameMap);
+            tile.setCard(cardEntity);
+
+            ECSManager.getInstance().addEntity(cardEntity);
         }
     }
 
-    private void updateTileWithTower(Tile tile, Entity tower) {
-        Entity tileEntity = getTileEntityByPosition(new Vector2(tile.getX(), tile.getY()));
-        if (tileEntity != null && tower.getComponent(SpriteComponent.class).isPresent()) {
-            SpriteComponent spriteComponent = tower.getComponent(SpriteComponent.class).get();
-            spriteComponent.size_uv.set(gameMap.getTileWidth(), gameMap.getTileHeight());
-            if (spriteComponent != null) {
-                tileEntity.addComponent(SpriteComponent.class, spriteComponent);
-            }
+    private void updateTileWithTower(Tile tile, Entity tileEntity, Entity towerEntity) {
+        if (tileEntity != null) {
+            centerAndResizeEntity(towerEntity, tileEntity, gameMap);
+            tile.setTower(towerEntity);
+
+            ECSManager.getInstance().addEntity(towerEntity);
         }
+    }
+
+    private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
+        float padding = 0.05f; // 5% padding on each side
+
+        float entityWidth = gameMap.getTileWidth();
+        float entityHeight = gameMap.getTileHeight();
+        if (entityToPlace.getComponent(PlacedCardComponent.class).isPresent()) {
+            // Cards should be slightly smaller than towers
+            entityWidth = gameMap.getTileWidth() * (1 - 2 * padding) * 0.9f;
+            entityHeight = gameMap.getTileHeight() * (1 - 2 * padding) * 0.9f;
+        }
+
+        // Get the position of the tile (in UV-coordinates)
+        PositionComponent tilePositionComponent = tileEntity.getComponent(PositionComponent.class).get();
+
+        // Calculate the centered position for the card/tower within the tile
+        Vector2 centeredPosition = new Vector2(
+                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
+                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+
+        // Update the PositionComponent of the entity to place
+        PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
+        entityPositionComponent.position = centeredPosition;
+        entityToPlace.addComponent(PositionComponent.class, entityPositionComponent);
+
+        // Update the SpriteComponent of the entity to place
+        SpriteComponent entitySpriteComponent = entityToPlace.getComponent(SpriteComponent.class).get();
+        entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
+        entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
     }
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {

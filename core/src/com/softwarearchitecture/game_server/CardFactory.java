@@ -73,8 +73,8 @@ public class CardFactory {
                 throw new NullPointerException("Invalid card type");
         }
 
-        PlacedCardComponent placedCardComponent = new PlacedCardComponent((int) position.x, (int) position.y, type);
-        PositionComponent positionComponent = new PositionComponent(position, 0);
+        PlacedCardComponent placedCardComponent = new PlacedCardComponent(type);
+        PositionComponent positionComponent = new PositionComponent(position, 10);
         SpriteComponent spriteComponent = new SpriteComponent(texturePath, size);
         SoundComponent soundComponent = new SoundComponent(sound);
         MoneyComponent moneyComponent = new MoneyComponent(cost);

@@ -17,6 +17,8 @@ public class ServerMessenger implements ServerMessagingController {
 
     private DAO<String, byte[]> gameDao;
     private DAO<String, UUID> pendingPlayerDao;
+    
+    private final String JOIN_PREFIX = "JOIN";
     private static final String GAME_PREFIX = "GAME";
 
     public ServerMessenger() {
@@ -25,14 +27,19 @@ public class ServerMessenger implements ServerMessagingController {
     }
 
     @Override
-    public UUID createGame() {
+    public UUID createGame(String mapName) {
         UUID gameId = UUID.randomUUID();
         UUID playerID = UUID.randomUUID();
-        GameState gameState = new GameState();
         // Create a player entity for player one
-        gameState.playerOne = new Entity();
-        gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerID));
+        Entity playerOne = new Entity();
+        playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerID));
+        GameState gameState = new GameState();
+        gameState.playerOne = playerOne;
+        gameState.gameID = gameId;
+        gameState.mapName = mapName;
+        
 
+        System.out.println("The gameStates player one" + gameState.playerOne);
         try {
             byte[] gameOutput = GameState.serializeToByteArray(gameState);
             gameDao.add(createGameId(gameId), gameOutput);
@@ -41,11 +48,15 @@ public class ServerMessenger implements ServerMessagingController {
             // TODO: handle exception
             System.out.println("Error creating game");
         }
-        return gameId;
+        return gameState.gameID;
     }
 
     private String createGameId(UUID gameId) {
         return GAME_PREFIX + gameId.toString();
+    }
+    
+    private String createJoinGameId(UUID gameId) {
+        return JOIN_PREFIX + gameId.toString();
     }
 
     @Override
@@ -57,18 +68,20 @@ public class ServerMessenger implements ServerMessagingController {
             }
             return GameState.deserializeFromByteArray(gameOutput.get());
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e);
             System.out.println("Error getting game state with ID: " + gameId);
             return null;
         }
     }
 
     @Override
-    public void setNewGameState(UUID id, GameState gameState) {
+    public void setNewGameState(UUID gameId, GameState gameState) {
         try {
             byte[] gameOutput = GameState.serializeToByteArray(gameState);
-            gameDao.update(createGameId(id), gameOutput);
+            gameDao.update(createGameId(gameId), gameOutput);
         } catch (IOException e) {
-            System.out.println("Error updating game state with ID: " + id);
+            System.out.println(e);
+            System.out.println("Error updating game state with ID: " + gameId);
         }
     }
 
@@ -81,7 +94,12 @@ public class ServerMessenger implements ServerMessagingController {
 
     @Override
     public Optional<UUID> lookForPendingPlayer(UUID gameId) {
-        String lookingId = gameId.toString() + "JOIN";
+        String lookingId = createJoinGameId(gameId);
         return pendingPlayerDao.get(lookingId);
+    }
+
+    @Override
+    public void removeGame(UUID gameId) {
+        gameDao.delete(createGameId(gameId));
     }
 }

@@ -19,6 +19,7 @@ import com.softwarearchitecture.ecs.systems.RenderingSystem;
 
 public class ChooseMap extends State implements Observer {
 
+    private boolean isHost;
     /**
      * Generic state is a state that can be used for multiple purposes
      * for different types of menus.
@@ -28,6 +29,7 @@ public class ChooseMap extends State implements Observer {
      */
     public ChooseMap(Controllers defaultControllers, UUID yourId, boolean isMultiplayer) {
         super(defaultControllers, yourId);
+        isHost = isMultiplayer;
     }
 
     @Override
@@ -56,6 +58,8 @@ public class ChooseMap extends State implements Observer {
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addEntity(logo);
 
+        
+
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
         float buttonWidth = 0.25f;
@@ -75,6 +79,15 @@ public class ChooseMap extends State implements Observer {
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK,
                 new Vector2(0.495f - 0.35f / 2, translateY),
                 new Vector2(0.35f, 0.1f), this, 2));
+
+        // Create Preview Image
+        Entity mapPreview = new Entity();
+        String imagePath = TexturePack.PREVIEW_ABYSS;
+        SpriteComponent mapPreviewSprite = new SpriteComponent(imagePath, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
+        PositionComponent mapPreviewPosition = new PositionComponent(new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.31f), 100); // Adjust the position as necessary
+        mapPreview.addComponent(SpriteComponent.class, mapPreviewSprite);
+        mapPreview.addComponent(PositionComponent.class, mapPreviewPosition);
+        ECSManager.getInstance().addEntity(mapPreview);
     }
 
     /**
@@ -88,15 +101,16 @@ public class ChooseMap extends State implements Observer {
         // Switches the state of the game based on the button type
 
         // TODO: MAKE BUTTON ACTIONS DYNAMIC CHOOSING MAPS
+        String map = "";
         switch (type) {
             case ABYSS:
-                System.out.println("Join button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId, "abyss"));
+                System.out.println("Abyss map button pressed");
+                map = "abyss";
                 break;
 
             case TEST:
-                System.out.println("Host button pressed");
-                screenManager.nextState(new InGame(defaultControllers, yourId, "test"));
+                System.out.println("Test map button pressed");
+                map = "test";
                 break;
 
             case BACK:
@@ -106,8 +120,28 @@ public class ChooseMap extends State implements Observer {
 
             default:
                 throw new IllegalArgumentException("Invalid button type");
-
         }
+        if (isHost) {
+            startServer(map);
+        }
+
+        screenManager.nextState(new InGame(defaultControllers, yourId, map));
+    }
+
+    private void startServer(String mapName) {
+        // Start the server
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Starting server on a new thread");
+                    defaultControllers.gameServer.run(mapName);
+                } catch (Exception e) {
+                    System.out.println("Error running server: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }, "ServerThread").start(); 
     }
 
 }

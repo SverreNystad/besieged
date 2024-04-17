@@ -1,6 +1,8 @@
 package com.softwarearchitecture.math;
 
-public class Vector3 {
+import java.io.Serializable;
+
+public class Vector3 implements Serializable {
     public float x;
     public float y;
     public float z;

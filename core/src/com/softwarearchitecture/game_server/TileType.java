@@ -1,6 +1,8 @@
 package com.softwarearchitecture.game_server;
 
-public enum TileType {
+import java.io.Serializable;
+
+public enum TileType implements Serializable {
     START,
     END_TOP,
     END,
