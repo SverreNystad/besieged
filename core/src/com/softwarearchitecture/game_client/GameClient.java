@@ -36,7 +36,7 @@ public class GameClient {
             }
         }
         if (defaultControllers.gameServer.getGameId() != null) {
-            gameId = screenManager.getGameId();
+            gameId = defaultControllers.gameServer.getGameId();
             Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
                 game.get();
