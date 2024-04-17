@@ -36,10 +36,28 @@ public class SpriteComponent implements Serializable {
      * Constructs a new SpriteComponent with specified texture, position, and size.
      * 
      * @param texture_path Path to the texture image.
-     * @param size_uv      The size of the entity on the screen, expressed as a fraction of the screen's width and height.
+     * @param size_uv      The size of the entity on the screen, expressed as a
+     *                     fraction of the screen's width and height.
      */
     public SpriteComponent(String texture_path, Vector2 size_uv) {
         this.texture_path = texture_path;
+        this.size_uv = size_uv;
+    }
+
+    // Getters and setters
+    public String getTexturePath() {
+        return texture_path;
+    }
+
+    public void setTexturePath(String texture_path) {
+        this.texture_path = texture_path;
+    }
+
+    public Vector2 getSizeUV() {
+        return size_uv;
+    }
+
+    public void setSizeUV(Vector2 size_uv) {
         this.size_uv = size_uv;
     }
 }

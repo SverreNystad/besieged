@@ -94,17 +94,24 @@ public class EnemySystem implements System {
             Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
             Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
             Optional<HealthComponent> health = healthManager.getComponent(entity);
+
             if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent() || !health.isPresent()) {
                 continue;
             }
+
             Vector2 pos = position.get().position;
             List<Tile> find = pathfinding.get().path;
             Tile nextTile = pathfinding.get().targetTile;
             int hp = health.get().getHealth();
-            Vector2 nextTilePos = new Vector2(nextTile.getX() * tileSize.x, nextTile.getY() * tileSize.y);
+            float nextTilePos_x = nextTile.getX() * tileSize.x;
+            float nextTilePos_y = nextTile.getY() * tileSize.y;
+            Vector2 nextTilePos = new Vector2(nextTilePos_x, nextTilePos_y);
+            
             if (nextTile.getType() == TileType.END && nextTilePos.sub(pos).len() < 0.001f) {
                 pathfinding.get().targetTile = find.get(0);
-                position.get().position = new Vector2(find.get(0).getX()*tileSize.x,find.get(0).getY()*tileSize.y);
+                float startPosition_x = find.get(0).getX() * tileSize.x;
+                float startPosition_y = find.get(0).getY() * tileSize.y;
+                position.get().position = new Vector2(startPosition_x, startPosition_y);
                 health.get().setHealth(health.get().getMaxHealth());
                 monsterCounter++;
                 villageDamage++;
@@ -115,8 +122,11 @@ public class EnemySystem implements System {
                 liveMonsterCounter--;
             }
         }
+
         spawnTimer -= deltaTime;
-        if (spawnTimer<=0 && monsterCounter < waveSize) {
+
+        if (spawnTimer <= 0 && monsterCounter < waveSize) {
+            
             if (liveMonsterCounter < maxLiveMonsters) {
                 mob = EnemyFactory.createEnemy(EnemyType.WOLF, path, tileSize);
                 ECSManager.getInstance().addEntity(mob);
@@ -155,7 +165,7 @@ public class EnemySystem implements System {
                 if (!player.isPresent() || !health.isPresent()) {
                     continue;
                 }
-                health.get().setHealth(health.get().getHealth()-villageDamage);
+                health.get().setHealth(health.get().getHealth() - villageDamage);
                 villageDamage = 0;
             }
         }
