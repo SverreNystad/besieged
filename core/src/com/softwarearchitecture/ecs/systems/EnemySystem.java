@@ -18,6 +18,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.softwarearchitecture.game_client.states.GameOverObserver;
 import com.softwarearchitecture.game_server.EnemyFactory;
 import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Tile;
@@ -52,6 +53,7 @@ public class EnemySystem implements System {
     private int villageDamage;
     private Entity village;
     private boolean firstUpdate = true;
+    private GameOverObserver gameOverObserver;
 
 
     public EnemySystem() {
@@ -73,6 +75,12 @@ public class EnemySystem implements System {
         this.maxLiveMonsters = 5;
         this.liveMonsterCounter = 0;
         this.villageDamage = 0;
+    }
+
+    public EnemySystem(GameOverObserver gameOverObserver) {
+        this();
+        this.gameOverObserver = gameOverObserver;
+        java.lang.System.out.println("gameOverObserver set to: " + gameOverObserver);
     }
 
 
@@ -176,7 +184,6 @@ public class EnemySystem implements System {
                     Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
                     Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
                     Optional<HealthComponent> health = healthManager.getComponent(entity);
-                    // Optional<MoneyComponent> money = moneyManager.getComponent(entity);
 
                     if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent()
                             || !health.isPresent()) {
@@ -197,20 +204,30 @@ public class EnemySystem implements System {
                 }
             }
         }
+
         // Decrement the wave timer
         if (waveTimer > 0) {
             waveTimer -= deltaTime;
         }
+
         // If any enemies have gotten through, damage the village (actually applies the damage here)
         if (villageDamage > 0) {
             
             int villageHealth = healthManager.getComponent(village).get().getHealth();
             villageHealth -= villageDamage;
+            // If the village health is 0, the game is over
+            if (villageHealth <= 0) {
+                villageHealth = 0;
+                if (this.gameOverObserver != null) {
+                    this.gameOverObserver.handleGameOver();
+                }
+            }
             healthManager.getComponent(village).get().setHealth(villageHealth);
             
             updateTopRightCornerText();
             villageDamage = 0;
         }
+
         // Start the next wave
         if (monsterCounter >= waveSize && waveTimer <= 0) {
             waveNumber++;
@@ -220,7 +237,6 @@ public class EnemySystem implements System {
             spawnTimer = 0f;
             maxLiveMonsters++;
         }
-        
     }
     
 
@@ -248,5 +264,4 @@ public class EnemySystem implements System {
             textComponent.get().text = textToDisplay;
         }
     }
-
 }

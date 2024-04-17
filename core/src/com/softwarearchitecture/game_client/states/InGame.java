@@ -41,7 +41,7 @@ import com.softwarearchitecture.game_server.TowerFactory;
 import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
 
-public class InGame extends State implements Observer {
+public class InGame extends State implements Observer, GameOverObserver {
     
     private Map gameMap;
     private Entity village;
@@ -50,11 +50,12 @@ public class InGame extends State implements Observer {
     private boolean isMultiplayer;
     private List<Entity> cardButtonEntities = new ArrayList<>();
     
-    protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer) {
+    protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer)  {
         super(defaultControllers, yourId);
         this.mapName = mapName;
         this.isMultiplayer = isMultiplayer;
     }
+
 
     @Override
     protected void activate() {
@@ -73,7 +74,7 @@ public class InGame extends State implements Observer {
             initializeMapEntities(gameMap);
             this.gameMap = gameMap;
             
-            EnemySystem EnemySystem = new EnemySystem();
+            EnemySystem EnemySystem = new EnemySystem(this);
             AttackSystem attackSystem = new AttackSystem(gameMap);
             ECSManager.getInstance().addSystem(EnemySystem);
             ECSManager.getInstance().addSystem(attackSystem);
@@ -129,7 +130,7 @@ public class InGame extends State implements Observer {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
-        EnemySystem EnemySystem = new EnemySystem();
+        EnemySystem EnemySystem = new EnemySystem(this);
         AttackSystem attackSystem = new AttackSystem(gameMap);
         AnimationSystem animationSystem = new AnimationSystem();
 
@@ -223,7 +224,6 @@ public class InGame extends State implements Observer {
 
             }
         }
-
     }
 
     private void createCardSelectionMenu() {
@@ -483,4 +483,10 @@ public class InGame extends State implements Observer {
         return null;
     }
 
+
+    @Override
+    public void handleGameOver() {
+        System.out.println("Test");
+        ScreenManager.getInstance().nextState(new GameOver(defaultControllers, yourId));
+    }
 }
