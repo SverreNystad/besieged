@@ -21,6 +21,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
+import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
@@ -137,10 +138,18 @@ public class InGame extends State implements Observer {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
+        EnemySystem EnemySystem = new EnemySystem();
+        AttackSystem attackSystem = new AttackSystem(gameMap);
+        AnimationSystem animationSystem = new AnimationSystem();
+
 
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
+        ECSManager.getInstance().addSystem(EnemySystem);
+        ECSManager.getInstance().addSystem(attackSystem);
+        ECSManager.getInstance().addSystem(animationSystem);
+
     }
 
     @Override
