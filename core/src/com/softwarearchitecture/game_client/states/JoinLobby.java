@@ -17,8 +17,9 @@ import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.math.Vector2;
 
 public class JoinLobby extends State implements Observer, JoinGameObserver {
-
-    private final int buttonZIndex = 3;
+    private final int pageIndex = 100;
+    private final int textIndex = pageIndex + 1;
+    private final int buttonZIndex = textIndex + 3;
     private final float gap = 0.2f;
     
     public JoinLobby(Controllers defaultControllers, UUID yourId) {
@@ -31,14 +32,14 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         String backgroundPath = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
-        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), pageIndex);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
         ECSManager.getInstance().addEntity(background);
 
         // Add the logo at the top
         TextComponent textComponent = new TextComponent("Find A Game", new Vector2(0.05f, 0.05f));
-        PositionComponent textPosition = new PositionComponent(new Vector2(0.45f, 0.9f), 1);
+        PositionComponent textPosition = new PositionComponent(new Vector2(0.45f, 0.9f), textIndex);
         Entity logo = new Entity();
         logo.addComponent(TextComponent.class, textComponent);
         logo.addComponent(PositionComponent.class, textPosition);
