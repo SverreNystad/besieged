@@ -79,11 +79,34 @@ public class InGame extends State implements Observer {
             
             // Initialize the Village-entity
             initializeVillage();
-        } else {
+        } 
+        else {
+            // Make a button that covers the whole screen and sends a message to the server when clicked
             Entity screenTouch = new Entity();
-            ButtonComponent button = new ButtonComponent(new Vector2(0,0), new Vector2(1,1), ButtonEnum.TILE, 0, () -> {
+            Runnable callback = () -> {
                 System.out.println("Screen touched at: " + defaultControllers.inputController.getLastReleaseLocation().u + ", " + defaultControllers.inputController.getLastReleaseLocation().v);
-            });
+                ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);  
+                ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+                ComponentManager<PositionComponent> positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
+    
+                Set<Entity> entities = ECSManager.getInstance().getEntities();
+                for (Entity entity : entities) {
+                    if (spriteManager.getComponent(entity).isPresent() && tileManager.getComponent(entity).isPresent() && positionManager.getComponent(entity).isPresent()) {
+                        SpriteComponent sprite = spriteManager.getComponent(entity).get();
+                        PositionComponent position = positionManager.getComponent(entity).get();
+                        TileComponent tile = tileManager.getComponent(entity).get();
+                        float u = defaultControllers.inputController.getLastReleaseLocation().u;
+                        float v = defaultControllers.inputController.getLastReleaseLocation().v;
+    
+                        if (position.position.x <= u && u <= position.position.x + sprite.size_uv.x && position.position.y <= v && v <= position.position.y + sprite.size_uv.y) {
+                            PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getTile().getX(), tile.getTile().getY());
+                            defaultControllers.clientMessagingController.addAction(action);
+                        }
+                    }
+                }
+            };
+
+            ButtonComponent button = new ButtonComponent(new Vector2(0,0), new Vector2(1,1), ButtonEnum.TILE, 0, callback);
             screenTouch.addComponent(ButtonComponent.class, button);
             ECSManager.getInstance().addEntity(screenTouch);
             System.out.println("Added screen touch button");
