@@ -207,7 +207,7 @@ public class GameServer {
                 tileEntity.addComponent(PositionComponent.class, positionComponent);
                 tileEntity.addComponent(TileComponent.class, tileComponent); // Added
                 ECSManager.getInstance().addEntity(tileEntity);
-
+                
             }
         }
 
