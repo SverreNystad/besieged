@@ -13,7 +13,6 @@ public class AudioPack {
     public static final String TOWER_SHARP_SHOOTER = "jens.mp3";
     public static final String TOWER_TOR = "jens.mp3";
     public static final String TOWER_FIRE_BOW = "jens.mp3";
-    public static final String TOWER_ICE_MAGIC = "jens.mp3";
     public static final String TOWER_FIRE_MAGIC = "jens.mp3";
 
 }
