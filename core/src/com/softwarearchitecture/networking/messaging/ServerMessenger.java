@@ -94,6 +94,7 @@ public class ServerMessenger implements ServerMessagingController {
         Optional<PlayerInput> action = actionDao.get(playerId);
         if (action.isPresent()) {
             actions.add(action.get());
+            actionDao.delete(playerId);
         }
         return actions;
     }
