@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
@@ -91,14 +92,14 @@ public class CardFactory {
         PositionComponent positionComponent = new PositionComponent(position, 20);
         SpriteComponent spriteComponent = new SpriteComponent(texturePath, size);
         SoundComponent soundComponent = new SoundComponent(sound);
-        MoneyComponent moneyComponent = new MoneyComponent(cost);
+        CostComponent costComponent = new CostComponent(cost);
 
         Entity cardEntity = new Entity();
         cardEntity.addComponent(PlacedCardComponent.class, placedCardComponent);
         cardEntity.addComponent(PositionComponent.class, positionComponent);
         cardEntity.addComponent(SpriteComponent.class, spriteComponent);
         cardEntity.addComponent(SoundComponent.class, soundComponent);
-        cardEntity.addComponent(MoneyComponent.class, moneyComponent);
+        cardEntity.addComponent(CostComponent.class, costComponent);
 
         return cardEntity;
     }
