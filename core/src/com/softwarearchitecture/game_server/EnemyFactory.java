@@ -20,16 +20,18 @@ public class EnemyFactory {
 
     public enum EnemyType {
         NORDIC_ANT,
-        WOLF
+        WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR
 
     }
 
-    public static Entity createEnemy(EnemyType enemyType, List<Tile> enemyPath, Vector2 tileSize) throws IllegalArgumentException {
+    public static Entity createEnemy(EnemyType enemyType, List<Tile> enemyPath, Vector2 tileSize)
+            throws IllegalArgumentException {
         List<String> textures = new ArrayList<String>();
         float tileHeight = tileSize.y;
         float tileWidth = tileSize.x;
         Vector2 size = new Vector2(1, 1);
-        Vector2 position = new Vector2((float) enemyPath.get(0).getX()*tileWidth, (float) enemyPath.get(0).getY()*tileHeight+tileHeight/4);
+        Vector2 position = new Vector2((float) enemyPath.get(0).getX() * tileWidth,
+                (float) enemyPath.get(0).getY() * tileHeight + tileHeight / 4);
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int maxHealth = 0;
@@ -60,6 +62,62 @@ public class EnemyFactory {
                 maxHealth = 100;
                 sound = "soundPath"; // TODO: Add the correct sound path
                 money = 5;
+
+                break;
+
+            case VIKING_SPEAR:
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME4);
+                damage = 3;
+                size.set(0.04f, 0.04f);
+                velocity.set(0.03f, 0.03f);
+                maxHealth = 100;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 10;
+
+                break;
+
+            case VIKING_SWORD:
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME4);
+                damage = 4;
+                size.set(0.05f, 0.05f);
+                velocity.set(0.04f, 0.04f);
+                maxHealth = 100;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 20;
+
+                break;
+
+            case VIKING_SWORD_SHIELD:
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME4);
+                damage = 5;
+                size.set(0.06f, 0.06f);
+                velocity.set(0.04f, 0.04f);
+                maxHealth = 200;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 30;
+
+                break;
+
+            case VIKING_AXE:
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME4);
+                damage = 4;
+                size.set(0.07f, 0.07f);
+                velocity.set(0.03f, 0.03f);
+                maxHealth = 300;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 40;
 
                 break;
 
