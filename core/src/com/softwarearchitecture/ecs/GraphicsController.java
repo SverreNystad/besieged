@@ -7,6 +7,7 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 public interface GraphicsController {
     /**
      * Draw the sprite component on the screen.
+     * 
      * @param spriteComponent
      */
     void draw(SpriteComponent spriteComponent, PositionComponent positionComponent);
@@ -20,4 +21,6 @@ public interface GraphicsController {
      * Draw text
      */
     void drawText(TextComponent textComponent, PositionComponent positionComponent);
+
+    void drawSquare(PositionComponent positionComponent, float width, float height, float r, float g, float b, float a);
 }

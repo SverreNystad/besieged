@@ -90,6 +90,36 @@ public class TowerFactory {
                 attackCooldown = 45;
                 sound = AudioPack.TOWER_BOW;
                 break;
+
+            case BOW_LIGHNING:
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME2);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME3);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME4);
+                damage = 10;
+                range = 2;
+                attackCooldown = 100;
+                sound = AudioPack.TOWER_BOW;
+                break;
+
+            case MAGIC_TECH:
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME2);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME3);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME4);
+
+                damage = 5;
+                range = 2;
+                attackCooldown = 50;
+                sound = AudioPack.TOWER_BOW;
+                break;
         }
 
         // Create the components for the tower

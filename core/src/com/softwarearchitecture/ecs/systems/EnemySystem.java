@@ -24,6 +24,7 @@ import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TileType;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
  * This class is supposed to check if enemies are at the end of the map, and if
@@ -51,6 +52,7 @@ public class EnemySystem implements System {
     private int liveMonsterCounter;
     private int maxLiveMonsters;
     private int villageDamage;
+    private GraphicsController graphicsController;
     private Entity village;
     private boolean firstUpdate = true;
     private GameOverObserver gameOverObserver;
@@ -118,7 +120,6 @@ public class EnemySystem implements System {
         if (path == null) {
             return;
         }
-
         // Check if any enemies have reached the end of the path
         for (Entity entity : entities) {
             Optional<PositionComponent> position = positionManager.getComponent(entity);
@@ -212,7 +213,7 @@ public class EnemySystem implements System {
 
         // If any enemies have gotten through, damage the village (actually applies the damage here)
         if (villageDamage > 0) {
-            
+
             int villageHealth = healthManager.getComponent(village).get().getHealth();
             villageHealth -= villageDamage;
             // If the village health is 0, the game is over
@@ -223,7 +224,7 @@ public class EnemySystem implements System {
                 }
             }
             healthManager.getComponent(village).get().setHealth(villageHealth);
-            
+
             updateTopRightCornerText();
             villageDamage = 0;
         }
@@ -238,7 +239,6 @@ public class EnemySystem implements System {
             maxLiveMonsters++;
         }
     }
-    
 
     public void awardPlayerMoney(Entity enemy) {
         MoneyComponent balance = moneyManager.getComponent(village).get();
@@ -247,16 +247,18 @@ public class EnemySystem implements System {
         updateTopRightCornerText();
     }
 
-
     public void updateTopRightCornerText() {
         // Get the text-component of the village and update the health
-        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
-        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
-        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(MoneyComponent.class);
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(HealthComponent.class);
         Optional<TextComponent> textComponent = textManager.getComponent(village);
         Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
         Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
-        
+
         if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
             int villageHealth = healthComponent.get().getHealth();
             int money = moneyComponent.get().amount;
