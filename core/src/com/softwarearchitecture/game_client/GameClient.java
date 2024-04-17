@@ -1,10 +1,12 @@
 package com.softwarearchitecture.game_client;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.ScreenManager;
+import com.softwarearchitecture.game_server.GameState;
 
 public class GameClient {
     private ScreenManager screenManager;
@@ -28,11 +30,17 @@ public class GameClient {
         UUID gameId = null;
         if (screenManager.getGameId() != null) {
             gameId = screenManager.getGameId();
-            defaultControllers.clientMessagingController.requestGameState(gameId);
+            Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
+            if (game.isPresent()) {
+                game.get();
+            }
         }
         if (defaultControllers.gameServer.getGameId() != null) {
-            gameId = defaultControllers.gameServer.getGameId();
-            defaultControllers.clientMessagingController.requestGameState(gameId);
+            gameId = screenManager.getGameId();
+            Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
+            if (game.isPresent()) {
+                game.get();
+            }
         }
     }
 }
