@@ -82,4 +82,18 @@ public class Entity implements Serializable {
         ComponentManager<T> manager = ecs.getOrDefaultComponentManager(componentType);
         return manager.getComponent(this);
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Entity) {
+            Entity entity = (Entity) object;
+            return this.id.equals(entity.id);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
