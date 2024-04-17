@@ -23,6 +23,7 @@ import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TileType;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
  * This class is supposed to check if enemies are at the end of the map, and if
@@ -49,6 +50,7 @@ public class EnemySystem implements System {
     private int liveMonsterCounter;
     private int maxLiveMonsters;
     private int villageDamage;
+    private GraphicsController graphicsController;
 
     public EnemySystem() {
         this.positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
@@ -93,7 +95,6 @@ public class EnemySystem implements System {
         if (path == null) {
             return;
         }
-
         // Check if any enemies have reached the end of the path
         for (Entity entity : entities) {
             Optional<PositionComponent> position = positionManager.getComponent(entity);
