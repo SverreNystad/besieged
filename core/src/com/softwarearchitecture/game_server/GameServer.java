@@ -81,6 +81,7 @@ public class GameServer {
 
         // Main gameplay loop
         boolean gamesOver = false;
+        
         while (!gamesOver) {
 
             float deltatime = 1.0f;
