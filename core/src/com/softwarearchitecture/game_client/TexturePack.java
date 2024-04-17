@@ -105,6 +105,32 @@ public class TexturePack {
     public static final String ENEMY_FENRIR1 = "sprites/fenrir/frame_1.png";
     public static final String ENEMY_FENRIR2 = "sprites/fenrir/frame_2.png";
 
+    public static final String ENEMY_WOLF_FRAME1 = "wolf_frame1.png";
+    public static final String ENEMY_WOLF_FRAME2 = "wolf_frame2.png";
+    public static final String ENEMY_WOLF_FRAME3 = "wolf_frame3.png";
+    public static final String ENEMY_WOLF_FRAME4 = "wolf_frame4.png";
+    public static final String ENEMY_WOLF_FRAME5 = "wolf_frame5.png";
+
+    public static final String ENEMY_VIKING_SPEAR_FRAME1 = "viking_spear_frame1.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME2 = "viking_spear_frame2.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME3 = "viking_spear_frame3.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME4 = "viking_spear_frame4.png";
+
+    public static final String ENEMY_VIKING_AXE_FRAME1 = "viking_axe_frame1.png";
+    public static final String ENEMY_VIKING_AXE_FRAME2 = "viking_axe_frame2.png";
+    public static final String ENEMY_VIKING_AXE_FRAME3 = "viking_axe_frame3.png";
+    public static final String ENEMY_VIKING_AXE_FRAME4 = "viking_axe_frame4.png";
+
+    public static final String ENEMY_VIKING_SWORD_FRAME1 = "viking_sword_frame1.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME2 = "viking_sword_frame2.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME3 = "viking_sword_frame3.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME4 = "viking_sword_frame4.png";
+
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME1 = "viking_sword_shield_frame1.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME2 = "viking_sword_shield_frame2.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME3 = "viking_sword_shield_frame3.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME4 = "viking_sword_shield_frame4.png";
+
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
 
