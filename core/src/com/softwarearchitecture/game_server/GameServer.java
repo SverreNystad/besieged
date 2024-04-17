@@ -215,6 +215,7 @@ public class GameServer {
 
     private void handlePlayerAction(PlayerInput action) {
         // TODO: ADD PAUSE ACTION
+        System.out.println("Action: " + action.getCardType() + " x: " + action.getX() + " y: " + action.getY());
 
         // TODO: Check for player balance for buying card
         handleCardPlacement(action.getCardType(), action.getX(), action.getY());

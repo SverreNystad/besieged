@@ -3,8 +3,10 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
+import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
@@ -77,6 +79,35 @@ public class InGame extends State implements Observer {
             // Initialize the Village-entity
             initializeVillage();
         }
+        else {
+
+            Set<Entity> entities = ECSManager.getInstance().getEntities();
+            ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+            ComponentManager<ButtonComponent> buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
+            ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
+
+            for (Entity entity : entities) {
+                Optional<TileComponent> tileComponent = tileManager.getComponent(entity);
+                Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
+                Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
+                
+                if (spriteComponent.isPresent() && tileComponent.isPresent() && !buttonComponent.isPresent()) {
+                    Tile tile = tileComponent.get().getTile();
+                    SpriteComponent sprite = spriteComponent.get();
+
+                    Runnable callback = () -> {
+                        // Send action to server
+                        System.out.println("[CLIENT] Does action x:" + tile.getX()+ " y: " + tile.getY() + " card" + selectedCardType);
+                        PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getX(), tile.getY());
+                        defaultControllers.clientMessagingController.addAction(action);
+                    };
+
+                    ButtonComponent button = new ButtonComponent(new Vector2(0,0), sprite.getSizeUV(), ButtonEnum.TILE, 0, callback);
+                    entity.addComponent(ButtonComponent.class, button);
+                }
+            }
+        }
+
 
         // Buttons
         Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0, 1),
@@ -167,12 +198,6 @@ public class InGame extends State implements Observer {
                 Runnable callback = () -> {
                     // Do action client side
                     handleTileClick(finalI, finalJ);
-                    
-                    // Send action to server
-                    if (this.isMultiplayer) {
-                        PlayerInput action = new PlayerInput(yourId, selectedCardType, finalI, finalJ);
-                        defaultControllers.clientMessagingController.addAction(action);
-                    }
                 };
 
                 ButtonComponent buttonComponent = new ButtonComponent(position, size, ButtonEnum.TILE, 0, callback);
