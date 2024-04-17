@@ -1,5 +1,6 @@
 package com.softwarearchitecture.game_client.states;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,6 +40,7 @@ public class InGame extends State implements Observer {
     private Map gameMap;
     private String mapName;
     private CardType selectedCardType = null;
+    private List<Entity> cardButtonEntities = new ArrayList<>();
 
     protected InGame(Controllers defaultControllers, UUID yourId, String mapName) {
         super(defaultControllers, yourId);
@@ -102,7 +104,8 @@ public class InGame extends State implements Observer {
         HealthComponent healthComponent = new HealthComponent(1000);
         PlayerComponent playerComponent = new PlayerComponent(village.getId());
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        TextComponent villageHealthText = new TextComponent("Health: " + healthComponent.getHealth(), new Vector2(0.05f, 0.05f));
+        TextComponent villageHealthText = new TextComponent("Health: " + healthComponent.getHealth(),
+                new Vector2(0.05f, 0.05f));
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
         village.addComponent(HealthComponent.class, healthComponent);
         village.addComponent(PlayerComponent.class, playerComponent);
@@ -164,52 +167,72 @@ public class InGame extends State implements Observer {
     }
 
     private void createCardSelectionMenu() {
-        float menuYPosition = 0; // Bottom of the screen
+        float menuYPosition = -0.02f; // Bottom of the screen
         float menuHeight = 0.2f;
-        String menuBackgroundTexture = TexturePack.COLOR_WHITE;
+        String menuBackgroundTexture = TexturePack.BOARD;
 
         // Create menu background entity
         Entity menuBackground = new Entity();
-        SpriteComponent menuBackgroundSprite = new SpriteComponent(menuBackgroundTexture, new Vector2(1, menuHeight));
-        Vector2 position1 = new Vector2(0, menuYPosition);
-        PositionComponent menuBackgroundPosition = new PositionComponent(position1, 0);
+        SpriteComponent menuBackgroundSprite = new SpriteComponent(menuBackgroundTexture,
+                new Vector2(0.4f, menuHeight));
+        Vector2 position1 = new Vector2(0.58f, menuYPosition);
+        PositionComponent menuBackgroundPosition = new PositionComponent(position1, 2);
         menuBackground.addComponent(SpriteComponent.class, menuBackgroundSprite);
         menuBackground.addComponent(PositionComponent.class, menuBackgroundPosition);
         ECSManager.getInstance().addEntity(menuBackground);
 
         // Create buttons for each card type
-        float buttonWidth = 1.0f / CardType.values().length - 0.05f;
-        float buttonHeight = menuHeight - 0.1f;
+        float buttonWidth = 0.065f;
+        float buttonHeight = 0.185f;
+        float gap = 0.005f;
         for (CardType type : CardType.values()) {
-            Vector2 position2 = new Vector2(type.ordinal() * buttonWidth, menuYPosition);
+            Entity card = CardFactory.createCard(type, new Vector2(0, 0), false);
+            Vector2 position2 = new Vector2(0.61f + type.ordinal() * (buttonWidth + gap), menuYPosition - 0.065f);
             Vector2 size = new Vector2(buttonWidth, buttonHeight);
-            Entity button = createCardTypeButton(type, position2, size);
+            Entity button = createCardTypeButton(card, position2, size);
             ECSManager.getInstance().addEntity(button);
         }
     }
 
     // Method to create a button for a card type
-    private Entity createCardTypeButton(CardType cardType, Vector2 position, Vector2 size) {
+    private Entity createCardTypeButton(Entity cardEntity, Vector2 position, Vector2 size) {
         Entity buttonEntity = new Entity();
+        PositionComponent cardPosition = cardEntity.getComponent(PositionComponent.class).get();
+        cardPosition.position = position;
+        // Define the SpriteComponent for the button
 
-        // Define the PositionComponent for the button
-        PositionComponent buttonPositionComponent = new PositionComponent(position, 2);
+        // Get the texture from the card entity
+        SpriteComponent cardSprite = cardEntity.getComponent(SpriteComponent.class).get();
 
-        TextComponent buttonText = new TextComponent(cardType.name(), new Vector2(0.015f, 0.015f)); // Text centered
-                                                                                                    // within button
-        buttonText.setColor(new Vector3(0f, 0f, 0f)); // Set text color to black
+        // Increase the size of the sprite
+        Vector2 largerSize = new Vector2(size.x, size.y); // Increase the size by 50%
+        cardSprite.setSizeUV(largerSize);
 
         // Button component also has a callback now
         Runnable onButtonClick = () -> {
-            System.out.println("Selected card type: " + cardType.name());
-            selectedCardType = cardType;
-        };
-        ButtonComponent buttonComponent = new ButtonComponent(position, size, ButtonEnum.CARD, 1, onButtonClick);
+            System.out.println("Selected card: " + cardEntity.toString());
+            selectedCardType = cardEntity.getComponent(PlacedCardComponent.class).get().cardType;
 
-        // Add the PositionComponent to the button entity
-        buttonEntity.addComponent(PositionComponent.class, buttonPositionComponent);
-        buttonEntity.addComponent(TextComponent.class, buttonText);
+            // Reset the position of all other cards
+            for (Entity entity : cardButtonEntities) {
+                PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
+                positionComponent.position.y = -0.085f;
+
+            }
+
+            // Move the selected card up
+            cardPosition.position.y = -0.015f;
+
+        };
+
+        ButtonComponent buttonComponent = new ButtonComponent(position, largerSize, ButtonEnum.CARD, 10, onButtonClick);
+
+        // Add the PositionComponent and SpriteComponent to the button entity
+        buttonEntity.addComponent(PositionComponent.class, cardPosition);
+        buttonEntity.addComponent(SpriteComponent.class, cardSprite);
         buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
+
+        cardButtonEntities.add(buttonEntity);
 
         return buttonEntity;
     }
@@ -258,7 +281,7 @@ public class InGame extends State implements Observer {
                     placedCardComponent);
 
             // Create the card entity
-            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y));
+            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);

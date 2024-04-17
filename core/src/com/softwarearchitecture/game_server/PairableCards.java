@@ -12,7 +12,6 @@ public class PairableCards {
 
     static {
         pairableTowers.put(new Pair(CardType.MAGIC, CardType.FIRE), TowerType.FIRE_MAGIC);
-        pairableTowers.put(new Pair(CardType.MAGIC, CardType.ICE), TowerType.ICE_MAGIC);
         pairableTowers.put(new Pair(CardType.MAGIC, CardType.LIGHTNING), TowerType.TOR);
         pairableTowers.put(new Pair(CardType.MAGIC, CardType.MAGIC), TowerType.MAGIC);
         pairableTowers.put(new Pair(CardType.BOW, CardType.FIRE), TowerType.FIRE_BOW);
@@ -43,8 +42,10 @@ public class PairableCards {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
             Pair pair = (Pair) o;
             return (first == pair.first && second == pair.second);
         }
@@ -60,7 +61,6 @@ public class PairableCards {
         FIRE_BOW,
         SHARP_SHOOTER,
         MAGIC,
-        ICE_MAGIC,
         FIRE_MAGIC,
         TOR
     }
