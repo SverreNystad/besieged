@@ -18,7 +18,7 @@ public class ServerMessenger implements ServerMessagingController {
 
     private DAO<String, byte[]> gameDao;
     private DAO<String, UUID> pendingPlayerDao;
-    private DAO<String, PlayerInput> actionDao;
+    private DAO<UUID, PlayerInput> actionDao;
     
     private final String JOIN_PREFIX = "JOIN";
     private static final String GAME_PREFIX = "GAME";
@@ -26,7 +26,7 @@ public class ServerMessenger implements ServerMessagingController {
     public ServerMessenger() {
         gameDao = new DAOBuilder<String, byte[]>().build(String.class, byte[].class);
         pendingPlayerDao = new DAOBuilder<String, UUID>().build(String.class, UUID.class);
-        actionDao = new DAOBuilder<String, PlayerInput>().build(String.class, PlayerInput.class);
+        actionDao = new DAOBuilder<UUID, PlayerInput>().build(UUID.class, PlayerInput.class);
     }
 
     @Override
@@ -89,10 +89,9 @@ public class ServerMessenger implements ServerMessagingController {
     }
 
     @Override
-    public List<PlayerInput> lookForPendingActions(UUID gameId) {
-        String lookingActionId = createJoinGameId(gameId); 
+    public List<PlayerInput> lookForPendingActions(UUID playerId) {
         List<PlayerInput> actions = new ArrayList<>();
-        Optional<PlayerInput> action = actionDao.get(lookingActionId);
+        Optional<PlayerInput> action = actionDao.get(playerId);
         if (action.isPresent()) {
             actions.add(action.get());
         }
