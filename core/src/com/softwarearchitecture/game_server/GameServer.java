@@ -67,8 +67,8 @@ public class GameServer {
 
 
         messageController.setNewGameState(this.gameId, gameState);
-        System.out.println("[INFO] Player two has joined the game");
-        System.out.println("[INFO] Game is now full");
+        System.out.println("[SERVER] Player two has joined the game");
+        System.out.println("[SERVER] Game is now full");
 
         // TODO: Add relevant systems
         setupGame(mapName);
@@ -82,7 +82,7 @@ public class GameServer {
             // Process each pending player action.
             for (PlayerInput action : messageController.lookForPendingActions(gameId)) {
                 // Actions to process player inputs and update game state
-                System.out.println("[INFO] Processing player action: " + action.getAction());
+                System.out.println("[SERVER] Processing player action: " + action.getAction());
             }
 
             // Update all clients with the latest game state.
@@ -98,7 +98,7 @@ public class GameServer {
 
     private GameState hostGame(String mapName) {
         this.gameId = messageController.createGame(mapName);
-        System.out.println("Game created with ID: " + gameId);
+        System.out.println("[SERVER] Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
         if (messageController.getGameState(gameId).playerOne == null) {
             gameState.playerOne = new Entity();
@@ -119,11 +119,11 @@ public class GameServer {
         UUID playerTwoID = null;
         while (messageController.getGameState(gameId).playerTwo == null) {
             Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
-            System.out.println("[INFO] Looking for player two");
+            System.out.println("[SERVER] Looking for player two");
             if (!playerTwo.isPresent())
                 continue;
             playerTwoID = playerTwo.get();
-            System.out.println("[INFO] The player two joined with: " + playerTwo.get().toString());
+            System.out.println("[SERVER] The player two joined with: " + playerTwo.get().toString());
             break;
         }
         return playerTwoID;
