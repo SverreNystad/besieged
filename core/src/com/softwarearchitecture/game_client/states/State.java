@@ -37,7 +37,7 @@ public abstract class State {
 
     /**
      */
-    protected void lateActivate() {
+    public void lateActivate() {
         hasBeenLateActivated = true;
     }
  

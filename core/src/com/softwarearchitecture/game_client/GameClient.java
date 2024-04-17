@@ -33,6 +33,7 @@ public class GameClient {
             Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
                 game.get();
+                screenManager.lateActivateCurrentState();
                 // System.out.println("[CLIENT] Requested game gotten: " + game.get());
             }
         }
@@ -41,6 +42,7 @@ public class GameClient {
             Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
                 game.get();
+                screenManager.lateActivateCurrentState();
                 // System.out.println("[CLIENT] Requested game gotten: " + game.get());
             }
         }

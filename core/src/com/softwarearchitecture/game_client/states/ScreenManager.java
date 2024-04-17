@@ -53,4 +53,8 @@ public class ScreenManager {
     public UUID getGameId() {
         return this.gameId;
     }
+
+    public void lateActivateCurrentState() {
+        currentState.lateActivate();
+    }
 }
