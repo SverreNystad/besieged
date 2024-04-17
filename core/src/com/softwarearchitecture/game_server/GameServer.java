@@ -264,7 +264,7 @@ public class GameServer {
                     placedCardComponent);
 
             // Create the card entity
-            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y));
+            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
