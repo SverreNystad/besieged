@@ -55,6 +55,8 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_TOR_FRAME1);
                 textures.add(TexturePack.TOWER_TOR_FRAME2);
                 textures.add(TexturePack.TOWER_TOR_FRAME3);
+                textures.add(TexturePack.TOWER_TOR_FRAME2);
+                textures.add(TexturePack.TOWER_TOR_FRAME1);
                 damage = 7;
                 range = 3;
                 attackCooldown = 75;
@@ -64,6 +66,8 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_FRAME1);
                 textures.add(TexturePack.TOWER_MAGIC_FRAME2);
                 textures.add(TexturePack.TOWER_MAGIC_FRAME3);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME2);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME1);
                 damage = 8;
                 range = 3;
                 attackCooldown = 80;
