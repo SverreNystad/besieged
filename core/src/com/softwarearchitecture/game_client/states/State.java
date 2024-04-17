@@ -14,7 +14,6 @@ public abstract class State {
     protected List<Entity> buttons;
     protected Controllers defaultControllers;
     protected UUID yourId;
-    protected boolean hasBeenLateActivated = false;
 
     protected State(Controllers defaultControllers, UUID yourId) {
         this.defaultControllers = defaultControllers;
@@ -34,11 +33,4 @@ public abstract class State {
      * Activates the state, setting up the ECSManager and the buttons.
      */
     protected abstract void activate();
-
-    /**
-     */
-    public void lateActivate() {
-        hasBeenLateActivated = true;
-    }
- 
 }
