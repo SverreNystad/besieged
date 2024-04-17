@@ -35,7 +35,10 @@ public class AnimationSystem implements System {
             Optional<AnimationComponent> animationComponent = animationManager.getComponent(entity);
 
             if (spriteComponent.isPresent() && animationComponent.isPresent()) {
-                spriteComponent.get().texture_path = animationComponent.get().getAnimationPath();
+                SpriteComponent sprite = spriteComponent.get();
+                AnimationComponent animation = animationComponent.get();
+                sprite.texture_path = animation.getAnimationPath();
+                animation.nextFrame();
             }
         }
     }
