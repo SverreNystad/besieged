@@ -1,5 +1,7 @@
 package com.softwarearchitecture.ecs.systems;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ public class InputSystem implements System {
     private InputController inputController;
     private TouchLocation lastTouched;
     private TouchLocation lastReleased;
+    private List<Entity> toAdd = new ArrayList<>();
 
     public InputSystem(InputController inputController) {
         this.buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
@@ -36,18 +39,27 @@ public class InputSystem implements System {
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
+        List<ButtonComponent> buttonsPressed = new ArrayList<>();
         for (Entity entity : entities) {
             Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
             if (buttonComponent.isPresent()) {
                 ButtonComponent button = buttonComponent.get();
 
                 if (isButtonPressed(button)) {
-                    button.triggerAction();
+                    buttonsPressed.add(button);
+                    // button.triggerAction();
                 }
             }
         }
+        // Sort the buttons by z-index where the highest z-index is the first element
+        if (buttonsPressed.isEmpty()) return;
+
+        buttonsPressed.sort((b1, b2) -> b2.z_index - b1.z_index);
+        buttonsPressed.get(0).triggerAction();
+
         lastTouched = new TouchLocation(-1f, -1f);
         lastReleased = new TouchLocation(-1f, -1f);
+        entities.addAll(toAdd);
     }
 
     private boolean isButtonPressed(ButtonComponent buttonComponent) {

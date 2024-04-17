@@ -2,27 +2,27 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
-import com.softwarearchitecture.ecs.Controllers;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.components.ButtonComponent.TypeEnum;
+import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
-import com.softwarearchitecture.game_server.TexturePack;
+import com.softwarearchitecture.game_client.Controllers;
+import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
 
 public class HostLobby extends State implements Observer {
 
-    public HostLobby(Controllers defaultControllers) {
-        super(defaultControllers);
+    public HostLobby(Controllers defaultControllers, UUID yourId) {
+        super(defaultControllers, yourId);
     }
-    
+
     @Override
     protected void activate() {
         // Set background image
@@ -35,12 +35,13 @@ public class HostLobby extends State implements Observer {
         TextComponent textComponent = new TextComponent("Host lobby!", new Vector2(0.05f, 0.05f));
         background.addComponent(TextComponent.class, textComponent);
         ECSManager.getInstance().addEntity(background);
-    
+
         // Set up the UI elements
-        List<TypeEnum> buttonTypes = new ArrayList<>();
-        buttonTypes.add(TypeEnum.GAME_MENU);
+        List<ButtonEnum> buttonTypes = new ArrayList<>();
+        buttonTypes.add(ButtonEnum.GAME_MENU);
+        buttonTypes.add(ButtonEnum.PLAY);
         buttons = createButtons(buttonTypes);
-    
+
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(this.defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(this.defaultControllers.inputController);
@@ -56,7 +57,7 @@ public class HostLobby extends State implements Observer {
      * 
      */
     private List<Entity> createButtons(
-            List<TypeEnum> buttonTypes) {
+            List<ButtonEnum> buttonTypes) {
 
         int numberOfButtons = buttonTypes.size();
         Vector2 containerUVPosition = new Vector2(0, 0); // Position of the container in UV coordinates
@@ -85,14 +86,12 @@ public class HostLobby extends State implements Observer {
      * @param: type: ButtonType.
      */
     @Override
-    public void onAction(TypeEnum type) {
+    public void onAction(ButtonEnum type) {
         switch (type) {
             case GAME_MENU:
-                screenManager.nextState(new Menu(MenuEnum.MENU, defaultControllers));
+                screenManager.nextState(new Menu(defaultControllers, yourId));
                 break;
-            case PLAY:
-                screenManager.nextState(new InGame(defaultControllers));
-                break;
+           
             default:
                 break;
         }

@@ -5,16 +5,20 @@ import java.io.Serializable;
 public class TowerComponent implements Serializable {
 
     private int damage;
-    private int range;
+    private float range;
+    private int attackCooldown;
+    private float timeSinceLastAttack;
 
-    public TowerComponent(int damage, int range) {
-        if (damage >= 1 && range >= 1) {
+    public TowerComponent(int damage, float range, int attackCooldown) {
+        if (damage >= 1 && range >= 1 && attackCooldown >= 1) {
             this.damage = damage;
             this.range = range;
+            this.attackCooldown = attackCooldown;
         }
         else {
             this.damage = 1;
             this.range = 1;
+            this.attackCooldown = 1;
         }
     }
 
@@ -22,7 +26,7 @@ public class TowerComponent implements Serializable {
         return this.damage;
     }
 
-    public int getRange() {
+    public float getRange() {
         return this.range;
     }
 
@@ -42,5 +46,19 @@ public class TowerComponent implements Serializable {
         else {
             this.range = 1;
         }
+    }
+
+    public void updateTimeSinceLastAttack(float deltaTime) {
+        if (timeSinceLastAttack < attackCooldown) {
+            timeSinceLastAttack += deltaTime;
+        }
+    }
+
+    public boolean canAttack() {
+        return timeSinceLastAttack >= attackCooldown;
+    }
+
+    public void resetAttackTimer() {
+        timeSinceLastAttack = 0;
     }
 }

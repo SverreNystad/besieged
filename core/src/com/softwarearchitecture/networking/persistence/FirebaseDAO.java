@@ -1,16 +1,27 @@
 package com.softwarearchitecture.networking.persistence;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReference;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 public class FirebaseDAO<K, T> extends DAO<K, T> {
@@ -18,38 +29,76 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
     private final FirebaseDatabase database;
     private final Class<K> idParameterClass;
     private final Class<T> typeParameterClass;
-    private boolean create;
-    private boolean read;
-    private boolean update;
-    private boolean delete;
     private final Gson gson;
 
-    public FirebaseDAO(boolean create, boolean read, boolean update, boolean delete, Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
-        this.create = create;
-        this.read = read;
-        this.update = update;
-        this.delete = delete;
+    public FirebaseDAO(Class<K> idParameterClass, Class<T> typeParameterClass) throws FileNotFoundException, IOException {
         this.typeParameterClass = typeParameterClass;
         this.idParameterClass = idParameterClass;
         this.gson = new Gson();
-        
-        FileInputStream serviceAccount = new FileInputStream("../android/FirebaseSecretKey.json");
+       
+        FileHandle serviceHandle = Gdx.files.internal("FirebaseSecretKey.json");
+		String jsonString = serviceHandle.readString();
+
+        InputStream inputStream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
 
         FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setCredentials(GoogleCredentials.fromStream(inputStream))
                 .setDatabaseUrl("https://besieged-8b842-default-rtdb.europe-west1.firebasedatabase.app")
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options);
+        } else {
+            FirebaseApp.getInstance();
+        }
 
         this.database = FirebaseDatabase.getInstance();
     
     }
     
     @Override
-    public List<T> loadAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<K> loadAllIndices() {
+        try {
+            // Call the asynchronous loadAll method and wait for it to complete
+            return getAllIndices().join();  // This blocks the current thread until the future completes
+        } catch (Exception e) {
+            // Log the exception or handle it according to your error handling policy
+            System.err.println("Failed to load all entries: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
+
+    private CompletableFuture<List<K>> getAllIndices() {
+        // Define the path where your data keys are located
+        DatabaseReference ref = database.getReference("");
+        
+        // This will be used to store the result
+        CompletableFuture<List<K>> future = new CompletableFuture<>();
+        List<K> keyList = new ArrayList<>();
+
+        // Listen for a single snapshot of the data at this location
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Assume the keys are the node names at this path
+                    K key = gson.fromJson(snapshot.getKey(), idParameterClass);
+                    keyList.add(key);
+                }
+                // Complete the future with the loaded list of keys
+                future.complete(keyList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors
+                future.completeExceptionally(new Exception(databaseError.getMessage()));
+            }
+        });
+
+        return future;
+    }
+
 
     @Override
     public Optional<T> get(K id) {
@@ -101,7 +150,7 @@ public class FirebaseDAO<K, T> extends DAO<K, T> {
 
     @Override
     public boolean delete(K id) {
-        DatabaseReference ref = database.getReference("path/to/your/data/" + id);
+        DatabaseReference ref = database.getReference((String) id);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         ref.removeValue((databaseError, databaseReference) -> future.complete(databaseError == null));
 

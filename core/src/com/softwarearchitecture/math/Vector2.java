@@ -1,6 +1,8 @@
 package com.softwarearchitecture.math;
 
-public class Vector2 {
+import java.io.Serializable;
+
+public class Vector2 implements Serializable {
 
     public float x;
     public float y;
@@ -95,13 +97,5 @@ public class Vector2 {
         float x_d = x2 - x1;
         float y_d = y2 - y1;
         return (float) Math.sqrt(x_d * x_d + y_d * y_d);
-    }
-
-    public float x() {
-        return x;
-    }
-
-    public float y() {
-        return y;
     }
 }

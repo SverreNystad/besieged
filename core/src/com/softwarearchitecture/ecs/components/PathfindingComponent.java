@@ -1,32 +1,16 @@
 package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
-import java.util.Queue;
+import java.util.List;
 
-import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.game_server.Tile;
 
 public class PathfindingComponent implements Serializable {
-    public Queue<Vector2> path;
-    public Vector2 destination;  // You might want to add a destination for recalculating paths
+    public List<Tile> path;
+    public Tile targetTile;
 
-    public PathfindingComponent(Queue<Vector2> path, Vector2 destination) {
+    public PathfindingComponent(List<Tile> path) {
         this.path = path;
-        this.destination = destination;
-    }
-
-    public Queue<Vector2> getPath() {
-        return path;
-    }
-
-    public Vector2 getDestination() {
-        return destination;
-    }
-
-    public void setPath(Queue<Vector2> path) {
-        this.path = path;
-    }
-
-    public void setDestination(Vector2 destination) {
-        this.destination = destination;
+        this.targetTile = path.get(1);
     }
 }

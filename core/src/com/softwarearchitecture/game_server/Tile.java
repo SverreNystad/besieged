@@ -1,15 +1,16 @@
 package com.softwarearchitecture.game_server;
 
+import java.io.Serializable;
+
 import com.softwarearchitecture.ecs.Entity;
 
-public class Tile {
+public class Tile implements Serializable {
     private int x;
     private int y;
     private TileType type;
     private Entity card;
     private Entity tower;
     private String cardOrTowerTexturePath;
-    private Entity tileEntity; // TO BE REMOVED
 
     public Tile(int x, int y, TileType type) {
         this.x = x;
@@ -35,10 +36,6 @@ public class Tile {
         return tower;
     }
 
-    public Entity getEntity() {
-        return tileEntity;
-    }
-
     public Entity getCard() {
         return this.card;
     }
@@ -50,10 +47,6 @@ public class Tile {
     // Setters
     public void setTower(Entity tower) {
         this.tower = tower;
-    }
-
-    public void setEntity(Entity tileEntity) {
-        this.tileEntity = tileEntity;
     }
 
     public void setCard(Entity card) {

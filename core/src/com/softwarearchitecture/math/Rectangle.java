@@ -1,6 +1,8 @@
 package com.softwarearchitecture.math;
 
-public class Rectangle {
+import java.io.Serializable;
+
+public class Rectangle implements Serializable {
 
     public float x;
     public float y;
