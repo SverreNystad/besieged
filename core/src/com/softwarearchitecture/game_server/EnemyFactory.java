@@ -34,7 +34,6 @@ public class EnemyFactory {
         int damage = 1;
         int maxHealth = 0;
         String sound = "soundPath";
-        int money = 0;
 
         switch (enemyType) {
             case NORDIC_ANT:
@@ -48,7 +47,6 @@ public class EnemyFactory {
                 velocity.set(0.01f, 0.01f);
                 maxHealth = 10;
                 sound = "soundPath"; // TODO: Add the correct sound path
-                money = 1;
 
                 break;
             case WOLF:
@@ -56,10 +54,9 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_FENRIR2);
                 damage = 2;
                 size.set(0.075f, 0.075f);
-                velocity.set(0.02f, 0.02f);
+                velocity.set(0.2f, 0.2f);
                 maxHealth = 100;
                 sound = "soundPath"; // TODO: Add the correct sound path
-                money = 5;
 
                 break;
 
@@ -73,7 +70,6 @@ public class EnemyFactory {
         HealthComponent healthComponent = new HealthComponent(maxHealth);
         SoundComponent soundComponent = new SoundComponent(sound);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
-        CostComponent costComponent = new CostComponent(money);
         PathfindingComponent PathfindingComponent = new PathfindingComponent(enemyPath);
         // TODO: Add target component if necessary
 
@@ -85,7 +81,6 @@ public class EnemyFactory {
         enemyEntity.addComponent(HealthComponent.class, healthComponent);
         enemyEntity.addComponent(SoundComponent.class, soundComponent);
         enemyEntity.addComponent(VelocityComponent.class, velocityComponent);
-        enemyEntity.addComponent(CostComponent.class, costComponent);
         enemyEntity.addComponent(PathfindingComponent.class, PathfindingComponent);
 
         return enemyEntity;
