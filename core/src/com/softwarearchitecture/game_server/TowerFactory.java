@@ -42,6 +42,10 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_FRAME1);
                 textures.add(TexturePack.TOWER_FIRE_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_FRAME3);
+                textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME1);
+                textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME2);
+                textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME3);
+
                 damage = 4;
                 range = 2;
                 attackCooldown = 40;

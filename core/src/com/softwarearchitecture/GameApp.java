@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.game_client.GameClient;
 import com.softwarearchitecture.launcher.GameLauncher;
 
@@ -15,8 +16,9 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		Clock.getInstance();
 		camera = new OrthographicCamera();
-		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);	
+		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		gameClient = GameLauncher.createGameClient(this.camera, this.viewport);
 	}
 
@@ -33,6 +35,6 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		//gameClient.dispose();
+		// gameClient.dispose();
 	}
 }
