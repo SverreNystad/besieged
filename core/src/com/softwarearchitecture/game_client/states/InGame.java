@@ -9,6 +9,7 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.ecs.components.HealthComponent;
+import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
@@ -37,6 +38,7 @@ import com.softwarearchitecture.math.Vector3;
 public class InGame extends State implements Observer {
 
     private Map gameMap;
+    private Entity village;
     private String mapName;
     private CardType selectedCardType = null;
 
@@ -101,15 +103,20 @@ public class InGame extends State implements Observer {
         Entity village = new Entity();
         HealthComponent healthComponent = new HealthComponent(1000);
         PlayerComponent playerComponent = new PlayerComponent(village.getId());
+        MoneyComponent moneyComponent = new MoneyComponent(1000);
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        TextComponent villageHealthText = new TextComponent("Health: " + healthComponent.getHealth(), new Vector2(0.05f, 0.05f));
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
+        
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
         village.addComponent(HealthComponent.class, healthComponent);
         village.addComponent(PlayerComponent.class, playerComponent);
+        village.addComponent(MoneyComponent.class, moneyComponent);
         village.addComponent(PositionComponent.class, villagePosition);
         village.addComponent(TextComponent.class, villageHealthText);
-
+        
         ECSManager.getInstance().addEntity(village);
+        this.village = village;
     }
 
     private void initializeMapEntities(Map gameMap) {
@@ -262,7 +269,12 @@ public class InGame extends State implements Observer {
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
+
         }
+
+        // Decrement the players' MoneyComponent with the cost of the card
+        MoneyComponent playerBalance = village.getComponent(MoneyComponent.class).get();
+        // TODO: Add the correct cost for each card type
 
         // Reset the selected card type after placing a card
         selectedCardType = null;
