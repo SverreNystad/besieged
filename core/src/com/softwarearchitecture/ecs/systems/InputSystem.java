@@ -44,6 +44,7 @@ public class InputSystem implements System {
             Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
             if (buttonComponent.isPresent()) {
                 ButtonComponent button = buttonComponent.get();
+                java.lang.System.out.println("[CLIENT] The component pressed: " + button.type);
                 if (isButtonPressed(button)) {
                     buttonsPressed.add(button);
                     // button.triggerAction();
@@ -63,7 +64,6 @@ public class InputSystem implements System {
 
     private boolean isButtonPressed(ButtonComponent buttonComponent) {
         if (lastReleased == null) return false;
-        java.lang.System.out.println("Checking if button is pressed. Location: " + lastReleased.u + ", " + lastReleased.v + " Button: " + buttonComponent.uv_offset.x + ", " + buttonComponent.uv_offset.y + ", " + buttonComponent.uv_size.x + ", " + buttonComponent.uv_size.y);
         return lastReleased != null && lastReleased.u >= buttonComponent.uv_offset.x
                 && lastReleased.u <= buttonComponent.uv_offset.x + buttonComponent.uv_size.x
                 && lastReleased.v >= buttonComponent.uv_offset.y
