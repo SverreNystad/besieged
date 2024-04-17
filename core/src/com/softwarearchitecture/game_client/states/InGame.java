@@ -40,18 +40,57 @@ import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
 
 public class InGame extends State implements Observer {
-
+    
     private Map gameMap;
     private Entity village;
     private String mapName;
     private CardType selectedCardType = null;
     private boolean isMultiplayer;
     private List<Entity> cardButtonEntities = new ArrayList<>();
-
+    
     protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer) {
         super(defaultControllers, yourId);
         this.mapName = mapName;
         this.isMultiplayer = isMultiplayer;
+    }
+    
+    @Override
+    protected void lateActivate() {
+        if (this.hasBeenLateActivated) {
+            return;
+        }
+        if (!isMultiplayer) { 
+            return;
+        }
+        
+        this.hasBeenLateActivated = true;
+
+        Set<Entity> entities = ECSManager.getInstance().getEntities();
+        ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+        ComponentManager<ButtonComponent> buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
+        ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
+
+        for (Entity entity : entities) {
+            Optional<TileComponent> tileComponent = tileManager.getComponent(entity);
+            Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
+            Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
+            
+            if (spriteComponent.isPresent() && tileComponent.isPresent() && !buttonComponent.isPresent()) {
+                Tile tile = tileComponent.get().getTile();
+                SpriteComponent sprite = spriteComponent.get();
+
+                Runnable callback = () -> {
+                    // Send action to server
+                    System.out.println("[CLIENT] Does action x:" + tile.getX()+ " y: " + tile.getY() + " card" + selectedCardType);
+                    PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getX(), tile.getY());
+                    defaultControllers.clientMessagingController.addAction(action);
+                };
+
+                ButtonComponent button = new ButtonComponent(new Vector2(0,0), sprite.getSizeUV(), ButtonEnum.TILE, 0, callback);
+                entity.addComponent(ButtonComponent.class, button);
+            }
+        }
+
     }
 
     @Override
@@ -80,32 +119,6 @@ public class InGame extends State implements Observer {
             initializeVillage();
         }
         else {
-
-            Set<Entity> entities = ECSManager.getInstance().getEntities();
-            ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
-            ComponentManager<ButtonComponent> buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
-            ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
-
-            for (Entity entity : entities) {
-                Optional<TileComponent> tileComponent = tileManager.getComponent(entity);
-                Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
-                Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
-                
-                if (spriteComponent.isPresent() && tileComponent.isPresent() && !buttonComponent.isPresent()) {
-                    Tile tile = tileComponent.get().getTile();
-                    SpriteComponent sprite = spriteComponent.get();
-
-                    Runnable callback = () -> {
-                        // Send action to server
-                        System.out.println("[CLIENT] Does action x:" + tile.getX()+ " y: " + tile.getY() + " card" + selectedCardType);
-                        PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getX(), tile.getY());
-                        defaultControllers.clientMessagingController.addAction(action);
-                    };
-
-                    ButtonComponent button = new ButtonComponent(new Vector2(0,0), sprite.getSizeUV(), ButtonEnum.TILE, 0, callback);
-                    entity.addComponent(ButtonComponent.class, button);
-                }
-            }
         }
 
 
