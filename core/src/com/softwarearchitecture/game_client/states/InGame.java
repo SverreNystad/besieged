@@ -320,6 +320,12 @@ public class InGame extends State implements Observer {
             Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
 
             if (towerType.isPresent()) {
+                // Buy the card if the player can afford it
+                Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+                if (!buyCard(cardEntity)) {
+                    return;
+                }
+
                 // Remove the card thats already there
                 removeCardFromTile(tile, tileEntity);
 
@@ -329,27 +335,28 @@ public class InGame extends State implements Observer {
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
 
-                // Decrement the players' money with the cost of the tower
-                Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
-                buyCard(cardEntity);
+                
             }
         }
         // No card on tile, place card
         else {
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
+
+            // Create the card entity
+            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+
+            // Buy the card if the player can afford it
+            if (!buyCard(cardEntity)) {
+                return;
+            }
+            
             // Add a PlacedCardComponent the Tile-entity (to keep track of the cards' type)
             PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
             ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
                     placedCardComponent);
 
-            // Create the card entity
-            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
-
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
-
-            // Decrement the players' money with the cost of the card
-            buyCard(cardEntity);
         }
 
         // Reset the position of all other cards
@@ -389,16 +396,40 @@ public class InGame extends State implements Observer {
         tile.removeCard();
     }
 
-    private void buyCard(Entity cardEntity) {
+    public boolean buyCard(Entity cardEntity) {
         ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
         Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
         if (costComponent.isPresent()) {
             int playerBalance = village.getComponent(MoneyComponent.class).get().amount;
             int costOfCard = costComponent.get().getCost();
-            playerBalance -= costOfCard;
-            village.getComponent(MoneyComponent.class).get().amount = playerBalance;
+            if (playerBalance >= costOfCard) {
+                playerBalance -= costOfCard;
+                village.getComponent(MoneyComponent.class).get().amount = playerBalance;
+                updateTopRightCornerText();
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void updateTopRightCornerText() {
+        // Get the text-component of the village and update the health
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+        Optional<TextComponent> textComponent = textManager.getComponent(village);
+        Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
+        Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+        
+        if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
+            int villageHealth = healthComponent.get().getHealth();
+            int money = moneyComponent.get().amount;
+            String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
+            textComponent.get().text = textToDisplay;
         }
     }
+
 
     private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
         float padding = 0.05f; // 5% padding on each side
@@ -429,6 +460,7 @@ public class InGame extends State implements Observer {
         entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
         entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
     }
+
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
         float tileWidth = gameMap.getTileWidth();

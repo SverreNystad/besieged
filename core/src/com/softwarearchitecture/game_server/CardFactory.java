@@ -40,7 +40,7 @@ public class CardFactory {
                 } else {
                     texturePath = TexturePack.CARD_FIRE;
                 }
-                cost = 100;
+                cost = 200;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
@@ -50,7 +50,7 @@ public class CardFactory {
                 } else {
                     texturePath = TexturePack.CARD_TECHNOLOGY;
                 }
-                cost = 100;
+                cost = 1000;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
@@ -60,7 +60,7 @@ public class CardFactory {
                 } else {
                     texturePath = TexturePack.CARD_LIGHTNING;
                 }
-                cost = 500;
+                cost = 300;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
@@ -80,7 +80,7 @@ public class CardFactory {
                 } else {
                     texturePath = TexturePack.CARD_MAGIC;
                 }
-                cost = 100;
+                cost = 500;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
