@@ -88,7 +88,7 @@ public class EnemySystem implements System {
             }
         }
 
-        // Get tile size
+        // Get tile size so that enemies follow the path correctly
         Vector2 tileSize = new Vector2(0, 0);
         for (Entity entity : entities) {
             if (path == null) {
@@ -105,7 +105,8 @@ public class EnemySystem implements System {
                 continue;
             }
         }
-        /* For path not yet initialized escape early */
+
+        /* If the path is not initialized correctly escape early */
         if (path == null) {
             return;
         }
