@@ -92,8 +92,8 @@ public class AttackSystem implements System {
                     enemyHealth -= damage;
                     enemy.getComponent(HealthComponent.class).get().setHealth(enemyHealth);
                     towerComponent.resetAttackTimer();
-                    java.lang.System.out.println("Tower " + tower + " attacked enemy " + enemy);
-                    java.lang.System.out.println("Enemy now has " + enemyHealth + " health left");
+                    // java.lang.System.out.println("Tower " + tower + " attacked enemy " + enemy);
+                    // java.lang.System.out.println("Enemy now has " + enemyHealth + " health left");
                 } 
             }
         }

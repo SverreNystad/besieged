@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.google.type.Money;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
+import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -39,6 +39,7 @@ public class EnemySystem implements System {
     private ComponentManager<HealthComponent> healthManager;
     private ComponentManager<TextComponent> textManager;
     private ComponentManager<MoneyComponent> moneyManager;
+    private ComponentManager<EnemyComponent> enemyManager;
     private ComponentManager<PlayerComponent> playerManager;
     private int waveSize;
     private int monsterCounter;
@@ -51,6 +52,8 @@ public class EnemySystem implements System {
     private int maxLiveMonsters;
     private int villageDamage;
     private GraphicsController graphicsController;
+    private Entity village;
+    private boolean firstUpdate = true;
 
     public EnemySystem() {
         this.positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
@@ -62,6 +65,7 @@ public class EnemySystem implements System {
         this.moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
         this.textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
         this.playerManager = ECSManager.getInstance().getOrDefaultComponentManager(PlayerComponent.class);
+        this.enemyManager = ECSManager.getInstance().getOrDefaultComponentManager(EnemyComponent.class);
         this.waveSize = 10;
         this.monsterCounter = 0;
         this.waveNumber = 1;
@@ -74,7 +78,17 @@ public class EnemySystem implements System {
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
-        // Get tile size
+        // Set this.village to the village entity, but only once
+        if (firstUpdate == true) {
+            for (Entity entity : ECSManager.getInstance().getEntities()) {
+                if (playerManager.getComponent(entity).isPresent()) {
+                    this.village = entity;
+                    firstUpdate = false;
+                }
+            }
+        }
+
+        // Get tile size so that enemies follow the path correctly
         Vector2 tileSize = new Vector2(0, 0);
         for (Entity entity : entities) {
             if (path == null) {
@@ -91,7 +105,8 @@ public class EnemySystem implements System {
                 continue;
             }
         }
-        /* For path not yet initialized escape early */
+
+        /* If the path is not initialized correctly escape early */
         if (path == null) {
             return;
         }
@@ -101,6 +116,7 @@ public class EnemySystem implements System {
             Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
             Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
             Optional<HealthComponent> health = healthManager.getComponent(entity);
+            Optional<EnemyComponent> enemy = enemyManager.getComponent(entity);
 
             if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent() || !health.isPresent()) {
                 continue;
@@ -110,12 +126,9 @@ public class EnemySystem implements System {
             List<Tile> find = pathfinding.get().path;
             Tile nextTile = pathfinding.get().targetTile;
             int hp = health.get().getHealth();
-            float nextTilePos_x = nextTile.getX() * tileSize.x;
-            float nextTilePos_y = nextTile.getY() * tileSize.y;
-            Vector2 nextTilePos = new Vector2(nextTilePos_x, nextTilePos_y);
 
             // If the enemy has reached the end of the path, move it to the start to be
-            // spawned again
+            // spawned again and set villageDamage != 0 to damage the village
             if (nextTile.getType() == TileType.END) {
                 pathfinding.get().targetTile = find.get(0);
                 float startPosition_x = find.get(0).getX() * tileSize.x;
@@ -124,13 +137,16 @@ public class EnemySystem implements System {
                 health.get().setHealth(health.get().getMaxHealth());
                 monsterCounter++;
                 int remainingEnemyHealth = health.get().getHealth();
-                java.lang.System.out.println("RemainingEnemyHealth = " + remainingEnemyHealth);
                 this.villageDamage += remainingEnemyHealth;
-                java.lang.System.out.println("VillageDamage = " + villageDamage);
             } else if (hp <= 0) {
                 position.get().position = new Vector2(-1, -1);
                 velocity.get().velocity = new Vector2(0, 0);
                 liveMonsterCounter--;
+                boolean claimedReward = enemy.get().claimedReward;
+                if (!claimedReward) {
+                    awardPlayerMoney(entity);
+                    enemy.get().claimedReward = true;
+                }
             }
         }
 
@@ -184,29 +200,16 @@ public class EnemySystem implements System {
         if (waveTimer > 0) {
             waveTimer -= deltaTime;
         }
-        // If any enemies have gotten through, damage the village
+        // If any enemies have gotten through, damage the village (actually applies the
+        // damage here)
         if (villageDamage > 0) {
-            for (Entity entity : entities) {
-                // If an entity has both a player and health component, it is the village and
-                // should take damage
-                if (playerManager.getComponent(entity).isPresent() && healthManager.getComponent(entity).isPresent()) {
-                    // int remainingEnemyHealth =
-                    // healthManager.getComponent(entity).get().getHealth();
-                    int villageHealth = healthManager.getComponent(entity).get().getHealth();
-                    villageHealth -= villageDamage;
-                    healthManager.getComponent(entity).get().setHealth(villageHealth);
 
-                    // Get the text-component of the village and update the health
-                    Optional<TextComponent> textComponent = textManager.getComponent(entity);
-                    Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(entity);
-                    if (textComponent.isPresent() && moneyComponent.isPresent()) {
-                        int money = moneyComponent.get().amount;
-                        String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
-                        textComponent.get().text = textToDisplay;
-                    }
-                    villageDamage = 0;
-                }
-            }
+            int villageHealth = healthManager.getComponent(village).get().getHealth();
+            villageHealth -= villageDamage;
+            healthManager.getComponent(village).get().setHealth(villageHealth);
+
+            updateTopRightCornerText();
+            villageDamage = 0;
         }
         // Start the next wave
         if (monsterCounter >= waveSize && waveTimer <= 0) {
@@ -216,6 +219,34 @@ public class EnemySystem implements System {
             waveTimer = 60f;
             spawnTimer = 0f;
             maxLiveMonsters++;
+        }
+
+    }
+
+    public void awardPlayerMoney(Entity enemy) {
+        MoneyComponent balance = moneyManager.getComponent(village).get();
+        MoneyComponent reward = moneyManager.getComponent(enemy).get();
+        balance.amount += reward.amount;
+        updateTopRightCornerText();
+    }
+
+    public void updateTopRightCornerText() {
+        // Get the text-component of the village and update the health
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(MoneyComponent.class);
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(HealthComponent.class);
+        Optional<TextComponent> textComponent = textManager.getComponent(village);
+        Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
+        Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+
+        if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
+            int villageHealth = healthComponent.get().getHealth();
+            int money = moneyComponent.get().amount;
+            String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
+            textComponent.get().text = textToDisplay;
         }
     }
 
