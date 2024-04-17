@@ -30,10 +30,10 @@ public interface ServerMessagingController {
     public void setNewGameState(UUID gameId, GameState gameState);
 
     /**
-     * Add all the actions pending to be performed in the game with the given game ID.
+     * Add all the actions pending to be performed in the game for the given playerId.
      * @param gameId of the game to add the actions to
      */
-    public List<PlayerInput> lookForPendingActions(UUID gameId);
+    public List<PlayerInput> lookForPendingActions(UUID playerId);
 
     /**
      * Look for a pending player to join the game with the given game ID.

@@ -3,6 +3,7 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.ComponentManager;
@@ -33,6 +34,7 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.Map;
 import com.softwarearchitecture.game_server.MapFactory;
 import com.softwarearchitecture.game_server.PairableCards;
+import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TowerFactory;
@@ -40,44 +42,88 @@ import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
 
 public class InGame extends State implements Observer {
-
+    
     private Map gameMap;
     private Entity village;
     private String mapName;
     private CardType selectedCardType = null;
+    private boolean isMultiplayer;
     private List<Entity> cardButtonEntities = new ArrayList<>();
-
-    protected InGame(Controllers defaultControllers, UUID yourId, String mapName) {
+    
+    protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer) {
         super(defaultControllers, yourId);
         this.mapName = mapName;
+        this.isMultiplayer = isMultiplayer;
     }
 
     @Override
     protected void activate() {
-        // Background
-        String backgroundPath = TexturePack.BACKGROUND_TOR;
-        Entity background = new Entity();
-        SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
-        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
-        background.addComponent(SpriteComponent.class, backgroundSprite);
-        background.addComponent(PositionComponent.class, backgroundPosition);
-        ECSManager.getInstance().addEntity(background);
+        if (!isMultiplayer) {
+            // Background
+            String backgroundPath = TexturePack.BACKGROUND_TOR;
+            Entity background = new Entity();
+            SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
+            PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+            background.addComponent(SpriteComponent.class, backgroundSprite);
+            background.addComponent(PositionComponent.class, backgroundPosition);
+            ECSManager.getInstance().addEntity(background);
+
+            // Map and tiles
+            Map gameMap = MapFactory.createMap(mapName);
+            initializeMapEntities(gameMap);
+            this.gameMap = gameMap;
+            
+            EnemySystem EnemySystem = new EnemySystem();
+            AttackSystem attackSystem = new AttackSystem(gameMap);
+            ECSManager.getInstance().addSystem(EnemySystem);
+            ECSManager.getInstance().addSystem(attackSystem);
+            
+            // Initialize the Village-entity
+            initializeVillage();
+        } 
+        else {
+            // Make a button that covers the whole screen and sends a message to the server when clicked
+            Entity screenTouch = new Entity();
+            Runnable callback = () -> {
+                System.out.println("Screen touched at: " + defaultControllers.inputController.getLastReleaseLocation().u + ", " + defaultControllers.inputController.getLastReleaseLocation().v);
+                ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);  
+                ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+                ComponentManager<PositionComponent> positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
+    
+                Set<Entity> entities = ECSManager.getInstance().getEntities();
+                for (Entity entity : entities) {
+                    if (spriteManager.getComponent(entity).isPresent() && tileManager.getComponent(entity).isPresent() && positionManager.getComponent(entity).isPresent()) {
+                        SpriteComponent sprite = spriteManager.getComponent(entity).get();
+                        PositionComponent position = positionManager.getComponent(entity).get();
+                        TileComponent tile = tileManager.getComponent(entity).get();
+                        float u = defaultControllers.inputController.getLastReleaseLocation().u;
+                        float v = defaultControllers.inputController.getLastReleaseLocation().v;
+    
+                        if (position.position.x <= u && u <= position.position.x + sprite.size_uv.x && position.position.y <= v && v <= position.position.y + sprite.size_uv.y) {
+                            PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getTile().getX(), tile.getTile().getY());
+                            defaultControllers.clientMessagingController.addAction(action);
+                        }
+                    }
+                }
+            };
+
+            ButtonComponent button = new ButtonComponent(new Vector2(0,0), new Vector2(1,1), ButtonEnum.TILE, 0, callback);
+            screenTouch.addComponent(ButtonComponent.class, button);
+            ECSManager.getInstance().addEntity(screenTouch);
+            System.out.println("Added screen touch button");
+        }
+
 
         // Buttons
         Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0, 1),
                 new Vector2(0.1f, 0.2f), this, 0);
         ECSManager.getInstance().addEntity(backButton);
 
-        // Map and tiles
-        Map gameMap = MapFactory.createMap(mapName);
-        initializeMapEntities(gameMap);
-        this.gameMap = gameMap;
 
+        // TODO: Check if multiplayer and add multiplayer-specific button functionality
         // Card selection menu
         createCardSelectionMenu();
 
-        // Initialize the Village-entity
-        initializeVillage();
 
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
@@ -163,6 +209,7 @@ public class InGame extends State implements Observer {
 
                 // Create the callback-function for the button
                 Runnable callback = () -> {
+                    // Do action client side
                     handleTileClick(finalI, finalJ);
                 };
 
@@ -262,6 +309,7 @@ public class InGame extends State implements Observer {
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
+        
 
         // Card already placed, place tower
         if (tile.hasCard()) {

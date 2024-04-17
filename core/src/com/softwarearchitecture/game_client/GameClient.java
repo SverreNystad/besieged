@@ -1,10 +1,15 @@
 package com.softwarearchitecture.game_client;
 
+import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
+import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.ScreenManager;
+import com.softwarearchitecture.game_server.GameState;
 
 public class GameClient {
     private ScreenManager screenManager;
@@ -28,11 +33,31 @@ public class GameClient {
         UUID gameId = null;
         if (screenManager.getGameId() != null) {
             gameId = screenManager.getGameId();
-            defaultControllers.clientMessagingController.requestGameState(gameId);
+            Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
+            if (game.isPresent()) {
+                removePlacedCardsFromScreen();
+                game.get();
+                // System.out.println("[CLIENT] Requested game gotten: " + game.get());
+            }
         }
         if (defaultControllers.gameServer.getGameId() != null) {
             gameId = defaultControllers.gameServer.getGameId();
-            defaultControllers.clientMessagingController.requestGameState(gameId);
+            Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
+            if (game.isPresent()) {
+                removePlacedCardsFromScreen();
+                game.get();
+                // System.out.println("[CLIENT] Requested game gotten: " + game.get());
+            }
+        }
+        // System.out.println("[CLIENT] Entities " + ECSManager.getInstance().getEntities().size());
+    }
+
+    private void removePlacedCardsFromScreen() {
+        ComponentManager<PlacedCardComponent> placedCardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
+        for (Entity entity : ECSManager.getInstance().getEntities()) {
+            if (placedCardManager.getComponent(entity).isPresent()) {
+                ECSManager.getInstance().removeEntity(entity);
+            }
         }
     }
 }

@@ -33,5 +33,4 @@ public abstract class State {
      * Activates the state, setting up the ECSManager and the buttons.
      */
     protected abstract void activate();
- 
 }
