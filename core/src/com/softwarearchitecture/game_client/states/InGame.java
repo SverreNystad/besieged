@@ -287,6 +287,13 @@ public class InGame extends State implements Observer {
             updateTileWithCard(tile, tileEntity, cardEntity);
         }
 
+        // Reset the position of all other cards
+        for (Entity entity : cardButtonEntities) {
+            PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
+            positionComponent.position.y = -0.085f;
+
+        }
+
         // Reset the selected card type after placing a card
         selectedCardType = null;
     }
