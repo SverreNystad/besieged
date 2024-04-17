@@ -91,6 +91,11 @@ public class TexturePack {
     public static final String TOWER_BOW_LIGHNING_FRAME3 = "bow_lightning_frame3.png";
     public static final String TOWER_BOW_LIGHNING_FRAME4 = "bow_lightning_frame4.png";
 
+    public static final String TOWER_MAGIC_TECH_FRAME1 = "magic_tech_frame1.png";
+    public static final String TOWER_MAGIC_TECH_FRAME2 = "magic_tech_frame2.png";
+    public static final String TOWER_MAGIC_TECH_FRAME3 = "magic_tech_frame3.png";
+    public static final String TOWER_MAGIC_TECH_FRAME4 = "magic_tech_frame4.png";
+
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
     public static final String ENEMY_ANT_FRAME2 = "ant_frame2.png";
