@@ -15,15 +15,14 @@ import com.softwarearchitecture.math.Vector2;
 public class CardFactory {
 
     public enum CardType {
-        ICE,
-        FIRE,
-        TECHNOLOGY,
-        LIGHTNING,
         BOW,
-        MAGIC
+        FIRE,
+        LIGHTNING,
+        MAGIC,
+        TECHNOLOGY,
     }
 
-    public static Entity createCard(CardType type, Vector2 position) throws NullPointerException {
+    public static Entity createCard(CardType type, Vector2 position, boolean placed) throws NullPointerException {
         if (type == null) {
             throw new IllegalArgumentException("Card type cannot be null");
         }
@@ -33,38 +32,53 @@ public class CardFactory {
         String sound = "soundPath";
 
         switch (type) {
-            case ICE:
-                texturePath = TexturePack.CARD_ICE;
-                cost = 100;
-                sound = AudioPack.JENS; // TODO: Add the correct sound path
-                break;
 
             case FIRE:
-                texturePath = TexturePack.CARD_FIRE;
+                if (placed) {
+                    texturePath = TexturePack.CARD_FIRE_PLACED;
+                } else {
+                    texturePath = TexturePack.CARD_FIRE;
+                }
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case TECHNOLOGY:
-                texturePath = TexturePack.CARD_TECHNOLOGY;
+                if (placed) {
+                    texturePath = TexturePack.CARD_TECHNOLOGY_PLACED;
+                } else {
+                    texturePath = TexturePack.CARD_TECHNOLOGY;
+                }
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case LIGHTNING:
-                texturePath = TexturePack.CARD_LIGHTNING;
+                if (placed) {
+                    texturePath = TexturePack.CARD_LIGHTNING_PLACED;
+                } else {
+                    texturePath = TexturePack.CARD_LIGHTNING;
+                }
                 cost = 500;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case BOW:
-                texturePath = TexturePack.CARD_BOW;
+                if (placed) {
+                    texturePath = TexturePack.CARD_BOW_PLACED;
+                } else {
+                    texturePath = TexturePack.CARD_BOW;
+                }
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
 
             case MAGIC:
-                texturePath = TexturePack.CARD_MAGIC;
+                if (placed) {
+                    texturePath = TexturePack.CARD_MAGIC_PLACED;
+                } else {
+                    texturePath = TexturePack.CARD_MAGIC;
+                }
                 cost = 100;
                 sound = AudioPack.JENS; // TODO: Add the correct sound path
                 break;
@@ -74,7 +88,7 @@ public class CardFactory {
         }
 
         PlacedCardComponent placedCardComponent = new PlacedCardComponent(type);
-        PositionComponent positionComponent = new PositionComponent(position, 10);
+        PositionComponent positionComponent = new PositionComponent(position, 20);
         SpriteComponent spriteComponent = new SpriteComponent(texturePath, size);
         SoundComponent soundComponent = new SoundComponent(sound);
         MoneyComponent moneyComponent = new MoneyComponent(cost);

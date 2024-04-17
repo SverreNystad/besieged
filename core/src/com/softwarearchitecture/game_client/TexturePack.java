@@ -17,14 +17,6 @@ public class TexturePack {
     // Previews of maps
     public static final String PREVIEW_ABYSS = "besieged_abyss_map.png";
 
-    // Map-textures
-    public static final String placeableTexture = "grass.png";
-    public static final String pathTexture = "road.jpg";
-    public static final String waterTexture = "water.jpg";
-    public static final String rockTexture = "rock.png";
-    public static final String treeTexture = "tree.png";
-    public static final String defaultTexture = "chad.jpg";
-
     // Tiles
     public static final String PLACEABLE = "grass.png";
     public static final String PATH = "road.jpg";
@@ -58,15 +50,15 @@ public class TexturePack {
     // Overlays
     public static final String SIGN = "gui/overlay/sign.png";
     public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
+    public static final String BOARD = "gui/overlay/board.png";
 
     // Cards
-    public static final String CARD_ICE = "chad.jpg";
-    public static final String CARD_FIRE = "cards/flame_placed.png";
-    public static final String CARD_TECHNOLOGY = "cards/technology_placed.png";
-    public static final String CARD_LIGHTNING = "cards/lightning_placed.png";
-    public static final String CARD_BOW = "cards/bow_placed.png";
-    public static final String CARD_MAGIC = "cards/magic_placed.png";
-    public static final String CARD_FIRE_PLACED = "cards/flame_placed.png";
+    public static final String CARD_FIRE = "cards/fire_card.png";
+    public static final String CARD_TECHNOLOGY = "cards/technology_card.png";
+    public static final String CARD_LIGHTNING = "cards/lightning_card.png";
+    public static final String CARD_BOW = "cards/bow_card.png";
+    public static final String CARD_MAGIC = "cards/magic_card.png";
+    public static final String CARD_FIRE_PLACED = "cards/fire_placed.png";
     public static final String CARD_TECHNOLOGY_PLACED = "cards/technology_placed.png";
     public static final String CARD_LIGHTNING_PLACED = "cards/lightning_placed.png";
     public static final String CARD_BOW_PLACED = "cards/bow_placed.png";
