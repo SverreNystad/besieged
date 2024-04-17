@@ -79,6 +79,7 @@ public class InGame extends State implements Observer {
                 Tile tile = tileComponent.get().getTile();
                 SpriteComponent sprite = spriteComponent.get();
                 
+                System.out.println("[CLIENT] Adding button to tile x:" + tile.getX() + " y: " + tile.getY() + " card" + selectedCardType);
                 Runnable callback = () -> {
                     // Send action to server
                     System.out.println("[CLIENT] Does action x:" + tile.getX()+ " y: " + tile.getY() + " card" + selectedCardType);
@@ -88,6 +89,7 @@ public class InGame extends State implements Observer {
 
                 ButtonComponent button = new ButtonComponent(new Vector2(0,0), sprite.getSizeUV(), ButtonEnum.TILE, 0, callback);
                 entity.addComponent(ButtonComponent.class, button);
+                ECSManager.getInstance().addEntity(entity);
             }
         }
 
@@ -117,8 +119,6 @@ public class InGame extends State implements Observer {
             
             // Initialize the Village-entity
             initializeVillage();
-        }
-        else {
         }
 
 
