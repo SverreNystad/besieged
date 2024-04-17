@@ -109,14 +109,14 @@ public class InGame extends State implements Observer {
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
         String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
-        
+
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
         village.addComponent(HealthComponent.class, healthComponent);
         village.addComponent(PlayerComponent.class, playerComponent);
         village.addComponent(MoneyComponent.class, moneyComponent);
         village.addComponent(PositionComponent.class, villagePosition);
         village.addComponent(TextComponent.class, villageHealthText);
-        
+
         ECSManager.getInstance().addEntity(village);
         this.village = village;
     }
@@ -294,6 +294,12 @@ public class InGame extends State implements Observer {
 
         }
 
+        // Reset the position of all other cards
+        for (Entity entity : cardButtonEntities) {
+            PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
+            positionComponent.position.y = -0.085f;
+
+        }
         // Decrement the players' MoneyComponent with the cost of the card
         MoneyComponent playerBalance = village.getComponent(MoneyComponent.class).get();
         // TODO: Add the correct cost for each card type
