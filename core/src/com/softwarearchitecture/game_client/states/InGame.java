@@ -54,47 +54,6 @@ public class InGame extends State implements Observer {
         this.mapName = mapName;
         this.isMultiplayer = isMultiplayer;
     }
-    
-    @Override
-    public void lateActivate() {
-        if (this.hasBeenLateActivated) {
-            return;
-        }
-        if (!isMultiplayer) { 
-            return;
-        }
-        
-        
-        Set<Entity> entities = ECSManager.getInstance().getEntities();
-        ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
-        ComponentManager<ButtonComponent> buttonManager = ECSManager.getInstance().getOrDefaultComponentManager(ButtonComponent.class);
-        ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
-        
-        for (Entity entity : entities) {
-            Optional<TileComponent> tileComponent = tileManager.getComponent(entity);
-            Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
-            Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
-            
-            if (spriteComponent.isPresent() && tileComponent.isPresent() && !buttonComponent.isPresent()) {
-                this.hasBeenLateActivated = true;
-                Tile tile = tileComponent.get().getTile();
-                SpriteComponent sprite = spriteComponent.get();
-                
-                System.out.println("[CLIENT] Adding button to tile x:" + tile.getX() + " y: " + tile.getY() + " card" + selectedCardType);
-                Runnable callback = () -> {
-                    // Send action to server
-                    System.out.println("[CLIENT] Does action x:" + tile.getX()+ " y: " + tile.getY() + " card" + selectedCardType);
-                    PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getX(), tile.getY());
-                    defaultControllers.clientMessagingController.addAction(action);
-                };
-
-                ButtonComponent button = new ButtonComponent(new Vector2(0,0), sprite.getSizeUV(), ButtonEnum.TILE, 0, callback);
-                entity.addComponent(ButtonComponent.class, button);
-                ECSManager.getInstance().addEntity(entity);
-            }
-        }
-
-    }
 
     @Override
     protected void activate() {
@@ -120,6 +79,14 @@ public class InGame extends State implements Observer {
             
             // Initialize the Village-entity
             initializeVillage();
+        } else {
+            Entity screenTouch = new Entity();
+            ButtonComponent button = new ButtonComponent(new Vector2(0,0), new Vector2(1,1), ButtonEnum.TILE, 0, () -> {
+                System.out.println("Screen touched at: " + defaultControllers.inputController.getLastReleaseLocation().u + ", " + defaultControllers.inputController.getLastReleaseLocation().v);
+            });
+            screenTouch.addComponent(ButtonComponent.class, button);
+            ECSManager.getInstance().addEntity(screenTouch);
+            System.out.println("Added screen touch button");
         }
 
 

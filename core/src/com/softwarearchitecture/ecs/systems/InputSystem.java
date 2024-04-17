@@ -44,7 +44,6 @@ public class InputSystem implements System {
             Optional<ButtonComponent> buttonComponent = buttonManager.getComponent(entity);
             if (buttonComponent.isPresent()) {
                 ButtonComponent button = buttonComponent.get();
-                java.lang.System.out.println("[CLIENT] The component pressed: " + button.type);
                 if (isButtonPressed(button)) {
                     buttonsPressed.add(button);
                     // button.triggerAction();
