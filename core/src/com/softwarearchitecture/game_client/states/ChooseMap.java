@@ -125,7 +125,7 @@ public class ChooseMap extends State implements Observer {
             startServer(map);
         }
 
-        screenManager.nextState(new InGame(defaultControllers, yourId, map));
+        screenManager.nextState(new InGame(defaultControllers, yourId, map, isHost));
     }
 
     private void startServer(String mapName) {

@@ -1,8 +1,10 @@
 package com.softwarearchitecture.ecs.components;
 
+import java.io.Serializable;
+
 import com.softwarearchitecture.game_server.Tile;
 
-public class TileComponent {
+public class TileComponent implements Serializable {
     private Tile tile;
 
     public TileComponent(Tile tile) {

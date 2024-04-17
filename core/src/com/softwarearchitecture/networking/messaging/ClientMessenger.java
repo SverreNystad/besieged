@@ -15,7 +15,7 @@ import com.softwarearchitecture.networking.persistence.DAOBuilder;
 public class ClientMessenger implements ClientMessagingController {
 
     private DAO<String, byte[]> gameDAO;
-    private DAO<UUID, String> actionDAO;
+    private DAO<UUID, PlayerInput> actionDAO;
     private DAO<String, UUID> joinPlayerDAO;
     private DAO<String, String> gamesDAO;
 
@@ -25,7 +25,7 @@ public class ClientMessenger implements ClientMessagingController {
 
     public ClientMessenger() {
         this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
-        this.actionDAO = new DAOBuilder().build(UUID.class, String.class);
+        this.actionDAO = new DAOBuilder().build(UUID.class, PlayerInput.class);
         this.joinPlayerDAO = new DAOBuilder().build(String.class, UUID.class);
         this.gamesDAO = new DAOBuilder().build(String.class, String.class);
     }
@@ -110,6 +110,6 @@ public class ClientMessenger implements ClientMessagingController {
 
     @Override
     public void addAction(PlayerInput action) {
-        actionDAO.add(action.getPlayerID(), action.getAction());
+        actionDAO.add(action.getPlayerId(), action);
     }
 }

@@ -29,6 +29,7 @@ import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
+import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
@@ -90,6 +91,8 @@ public class GameState implements Externalizable {
         serializeComponent(out, CostComponent.class);
         // Pathfinding
         serializeComponent(out, PathfindingComponent.class);
+        // Tile
+        serializeComponent(out, TileComponent.class);
     }
 
     private <T> void serializeComponent(ObjectOutput out, Class<T> componentClass) throws IOException {
@@ -156,11 +159,12 @@ public class GameState implements Externalizable {
         deserializeComponent(in, CostComponent.class);
         // Pathfinding
         deserializeComponent(in, PathfindingComponent.class);
+        // Tile
+        deserializeComponent(in, TileComponent.class);
     }
 
     private void deserializePlayers(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
-        ComponentManager<PlayerComponent> playerManager = manager.getOrDefaultComponentManager(PlayerComponent.class);
         Object readObject = in.readObject();
         if (!(readObject instanceof Entity)) {
             System.out.println(readObject);
@@ -204,6 +208,7 @@ public class GameState implements Externalizable {
             Entity entity = (Entity) entities.get(i);
             T component = componentClass.cast(components.get(i));
             componentManager.addComponent(entity, component);
+            manager.addEntity(entity);
         }
     }    
 
