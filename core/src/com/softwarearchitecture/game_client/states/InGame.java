@@ -11,6 +11,7 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
+import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -302,6 +303,7 @@ public class InGame extends State implements Observer {
         System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
         Tile tile = gameMap.getMapLayout()[x][y];
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
+        CardType existingCardType = null;
         if (tileEntity == null)
             return; // Exit if there is no entity for this tile
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
@@ -314,22 +316,22 @@ public class InGame extends State implements Observer {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
             PlacedCardComponent existingCardComponent = ECSManager.getInstance()
                     .getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
-            CardType existingCardType = existingCardComponent.cardType;
+            existingCardType = existingCardComponent.cardType;
             Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
 
             if (towerType.isPresent()) {
                 // Remove the card thats already there
-                ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
-                        .removeComponent(tileEntity);
-                Entity card = tile.getCard();
-                ECSManager.getInstance().removeEntity(card);
-                tile.removeCard();
+                removeCardFromTile(tile, tileEntity);
 
                 // Create the tower entity
                 Entity towerEntity = TowerFactory.createTower(selectedCardType, existingCardType, new Vector2(x, y));
 
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
+
+                // Decrement the players' money with the cost of the tower
+                Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+                buyCard(cardEntity);
             }
         }
         // No card on tile, place card
@@ -346,6 +348,8 @@ public class InGame extends State implements Observer {
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
 
+            // Decrement the players' money with the cost of the card
+            buyCard(cardEntity);
         }
 
         // Reset the position of all other cards
@@ -354,9 +358,6 @@ public class InGame extends State implements Observer {
             positionComponent.position.y = -0.085f;
 
         }
-        // Decrement the players' MoneyComponent with the cost of the card
-        MoneyComponent playerBalance = village.getComponent(MoneyComponent.class).get();
-        // TODO: Add the correct cost for each card type
 
         // Reset the selected card type after placing a card
         selectedCardType = null;
@@ -377,6 +378,25 @@ public class InGame extends State implements Observer {
             tile.setTower(towerEntity);
 
             ECSManager.getInstance().addEntity(towerEntity);
+        }
+    }
+
+    private void removeCardFromTile(Tile tile, Entity tileEntity) {
+        ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
+                        .removeComponent(tileEntity);
+        Entity card = tile.getCard();
+        ECSManager.getInstance().removeEntity(card);
+        tile.removeCard();
+    }
+
+    private void buyCard(Entity cardEntity) {
+        ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
+        Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
+        if (costComponent.isPresent()) {
+            int playerBalance = village.getComponent(MoneyComponent.class).get().amount;
+            int costOfCard = costComponent.get().getCost();
+            playerBalance -= costOfCard;
+            village.getComponent(MoneyComponent.class).get().amount = playerBalance;
         }
     }
 
