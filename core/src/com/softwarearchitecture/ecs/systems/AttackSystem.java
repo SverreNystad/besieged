@@ -3,12 +3,12 @@ package com.softwarearchitecture.ecs.systems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-import com.softwarearchitecture.ecs.ComponentManager;
-import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
+import com.softwarearchitecture.ecs.components.AreaOfAffectComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
@@ -69,7 +69,21 @@ public class AttackSystem implements System {
             int damage = towerComponent.getDamage();
             Vector2 uvDistance = convertRangeToUVDistance(range);
 
+            Optional<AreaOfAffectComponent> areaOfAffectComponent = tower.getComponent(AreaOfAffectComponent.class);
+            if (areaOfAffectComponent.isPresent()) {
+                // If the tower has an area of affect, attack all enemies within the range
+                for (Entity enemy : enemies) {
+                    Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
+                    float distance = Vector2.dst(towerPosition, enemyPosition);
+                    if (distance <= uvDistance.len()) {
+                        attackEnemy(enemy, damage);
+                    }
+                }
+                towerComponent.resetAttackTimer();
+                continue; // Skip to next tower
+            }
             // Check if the tower is already attacking an enemy and if that enemy is still in range
+            
             if (activeAttacks.containsKey(tower)) {
                 Entity currentEnemy = activeAttacks.get(tower);
                 if (currentEnemy != null && entities.contains(currentEnemy)) {
