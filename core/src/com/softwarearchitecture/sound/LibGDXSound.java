@@ -51,10 +51,11 @@ public class LibGDXSound implements SoundController {
         long id;
         if (soundComponent.loop) {
             id = sound.loop(((float) this.volume) / 100f); // Start looping the sound
+            soundPlaying.put(id, true);
         } else {
-            id = sound.play(((float) this.volume) / 100f); // Play sound once
+            sound.play(((float) this.volume) / 100f); // Play sound once
         }
-        soundPlaying.put(id, true);
+        
     }
 
     public void playBackgroundMusic(SoundComponent soundComponent) {
