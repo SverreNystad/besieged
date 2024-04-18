@@ -289,20 +289,13 @@ public class GameServer {
     }
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
-        float tileWidth = gameMap.getTileWidth();
-        float tileHeight = gameMap.getTileHeight();
-
         for (Entity entity : ECSManager.getInstance().getEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent()
                     && entity.getComponent(PositionComponent.class).isPresent()) {
-                PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
-                // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
-
-                if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
+                Tile tile = entity.getComponent(TileComponent.class).get().getTile();
+                
+                if (tile.getX() == (int) tilePosition.x && tile.getY() == (int) tilePosition.y) {
                     return entity;
-
                 }
             }
         }

@@ -478,21 +478,14 @@ public class InGame extends State implements Observer, GameOverObserver {
     }
 
 
-private Entity getTileEntityByPosition(Vector2 tilePosition) {
-        float tileWidth = gameMap.getTileWidth();
-        float tileHeight = gameMap.getTileHeight();
-
+    private Entity getTileEntityByPosition(Vector2 tilePosition) {
         for (Entity entity : ECSManager.getInstance().getEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent()
                     && entity.getComponent(PositionComponent.class).isPresent()) {
-                PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
-                // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) Math.round((positionComponent.getPosition().x / tileWidth));
-                int yCoord = (int) Math.round(positionComponent.getPosition().y / tileHeight);
-
-                if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
+                Tile tile = entity.getComponent(TileComponent.class).get().getTile();
+                
+                if (tile.getX() == (int) tilePosition.x && tile.getY() == (int) tilePosition.y) {
                     return entity;
-
                 }
             }
         }
