@@ -10,8 +10,10 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.softwarearchitecture.ecs.Card;
@@ -56,7 +58,6 @@ public class GameState implements Externalizable {
     );
 
     public static final String game_version = "0.1";
-    public Entity village = new Entity();
     public UUID gameID;
     public Entity playerOne;
     public Entity playerTwo;
@@ -75,6 +76,8 @@ public class GameState implements Externalizable {
         // Map
         out.writeObject(mapName);
 
+        // All Entities
+        out.writeObject(ECSManager.getInstance().getLocalEntities());
         // Player components
         serializeComponent(out, PlayerComponent.class);
         // Position
@@ -102,7 +105,7 @@ public class GameState implements Externalizable {
         ComponentManager<T> componentManager = manager.getOrDefaultComponentManager(componentClass);
         ArrayList<Entity> entities = new ArrayList<>();
         ArrayList<T> components = new ArrayList<>();
-        for (Entity entity : manager.getEntities()) {
+        for (Entity entity : manager.getLocalEntities()) {
             Optional<T> component = componentManager.getComponent(entity);
             if (component.isPresent()) {
                 entities.add(entity);
@@ -145,7 +148,9 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Map name must be a string");
         }
         mapName = (String) readObject;
-
+        
+        // All Entities
+        deserializeRemoteEntities(in);
         // Player components
         deserializeComponent(in, PlayerComponent.class);
         // Position
@@ -168,6 +173,31 @@ public class GameState implements Externalizable {
         deserializeComponent(in, PlacedCardComponent.class);
     }
 
+    private void deserializeRemoteEntities(ObjectInput in) throws ClassNotFoundException, IOException {
+        Set<?> entities = (Set<?>) in.readObject();
+        if (entities == null) {
+            throw new IllegalStateException("Entities must be a set");
+        }
+        for (Object entity : entities) {
+            if (!(entity instanceof Entity)) {
+                throw new IllegalStateException("Entity must be an entity");
+            }
+        }
+        @SuppressWarnings("unchecked")
+        Set<Entity> remoteEntities = (HashSet<Entity>) entities;
+        Set<Entity> entitiesToRemove = new HashSet<Entity>();
+        for (Entity entity : ECSManager.getInstance().getRemoteEntities()) {
+            if (!remoteEntities.contains(entity)) {
+                entitiesToRemove.add(entity);
+            }
+        }
+        for (Entity entity : entitiesToRemove) {
+            System.out.println("[SERVER] Removing entity: " + entity.getId());
+            ECSManager.getInstance().removeRemoteEntity(entity);
+            ECSManager.getInstance().removeLocalEntity(entity);
+        }
+    }
+
     private void deserializePlayers(ObjectInput in) throws IOException, ClassNotFoundException {
         ECSManager manager = ECSManager.getInstance();
         Object readObject = in.readObject();
@@ -176,7 +206,7 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Player one must be an entity");
         }
         playerOne = (Entity) readObject;
-        manager.addEntity(playerOne);
+        manager.addRemoteEntity(playerOne);
         
         // Check for player two
         readObject = in.readObject();
@@ -184,7 +214,7 @@ public class GameState implements Externalizable {
             return;
         }
         playerTwo = (Entity) readObject;
-        manager.addEntity(playerTwo);
+        manager.addRemoteEntity(playerTwo);
     }
     
     private <T> void deserializeComponent(ObjectInput in, Class<T> componentClass) throws IOException, ClassNotFoundException {
@@ -213,7 +243,7 @@ public class GameState implements Externalizable {
             Entity entity = (Entity) entities.get(i);
             T component = componentClass.cast(components.get(i));
             componentManager.addComponent(entity, component);
-            manager.addEntity(entity);
+            manager.addRemoteEntity(entity);
         }
     }    
 

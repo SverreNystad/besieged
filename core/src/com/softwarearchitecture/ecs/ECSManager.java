@@ -27,7 +27,8 @@ public class ECSManager {
     private static ThreadLocal<ECSManager> instance;
 
     /** Stores the entities */
-    private Set<Entity> entities;
+    private Set<Entity> localEntities;
+    private Set<Entity> remoteEntities;
     private Set<Entity> toAdd; // Entities to be added before the next update
     private Set<Entity> toRemove; // Entities to be removed before the next update
 
@@ -40,7 +41,8 @@ public class ECSManager {
 
     // Private constructor to prevent instantiation
     private ECSManager() {
-        entities = new HashSet<>();
+        localEntities = new HashSet<>();
+        remoteEntities = new HashSet<>();
         toAdd = new HashSet<>();
         toRemove = new HashSet<>();
         systems = new HashSet<>();
@@ -63,29 +65,52 @@ public class ECSManager {
      * 
      * @param entity The entity to be added.
      */
-    public void addEntity(Entity entity) {
+    public void addLocalEntity(Entity entity) {
         toAdd.add(entity);
     }
 
     /**
      * @return The set of entities managed by the ECSManager.
      */
-    public Set<Entity> getEntities() {
-        return entities;
+    public Set<Entity> getLocalEntities() {
+        return localEntities;
     }
 
     /**
      * Removes an entity from the ECSManager.
      */
-    public void removeEntity(Entity entity) {
+    public void removeLocalEntity(Entity entity) {
         toRemove.add(entity);
+    }
+
+    /**
+     * Adds a external entity to the ECSManager. These would be entities from a server for example.
+     * @param entity The entity to be added.
+     */
+    public void addRemoteEntity(Entity entity) {
+        remoteEntities.add(entity);
+    }
+
+    /**
+     * Get all external entities.
+     */
+    public Set<Entity> getRemoteEntities() {
+        return remoteEntities;
+    }
+
+    /**
+     * Remove a external entity from the ECSManager.
+     * @param entity The entity to be removed.
+     */
+    public void removeRemoteEntity(Entity entity) {
+        remoteEntities.remove(entity);
     }
 
     /**
      * Clears all entities from the ECSManager.
      */
-    public void clearEntities() {
-        entities.clear();
+    public void clearLocalEntities() {
+        localEntities.clear();
     }
 
     /**
@@ -131,27 +156,28 @@ public class ECSManager {
      */
     public void update(float deltaTime) {
         for (Entity entity : toAdd) {
-            entities.add(entity);
+            localEntities.add(entity);
         }
 
         for (Entity entity : toRemove) {
-            entities.remove(entity);
+            localEntities.remove(entity);
         }
 
+        Set<Entity> entities = new HashSet<>(localEntities);
+        entities.addAll(remoteEntities);
         for (System system : this.systems) {
             // Update each system
-            system.update(this.entities, deltaTime); // TODO: Render function should be the last system called!
+            system.update(entities, deltaTime); // TODO: Render function should be the last system called!
         }
-
-        
     }
 
     /**
      * Clears all entities, systems, and component managers from the ECSManager.
      */
     public void clearAll() {
-        entities.clear();
+        localEntities.clear();
         systems.clear();
         componentManagers.clear();
+        remoteEntities.clear();
     }
 }

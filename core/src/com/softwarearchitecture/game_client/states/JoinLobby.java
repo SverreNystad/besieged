@@ -35,7 +35,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), PAGE_Z_INDEX);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        ECSManager.getInstance().addEntity(background);
+        ECSManager.getInstance().addLocalEntity(background);
 
         // Add the logo at the top
         TextComponent textComponent = new TextComponent("Find A Game", new Vector2(0.05f, 0.05f));
@@ -43,7 +43,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         Entity logo = new Entity();
         logo.addComponent(TextComponent.class, textComponent);
         logo.addComponent(PositionComponent.class, textPosition);
-        ECSManager.getInstance().addEntity(logo);
+        ECSManager.getInstance().addLocalEntity(logo);
 
         // Add a centered back button
         float backButtonWidth = 0.3f;
@@ -69,7 +69,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), PAGE_Z_INDEX);
         tableBackground.addComponent(SpriteComponent.class, logoSprite);
         tableBackground.addComponent(PositionComponent.class, logoPosition);
-        ECSManager.getInstance().addEntity(tableBackground);
+        ECSManager.getInstance().addLocalEntity(tableBackground);
 
         // Table content
         float translateY = 0.7f;
@@ -87,8 +87,8 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
             idTextEntity.addComponent(PositionComponent.class, textPosition);
             mapTextEntity.addComponent(TextComponent.class, mapComponent);
             mapTextEntity.addComponent(PositionComponent.class, mapPosition);
-            ECSManager.getInstance().addEntity(idTextEntity);
-            ECSManager.getInstance().addEntity(mapTextEntity);
+            ECSManager.getInstance().addLocalEntity(idTextEntity);
+            ECSManager.getInstance().addLocalEntity(mapTextEntity);
 
             // Add a join button current game
             ButtonEnum buttonType = ButtonEnum.JOIN;

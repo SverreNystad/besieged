@@ -34,7 +34,7 @@ public class HostLobby extends State implements Observer {
         background.addComponent(PositionComponent.class, backgroundPosition);
         TextComponent textComponent = new TextComponent("Host lobby!", new Vector2(0.05f, 0.05f));
         background.addComponent(TextComponent.class, textComponent);
-        ECSManager.getInstance().addEntity(background);
+        ECSManager.getInstance().addLocalEntity(background);
 
         // Set up the UI elements
         List<ButtonEnum> buttonTypes = new ArrayList<>();

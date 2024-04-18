@@ -90,8 +90,8 @@ public class EnemySystem implements System {
     public void update(Set<Entity> entities, float deltaTime) {
         // Set this.village to the village entity, but only once
         if (firstUpdate == true) {
-            for (Entity entity : ECSManager.getInstance().getEntities()) {
-                if (playerManager.getComponent(entity).isPresent()) {
+            for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
+                if (playerManager.getComponent(entity).isPresent() && healthManager.getComponent(entity).isPresent()) {
                     this.village = entity;
                     firstUpdate = false;
                 }
@@ -172,7 +172,7 @@ public class EnemySystem implements System {
                 EnemyType randomEnemy = enemyTypes[(int) (Math.random() * enemyTypes.length)];
 
                 mob = EnemyFactory.createEnemy(randomEnemy, path, tileSize);
-                ECSManager.getInstance().addEntity(mob);
+                ECSManager.getInstance().addLocalEntity(mob);
                 monsterCounter++;
                 liveMonsterCounter++;
                 spawnTimer = 200f;
@@ -213,20 +213,21 @@ public class EnemySystem implements System {
 
         // If any enemies have gotten through, damage the village (actually applies the damage here)
         if (villageDamage > 0) {
-
-            int villageHealth = healthManager.getComponent(village).get().getHealth();
-            villageHealth -= villageDamage;
-            // If the village health is 0, the game is over
-            if (villageHealth <= 0) {
-                villageHealth = 0;
-                if (this.gameOverObserver != null) {
-                    this.gameOverObserver.handleGameOver();
+            if (healthManager.getComponent(village).isPresent()) {
+                int villageHealth = healthManager.getComponent(village).get().getHealth();
+                villageHealth -= villageDamage;
+                // If the village health is 0, the game is over
+                if (villageHealth <= 0) {
+                    villageHealth = 0;
+                    if (this.gameOverObserver != null) {
+                        this.gameOverObserver.handleGameOver();
+                    }
                 }
-            }
-            healthManager.getComponent(village).get().setHealth(villageHealth);
+                healthManager.getComponent(village).get().setHealth(villageHealth);
 
-            updateTopRightCornerText();
-            villageDamage = 0;
+                updateTopRightCornerText();
+                villageDamage = 0;
+            }
         }
 
         // Start the next wave

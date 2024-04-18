@@ -22,7 +22,7 @@ public class GameOver extends State implements Observer {
     @Override
     protected void activate() {
         // Clear current game UI components
-        ECSManager.getInstance().clearEntities();
+        ECSManager.getInstance().clearLocalEntities();
 
         // Display Game Over text
         Entity gameOverTextEntity = new Entity();
@@ -31,12 +31,12 @@ public class GameOver extends State implements Observer {
         PositionComponent textPosition = new PositionComponent(new Vector2(0.34f, 0.59f), 10); // Position near the top and centered
         gameOverTextEntity.addComponent(TextComponent.class, gameOverText);
         gameOverTextEntity.addComponent(PositionComponent.class, textPosition);
-        ECSManager.getInstance().addEntity(gameOverTextEntity);
+        ECSManager.getInstance().addLocalEntity(gameOverTextEntity);
 
         // Create button to return to main menu using ButtonFactory
         Vector2 mainMenuButtonSize = new Vector2(0.2f, 0.1f);
         Entity mainMenuButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK_MENU, new Vector2(0.4f, 0.4f), mainMenuButtonSize, this, 5);
-        ECSManager.getInstance().addEntity(mainMenuButton);
+        ECSManager.getInstance().addLocalEntity(mainMenuButton);
 
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
