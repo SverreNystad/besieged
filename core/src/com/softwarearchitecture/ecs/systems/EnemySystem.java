@@ -275,5 +275,6 @@ public class EnemySystem implements System {
             String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
             textComponent.get().text = textToDisplay;
         }
+        
     }
 }

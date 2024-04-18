@@ -3,7 +3,6 @@ package com.softwarearchitecture.game_client;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -13,7 +12,6 @@ import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.ScreenManager;
 import com.softwarearchitecture.game_server.GameState;
-import com.softwarearchitecture.game_server.Tile;
 
 public class GameClient {
     private ScreenManager screenManager;

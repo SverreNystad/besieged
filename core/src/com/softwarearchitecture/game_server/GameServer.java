@@ -62,9 +62,19 @@ public class GameServer {
         VillageComponent villageComponent = new VillageComponent();
         HealthComponent healthComponent = new HealthComponent(1000);
         MoneyComponent moneyComponent = new MoneyComponent(1000);
+        
+        // Add a text component to the village entity
+        PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
+        villageHealthText.setColor(new Vector3(0f, 0f, 0f));
+
         village.addComponent(VillageComponent.class, villageComponent);
         village.addComponent(HealthComponent.class, healthComponent);
         village.addComponent(MoneyComponent.class, moneyComponent);
+        village.addComponent(PositionComponent.class, villagePosition);
+        village.addComponent(TextComponent.class, villageHealthText);
+        
         ECSManager.getInstance().addLocalEntity(village);
         
         gameState.playerTwo = new Entity();

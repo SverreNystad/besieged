@@ -74,15 +74,7 @@ public class InGame extends State implements Observer, GameOverObserver {
             Map gameMap = MapFactory.createMap(mapName);
             initializeMapEntities(gameMap);
 
-            // Initialize the village entity
-            Entity village = new Entity();
-            VillageComponent villageComponent = new VillageComponent();
-            HealthComponent healthComponent = new HealthComponent(1000);
-            MoneyComponent moneyComponent = new MoneyComponent(1000);
-            village.addComponent(VillageComponent.class, villageComponent);
-            village.addComponent(HealthComponent.class, healthComponent);
-            village.addComponent(MoneyComponent.class, moneyComponent);
-            ECSManager.getInstance().addLocalEntity(village);
+            
 
             this.gameMap = gameMap;
             
@@ -163,22 +155,26 @@ public class InGame extends State implements Observer, GameOverObserver {
         }
     }
 
-    public void initializeVillage() {
+    private void initializeVillage() {
+        // Initialize the village entity
         Entity village = new Entity();
+        VillageComponent villageComponent = new VillageComponent();
         HealthComponent healthComponent = new HealthComponent(1000);
-        PlayerComponent playerComponent = new PlayerComponent(village.getId());
         MoneyComponent moneyComponent = new MoneyComponent(1000);
+        
+        
+        // Add a text component to the village entity
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
         String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
-
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
-        village.addComponent(HealthComponent.class, healthComponent);
-        village.addComponent(PlayerComponent.class, playerComponent);
-        village.addComponent(MoneyComponent.class, moneyComponent);
-        village.addComponent(PositionComponent.class, villagePosition);
+        
         village.addComponent(TextComponent.class, villageHealthText);
-
+        village.addComponent(HealthComponent.class, healthComponent);
+        village.addComponent(MoneyComponent.class, moneyComponent);
+        village.addComponent(VillageComponent.class, villageComponent);
+        village.addComponent(PositionComponent.class, villagePosition);
+        
         ECSManager.getInstance().addLocalEntity(village);
         this.village = village;
     }
@@ -404,7 +400,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         tile.removeCard();
     }
 
-    public boolean buyCard(Entity cardEntity) {
+    private boolean buyCard(Entity cardEntity) {
         ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
         Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
         if (costComponent.isPresent()) {
@@ -413,7 +409,7 @@ public class InGame extends State implements Observer, GameOverObserver {
             if (playerBalance >= costOfCard) {
                 playerBalance -= costOfCard;
                 village.getComponent(MoneyComponent.class).get().amount = playerBalance;
-                updateTopRightCornerText();
+                // updateTopRightCornerText();
                 return true;
             }
         }
@@ -421,22 +417,22 @@ public class InGame extends State implements Observer, GameOverObserver {
     }
 
 
-    public void updateTopRightCornerText() {
-        // Get the text-component of the village and update the health
-        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
-        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
-        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
-        Optional<TextComponent> textComponent = textManager.getComponent(village);
-        Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
-        Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+    // public void updateTopRightCornerText() {
+    //     // Get the text-component of the village and update the health
+    //     ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+    //     ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
+    //     ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+    //     Optional<TextComponent> textComponent = textManager.getComponent(village);
+    //     Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
+    //     Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
         
-        if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
-            int villageHealth = healthComponent.get().getHealth();
-            int money = moneyComponent.get().amount;
-            String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
-            textComponent.get().text = textToDisplay;
-        }
-    }
+    //     if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
+    //         int villageHealth = healthComponent.get().getHealth();
+    //         int money = moneyComponent.get().amount;
+    //         String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
+    //         textComponent.get().text = textToDisplay;
+    //     }
+    // }
 
 
     private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
