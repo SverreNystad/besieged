@@ -5,17 +5,17 @@ package com.softwarearchitecture.game_client;
  */
 public class TexturePack {
     // Backgrounds
-    public static final String BACKGROUND_TOR = "background_tor.png";
-    public static final String BACKGROUND_VIKING_BATTLE_ICE = "background_viking_battle_ice.png";
-    public static final String BACKGROUND_VIKING_BATTLE_FIRE = "background_viking_battle_fire.png";
-    public static final String BACKGROUND_FENRIS = "background_fenris.png";
-    public static final String BACKGROUND_GRIFFIN = "background_griffin.png";
-    public static final String BACKGROUND_ABYSS = "chad.jpg";
+    public static final String BACKGROUND_TOR = "gui/backgrounds/background_tor.png";
+    public static final String BACKGROUND_VIKING_BATTLE_ICE = "gui/backgrounds/background_viking_battle_ice.png";
+    public static final String BACKGROUND_VIKING_BATTLE_FIRE = "gui/backgrounds/background_viking_battle_fire.png";
+    public static final String BACKGROUND_FENRIS = "gui/backgrounds/background_fenris.png";
+    public static final String BACKGROUND_GRIFFIN = "gui/backgrounds/background_griffin.png";
+    public static final String BACKGROUND_ABYSS = "gui/backgrounds/chad.jpg";
     public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
     public static final String BACKGROUND_MULTIPLAYER = "gui/backgrounds/multiplayer.png";
 
     // Previews of maps
-    public static final String PREVIEW_ABYSS = "besieged_abyss_map.png";
+    public static final String PREVIEW_ABYSS = "gui/map_previews/besieged_abyss_map.png";
 
     // Tiles
     public static final String PLACEABLE = "grass.png";
