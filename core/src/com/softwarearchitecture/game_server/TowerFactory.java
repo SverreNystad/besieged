@@ -5,6 +5,7 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
+import com.softwarearchitecture.ecs.components.AreaOfAffectComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -36,6 +37,8 @@ public class TowerFactory {
         if (!towerType.isPresent()) {
             throw new IllegalArgumentException("Invalid tower type combination");
         }
+
+        AreaOfAffectComponent areaOfAffectComponent = null;
 
         switch (towerType.get()) {
             case FIRE_MAGIC:
@@ -102,6 +105,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME2);
                 textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME3);
                 textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME4);
+                areaOfAffectComponent = new AreaOfAffectComponent();
                 damage = 30;
                 range = 2.5f;
                 attackCooldown = 100;
@@ -118,6 +122,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME3);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME4);
+                areaOfAffectComponent = new AreaOfAffectComponent();
 
                 damage = 45;
                 range = 2;
@@ -146,6 +151,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_INFERNO_FRAME4);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME5);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME6);
+                areaOfAffectComponent = new AreaOfAffectComponent();
 
                 damage = 1;
                 range = 1;
@@ -162,7 +168,6 @@ public class TowerFactory {
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         TargetComponent targetComponent = new TargetComponent();
         SoundComponent soundComponent = new SoundComponent(sound, false, false); // TODO: Add the correct sound path
-
         // Create the tower entity and add the components
         Entity tower = new Entity();
         tower.addComponent(TowerComponent.class, towerComponent);
@@ -171,7 +176,10 @@ public class TowerFactory {
         tower.addComponent(AnimationComponent.class, animationComponent);
         tower.addComponent(TargetComponent.class, targetComponent);
         tower.addComponent(SoundComponent.class, soundComponent);
-
+        if (areaOfAffectComponent != null) {
+            tower.addComponent(AreaOfAffectComponent.class, areaOfAffectComponent);
+        }
+        
         return tower;
     }
 }
