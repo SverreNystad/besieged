@@ -6,6 +6,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import java.util.Optional;
 import java.util.Set;
 
+import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -30,12 +31,17 @@ public class AnimationSystem implements System {
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
 
+        boolean isAnimation = Clock.getInstance().isTimeToAnimate();
+
         for (Entity entity : entities) {
             Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
             Optional<AnimationComponent> animationComponent = animationManager.getComponent(entity);
 
-            if (spriteComponent.isPresent() && animationComponent.isPresent()) {
-                spriteComponent.get().texture_path = animationComponent.get().getAnimationPath();
+            if (spriteComponent.isPresent() && animationComponent.isPresent() && isAnimation) {
+                SpriteComponent sprite = spriteComponent.get();
+                AnimationComponent animation = animationComponent.get();
+                sprite.texture_path = animation.getAnimationPath();
+                animation.nextFrame();
             }
         }
     }

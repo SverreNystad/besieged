@@ -42,22 +42,21 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_FRAME1);
                 textures.add(TexturePack.TOWER_FIRE_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_FRAME3);
+                textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME1);
+                textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME2);
+                textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME3);
+
                 damage = 4;
                 range = 2;
                 attackCooldown = 40;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
                 break;
-            case ICE_MAGIC:
-                textures.add(TexturePack.DEFAULT);
-                damage = 6;
-                range = 4;
-                attackCooldown = 50;
-                sound = AudioPack.TOWER_ICE_MAGIC;
-                break;
             case TOR:
                 textures.add(TexturePack.TOWER_TOR_FRAME1);
                 textures.add(TexturePack.TOWER_TOR_FRAME2);
                 textures.add(TexturePack.TOWER_TOR_FRAME3);
+                textures.add(TexturePack.TOWER_TOR_FRAME2);
+                textures.add(TexturePack.TOWER_TOR_FRAME1);
                 damage = 7;
                 range = 3;
                 attackCooldown = 75;
@@ -67,6 +66,8 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_FRAME1);
                 textures.add(TexturePack.TOWER_MAGIC_FRAME2);
                 textures.add(TexturePack.TOWER_MAGIC_FRAME3);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME2);
+                textures.add(TexturePack.TOWER_MAGIC_FRAME1);
                 damage = 8;
                 range = 3;
                 attackCooldown = 80;
@@ -91,6 +92,36 @@ public class TowerFactory {
                 damage = 3;
                 range = 3;
                 attackCooldown = 45;
+                sound = AudioPack.TOWER_BOW;
+                break;
+
+            case BOW_LIGHNING:
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME2);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME3);
+                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME4);
+                damage = 10;
+                range = 2;
+                attackCooldown = 100;
+                sound = AudioPack.TOWER_BOW;
+                break;
+
+            case MAGIC_TECH:
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME2);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME3);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
+                textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME4);
+
+                damage = 5;
+                range = 2;
+                attackCooldown = 50;
                 sound = AudioPack.TOWER_BOW;
                 break;
         }

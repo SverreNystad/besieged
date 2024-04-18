@@ -17,8 +17,9 @@ import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.math.Vector2;
 
 public class JoinLobby extends State implements Observer, JoinGameObserver {
-
-    private final int buttonZIndex = 3;
+    private final int PAGE_Z_INDEX = 1000;
+    private final int TEXT_Z_INDEX = PAGE_Z_INDEX + 2;
+    private final int BUTTON_Z_INDEX = PAGE_Z_INDEX + 1;
     private final float gap = 0.2f;
     
     public JoinLobby(Controllers defaultControllers, UUID yourId) {
@@ -31,21 +32,23 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         String backgroundPath = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
-        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), PAGE_Z_INDEX);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
         ECSManager.getInstance().addEntity(background);
 
         // Add the logo at the top
         TextComponent textComponent = new TextComponent("Find A Game", new Vector2(0.05f, 0.05f));
-        PositionComponent textPosition = new PositionComponent(new Vector2(0.45f, 0.9f), 1);
+        PositionComponent textPosition = new PositionComponent(new Vector2(0.45f, 0.9f), TEXT_Z_INDEX);
         Entity logo = new Entity();
         logo.addComponent(TextComponent.class, textComponent);
         logo.addComponent(PositionComponent.class, textPosition);
         ECSManager.getInstance().addEntity(logo);
 
-        // Add menu button
-        ButtonFactory.createAndAddButtonEntity(ButtonEnum.MULTI_PLAYER, new Vector2(0.45f, 0.05f), new Vector2(0.1f, 0.1f), this, buttonZIndex);
+        // Add a centered back button
+        float backButtonWidth = 0.3f;
+        float backButtonX = 0.5f - backButtonWidth / 2;
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.MULTI_PLAYER, new Vector2(backButtonX, 0.1f), new Vector2(backButtonWidth, 0.1f), this, BUTTON_Z_INDEX);
         
         
         // Add systems to the ECSManager
@@ -56,15 +59,43 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         
         // Create buttons for joining a game based on the available games
         List<GameState> games = defaultControllers.clientMessagingController.getAllAvailableGames();
-        System.out.println("Games: " + games);
+        initializeJoinLobbyTable(games);
+    }
+    
+    private void initializeJoinLobbyTable(List<GameState> games) {
+        // Table background
+        Entity tableBackground = new Entity();
+        SpriteComponent logoSprite = new SpriteComponent(TexturePack.BIG_EMPTY_SING, new Vector2(0.5f, 1f));
+        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), PAGE_Z_INDEX);
+        tableBackground.addComponent(SpriteComponent.class, logoSprite);
+        tableBackground.addComponent(PositionComponent.class, logoPosition);
+        ECSManager.getInstance().addEntity(tableBackground);
+
+        // Table content
         float translateY = 0.7f;
         for (GameState game : games) {
-            System.out.println("Game: " + game.playerOne + " " + game.playerTwo);
+            // Add the id and map name of as text components
+            String idText = "ID: " + game.gameID.toString();
+            String gameName = "MAP: " + game.mapName;
+            TextComponent textComponent = new TextComponent(idText, new Vector2(0.02f, 0.05f));
+            TextComponent mapComponent = new TextComponent(gameName, new Vector2(0.05f, 0.05f));
+            PositionComponent textPosition = new PositionComponent(new Vector2(0.1f, translateY), TEXT_Z_INDEX);
+            PositionComponent mapPosition = new PositionComponent(new Vector2(0.1f, translateY - 0.07f), TEXT_Z_INDEX);
+            Entity idTextEntity = new Entity();
+            Entity mapTextEntity = new Entity();
+            idTextEntity.addComponent(TextComponent.class, textComponent);
+            idTextEntity.addComponent(PositionComponent.class, textPosition);
+            mapTextEntity.addComponent(TextComponent.class, mapComponent);
+            mapTextEntity.addComponent(PositionComponent.class, mapPosition);
+            ECSManager.getInstance().addEntity(idTextEntity);
+            ECSManager.getInstance().addEntity(mapTextEntity);
+
+            // Add a join button current game
             ButtonEnum buttonType = ButtonEnum.JOIN;
             Vector2 buttonWidth = new Vector2(0.2f, 0.2f);
             float buttonX = 0.5f - buttonWidth.x / 2;
             Vector2 position = new Vector2(buttonX, translateY);
-            ButtonFactory.createAndAddButtonEntity(buttonType, position, buttonWidth, this, game, buttonZIndex);
+            ButtonFactory.createAndAddButtonEntity(buttonType, position, buttonWidth, this, game, BUTTON_Z_INDEX);
             translateY -= gap;
         }
     }
@@ -97,7 +128,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         if (didJoin) {
             screenManager.setGameId(gameID);
             // Change the state to the game
-            screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game)));
+            screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game), true));
         } else {
             // Notify the user that the game is full
             System.out.println("Game is full");

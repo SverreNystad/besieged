@@ -17,14 +17,6 @@ public class TexturePack {
     // Previews of maps
     public static final String PREVIEW_ABYSS = "besieged_abyss_map.png";
 
-    // Map-textures
-    public static final String placeableTexture = "grass.png";
-    public static final String pathTexture = "road.jpg";
-    public static final String waterTexture = "water.jpg";
-    public static final String rockTexture = "rock.png";
-    public static final String treeTexture = "tree.png";
-    public static final String defaultTexture = "chad.jpg";
-
     // Tiles
     public static final String PLACEABLE = "grass.png";
     public static final String PATH = "road.jpg";
@@ -57,16 +49,17 @@ public class TexturePack {
 
     // Overlays
     public static final String SIGN = "gui/overlay/sign.png";
+    public static final String BIG_EMPTY_SING = "gui/overlay/sign_big.png";
     public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
+    public static final String BOARD = "gui/overlay/board.png";
 
     // Cards
-    public static final String CARD_ICE = "chad.jpg";
-    public static final String CARD_FIRE = "cards/flame_placed.png";
-    public static final String CARD_TECHNOLOGY = "cards/technology_placed.png";
-    public static final String CARD_LIGHTNING = "cards/lightning_placed.png";
-    public static final String CARD_BOW = "cards/bow_placed.png";
-    public static final String CARD_MAGIC = "cards/magic_placed.png";
-    public static final String CARD_FIRE_PLACED = "cards/flame_placed.png";
+    public static final String CARD_FIRE = "cards/fire_card.png";
+    public static final String CARD_TECHNOLOGY = "cards/technology_card.png";
+    public static final String CARD_LIGHTNING = "cards/lightning_card.png";
+    public static final String CARD_BOW = "cards/bow_card.png";
+    public static final String CARD_MAGIC = "cards/magic_card.png";
+    public static final String CARD_FIRE_PLACED = "cards/fire_placed.png";
     public static final String CARD_TECHNOLOGY_PLACED = "cards/technology_placed.png";
     public static final String CARD_LIGHTNING_PLACED = "cards/lightning_placed.png";
     public static final String CARD_BOW_PLACED = "cards/bow_placed.png";
@@ -93,6 +86,16 @@ public class TexturePack {
     public static final String TOWER_BOW_FIRE = "bow_fire.png";
     public static final String TOWER_SHARPSHOOTER = "sharpshooter_tower.png";
 
+    public static final String TOWER_BOW_LIGHNING_FRAME1 = "bow_lightning_frame_1.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME2 = "bow_lightning_frame2.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME3 = "bow_lightning_frame3.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME4 = "bow_lightning_frame4.png";
+
+    public static final String TOWER_MAGIC_TECH_FRAME1 = "magic_tech_frame1.png";
+    public static final String TOWER_MAGIC_TECH_FRAME2 = "magic_tech_frame2.png";
+    public static final String TOWER_MAGIC_TECH_FRAME3 = "magic_tech_frame3.png";
+    public static final String TOWER_MAGIC_TECH_FRAME4 = "magic_tech_frame4.png";
+
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
     public static final String ENEMY_ANT_FRAME2 = "ant_frame2.png";
@@ -104,6 +107,32 @@ public class TexturePack {
 
     public static final String ENEMY_FENRIR1 = "sprites/fenrir/frame_1.png";
     public static final String ENEMY_FENRIR2 = "sprites/fenrir/frame_2.png";
+
+    public static final String ENEMY_WOLF_FRAME1 = "wolf_frame1.png";
+    public static final String ENEMY_WOLF_FRAME2 = "wolf_frame2.png";
+    public static final String ENEMY_WOLF_FRAME3 = "wolf_frame3.png";
+    public static final String ENEMY_WOLF_FRAME4 = "wolf_frame4.png";
+    public static final String ENEMY_WOLF_FRAME5 = "wolf_frame5.png";
+
+    public static final String ENEMY_VIKING_SPEAR_FRAME1 = "viking_spear_frame1.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME2 = "viking_spear_frame2.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME3 = "viking_spear_frame3.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME4 = "viking_spear_frame4.png";
+
+    public static final String ENEMY_VIKING_AXE_FRAME1 = "viking_axe_frame1.png";
+    public static final String ENEMY_VIKING_AXE_FRAME2 = "viking_axe_frame2.png";
+    public static final String ENEMY_VIKING_AXE_FRAME3 = "viking_axe_frame3.png";
+    public static final String ENEMY_VIKING_AXE_FRAME4 = "viking_axe_frame4.png";
+
+    public static final String ENEMY_VIKING_SWORD_FRAME1 = "viking_sword_frame1.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME2 = "viking_sword_frame2.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME3 = "viking_sword_frame3.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME4 = "viking_sword_frame4.png";
+
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME1 = "viking_sword_shield_frame1.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME2 = "viking_sword_shield_frame2.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME3 = "viking_sword_shield_frame3.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME4 = "viking_sword_shield_frame4.png";
 
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";

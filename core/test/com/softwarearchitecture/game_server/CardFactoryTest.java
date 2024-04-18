@@ -22,7 +22,6 @@ public class CardFactoryTest {
 
     @Test
     public void testCreateCardNotNull() {
-        assertNotNull("Card should not be null", CardFactory.createCard(CardType.ICE, position));
         assertNotNull("Card should not be null", CardFactory.createCard(CardType.FIRE, position));
     }
 

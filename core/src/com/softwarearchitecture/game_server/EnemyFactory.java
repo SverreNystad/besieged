@@ -8,6 +8,7 @@ import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
+import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
@@ -19,17 +20,18 @@ import com.softwarearchitecture.math.Vector2;
 public class EnemyFactory {
 
     public enum EnemyType {
-        NORDIC_ANT,
-        WOLF
+        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR
 
     }
 
-    public static Entity createEnemy(EnemyType enemyType, List<Tile> enemyPath, Vector2 tileSize) throws IllegalArgumentException {
+    public static Entity createEnemy(EnemyType enemyType, List<Tile> enemyPath, Vector2 tileSize)
+            throws IllegalArgumentException {
         List<String> textures = new ArrayList<String>();
         float tileHeight = tileSize.y;
         float tileWidth = tileSize.x;
         Vector2 size = new Vector2(1, 1);
-        Vector2 position = new Vector2((float) enemyPath.get(0).getX()*tileWidth, (float) enemyPath.get(0).getY()*tileHeight+tileHeight/4);
+        Vector2 position = new Vector2((float) enemyPath.get(0).getX() * tileWidth,
+                (float) enemyPath.get(0).getY() * tileHeight + tileHeight / 4);
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int maxHealth = 0;
@@ -44,22 +46,82 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_ANT_FRAME4);
 
                 damage = 1;
-                size.set(0.025f, 0.025f);
-                velocity.set(0.01f, 0.01f);
+                size.set(0.03f, 0.03f);
+                velocity.set(0.02f, 0.02f);
                 maxHealth = 10;
                 sound = "soundPath"; // TODO: Add the correct sound path
                 money = 1;
 
                 break;
             case WOLF:
-                textures.add(TexturePack.ENEMY_FENRIR1);
-                textures.add(TexturePack.ENEMY_FENRIR2);
+                textures.add(TexturePack.ENEMY_WOLF_FRAME1);
+                textures.add(TexturePack.ENEMY_WOLF_FRAME2);
+                textures.add(TexturePack.ENEMY_WOLF_FRAME3);
+                textures.add(TexturePack.ENEMY_WOLF_FRAME4);
+                textures.add(TexturePack.ENEMY_WOLF_FRAME5);
+
                 damage = 2;
                 size.set(0.075f, 0.075f);
-                velocity.set(0.02f, 0.02f);
+                velocity.set(0.05f, 0.05f);
                 maxHealth = 100;
                 sound = "soundPath"; // TODO: Add the correct sound path
-                money = 5;
+                money = 30;
+
+                break;
+
+            case VIKING_SPEAR:
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME4);
+                damage = 3;
+                size.set(0.065f, 0.093f);
+                velocity.set(0.04f, 0.04f);
+                maxHealth = 100;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 100;
+
+                break;
+
+            case VIKING_SWORD:
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME4);
+                damage = 4;
+                size.set(0.05f, 0.08f);
+                velocity.set(0.03f, 0.03f);
+                maxHealth = 100;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 150;
+
+                break;
+
+            case VIKING_SWORD_SHIELD:
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME4);
+                damage = 5;
+                size.set(0.05f, 0.08f);
+                velocity.set(0.03f, 0.03f);
+                maxHealth = 200;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 200;
+
+                break;
+
+            case VIKING_AXE:
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME1);
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME2);
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME3);
+                textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME4);
+                damage = 4;
+                size.set(0.05f, 0.08f);
+                velocity.set(0.023f, 0.023f);
+                maxHealth = 300;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 100;
 
                 break;
 
@@ -73,8 +135,8 @@ public class EnemyFactory {
         HealthComponent healthComponent = new HealthComponent(maxHealth);
         SoundComponent soundComponent = new SoundComponent(sound);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
-        CostComponent costComponent = new CostComponent(money);
         PathfindingComponent PathfindingComponent = new PathfindingComponent(enemyPath);
+        MoneyComponent moneyComponent = new MoneyComponent(money);
         // TODO: Add target component if necessary
 
         Entity enemyEntity = new Entity();
@@ -85,8 +147,8 @@ public class EnemyFactory {
         enemyEntity.addComponent(HealthComponent.class, healthComponent);
         enemyEntity.addComponent(SoundComponent.class, soundComponent);
         enemyEntity.addComponent(VelocityComponent.class, velocityComponent);
-        enemyEntity.addComponent(CostComponent.class, costComponent);
         enemyEntity.addComponent(PathfindingComponent.class, PathfindingComponent);
+        enemyEntity.addComponent(MoneyComponent.class, moneyComponent);
 
         return enemyEntity;
 

@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 public class LibGDXInput extends InputAdapter implements InputController {
     private Consumer<TouchLocation> onTouch;
     private Consumer<TouchLocation> onRelease;
+    private TouchLocation lastReleaseLocation = new TouchLocation(-1f, -1f);
     private Viewport viewport;
 
     public LibGDXInput(Viewport viewport) {
@@ -47,7 +48,13 @@ public class LibGDXInput extends InputAdapter implements InputController {
             float u = correctedX / viewport.getScreenWidth();
             float v = 1f - correctedY / viewport.getScreenHeight();
             onRelease.accept(new TouchLocation(u, v));
+            lastReleaseLocation = new TouchLocation(u, v);
         }
         return true;
+    }
+
+    @Override
+    public TouchLocation getLastReleaseLocation() {
+        return lastReleaseLocation;
     }
 }

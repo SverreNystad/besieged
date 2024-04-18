@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -21,6 +22,7 @@ public class LibGDXGraphics implements GraphicsController {
     private BitmapFont font;
     private OrthographicCamera camera;
     private Viewport viewport;
+    private ShapeRenderer shapeRenderer;
 
     public LibGDXGraphics(OrthographicCamera camera, Viewport viewport) {
         batch = new SpriteBatch();
@@ -28,6 +30,7 @@ public class LibGDXGraphics implements GraphicsController {
         // Initialize the font using FreeTypeFontGenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/odinson.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        this.shapeRenderer = new ShapeRenderer();
         parameter.size = 36; // You can adjust the size here
         parameter.minFilter = Texture.TextureFilter.Linear;
         parameter.magFilter = Texture.TextureFilter.Linear;
@@ -87,5 +90,17 @@ public class LibGDXGraphics implements GraphicsController {
     @Override
     public float getAspectRatio() {
         return ((float) viewport.getScreenWidth()) / ((float) viewport.getScreenHeight());
+    }
+
+    @Override
+    public void drawSquare(PositionComponent positionComponent, float width, float height, float r, float g, float b,
+            float a) {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(r, g, b, a);
+        shapeRenderer.rect(positionComponent.position.x * Gdx.graphics.getWidth(),
+                positionComponent.position.y * Gdx.graphics.getHeight(), width * Gdx.graphics.getWidth(),
+                height * Gdx.graphics.getHeight());
+        shapeRenderer.end();
     }
 }

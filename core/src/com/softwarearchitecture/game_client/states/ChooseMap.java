@@ -18,6 +18,10 @@ import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 
 public class ChooseMap extends State implements Observer {
+    private final int PAGE_Z_INDEX = 1;
+    private final int TEXT_Z_INDEX = PAGE_Z_INDEX + 2;
+    private final int BUTTON_Z_INDEX = PAGE_Z_INDEX + 1;
+    private final int MAP_PREVIEW_Z_INDEX = PAGE_Z_INDEX + 3;
 
     private boolean isHost;
     /**
@@ -38,7 +42,7 @@ public class ChooseMap extends State implements Observer {
         String backgroundPath = TexturePack.BACKGROUND_MULTIPLAYER;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
-        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
+        PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), PAGE_Z_INDEX);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
         ECSManager.getInstance().addEntity(background);
@@ -53,7 +57,7 @@ public class ChooseMap extends State implements Observer {
         // Add the choose map
         Entity logo = new Entity();
         SpriteComponent logoSprite = new SpriteComponent(TexturePack.CHOOSE_MAP, new Vector2(0.35f, 0.06f));
-        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.35f / 2, 0.75f), 1);
+        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.35f / 2, 0.75f), TEXT_Z_INDEX);
         logo.addComponent(SpriteComponent.class, logoSprite);
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addEntity(logo);
@@ -72,19 +76,19 @@ public class ChooseMap extends State implements Observer {
         // Create button rectangles
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.ABYSS,
                 new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.25f),
-                new Vector2(buttonWidth, buttonHeight), this, 2));
+                new Vector2(buttonWidth, buttonHeight), this, BUTTON_Z_INDEX));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.TEST,
                 new Vector2(0.5f + 0.01f, translateY + 0.25f),
-                new Vector2(buttonWidth, buttonHeight), this, 2));
+                new Vector2(buttonWidth, buttonHeight), this, BUTTON_Z_INDEX));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK,
                 new Vector2(0.495f - 0.35f / 2, translateY),
-                new Vector2(0.35f, 0.1f), this, 2));
+                new Vector2(0.35f, 0.1f), this, BUTTON_Z_INDEX));
 
         // Create Preview Image
         Entity mapPreview = new Entity();
         String imagePath = TexturePack.PREVIEW_ABYSS;
         SpriteComponent mapPreviewSprite = new SpriteComponent(imagePath, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
-        PositionComponent mapPreviewPosition = new PositionComponent(new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.31f), 100); // Adjust the position as necessary
+        PositionComponent mapPreviewPosition = new PositionComponent(new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.31f), MAP_PREVIEW_Z_INDEX); // Adjust the position as necessary
         mapPreview.addComponent(SpriteComponent.class, mapPreviewSprite);
         mapPreview.addComponent(PositionComponent.class, mapPreviewPosition);
         ECSManager.getInstance().addEntity(mapPreview);
@@ -116,7 +120,7 @@ public class ChooseMap extends State implements Observer {
             case BACK:
                 System.out.println("Back button pressed");
                 screenManager.nextState(new Multiplayer(defaultControllers, yourId));
-                break;
+                return;
 
             default:
                 throw new IllegalArgumentException("Invalid button type");
@@ -124,8 +128,8 @@ public class ChooseMap extends State implements Observer {
         if (isHost) {
             startServer(map);
         }
-
-        screenManager.nextState(new InGame(defaultControllers, yourId, map));
+        
+       screenManager.nextState(new InGame(defaultControllers, yourId, map, isHost));
     }
 
     private void startServer(String mapName) {
@@ -143,5 +147,4 @@ public class ChooseMap extends State implements Observer {
             }
         }, "ServerThread").start(); 
     }
-
 }

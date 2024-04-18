@@ -7,6 +7,7 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 public interface GraphicsController {
     /**
      * Draw the sprite component on the screen.
+     * 
      * @param spriteComponent
      */
     void draw(SpriteComponent spriteComponent, PositionComponent positionComponent);
@@ -25,4 +26,9 @@ public interface GraphicsController {
      * Gets the aspect ratio of the screen.
      */
     float getAspectRatio();
+
+    /**
+     * Draw a square.
+     */
+    void drawSquare(PositionComponent positionComponent, float width, float height, float r, float g, float b, float a);
 }

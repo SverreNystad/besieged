@@ -61,7 +61,7 @@ public class Multiplayer extends State implements Observer {
         float buttonWidth = 0.165f;
         float buttonHeight = 0.1f;
         float gap = 0.02f;
-        float translateY = 0.1f;
+        float translateY = 0.13f;
 
         // Create button rectangles
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.JOIN,
