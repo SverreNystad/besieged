@@ -49,6 +49,7 @@ public class TexturePack {
 
     // Overlays
     public static final String SIGN = "gui/overlay/sign.png";
+    public static final String BIG_EMPTY_SING = "gui/overlay/sign_big.png";
     public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
     public static final String BOARD = "gui/overlay/board.png";
 

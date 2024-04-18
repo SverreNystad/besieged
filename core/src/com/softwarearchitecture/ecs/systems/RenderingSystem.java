@@ -160,7 +160,6 @@ public class RenderingSystem implements System {
                             ((float) health.get().getHealth() / (float) health.get().getMaxHealth()) * width,
                             height, red[0], red[1], red[2], 1);
                 }
-                java.lang.System.out.println("DRAWN HEALTH BAR");
             }
         }
     }
