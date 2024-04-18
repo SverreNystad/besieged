@@ -119,7 +119,7 @@ public class ChooseMap extends State implements Observer {
 
             case BACK:
                 System.out.println("Back button pressed");
-                screenManager.nextState(new Multiplayer(defaultControllers, yourId));
+                screenManager.nextState(new Menu(defaultControllers, yourId));
                 return;
 
             default:
