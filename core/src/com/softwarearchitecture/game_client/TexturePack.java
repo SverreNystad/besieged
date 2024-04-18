@@ -49,6 +49,7 @@ public class TexturePack {
 
     // Overlays
     public static final String SIGN = "gui/overlay/sign.png";
+    public static final String BIG_EMPTY_SING = "gui/overlay/sign_big.png";
     public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
     public static final String BOARD = "gui/overlay/board.png";
 
@@ -84,6 +85,16 @@ public class TexturePack {
     public static final String TOWER_BOW = "bow_tower.png";
     public static final String TOWER_BOW_FIRE = "bow_fire.png";
     public static final String TOWER_SHARPSHOOTER = "sharpshooter_tower.png";
+
+    public static final String TOWER_BOW_LIGHNING_FRAME1 = "bow_lightning_frame_1.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME2 = "bow_lightning_frame2.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME3 = "bow_lightning_frame3.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME4 = "bow_lightning_frame4.png";
+
+    public static final String TOWER_MAGIC_TECH_FRAME1 = "magic_tech_frame1.png";
+    public static final String TOWER_MAGIC_TECH_FRAME2 = "magic_tech_frame2.png";
+    public static final String TOWER_MAGIC_TECH_FRAME3 = "magic_tech_frame3.png";
+    public static final String TOWER_MAGIC_TECH_FRAME4 = "magic_tech_frame4.png";
 
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
