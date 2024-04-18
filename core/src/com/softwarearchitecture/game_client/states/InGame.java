@@ -314,20 +314,22 @@ public class InGame extends State implements Observer, GameOverObserver {
     // Callback-function for when a tile is clicked. Responsible for placing either
     // a card or a tower on the tile
     private void handleTileClick(int x, int y) {
-        System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
+        // System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
         Tile tile = gameMap.getMapLayout()[x][y];
+        // System.out.println("Tile type: " + tile.getTileType());
         Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
         CardType existingCardType = null;
-        if (tileEntity == null)
+        if (tileEntity == null) {
+            // System.out.println("No entity found for tile at position (" + x + ", " + y + ")");
             return; // Exit if there is no entity for this tile
+        }
         if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
             return;
         }
         
-
         // Card already placed, place tower
         if (tile.hasCard()) {
-            System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
+            // System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
             PlacedCardComponent existingCardComponent = ECSManager.getInstance()
                     .getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
             existingCardType = existingCardComponent.cardType;
@@ -354,7 +356,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         }
         // No card on tile, place card
         else {
-            System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
+            // System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
 
             // Create the card entity
             Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
@@ -476,7 +478,7 @@ public class InGame extends State implements Observer, GameOverObserver {
     }
 
 
-    private Entity getTileEntityByPosition(Vector2 tilePosition) {
+private Entity getTileEntityByPosition(Vector2 tilePosition) {
         float tileWidth = gameMap.getTileWidth();
         float tileHeight = gameMap.getTileHeight();
 
@@ -485,8 +487,8 @@ public class InGame extends State implements Observer, GameOverObserver {
                     && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
                 // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
+                int xCoord = (int) Math.round((positionComponent.getPosition().x / tileWidth));
+                int yCoord = (int) Math.round(positionComponent.getPosition().y / tileHeight);
 
                 if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
                     return entity;
