@@ -44,7 +44,7 @@ public class ButtonFactory {
         buttonEntity.addComponent(PositionComponent.class, positionComponent);
         buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
 
-        ECSManager.getInstance().addEntity(buttonEntity);
+        ECSManager.getInstance().addLocalEntity(buttonEntity);
         return buttonEntity;
     }
 
@@ -63,7 +63,7 @@ public class ButtonFactory {
         buttonEntity.addComponent(PositionComponent.class, positionComponent);
         buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
 
-        ECSManager.getInstance().addEntity(buttonEntity);
+        ECSManager.getInstance().addLocalEntity(buttonEntity);
         return buttonEntity;
     }
     

@@ -33,7 +33,7 @@ public class Options extends State implements Observer {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        ECSManager.getInstance().addEntity(background);
+        ECSManager.getInstance().addLocalEntity(background);
 
         // Buttons
         ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.30f / 2f, 0.10f),
@@ -52,7 +52,7 @@ public class Options extends State implements Observer {
         PositionComponent volumeTextPosition = new PositionComponent(new Vector2(0.43f, 0.75f), 0);
         volumeText.addComponent(TextComponent.class, volumeTextComponent);
         volumeText.addComponent(PositionComponent.class, volumeTextPosition);
-        ECSManager.getInstance().addEntity(volumeText);
+        ECSManager.getInstance().addLocalEntity(volumeText);
 
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);

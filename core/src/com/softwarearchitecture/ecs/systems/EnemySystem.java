@@ -18,6 +18,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.game_client.states.GameOverObserver;
 import com.softwarearchitecture.game_server.EnemyFactory;
 import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
@@ -43,6 +44,7 @@ public class EnemySystem implements System {
     private ComponentManager<MoneyComponent> moneyManager;
     private ComponentManager<EnemyComponent> enemyManager;
     private ComponentManager<PlayerComponent> playerManager;
+    private ComponentManager<VillageComponent> villageManger;   
     private int waveSize;
     private int monsterCounter;
     private int waveNumber;
@@ -54,7 +56,6 @@ public class EnemySystem implements System {
     private int maxLiveMonsters;
     private int villageDamage;
     private GraphicsController graphicsController;
-    private Entity village;
     private boolean firstUpdate = true;
     private GameOverObserver gameOverObserver;
     private Entity waveNumberEntity = null;
@@ -71,6 +72,7 @@ public class EnemySystem implements System {
         this.textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
         this.playerManager = ECSManager.getInstance().getOrDefaultComponentManager(PlayerComponent.class);
         this.enemyManager = ECSManager.getInstance().getOrDefaultComponentManager(EnemyComponent.class);
+        this.villageManger = ECSManager.getInstance().getOrDefaultComponentManager(VillageComponent.class);
         this.waveSize = 10;
         this.monsterCounter = 0;
         this.waveNumber = 1;
@@ -84,21 +86,25 @@ public class EnemySystem implements System {
     public EnemySystem(GameOverObserver gameOverObserver) {
         this();
         this.gameOverObserver = gameOverObserver;
-        java.lang.System.out.println("gameOverObserver set to: " + gameOverObserver);
     }
 
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
+        Entity village = null;
+
+        for (Entity entity : entities) {
+            Optional<HealthComponent> healthComponent = healthManager.getComponent(entity);
+            Optional<VillageComponent> villageComponent = villageManger.getComponent(entity);
+            if (villageComponent.isPresent() && healthComponent.isPresent()) {  
+                village = entity;
+                break;
+            }
+        }
         // Set this.village to the village entity, but only once
         if (firstUpdate == true) {
             initializeWaveNumberDisplay();
-            for (Entity entity : ECSManager.getInstance().getEntities()) {
-                if (playerManager.getComponent(entity).isPresent()) {
-                    this.village = entity;
-                    firstUpdate = false;
-                }
-            }
+            firstUpdate = false;
         }
 
         // Get tile size so that enemies follow the path correctly
@@ -130,7 +136,7 @@ public class EnemySystem implements System {
             Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
             Optional<HealthComponent> health = healthManager.getComponent(entity);
             Optional<EnemyComponent> enemy = enemyManager.getComponent(entity);
-
+            
             if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent() || !health.isPresent()) {
                 continue;
             }
@@ -157,7 +163,8 @@ public class EnemySystem implements System {
                 liveMonsterCounter--;
                 boolean claimedReward = enemy.get().claimedReward;
                 if (!claimedReward) {
-                    awardPlayerMoney(entity);
+
+                    awardPlayerMoney(village, entity);
                     enemy.get().claimedReward = true;
                 }
             }
@@ -175,7 +182,7 @@ public class EnemySystem implements System {
                 EnemyType randomEnemy = enemyTypes[(int) (Math.random() * enemyTypes.length)];
 
                 mob = EnemyFactory.createEnemy(randomEnemy, path, tileSize);
-                ECSManager.getInstance().addEntity(mob);
+                ECSManager.getInstance().addLocalEntity(mob);
                 monsterCounter++;
                 liveMonsterCounter++;
                 spawnTimer = 200f;
@@ -216,20 +223,26 @@ public class EnemySystem implements System {
 
         // If any enemies have gotten through, damage the village (actually applies the damage here)
         if (villageDamage > 0) {
+            
+            Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+            Optional<VillageComponent> villageComponent = villageManger.getComponent(village);
+            if (villageComponent.isPresent() && healthComponent.isPresent()) {
+                int villageHealth = healthComponent.get().getHealth();
 
-            int villageHealth = healthManager.getComponent(village).get().getHealth();
-            villageHealth -= villageDamage;
-            // If the village health is 0, the game is over
-            if (villageHealth <= 0) {
-                villageHealth = 0;
-                if (this.gameOverObserver != null) {
-                    this.gameOverObserver.handleGameOver();
+                villageHealth -= villageDamage;
+                // If the village health is 0, the game is over
+                if (villageHealth <= 0) {
+                    villageHealth = 0;
+                    if (this.gameOverObserver != null) {
+                        this.gameOverObserver.handleGameOver();
+                    }
                 }
+                healthComponent.get().setHealth(villageHealth);
+                
+                updateTopRightCornerText(village);
+                villageDamage = 0;
             }
-            healthManager.getComponent(village).get().setHealth(villageHealth);
 
-            updateTopRightCornerText();
-            villageDamage = 0;
         }
 
         // Start the next wave
@@ -245,15 +258,14 @@ public class EnemySystem implements System {
         updateWaveNumberDisplay();
     }
 
-
-    public void awardPlayerMoney(Entity enemy) {
+    private void awardPlayerMoney(Entity village, Entity enemy) {
         MoneyComponent balance = moneyManager.getComponent(village).get();
         MoneyComponent reward = moneyManager.getComponent(enemy).get();
         balance.amount += reward.amount;
-        updateTopRightCornerText();
+        updateTopRightCornerText(village);
     }
 
-    public void updateTopRightCornerText() {
+    private void updateTopRightCornerText(Entity village) {
         // Get the text-component of the village and update the health
         ComponentManager<TextComponent> textManager = ECSManager.getInstance()
                 .getOrDefaultComponentManager(TextComponent.class);
@@ -271,6 +283,7 @@ public class EnemySystem implements System {
             String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
             textComponent.get().text = textToDisplay;
         }
+        
     }
 
     public void initializeWaveNumberDisplay() {
@@ -281,7 +294,7 @@ public class EnemySystem implements System {
         PositionComponent waveNumberPosition = new PositionComponent(new Vector2(0.02f, 0.90f), 10); 
         waveNumberEntity.addComponent(TextComponent.class, waveNumberText);
         waveNumberEntity.addComponent(PositionComponent.class, waveNumberPosition);
-        ECSManager.getInstance().addEntity(waveNumberEntity);
+        ECSManager.getInstance().addLocalEntity(waveNumberEntity);
     }
     
 

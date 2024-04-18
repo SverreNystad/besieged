@@ -39,7 +39,7 @@ public class Multiplayer extends State implements Observer {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        ECSManager.getInstance().addEntity(background);
+        ECSManager.getInstance().addLocalEntity(background);
         System.out.println("Menu activated");
 
         // Add systems to the ECSManager
@@ -54,7 +54,7 @@ public class Multiplayer extends State implements Observer {
         PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), 1);
         logo.addComponent(SpriteComponent.class, logoSprite);
         logo.addComponent(PositionComponent.class, logoPosition);
-        ECSManager.getInstance().addEntity(logo);
+        ECSManager.getInstance().addLocalEntity(logo);
 
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
