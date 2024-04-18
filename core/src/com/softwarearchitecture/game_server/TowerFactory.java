@@ -83,7 +83,7 @@ public class TowerFactory {
             case SHARP_SHOOTER:
                 textures.add(TexturePack.TOWER_SHARPSHOOTER);
                 damage = 40;
-                range = 4.5f;
+                range = 10f;
                 attackCooldown = 100;
                 sound = AudioPack.TOWER_SHARP_SHOOTER;
                 break;
@@ -138,6 +138,21 @@ public class TowerFactory {
                 attackCooldown = 150;
                 sound = AudioPack.TOWER_BOW;
                 break;
+
+            case INFERNO:
+                textures.add(TexturePack.TOWER_INFERNO_FRAME1);
+                textures.add(TexturePack.TOWER_INFERNO_FRAME2);
+                textures.add(TexturePack.TOWER_INFERNO_FRAME3);
+                textures.add(TexturePack.TOWER_INFERNO_FRAME4);
+                textures.add(TexturePack.TOWER_INFERNO_FRAME5);
+                textures.add(TexturePack.TOWER_INFERNO_FRAME6);
+
+                damage = 1;
+                range = 1;
+                attackCooldown = 2;
+                sound = AudioPack.TOWER_BOW;
+                break;
+
         }
 
         // Create the components for the tower

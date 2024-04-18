@@ -20,6 +20,7 @@ public class PairableCards {
         pairableTowers.put(new Pair(CardType.BOW, CardType.LIGHTNING), TowerType.BOW_LIGHNING);
         pairableTowers.put(new Pair(CardType.MAGIC, CardType.TECHNOLOGY), TowerType.MAGIC_TECH);
         pairableTowers.put(new Pair(CardType.TECHNOLOGY, CardType.TECHNOLOGY), TowerType.MORTAR);
+        pairableTowers.put(new Pair(CardType.FIRE, CardType.FIRE), TowerType.INFERNO);
     }
 
     public static boolean isPairable(CardType card1, CardType card2) {
@@ -65,6 +66,6 @@ public class PairableCards {
         SHARP_SHOOTER,
         MAGIC,
         FIRE_MAGIC,
-        TOR, BOW_LIGHNING, MAGIC_TECH, MORTAR
+        TOR, BOW_LIGHNING, MAGIC_TECH, MORTAR, INFERNO
     }
 }
