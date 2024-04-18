@@ -18,6 +18,7 @@ import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
@@ -25,6 +26,7 @@ import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
+import com.softwarearchitecture.ecs.systems.AudioSystem;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
@@ -50,6 +52,8 @@ public class InGame extends State implements Observer, GameOverObserver {
     private CardType selectedCardType = null;
     private boolean isMultiplayer;
     private List<Entity> cardButtonEntities = new ArrayList<>();
+    private ComponentManager<SoundComponent> soundManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
+    private AudioSystem audioSystem;
     
     protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer)  {
         super(defaultControllers, yourId);
@@ -73,8 +77,6 @@ public class InGame extends State implements Observer, GameOverObserver {
             // Map and tiles
             Map gameMap = MapFactory.createMap(mapName);
             initializeMapEntities(gameMap);
-
-            
 
             this.gameMap = gameMap;
             
@@ -136,11 +138,14 @@ public class InGame extends State implements Observer, GameOverObserver {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
+        ComponentManager<SoundComponent> audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
+        AudioSystem audioSystem = new AudioSystem(audioManager, defaultControllers.soundController);
+        this.audioSystem = audioSystem;
         
-
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
+        ECSManager.getInstance().addSystem(audioSystem);
         
 
     }
@@ -362,6 +367,14 @@ public class InGame extends State implements Observer, GameOverObserver {
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
+
+            System.out.println("Test");
+            // Play sound
+            Optional<SoundComponent> soundComponent = soundManager.getComponent(cardEntity);
+            if (soundComponent.isPresent()) {
+                System.out.println("Sound path: " + soundComponent.get().sound_path);
+                audioSystem.playSound(soundComponent.get());
+            }
         }
 
         // Reset the position of all other cards

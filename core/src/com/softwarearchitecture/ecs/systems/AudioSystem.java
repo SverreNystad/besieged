@@ -40,4 +40,9 @@ public class AudioSystem implements System {
         }
     }
     
+
+    public void playSound(SoundComponent soundComponent) {
+        soundController.playSound(soundComponent);
+    }
+    
 }
