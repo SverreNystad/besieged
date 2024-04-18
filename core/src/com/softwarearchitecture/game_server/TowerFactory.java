@@ -124,6 +124,20 @@ public class TowerFactory {
                 attackCooldown = 50;
                 sound = AudioPack.TOWER_BOW;
                 break;
+
+            case MORTAR:
+                textures.add(TexturePack.MORTAR_FRAME1);
+                textures.add(TexturePack.MORTAR_FRAME2);
+                textures.add(TexturePack.MORTAR_FRAME3);
+                textures.add(TexturePack.MORTAR_FRAME4);
+                textures.add(TexturePack.MORTAR_FRAME5);
+                textures.add(TexturePack.MORTAR_FRAME6);
+                textures.add(TexturePack.MORTAR_FRAME1);
+                damage = 20;
+                range = 5;
+                attackCooldown = 150;
+                sound = AudioPack.TOWER_BOW;
+                break;
         }
 
         // Create the components for the tower

@@ -91,10 +91,17 @@ public class TexturePack {
     public static final String TOWER_BOW_LIGHNING_FRAME3 = "bow_lightning_frame3.png";
     public static final String TOWER_BOW_LIGHNING_FRAME4 = "bow_lightning_frame4.png";
 
-    public static final String TOWER_MAGIC_TECH_FRAME1 = "magic_tech_frame1.png";
-    public static final String TOWER_MAGIC_TECH_FRAME2 = "magic_tech_frame2.png";
-    public static final String TOWER_MAGIC_TECH_FRAME3 = "magic_tech_frame3.png";
-    public static final String TOWER_MAGIC_TECH_FRAME4 = "magic_tech_frame4.png";
+    public static final String TOWER_MAGIC_TECH_FRAME1 = "magic_tech_no_case_frame1.png";
+    public static final String TOWER_MAGIC_TECH_FRAME2 = "magic_tech_no_case_frame2.png";
+    public static final String TOWER_MAGIC_TECH_FRAME3 = "magic_tech_no_ground_frame3.png";
+    public static final String TOWER_MAGIC_TECH_FRAME4 = "magic_tech_no_case_frame4.png";
+
+    public static final String MORTAR_FRAME1 = "mortar_frame1.png";
+    public static final String MORTAR_FRAME2 = "mortar_frame2.png";
+    public static final String MORTAR_FRAME3 = "mortar_frame3.png";
+    public static final String MORTAR_FRAME4 = "mortar_frame4.png";
+    public static final String MORTAR_FRAME5 = "mortar_frame5.png";
+    public static final String MORTAR_FRAME6 = "mortar_frame6.png";
 
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";

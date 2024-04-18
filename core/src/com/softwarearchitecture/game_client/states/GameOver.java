@@ -28,7 +28,7 @@ public class GameOver extends State implements Observer {
         Entity gameOverTextEntity = new Entity();
         TextComponent gameOverText = new TextComponent("GAME OVER", new Vector2(0.1f, 0.1f));
         gameOverText.setColor(new Vector3(1f, 0f, 0f)); // Red text
-        PositionComponent textPosition = new PositionComponent(new Vector2(0.34f, 0.59f), 10); // Position near the top and centered
+        PositionComponent textPosition = new PositionComponent(new Vector2(0.34f, 0.56f), 10); // Position near the top and centered
         gameOverTextEntity.addComponent(TextComponent.class, gameOverText);
         gameOverTextEntity.addComponent(PositionComponent.class, textPosition);
         ECSManager.getInstance().addLocalEntity(gameOverTextEntity);

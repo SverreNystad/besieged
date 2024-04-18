@@ -25,6 +25,7 @@ import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TileType;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.math.Vector3;
 import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
@@ -57,6 +58,7 @@ public class EnemySystem implements System {
     private GraphicsController graphicsController;
     private boolean firstUpdate = true;
     private GameOverObserver gameOverObserver;
+    private Entity waveNumberEntity = null;
 
 
     public EnemySystem() {
@@ -84,7 +86,6 @@ public class EnemySystem implements System {
     public EnemySystem(GameOverObserver gameOverObserver) {
         this();
         this.gameOverObserver = gameOverObserver;
-        java.lang.System.out.println("gameOverObserver set to: " + gameOverObserver);
     }
 
 
@@ -99,6 +100,11 @@ public class EnemySystem implements System {
                 village = entity;
                 break;
             }
+        }
+        // Set this.village to the village entity, but only once
+        if (firstUpdate == true) {
+            initializeWaveNumberDisplay();
+            firstUpdate = false;
         }
 
         // Get tile size so that enemies follow the path correctly
@@ -248,6 +254,8 @@ public class EnemySystem implements System {
             spawnTimer = 0f;
             maxLiveMonsters++;
         }
+
+        updateWaveNumberDisplay();
     }
 
     private void awardPlayerMoney(Entity village, Entity enemy) {
@@ -276,5 +284,26 @@ public class EnemySystem implements System {
             textComponent.get().text = textToDisplay;
         }
         
+    }
+
+    public void initializeWaveNumberDisplay() {
+        // Create a new Entity for the wave number and add it to the ECS
+        this.waveNumberEntity = new Entity();
+        TextComponent waveNumberText = new TextComponent("Wave: " + waveNumber, new Vector2(0.05f, 0.05f));
+        waveNumberText.setColor(new Vector3(0, 0, 0));
+        PositionComponent waveNumberPosition = new PositionComponent(new Vector2(0.02f, 0.90f), 10); 
+        waveNumberEntity.addComponent(TextComponent.class, waveNumberText);
+        waveNumberEntity.addComponent(PositionComponent.class, waveNumberPosition);
+        ECSManager.getInstance().addLocalEntity(waveNumberEntity);
+    }
+    
+
+    public void updateWaveNumberDisplay() {
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        Optional<TextComponent> waveNumberText = textManager.getComponent(waveNumberEntity);
+
+        if (waveNumberText.isPresent()) {
+            waveNumberText.get().text = "Wave: " + waveNumber;
+        }
     }
 }

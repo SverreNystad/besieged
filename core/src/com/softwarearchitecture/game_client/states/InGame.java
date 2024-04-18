@@ -491,7 +491,6 @@ public class InGame extends State implements Observer, GameOverObserver {
 
     @Override
     public void handleGameOver() {
-        System.out.println("Test");
         ScreenManager.getInstance().nextState(new GameOver(defaultControllers, yourId));
     }
 }
