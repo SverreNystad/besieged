@@ -21,6 +21,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
@@ -72,6 +73,17 @@ public class InGame extends State implements Observer, GameOverObserver {
             // Map and tiles
             Map gameMap = MapFactory.createMap(mapName);
             initializeMapEntities(gameMap);
+
+            // Initialize the village entity
+            Entity village = new Entity();
+            VillageComponent villageComponent = new VillageComponent();
+            HealthComponent healthComponent = new HealthComponent(1000);
+            MoneyComponent moneyComponent = new MoneyComponent(1000);
+            village.addComponent(VillageComponent.class, villageComponent);
+            village.addComponent(HealthComponent.class, healthComponent);
+            village.addComponent(MoneyComponent.class, moneyComponent);
+            ECSManager.getInstance().addLocalEntity(village);
+
             this.gameMap = gameMap;
             
             EnemySystem enemySystem = new EnemySystem(this);

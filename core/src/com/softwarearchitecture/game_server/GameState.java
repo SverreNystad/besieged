@@ -20,6 +20,7 @@ import com.softwarearchitecture.ecs.Card;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.CardHolderComponent;
 import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
@@ -31,9 +32,11 @@ import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TargetComponent;
+import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
+import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
 import com.softwarearchitecture.game_server.cards.elemental_cards.LightningCard;
 import com.softwarearchitecture.game_server.cards.elemental_cards.TechnologyCard;
@@ -98,6 +101,16 @@ public class GameState implements Externalizable {
         serializeComponent(out, TileComponent.class);
         // Placed cards
         serializeComponent(out, PlacedCardComponent.class);
+
+        // Village components
+        serializeComponent(out, VillageComponent.class);
+
+
+        // UI components
+        // Text components
+        serializeComponent(out, TextComponent.class);
+        // Animation components
+        serializeComponent(out, AnimationComponent.class);
     }
 
     private <T> void serializeComponent(ObjectOutput out, Class<T> componentClass) throws IOException {
@@ -171,6 +184,16 @@ public class GameState implements Externalizable {
         deserializeComponent(in, TileComponent.class);
         // Placed cards
         deserializeComponent(in, PlacedCardComponent.class);
+
+        // Village components
+        deserializeComponent(in, VillageComponent.class);
+
+        // UI components
+        // Text components
+        deserializeComponent(in, TextComponent.class);
+        // Animation components
+        deserializeComponent(in, AnimationComponent.class);
+
     }
 
     private void deserializeRemoteEntities(ObjectInput in) throws ClassNotFoundException, IOException {
@@ -192,7 +215,6 @@ public class GameState implements Externalizable {
             }
         }
         for (Entity entity : entitiesToRemove) {
-            System.out.println("[SERVER] Removing entity: " + entity.getId());
             ECSManager.getInstance().removeRemoteEntity(entity);
             ECSManager.getInstance().removeLocalEntity(entity);
         }

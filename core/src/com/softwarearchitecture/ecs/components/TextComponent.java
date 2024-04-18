@@ -1,9 +1,10 @@
 package com.softwarearchitecture.ecs.components;
 
+import java.io.Serializable;
 import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
 
-public class TextComponent {
+public class TextComponent implements Serializable {
     public String text;
     public Vector2 fontScale;
     public Vector3 color; 

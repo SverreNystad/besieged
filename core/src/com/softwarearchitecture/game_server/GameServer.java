@@ -15,6 +15,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
@@ -58,7 +59,12 @@ public class GameServer {
 
         // TODO: Add relevant entities
         Entity village = new Entity();
-        village.addComponent(HealthComponent.class, new HealthComponent(100));
+        VillageComponent villageComponent = new VillageComponent();
+        HealthComponent healthComponent = new HealthComponent(1000);
+        MoneyComponent moneyComponent = new MoneyComponent(1000);
+        village.addComponent(VillageComponent.class, villageComponent);
+        village.addComponent(HealthComponent.class, healthComponent);
+        village.addComponent(MoneyComponent.class, moneyComponent);
         ECSManager.getInstance().addLocalEntity(village);
         
         gameState.playerTwo = new Entity();
