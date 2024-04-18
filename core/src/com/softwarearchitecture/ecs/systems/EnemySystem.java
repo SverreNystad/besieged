@@ -59,7 +59,6 @@ public class EnemySystem implements System {
     private GameOverObserver gameOverObserver;
     private Entity waveNumberEntity = null;
 
-
     public EnemySystem() {
         this.positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
         this.velocityManager = ECSManager.getInstance().getOrDefaultComponentManager(VelocityComponent.class);
@@ -86,7 +85,6 @@ public class EnemySystem implements System {
         this.gameOverObserver = gameOverObserver;
         java.lang.System.out.println("gameOverObserver set to: " + gameOverObserver);
     }
-
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
@@ -214,7 +212,8 @@ public class EnemySystem implements System {
             waveTimer -= deltaTime;
         }
 
-        // If any enemies have gotten through, damage the village (actually applies the damage here)
+        // If any enemies have gotten through, damage the village (actually applies the
+        // damage here)
         if (villageDamage > 0) {
 
             int villageHealth = healthManager.getComponent(village).get().getHealth();
@@ -244,7 +243,6 @@ public class EnemySystem implements System {
 
         updateWaveNumberDisplay();
     }
-
 
     public void awardPlayerMoney(Entity enemy) {
         MoneyComponent balance = moneyManager.getComponent(village).get();
@@ -278,15 +276,15 @@ public class EnemySystem implements System {
         this.waveNumberEntity = new Entity();
         TextComponent waveNumberText = new TextComponent("Wave: " + waveNumber, new Vector2(0.05f, 0.05f));
         waveNumberText.setColor(new Vector3(0, 0, 0));
-        PositionComponent waveNumberPosition = new PositionComponent(new Vector2(0.02f, 0.90f), 10); 
+        PositionComponent waveNumberPosition = new PositionComponent(new Vector2(0.02f, 0.90f), 10);
         waveNumberEntity.addComponent(TextComponent.class, waveNumberText);
         waveNumberEntity.addComponent(PositionComponent.class, waveNumberPosition);
         ECSManager.getInstance().addEntity(waveNumberEntity);
     }
-    
 
     public void updateWaveNumberDisplay() {
-        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(TextComponent.class);
         Optional<TextComponent> waveNumberText = textManager.getComponent(waveNumberEntity);
 
         if (waveNumberText.isPresent()) {
