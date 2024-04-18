@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -237,6 +239,7 @@ public class GameServer {
         System.out.println("Action: " + action.getCardType() + " x: " + action.getX() + " y: " + action.getY());
 
         // TODO: Check for player balance for buying card
+        
         handleCardPlacement(action.getCardType(), action.getX(), action.getY());
     }
 
@@ -252,6 +255,11 @@ public class GameServer {
         }
         
 
+        // Get necessary entities for card placement
+        Entity village = ECSManager.getInstance().getLocalEntities().stream()
+            .filter(e -> e.getComponent(VillageComponent.class).isPresent()).findFirst().get();
+        Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+        
         // Card already placed, place tower
         if (tile.hasCard()) {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
@@ -261,6 +269,12 @@ public class GameServer {
             Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
 
             if (towerType.isPresent()) {
+
+                if (!buyCard(village, cardEntity)) {
+                    System.out.println("Not enough money to buy card");
+                    return;
+                }
+
                 // Remove the card thats already there
                 ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
                         .removeComponent(tileEntity);
@@ -277,18 +291,35 @@ public class GameServer {
         }
         // No card on tile, place card
         else {
+            if (!buyCard(village, cardEntity)) {
+                System.out.println("Not enough money to buy card");
+                return;
+            }
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
             // Add a PlacedCardComponent the Tile-entity (to keep track of the cards' type)
             PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
             ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
                     placedCardComponent);
 
-            // Create the card entity
-            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
-
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
         }
+    }
+
+    private boolean buyCard(Entity village, Entity cardEntity) {
+        ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
+        Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
+        if (costComponent.isPresent()) {
+            int playerBalance = village.getComponent(MoneyComponent.class).get().amount;
+            int costOfCard = costComponent.get().getCost();
+            if (playerBalance >= costOfCard) {
+                playerBalance -= costOfCard;
+                village.getComponent(MoneyComponent.class).get().amount = playerBalance;
+                // updateTopRightCornerText();
+                return true;
+            }
+        }
+        return false;
     }
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
