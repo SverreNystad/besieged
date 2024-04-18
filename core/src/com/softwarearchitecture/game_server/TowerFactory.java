@@ -146,7 +146,7 @@ public class TowerFactory {
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         TargetComponent targetComponent = new TargetComponent();
-        SoundComponent soundComponent = new SoundComponent(sound); // TODO: Add the correct sound path
+        SoundComponent soundComponent = new SoundComponent(sound, false, false); // TODO: Add the correct sound path
 
         // Create the tower entity and add the components
         Entity tower = new Entity();

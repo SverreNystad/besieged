@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.UUID;
 
+import com.softwarearchitecture.ecs.ECSManager;
+
 public class ScreenManager {
     /**
      * Keeps track of the current state of the game
@@ -26,6 +28,7 @@ public class ScreenManager {
     }
 
     public void nextState(State state) {
+        ECSManager.getInstance().clearLocalEntities();
         if (this.currentState != null) saveState(this.currentState);
         this.currentState = state;
         stateChanged = true;

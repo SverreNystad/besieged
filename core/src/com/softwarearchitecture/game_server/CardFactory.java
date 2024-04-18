@@ -91,7 +91,7 @@ public class CardFactory {
         PlacedCardComponent placedCardComponent = new PlacedCardComponent(type);
         PositionComponent positionComponent = new PositionComponent(position, 20);
         SpriteComponent spriteComponent = new SpriteComponent(texturePath, size);
-        SoundComponent soundComponent = new SoundComponent(sound);
+        SoundComponent soundComponent = new SoundComponent(sound, false, false);
         CostComponent costComponent = new CostComponent(cost);
 
         Entity cardEntity = new Entity();

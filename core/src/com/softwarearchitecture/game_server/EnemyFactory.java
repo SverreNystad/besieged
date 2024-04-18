@@ -133,7 +133,7 @@ public class EnemyFactory {
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         HealthComponent healthComponent = new HealthComponent(maxHealth);
-        SoundComponent soundComponent = new SoundComponent(sound);
+        SoundComponent soundComponent = new SoundComponent(sound, false, false);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
         PathfindingComponent PathfindingComponent = new PathfindingComponent(enemyPath);
         MoneyComponent moneyComponent = new MoneyComponent(money);

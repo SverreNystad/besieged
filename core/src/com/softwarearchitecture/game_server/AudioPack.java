@@ -14,5 +14,10 @@ public class AudioPack {
     public static final String TOWER_TOR = "jens.mp3";
     public static final String TOWER_FIRE_BOW = "jens.mp3";
     public static final String TOWER_FIRE_MAGIC = "jens.mp3";
+    
+    // Background music
+    public static final String BACKGROUND_GIRL_SINGING = "sounds/valhalla_maiden.mp3";
+    public static final String BACKGROUND_CELLO_SOLO = "sounds/viking_cello_solo.mp3";
+    public static final String BACKGROUND_VIKING_CHOIR = "sounds/viking_choir.mp3";
 
 }
