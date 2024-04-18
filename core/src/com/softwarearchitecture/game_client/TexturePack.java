@@ -103,6 +103,13 @@ public class TexturePack {
     public static final String MORTAR_FRAME5 = "mortar_frame5.png";
     public static final String MORTAR_FRAME6 = "mortar_frame6.png";
 
+    public static final String TOWER_INFERNO_FRAME1 = "inferno_frame1.png";
+    public static final String TOWER_INFERNO_FRAME2 = "inferno_frame2.png";
+    public static final String TOWER_INFERNO_FRAME3 = "inferno_frame3.png";
+    public static final String TOWER_INFERNO_FRAME4 = "inferno_frame4.png";
+    public static final String TOWER_INFERNO_FRAME5 = "inferno_frame5.png";
+    public static final String TOWER_INFERNO_FRAME6 = "inferno_frame6.png";
+
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
     public static final String ENEMY_ANT_FRAME2 = "ant_frame2.png";
