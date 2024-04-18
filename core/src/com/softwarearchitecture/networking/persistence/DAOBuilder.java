@@ -12,6 +12,17 @@ import java.io.IOException;
  * @see <a href="https://en.wikipedia.org/wiki/Builder_pattern">Builder pattern on Wikipedia</a>
  */
 public class DAOBuilder<K, T>{
+
+    private boolean useLocalStorage;
+
+    public DAOBuilder() {
+        this.useLocalStorage = false;
+    }
+
+    public DAOBuilder(boolean useLocalStorage) {
+        this.useLocalStorage = useLocalStorage;
+    }
+
     /**
      * Constructs and returns a DAO instance configured according to the builder settings.
      * This method decides the specific DAO implementation to instantiate based on the
@@ -26,6 +37,11 @@ public class DAOBuilder<K, T>{
         // TODO: add conditional logic to determine which DAO implementation to use
         // based on the configuration of system capabilities
         DAO<K, T> dao;
+        if (useLocalStorage) {
+            dao = new LocalDAO<K, T>();
+            return dao;
+        }
+
         try {
             dao = new FirebaseDAO(idParameterClass, typeParameterClass);
             return dao;

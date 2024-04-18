@@ -21,6 +21,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
@@ -67,18 +68,22 @@ public class InGame extends State implements Observer, GameOverObserver {
             PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
             background.addComponent(SpriteComponent.class, backgroundSprite);
             background.addComponent(PositionComponent.class, backgroundPosition);
-            ECSManager.getInstance().addEntity(background);
+            ECSManager.getInstance().addLocalEntity(background);
 
             // Map and tiles
             Map gameMap = MapFactory.createMap(mapName);
             initializeMapEntities(gameMap);
+
+            
+
             this.gameMap = gameMap;
             
-            EnemySystem EnemySystem = new EnemySystem(this);
+            EnemySystem enemySystem = new EnemySystem(this);
             AttackSystem attackSystem = new AttackSystem(gameMap);
-            ECSManager.getInstance().addSystem(EnemySystem);
+            AnimationSystem animationSystem = new AnimationSystem();
+            ECSManager.getInstance().addSystem(animationSystem);
+            ECSManager.getInstance().addSystem(enemySystem);
             ECSManager.getInstance().addSystem(attackSystem);
-            
             // Initialize the Village-entity
             initializeVillage();
         } 
@@ -91,7 +96,8 @@ public class InGame extends State implements Observer, GameOverObserver {
                 ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
                 ComponentManager<PositionComponent> positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);
     
-                Set<Entity> entities = ECSManager.getInstance().getEntities();
+                Set<Entity> entities = ECSManager.getInstance().getLocalEntities();
+                entities.addAll(ECSManager.getInstance().getRemoteEntities());
                 for (Entity entity : entities) {
                     if (spriteManager.getComponent(entity).isPresent() && tileManager.getComponent(entity).isPresent() && positionManager.getComponent(entity).isPresent()) {
                         SpriteComponent sprite = spriteManager.getComponent(entity).get();
@@ -110,7 +116,7 @@ public class InGame extends State implements Observer, GameOverObserver {
 
             ButtonComponent button = new ButtonComponent(new Vector2(0,0), new Vector2(1,1), ButtonEnum.TILE, 0, callback);
             screenTouch.addComponent(ButtonComponent.class, button);
-            ECSManager.getInstance().addEntity(screenTouch);
+            ECSManager.getInstance().addLocalEntity(screenTouch);
             System.out.println("Added screen touch button");
         }
 
@@ -118,7 +124,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         // Buttons
         Entity backButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0, 1),
                 new Vector2(0.1f, 0.2f), this, 0);
-        ECSManager.getInstance().addEntity(backButton);
+        ECSManager.getInstance().addLocalEntity(backButton);
 
 
         // TODO: Check if multiplayer and add multiplayer-specific button functionality
@@ -130,17 +136,12 @@ public class InGame extends State implements Observer, GameOverObserver {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
-        EnemySystem EnemySystem = new EnemySystem(this);
-        AttackSystem attackSystem = new AttackSystem(gameMap);
-        AnimationSystem animationSystem = new AnimationSystem();
-
+        
 
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
-        ECSManager.getInstance().addSystem(EnemySystem);
-        ECSManager.getInstance().addSystem(attackSystem);
-        ECSManager.getInstance().addSystem(animationSystem);
+        
 
     }
 
@@ -155,23 +156,27 @@ public class InGame extends State implements Observer, GameOverObserver {
         }
     }
 
-    public void initializeVillage() {
+    private void initializeVillage() {
+        // Initialize the village entity
         Entity village = new Entity();
+        VillageComponent villageComponent = new VillageComponent();
         HealthComponent healthComponent = new HealthComponent(1000);
-        PlayerComponent playerComponent = new PlayerComponent(village.getId());
         MoneyComponent moneyComponent = new MoneyComponent(1000);
+        
+        
+        // Add a text component to the village entity
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
         String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
-
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
-        village.addComponent(HealthComponent.class, healthComponent);
-        village.addComponent(PlayerComponent.class, playerComponent);
-        village.addComponent(MoneyComponent.class, moneyComponent);
-        village.addComponent(PositionComponent.class, villagePosition);
+        
         village.addComponent(TextComponent.class, villageHealthText);
-
-        ECSManager.getInstance().addEntity(village);
+        village.addComponent(HealthComponent.class, healthComponent);
+        village.addComponent(MoneyComponent.class, moneyComponent);
+        village.addComponent(VillageComponent.class, villageComponent);
+        village.addComponent(PositionComponent.class, villagePosition);
+        
+        ECSManager.getInstance().addLocalEntity(village);
         this.village = village;
     }
 
@@ -192,7 +197,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         PathfindingComponent pathfindingComponent = new PathfindingComponent(enemyPath);
         Entity path = new Entity();
         path.addComponent(PathfindingComponent.class, pathfindingComponent);
-        ECSManager.getInstance().addEntity(path);
+        ECSManager.getInstance().addLocalEntity(path);
 
         for (int i = 0; i < numOfColumns; i++) {
             for (int j = numOfRows - 1; j >= 0; j--) {
@@ -220,7 +225,7 @@ public class InGame extends State implements Observer, GameOverObserver {
                 tileEntity.addComponent(PositionComponent.class, positionComponent);
                 tileEntity.addComponent(ButtonComponent.class, buttonComponent);
                 tileEntity.addComponent(TileComponent.class, tileComponent); // Added
-                ECSManager.getInstance().addEntity(tileEntity);
+                ECSManager.getInstance().addLocalEntity(tileEntity);
 
             }
         }
@@ -239,7 +244,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         PositionComponent menuBackgroundPosition = new PositionComponent(position1, 2);
         menuBackground.addComponent(SpriteComponent.class, menuBackgroundSprite);
         menuBackground.addComponent(PositionComponent.class, menuBackgroundPosition);
-        ECSManager.getInstance().addEntity(menuBackground);
+        ECSManager.getInstance().addLocalEntity(menuBackground);
 
         // Create buttons for each card type
         float buttonWidth = 0.065f;
@@ -250,7 +255,7 @@ public class InGame extends State implements Observer, GameOverObserver {
             Vector2 position2 = new Vector2(0.61f + type.ordinal() * (buttonWidth + gap), menuYPosition - 0.065f);
             Vector2 size = new Vector2(buttonWidth, buttonHeight);
             Entity button = createCardTypeButton(card, position2, size);
-            ECSManager.getInstance().addEntity(button);
+            ECSManager.getInstance().addLocalEntity(button);
         }
     }
 
@@ -375,7 +380,7 @@ public class InGame extends State implements Observer, GameOverObserver {
             centerAndResizeEntity(cardEntity, tileEntity, gameMap);
             tile.setCard(cardEntity);
 
-            ECSManager.getInstance().addEntity(cardEntity);
+            ECSManager.getInstance().addLocalEntity(cardEntity);
         }
     }
 
@@ -384,7 +389,7 @@ public class InGame extends State implements Observer, GameOverObserver {
             centerAndResizeEntity(towerEntity, tileEntity, gameMap);
             tile.setTower(towerEntity);
 
-            ECSManager.getInstance().addEntity(towerEntity);
+            ECSManager.getInstance().addLocalEntity(towerEntity);
         }
     }
 
@@ -392,11 +397,11 @@ public class InGame extends State implements Observer, GameOverObserver {
         ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
                         .removeComponent(tileEntity);
         Entity card = tile.getCard();
-        ECSManager.getInstance().removeEntity(card);
+        ECSManager.getInstance().removeLocalEntity(card);
         tile.removeCard();
     }
 
-    public boolean buyCard(Entity cardEntity) {
+    private boolean buyCard(Entity cardEntity) {
         ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
         Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
         if (costComponent.isPresent()) {
@@ -413,7 +418,7 @@ public class InGame extends State implements Observer, GameOverObserver {
     }
 
 
-    public void updateTopRightCornerText() {
+    private void updateTopRightCornerText() {
         // Get the text-component of the village and update the health
         ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
         ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
@@ -421,7 +426,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         Optional<TextComponent> textComponent = textManager.getComponent(village);
         Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
         Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
-        
+     
         if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
             int villageHealth = healthComponent.get().getHealth();
             int money = moneyComponent.get().amount;
@@ -466,7 +471,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         float tileWidth = gameMap.getTileWidth();
         float tileHeight = gameMap.getTileHeight();
 
-        for (Entity entity : ECSManager.getInstance().getEntities()) {
+        for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent()
                     && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();

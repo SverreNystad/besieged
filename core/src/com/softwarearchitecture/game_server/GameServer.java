@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -15,6 +18,8 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.VillageComponent;
+import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
@@ -22,6 +27,7 @@ import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.math.Vector3;
 
 /**
  * Represents a game server that manages the lifecycle and state of a multiplayer game.
@@ -57,13 +63,27 @@ public class GameServer {
 
         // TODO: Add relevant entities
         Entity village = new Entity();
-        village.addComponent(HealthComponent.class, new HealthComponent(100));
-        ECSManager.getInstance().addEntity(village);
-        gameState.village = village;
+        VillageComponent villageComponent = new VillageComponent();
+        HealthComponent healthComponent = new HealthComponent(1000);
+        MoneyComponent moneyComponent = new MoneyComponent(1000);
+        
+        // Add a text component to the village entity
+        PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
+        villageHealthText.setColor(new Vector3(0f, 0f, 0f));
+
+        village.addComponent(VillageComponent.class, villageComponent);
+        village.addComponent(HealthComponent.class, healthComponent);
+        village.addComponent(MoneyComponent.class, moneyComponent);
+        village.addComponent(PositionComponent.class, villagePosition);
+        village.addComponent(TextComponent.class, villageHealthText);
+        
+        ECSManager.getInstance().addLocalEntity(village);
         
         gameState.playerTwo = new Entity();
         gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwoID));
-        ECSManager.getInstance().addEntity(gameState.playerTwo);
+        ECSManager.getInstance().addLocalEntity(gameState.playerTwo);
         
         gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerOneID));
         gameState.playerTwo.addComponent(PlayerComponent.class, new PlayerComponent(playerTwoID));
@@ -77,7 +97,7 @@ public class GameServer {
         System.out.println("[SERVER] Game is now full");
 
         // TODO: Add relevant systems
-        setupGame(mapName);
+        setupGame(mapName, gameState);
 
         // Main gameplay loop
         boolean gamesOver = false;
@@ -118,7 +138,7 @@ public class GameServer {
         if (messageController.getGameState(gameId).playerOne == null) {
             gameState.playerOne = new Entity();
             gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerOneID));
-            ECSManager.getInstance().addEntity(gameState.playerOne);
+            ECSManager.getInstance().addLocalEntity(gameState.playerOne);
         }
         messageController.setNewGameState(this.gameId, gameState);
         return gameState;
@@ -145,7 +165,7 @@ public class GameServer {
     }
 
 
-    private void setupGame(String mapName) {
+    private void setupGame(String mapName, GameState gameState) {
         String backgroundPath = TexturePack.BACKGROUND_TOR;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
@@ -154,21 +174,26 @@ public class GameServer {
         background.addComponent(PositionComponent.class, backgroundPosition);
         TextComponent textComponent = new TextComponent("In Game!", new Vector2(0.05f, 0.05f));
         background.addComponent(TextComponent.class, textComponent);
-        ECSManager.getInstance().addEntity(background);
+        ECSManager.getInstance().addLocalEntity(background);
 
         // Map and tiles
         this.gameMap = MapFactory.createMap(mapName);
         initializeMapEntities(gameMap);
+
+        initializeVillage(gameState);
     
 
         // Add systems to the ECSManager
         MovementSystem MovementSystem = new MovementSystem();
         EnemySystem EnemySystem = new EnemySystem();
         AttackSystem attackSystem = new AttackSystem(gameMap);
-
+        AnimationSystem animationSystem = new AnimationSystem();
+        
+        ECSManager.getInstance().addSystem(animationSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
         ECSManager.getInstance().addSystem(EnemySystem);
         ECSManager.getInstance().addSystem(attackSystem);
+
 
     }
 
@@ -189,7 +214,7 @@ public class GameServer {
         PathfindingComponent pathfindingComponent = new PathfindingComponent(enemyPath);
         Entity path = new Entity();
         path.addComponent(PathfindingComponent.class, pathfindingComponent);
-        ECSManager.getInstance().addEntity(path);
+        ECSManager.getInstance().addLocalEntity(path);
 
         for (int i = 0; i < numOfColumns; i++) {
             for (int j = numOfRows - 1; j >= 0; j--) {
@@ -207,7 +232,7 @@ public class GameServer {
                 tileEntity.addComponent(SpriteComponent.class, spriteComponent);
                 tileEntity.addComponent(PositionComponent.class, positionComponent);
                 tileEntity.addComponent(TileComponent.class, tileComponent); // Added
-                ECSManager.getInstance().addEntity(tileEntity);
+                ECSManager.getInstance().addLocalEntity(tileEntity);
                 
             }
         }
@@ -219,6 +244,7 @@ public class GameServer {
         System.out.println("Action: " + action.getCardType() + " x: " + action.getX() + " y: " + action.getY());
 
         // TODO: Check for player balance for buying card
+        
         handleCardPlacement(action.getCardType(), action.getX(), action.getY());
     }
 
@@ -234,6 +260,11 @@ public class GameServer {
         }
         
 
+        // Get necessary entities for card placement
+        Entity village = ECSManager.getInstance().getLocalEntities().stream()
+            .filter(e -> e.getComponent(VillageComponent.class).isPresent()).findFirst().get();
+        Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+        
         // Card already placed, place tower
         if (tile.hasCard()) {
             System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
@@ -243,11 +274,17 @@ public class GameServer {
             Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
 
             if (towerType.isPresent()) {
+
+                if (!buyCard(village, cardEntity)) {
+                    System.out.println("Not enough money to buy card");
+                    return;
+                }
+
                 // Remove the card thats already there
                 ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
                         .removeComponent(tileEntity);
                 Entity card = tile.getCard();
-                ECSManager.getInstance().removeEntity(card);
+                ECSManager.getInstance().removeLocalEntity(card);
                 tile.removeCard();
 
                 // Create the tower entity
@@ -259,17 +296,51 @@ public class GameServer {
         }
         // No card on tile, place card
         else {
+            if (!buyCard(village, cardEntity)) {
+                System.out.println("Not enough money to buy card");
+                return;
+            }
             System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
             // Add a PlacedCardComponent the Tile-entity (to keep track of the cards' type)
             PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
             ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
                     placedCardComponent);
 
-            // Create the card entity
-            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
-
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
+        }
+    }
+
+    private boolean buyCard(Entity village, Entity cardEntity) {
+        ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
+        Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
+        if (costComponent.isPresent()) {
+            int playerBalance = village.getComponent(MoneyComponent.class).get().amount;
+            int costOfCard = costComponent.get().getCost();
+            if (playerBalance >= costOfCard) {
+                playerBalance -= costOfCard;
+                village.getComponent(MoneyComponent.class).get().amount = playerBalance;
+                updateTopRightCornerText(village);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void updateTopRightCornerText(Entity village) {
+        // Get the text-component of the village and update the health
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+        Optional<TextComponent> textComponent = textManager.getComponent(village);
+        Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
+        Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+     
+        if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
+            int villageHealth = healthComponent.get().getHealth();
+            int money = moneyComponent.get().amount;
+            String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
+            textComponent.get().text = textToDisplay;
         }
     }
 
@@ -277,7 +348,7 @@ public class GameServer {
         float tileWidth = gameMap.getTileWidth();
         float tileHeight = gameMap.getTileHeight();
 
-        for (Entity entity : ECSManager.getInstance().getEntities()) {
+        for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent()
                     && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
@@ -299,7 +370,7 @@ public class GameServer {
             centerAndResizeEntity(towerEntity, tileEntity, gameMap);
             tile.setTower(towerEntity);
 
-            ECSManager.getInstance().addEntity(towerEntity);
+            ECSManager.getInstance().addLocalEntity(towerEntity);
         }
     }
 
@@ -333,16 +404,30 @@ public class GameServer {
         entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
         entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
     }
-
-
     
     private void updateTileWithCard(Tile tile, Entity tileEntity, Entity cardEntity) {
         if (tileEntity != null) {
             centerAndResizeEntity(cardEntity, tileEntity, gameMap);
             tile.setCard(cardEntity);
 
-            ECSManager.getInstance().addEntity(cardEntity);
+            ECSManager.getInstance().addLocalEntity(cardEntity);
         }
+    }
+
+    public void initializeVillage(GameState gameState) {
+
+        MoneyComponent moneyComponent = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class).getComponent(gameState.playerOne).get();
+        HealthComponent healthComponent = new HealthComponent(1000);
+        PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
+
+        villageHealthText.setColor(new Vector3(0f, 0f, 0f));
+        gameState.playerOne.addComponent(HealthComponent.class, healthComponent);
+        gameState.playerOne.addComponent(PositionComponent.class, villagePosition);
+        gameState.playerOne.addComponent(TextComponent.class, villageHealthText);
+
+        ECSManager.getInstance().addLocalEntity(gameState.playerOne);
     }
 
     public void setPlayerId(UUID playerId) {

@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-public class FirebaseDAO<K, T> extends DAO<K, T> {
+public class FirebaseDAO<K, T> implements DAO<K, T> {
 
     private final FirebaseDatabase database;
     private final Class<K> idParameterClass;
