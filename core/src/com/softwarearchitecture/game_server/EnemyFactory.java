@@ -137,7 +137,7 @@ public class EnemyFactory {
                 size.set(0.05f, 0.15f);
                 velocity.set(0.003f, 0.003f);
                 maxHealth = 5000;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1000;
 
                 break;
