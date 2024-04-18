@@ -86,10 +86,10 @@ public class TexturePack {
     public static final String TOWER_BOW_FIRE = "sprites/towers/bow_fire.png";
     public static final String TOWER_SHARPSHOOTER = "sprites/towers/sharpshooter_tower.png";
 
-    public static final String TOWER_BOW_LIGHNING_FRAME1 = "sprites/towers/bow_lightning_frame_1.png";
-    public static final String TOWER_BOW_LIGHNING_FRAME2 = "sprites/towers/bow_lightning_frame2.png";
-    public static final String TOWER_BOW_LIGHNING_FRAME3 = "sprites/towers/bow_lightning_frame3.png";
-    public static final String TOWER_BOW_LIGHNING_FRAME4 = "sprites/towers/bow_lightning_frame4.png";
+    public static final String TOWER_BOW_LIGHTING_FRAME1 = "sprites/towers/bow_lightning_frame_1.png";
+    public static final String TOWER_BOW_LIGHTING_FRAME2 = "sprites/towers/bow_lightning_frame2.png";
+    public static final String TOWER_BOW_LIGHTING_FRAME3 = "sprites/towers/bow_lightning_frame3.png";
+    public static final String TOWER_BOW_LIGHTING_FRAME4 = "sprites/towers/bow_lightning_frame4.png";
 
     public static final String TOWER_MAGIC_TECH_FRAME1 = "sprites/towers/magic_tech_no_case_frame1.png";
     public static final String TOWER_MAGIC_TECH_FRAME2 = "sprites/towers/magic_tech_no_case_frame2.png";

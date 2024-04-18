@@ -98,13 +98,13 @@ public class TowerFactory {
                 sound = AudioPack.TOWER_BOW;
                 break;
 
-            case BOW_LIGHNING:
-                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
-                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
-                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME1);
-                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME2);
-                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME3);
-                textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME4);
+            case BOW_LIGHTING:
+                textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME2);
+                textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME3);
+                textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME4);
                 areaOfAffectComponent = new AreaOfAffectComponent();
                 damage = 30;
                 range = 2.5f;
