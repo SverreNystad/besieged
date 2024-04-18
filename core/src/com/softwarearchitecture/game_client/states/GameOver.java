@@ -28,14 +28,14 @@ public class GameOver extends State implements Observer {
         Entity gameOverTextEntity = new Entity();
         TextComponent gameOverText = new TextComponent("GAME OVER", new Vector2(0.1f, 0.1f));
         gameOverText.setColor(new Vector3(1f, 0f, 0f)); // Red text
-        PositionComponent textPosition = new PositionComponent(new Vector2(0.34f, 0.59f), 10); // Position near the top and centered
+        PositionComponent textPosition = new PositionComponent(new Vector2(0.34f, 0.56f), 10); // Position near the top and centered
         gameOverTextEntity.addComponent(TextComponent.class, gameOverText);
         gameOverTextEntity.addComponent(PositionComponent.class, textPosition);
         ECSManager.getInstance().addEntity(gameOverTextEntity);
 
         // Create button to return to main menu using ButtonFactory
         Vector2 mainMenuButtonSize = new Vector2(0.2f, 0.1f);
-        Entity mainMenuButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK_MENU, new Vector2(0.4f, 0.4f), mainMenuButtonSize, this, 5);
+        Entity mainMenuButton = ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK_MENU, new Vector2(0.4f, 0.40f), mainMenuButtonSize, this, 5);
         ECSManager.getInstance().addEntity(mainMenuButton);
 
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);

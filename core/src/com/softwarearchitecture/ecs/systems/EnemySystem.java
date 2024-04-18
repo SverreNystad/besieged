@@ -24,6 +24,7 @@ import com.softwarearchitecture.game_server.EnemyFactory.EnemyType;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TileType;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.math.Vector3;
 import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
@@ -56,6 +57,7 @@ public class EnemySystem implements System {
     private Entity village;
     private boolean firstUpdate = true;
     private GameOverObserver gameOverObserver;
+    private Entity waveNumberEntity = null;
 
 
     public EnemySystem() {
@@ -90,6 +92,7 @@ public class EnemySystem implements System {
     public void update(Set<Entity> entities, float deltaTime) {
         // Set this.village to the village entity, but only once
         if (firstUpdate == true) {
+            initializeWaveNumberDisplay();
             for (Entity entity : ECSManager.getInstance().getEntities()) {
                 if (playerManager.getComponent(entity).isPresent()) {
                     this.village = entity;
@@ -238,7 +241,10 @@ public class EnemySystem implements System {
             spawnTimer = 0f;
             maxLiveMonsters++;
         }
+
+        updateWaveNumberDisplay();
     }
+
 
     public void awardPlayerMoney(Entity enemy) {
         MoneyComponent balance = moneyManager.getComponent(village).get();
@@ -264,6 +270,27 @@ public class EnemySystem implements System {
             int money = moneyComponent.get().amount;
             String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
             textComponent.get().text = textToDisplay;
+        }
+    }
+
+    public void initializeWaveNumberDisplay() {
+        // Create a new Entity for the wave number and add it to the ECS
+        this.waveNumberEntity = new Entity();
+        TextComponent waveNumberText = new TextComponent("Wave: " + waveNumber, new Vector2(0.05f, 0.05f));
+        waveNumberText.setColor(new Vector3(0, 0, 0));
+        PositionComponent waveNumberPosition = new PositionComponent(new Vector2(0.02f, 0.90f), 10); 
+        waveNumberEntity.addComponent(TextComponent.class, waveNumberText);
+        waveNumberEntity.addComponent(PositionComponent.class, waveNumberPosition);
+        ECSManager.getInstance().addEntity(waveNumberEntity);
+    }
+    
+
+    public void updateWaveNumberDisplay() {
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        Optional<TextComponent> waveNumberText = textManager.getComponent(waveNumberEntity);
+
+        if (waveNumberText.isPresent()) {
+            waveNumberText.get().text = "Wave: " + waveNumber;
         }
     }
 }

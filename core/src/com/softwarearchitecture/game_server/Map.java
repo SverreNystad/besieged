@@ -54,7 +54,7 @@ public class Map {
                 } else if (randInt == 3) {
                     return TexturePack.TILE_GRASS_03;
                 } else {
-                    return TexturePack.TILE_GRASS_02;
+                    return TexturePack.TILE_GRASS_04;
                 }
             case PATH:
                 int x = tile.getX();
