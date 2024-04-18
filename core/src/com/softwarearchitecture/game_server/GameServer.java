@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
