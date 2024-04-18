@@ -85,7 +85,7 @@ public class InGame extends State implements Observer {
             // Make a button that covers the whole screen and sends a message to the server when clicked
             Entity screenTouch = new Entity();
             Runnable callback = () -> {
-                System.out.println("Screen touched at: " + defaultControllers.inputController.getLastReleaseLocation().u + ", " + defaultControllers.inputController.getLastReleaseLocation().v);
+                //System.out.println("Screen touched at: " + defaultControllers.inputController.getLastReleaseLocation().u + ", " + defaultControllers.inputController.getLastReleaseLocation().v);
                 ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);  
                 ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
                 ComponentManager<PositionComponent> positionManager = ECSManager.getInstance().getOrDefaultComponentManager(PositionComponent.class);

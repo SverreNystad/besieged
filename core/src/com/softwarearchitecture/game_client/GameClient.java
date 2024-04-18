@@ -3,13 +3,17 @@ package com.softwarearchitecture.game_client;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
+import com.softwarearchitecture.ecs.components.SpriteComponent;
+import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.ScreenManager;
 import com.softwarearchitecture.game_server.GameState;
+import com.softwarearchitecture.game_server.Tile;
 
 public class GameClient {
     private ScreenManager screenManager;
@@ -53,11 +57,21 @@ public class GameClient {
     }
 
     private void removePlacedCardsFromScreen() {
+        // ComponentManager<PlacedCardComponent> placedCardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
+        ComponentManager<TileComponent> tileManager = ECSManager.getInstance().getOrDefaultComponentManager(TileComponent.class);
+        ComponentManager<SpriteComponent> spriteManager = ECSManager.getInstance().getOrDefaultComponentManager(SpriteComponent.class);
         ComponentManager<PlacedCardComponent> placedCardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
         for (Entity entity : ECSManager.getInstance().getEntities()) {
-            if (placedCardManager.getComponent(entity).isPresent()) {
+            // if (placedCardManager.getComponent(entity).isPresent()) {
+            //     placedCardManager.removeComponent(entity);
+            // }
+            Optional<PlacedCardComponent> placedCardComponent = placedCardManager.getComponent(entity);
+            Optional<TileComponent> tileComponent = tileManager.getComponent(entity);
+            Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
+            if (placedCardComponent.isPresent() && !tileComponent.isPresent() && spriteComponent.isPresent()) {
+                spriteManager.removeComponent(entity);
                 ECSManager.getInstance().removeEntity(entity);
-            }
+            } 
         }
     }
 }

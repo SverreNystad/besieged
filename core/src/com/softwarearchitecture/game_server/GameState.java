@@ -93,6 +93,8 @@ public class GameState implements Externalizable {
         serializeComponent(out, PathfindingComponent.class);
         // Tile
         serializeComponent(out, TileComponent.class);
+        // Placed cards
+        serializeComponent(out, PlacedCardComponent.class);
     }
 
     private <T> void serializeComponent(ObjectOutput out, Class<T> componentClass) throws IOException {
@@ -144,6 +146,7 @@ public class GameState implements Externalizable {
         }
         mapName = (String) readObject;
 
+        // Player components
         deserializeComponent(in, PlayerComponent.class);
         // Position
         deserializeComponent(in, PositionComponent.class);
@@ -161,6 +164,8 @@ public class GameState implements Externalizable {
         deserializeComponent(in, PathfindingComponent.class);
         // Tile
         deserializeComponent(in, TileComponent.class);
+        // Placed cards
+        deserializeComponent(in, PlacedCardComponent.class);
     }
 
     private void deserializePlayers(ObjectInput in) throws IOException, ClassNotFoundException {
