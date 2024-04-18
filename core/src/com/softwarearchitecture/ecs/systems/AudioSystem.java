@@ -25,7 +25,17 @@ public class AudioSystem implements System {
             // Play the sound component.
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
             if (soundComponent.isPresent()) {
-                soundController.playSound(soundComponent.get());
+                if (soundComponent.get().isPlaying) {
+                    continue;
+                }
+                soundComponent.get().isPlaying = true;
+                if (soundComponent.get().isBackgroundMusic) {
+                    java.lang.System.out.println("Spiller bakgrunnsmusikk");
+                    soundController.playBackgroundMusic(soundComponent.get());
+                } else {
+                    java.lang.System.out.println("Spiller lyd");
+                    soundController.playSound(soundComponent.get());
+                }
             }
         }
     }

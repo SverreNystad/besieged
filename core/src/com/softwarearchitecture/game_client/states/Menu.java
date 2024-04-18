@@ -6,14 +6,17 @@ import java.util.UUID;
 
 import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_client.TexturePack;
+import com.softwarearchitecture.game_server.AudioPack;
+import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.ButtonComponent.ButtonEnum;
 import com.softwarearchitecture.math.Vector2;
-
+import com.softwarearchitecture.ecs.systems.AudioSystem;
 // import systems
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
@@ -40,14 +43,17 @@ public class Menu extends State implements Observer {
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
         background.addComponent(SpriteComponent.class, backgroundSprite);
         background.addComponent(PositionComponent.class, backgroundPosition);
-        ECSManager.getInstance().addEntity(background);
+        ECSManager.getInstance().addLocalEntity(background);
         System.out.println("Menu activated");
 
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
+        ComponentManager<SoundComponent> audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
+        AudioSystem audioSystem = new AudioSystem(audioManager, defaultControllers.soundController);
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
+        ECSManager.getInstance().addSystem(audioSystem);
 
         // Add the logo at the top
         Entity logo = new Entity();
@@ -55,7 +61,7 @@ public class Menu extends State implements Observer {
         PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0.52f), 1);
         logo.addComponent(SpriteComponent.class, logoSprite);
         logo.addComponent(PositionComponent.class, logoPosition);
-        ECSManager.getInstance().addEntity(logo);
+        ECSManager.getInstance().addLocalEntity(logo);
 
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
@@ -77,6 +83,12 @@ public class Menu extends State implements Observer {
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.QUIT,
                 new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 0),
                 new Vector2(buttonWidth, buttonHeight), this, 1));
+
+        // Set up background music
+        Entity backgroundMusicEntity = new Entity();
+        SoundComponent backgroundMusic = new SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for looping
+        backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
+        ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
     }
 
     /**

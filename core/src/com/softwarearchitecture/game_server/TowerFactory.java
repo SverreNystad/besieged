@@ -46,7 +46,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME3);
 
-                damage = 4;
+                damage = 15;
                 range = 2;
                 attackCooldown = 40;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
@@ -57,7 +57,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_TOR_FRAME3);
                 textures.add(TexturePack.TOWER_TOR_FRAME2);
                 textures.add(TexturePack.TOWER_TOR_FRAME1);
-                damage = 7;
+                damage = 20;
                 range = 3;
                 attackCooldown = 75;
                 sound = AudioPack.TOWER_TOR;
@@ -68,28 +68,28 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_FRAME3);
                 textures.add(TexturePack.TOWER_MAGIC_FRAME2);
                 textures.add(TexturePack.TOWER_MAGIC_FRAME1);
-                damage = 8;
+                damage = 13;
                 range = 3;
                 attackCooldown = 80;
                 sound = AudioPack.TOWER_MAGIC;
                 break;
             case FIRE_BOW:
                 textures.add(TexturePack.TOWER_BOW_FIRE);
-                damage = 3;
+                damage = 7;
                 range = 2;
                 attackCooldown = 35;
                 sound = AudioPack.TOWER_FIRE_BOW;
                 break;
             case SHARP_SHOOTER:
                 textures.add(TexturePack.TOWER_SHARPSHOOTER);
-                damage = 15;
+                damage = 40;
                 range = 4.5f;
                 attackCooldown = 100;
                 sound = AudioPack.TOWER_SHARP_SHOOTER;
                 break;
             case BOW:
                 textures.add(TexturePack.TOWER_BOW);
-                damage = 3;
+                damage = 12;
                 range = 3;
                 attackCooldown = 45;
                 sound = AudioPack.TOWER_BOW;
@@ -102,8 +102,8 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME2);
                 textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME3);
                 textures.add(TexturePack.TOWER_BOW_LIGHNING_FRAME4);
-                damage = 10;
-                range = 2;
+                damage = 30;
+                range = 2.5f;
                 attackCooldown = 100;
                 sound = AudioPack.TOWER_BOW;
                 break;
@@ -119,7 +119,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME4);
 
-                damage = 5;
+                damage = 45;
                 range = 2;
                 attackCooldown = 50;
                 sound = AudioPack.TOWER_BOW;
@@ -133,8 +133,8 @@ public class TowerFactory {
                 textures.add(TexturePack.MORTAR_FRAME5);
                 textures.add(TexturePack.MORTAR_FRAME6);
                 textures.add(TexturePack.MORTAR_FRAME1);
-                damage = 20;
-                range = 5;
+                damage = 100;
+                range = 4.5f;
                 attackCooldown = 150;
                 sound = AudioPack.TOWER_BOW;
                 break;
@@ -146,7 +146,7 @@ public class TowerFactory {
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         TargetComponent targetComponent = new TargetComponent();
-        SoundComponent soundComponent = new SoundComponent(sound); // TODO: Add the correct sound path
+        SoundComponent soundComponent = new SoundComponent(sound, false, false); // TODO: Add the correct sound path
 
         // Create the tower entity and add the components
         Entity tower = new Entity();

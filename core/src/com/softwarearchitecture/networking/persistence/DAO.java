@@ -14,7 +14,7 @@ import java.util.Optional;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Data_access_object">Data Access Object on Wikipedia</a>
  */
-public abstract class DAO<K, T> {
+public interface DAO<K, T> {
 
     /**
      * Retrieves all instances of type {@code T} from the data storage.
