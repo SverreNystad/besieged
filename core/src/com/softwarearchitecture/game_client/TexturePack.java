@@ -66,42 +66,42 @@ public class TexturePack {
     public static final String CARD_MAGIC_PLACED = "cards/magic_placed.png";
 
     // Towers 2
-    public static final String TOWER_TOR_FRAME1 = "tor_frame1.png";
-    public static final String TOWER_TOR_FRAME2 = "tor_frame2.png";
-    public static final String TOWER_TOR_FRAME3 = "tor_frame3.png";
+    public static final String TOWER_TOR_FRAME1 = "sprites/towers/tor_frame1.png";
+    public static final String TOWER_TOR_FRAME2 = "sprites/towers/tor_frame2.png";
+    public static final String TOWER_TOR_FRAME3 = "sprites/towers/tor_frame3.png";
 
-    public static final String TOWER_MAGIC_FRAME1 = "magic_tower_frame1.png";
-    public static final String TOWER_MAGIC_FRAME2 = "magic_tower_frame2.png";
-    public static final String TOWER_MAGIC_FRAME3 = "magic_tower_frame3.png";
+    public static final String TOWER_MAGIC_FRAME1 = "sprites/towers/magic_tower_frame1.png";
+    public static final String TOWER_MAGIC_FRAME2 = "sprites/towers/magic_tower_frame2.png";
+    public static final String TOWER_MAGIC_FRAME3 = "sprites/towers/magic_tower_frame3.png";
 
-    public static final String TOWER_FIRE_FRAME1 = "magic_fire_frame1.png";
-    public static final String TOWER_FIRE_FRAME2 = "magic_fire_frame2.png";
-    public static final String TOWER_FIRE_FRAME3 = "magic_fire_frame3.png";
+    public static final String TOWER_FIRE_FRAME1 = "sprites/towers/magic_fire_frame1.png";
+    public static final String TOWER_FIRE_FRAME2 = "sprites/towers/magic_fire_frame2.png";
+    public static final String TOWER_FIRE_FRAME3 = "sprites/towers/magic_fire_frame3.png";
 
-    public static final String TOWER_FIRE_ATTACK_FRAME1 = "magic_fire_attack_frame1.png";
-    public static final String TOWER_FIRE_ATTACK_FRAME2 = "magic_fire_attack_frame2.png";
-    public static final String TOWER_FIRE_ATTACK_FRAME3 = "magic_fire_attack_frame3.png";
+    public static final String TOWER_FIRE_ATTACK_FRAME1 = "sprites/towers/magic_fire_attack_frame1.png";
+    public static final String TOWER_FIRE_ATTACK_FRAME2 = "sprites/towers/magic_fire_attack_frame2.png";
+    public static final String TOWER_FIRE_ATTACK_FRAME3 = "sprites/towers/magic_fire_attack_frame3.png";
 
-    public static final String TOWER_BOW = "bow_tower.png";
-    public static final String TOWER_BOW_FIRE = "bow_fire.png";
-    public static final String TOWER_SHARPSHOOTER = "sharpshooter_tower.png";
+    public static final String TOWER_BOW = "sprites/towers/bow_tower.png";
+    public static final String TOWER_BOW_FIRE = "sprites/towers/bow_fire.png";
+    public static final String TOWER_SHARPSHOOTER = "sprites/towers/sharpshooter_tower.png";
 
-    public static final String TOWER_BOW_LIGHNING_FRAME1 = "bow_lightning_frame_1.png";
-    public static final String TOWER_BOW_LIGHNING_FRAME2 = "bow_lightning_frame2.png";
-    public static final String TOWER_BOW_LIGHNING_FRAME3 = "bow_lightning_frame3.png";
-    public static final String TOWER_BOW_LIGHNING_FRAME4 = "bow_lightning_frame4.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME1 = "sprites/towers/bow_lightning_frame_1.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME2 = "sprites/towers/bow_lightning_frame2.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME3 = "sprites/towers/bow_lightning_frame3.png";
+    public static final String TOWER_BOW_LIGHNING_FRAME4 = "sprites/towers/bow_lightning_frame4.png";
 
-    public static final String TOWER_MAGIC_TECH_FRAME1 = "magic_tech_no_case_frame1.png";
-    public static final String TOWER_MAGIC_TECH_FRAME2 = "magic_tech_no_case_frame2.png";
-    public static final String TOWER_MAGIC_TECH_FRAME3 = "magic_tech_no_ground_frame3.png";
-    public static final String TOWER_MAGIC_TECH_FRAME4 = "magic_tech_no_case_frame4.png";
+    public static final String TOWER_MAGIC_TECH_FRAME1 = "sprites/towers/magic_tech_no_case_frame1.png";
+    public static final String TOWER_MAGIC_TECH_FRAME2 = "sprites/towers/magic_tech_no_case_frame2.png";
+    public static final String TOWER_MAGIC_TECH_FRAME3 = "sprites/towers/magic_tech_no_ground_frame3.png";
+    public static final String TOWER_MAGIC_TECH_FRAME4 = "sprites/towers/magic_tech_no_case_frame4.png";
 
-    public static final String MORTAR_FRAME1 = "mortar_frame1.png";
-    public static final String MORTAR_FRAME2 = "mortar_frame2.png";
-    public static final String MORTAR_FRAME3 = "mortar_frame3.png";
-    public static final String MORTAR_FRAME4 = "mortar_frame4.png";
-    public static final String MORTAR_FRAME5 = "mortar_frame5.png";
-    public static final String MORTAR_FRAME6 = "mortar_frame6.png";
+    public static final String MORTAR_FRAME1 = "sprites/towers/mortar_frame1.png";
+    public static final String MORTAR_FRAME2 = "sprites/towers/mortar_frame2.png";
+    public static final String MORTAR_FRAME3 = "sprites/towers/mortar_frame3.png";
+    public static final String MORTAR_FRAME4 = "sprites/towers/mortar_frame4.png";
+    public static final String MORTAR_FRAME5 = "sprites/towers/mortar_frame5.png";
+    public static final String MORTAR_FRAME6 = "sprites/towers/mortar_frame6.png";
 
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
