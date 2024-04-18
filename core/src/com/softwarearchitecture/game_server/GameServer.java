@@ -34,13 +34,14 @@ public class GameServer {
     private ServerMessagingController messageController;
 
     private Map gameMap;
+    private float aspectRatio;
 
     /**
      * Initializes a new game server with a message controller for communication and the UUID of player one.
      * @param messageController The communication controller used for interacting with clients.
      * @param playerOneID The unique identifier for the first player in the game.
      */
-    public GameServer(ServerMessagingController messageController, UUID playerOneID) {
+    public GameServer(ServerMessagingController messageController, UUID playerOneID, float aspect_ratio) {
         this.messageController = messageController;
         this.playerOneID = playerOneID;
     }
@@ -179,6 +180,20 @@ public class GameServer {
 
         float tileWidth = 1.0f / numOfColumns;
         float tileHeight = 1.0f / numOfRows;
+
+        // Take aspect_ratio into account
+        if (tileWidth < tileHeight) {
+            tileHeight = tileWidth * aspectRatio;
+        } else {
+            tileWidth = tileHeight / aspectRatio;
+        }
+        if (tileWidth * numOfColumns > 1) {
+            tileHeight = tileHeight / (tileWidth * numOfColumns);
+            tileWidth = 1.0f / numOfColumns;
+        } else if (tileHeight * numOfRows > 1) {
+            tileWidth = tileWidth / (tileHeight * numOfRows);
+            tileHeight = 1.0f / numOfRows;
+        }
 
         // Set tileWidth and tileHeight in the gameMap
         gameMap.setTileWidth(tileWidth);
