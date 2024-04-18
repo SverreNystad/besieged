@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -18,6 +19,7 @@ import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
+import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
@@ -185,10 +187,13 @@ public class GameServer {
         MovementSystem MovementSystem = new MovementSystem();
         EnemySystem EnemySystem = new EnemySystem();
         AttackSystem attackSystem = new AttackSystem(gameMap);
-
+        AnimationSystem animationSystem = new AnimationSystem();
+        
+        ECSManager.getInstance().addSystem(animationSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
         ECSManager.getInstance().addSystem(EnemySystem);
         ECSManager.getInstance().addSystem(attackSystem);
+
 
     }
 
