@@ -104,46 +104,50 @@ public class TexturePack {
     public static final String MORTAR_FRAME6 = "sprites/towers/mortar_frame6.png";
 
     // Enemies
-    public static final String ENEMY_ANT_FRAME1 = "ant_frame1.png";
-    public static final String ENEMY_ANT_FRAME2 = "ant_frame2.png";
-    public static final String ENEMY_ANT_FRAME3 = "ant_frame3.png";
-    public static final String ENEMY_ANT_FRAME4 = "ant_frame4.png";
+    public static final String ENEMY_ANT_FRAME1 = "sprites/enemies/ant_frame1.png";
+    public static final String ENEMY_ANT_FRAME2 = "sprites/enemies/ant_frame2.png";
+    public static final String ENEMY_ANT_FRAME3 = "sprites/enemies/ant_frame3.png";
+    public static final String ENEMY_ANT_FRAME4 = "sprites/enemies/ant_frame4.png";
 
-    public static final String ENEMY_DEAD_ANT__FRAME1 = "dead_ant_frame1.png";
-    public static final String ENEMY_DEAD_ANT__FRAME2 = "dead_ant_frame2.png";
+    public static final String ENEMY_DEAD_ANT__FRAME1 = "sprites/enemies/dead_ant_frame1.png";
+    public static final String ENEMY_DEAD_ANT__FRAME2 = "sprites/enemies/dead_ant_frame2.png";
 
-    public static final String ENEMY_FENRIR1 = "sprites/fenrir/frame_1.png";
-    public static final String ENEMY_FENRIR2 = "sprites/fenrir/frame_2.png";
+    public static final String ENEMY_FENRIR1 = "sprites/enemies/frame_1.png";
+    public static final String ENEMY_FENRIR2 = "sprites/enemies/frame_2.png";
+    public static final String ENEMY_FENRIR3 = "sprites/enemies/frame_3.png";
+    public static final String ENEMY_FENRIR4 = "sprites/enemies/frame_4.png";
+    public static final String ENEMY_FENRIR5 = "sprites/enemies/frame_5.png";
+    public static final String ENEMY_FENRIR6 = "sprites/enemies/frame_6.png";
 
-    public static final String ENEMY_WOLF_FRAME1 = "wolf_frame1.png";
-    public static final String ENEMY_WOLF_FRAME2 = "wolf_frame2.png";
-    public static final String ENEMY_WOLF_FRAME3 = "wolf_frame3.png";
-    public static final String ENEMY_WOLF_FRAME4 = "wolf_frame4.png";
-    public static final String ENEMY_WOLF_FRAME5 = "wolf_frame5.png";
+    public static final String ENEMY_WOLF_FRAME1 = "sprites/enemies/wolf_frame1.png";
+    public static final String ENEMY_WOLF_FRAME2 = "sprites/enemies/wolf_frame2.png";
+    public static final String ENEMY_WOLF_FRAME3 = "sprites/enemies/wolf_frame3.png";
+    public static final String ENEMY_WOLF_FRAME4 = "sprites/enemies/wolf_frame4.png";
+    public static final String ENEMY_WOLF_FRAME5 = "sprites/enemies/wolf_frame5.png";
 
-    public static final String ENEMY_VIKING_SPEAR_FRAME1 = "viking_spear_frame1.png";
-    public static final String ENEMY_VIKING_SPEAR_FRAME2 = "viking_spear_frame2.png";
-    public static final String ENEMY_VIKING_SPEAR_FRAME3 = "viking_spear_frame3.png";
-    public static final String ENEMY_VIKING_SPEAR_FRAME4 = "viking_spear_frame4.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME1 = "sprites/enemies/viking_spear_frame1.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME2 = "sprites/enemies/viking_spear_frame2.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME3 = "sprites/enemies/viking_spear_frame3.png";
+    public static final String ENEMY_VIKING_SPEAR_FRAME4 = "sprites/enemies/viking_spear_frame4.png";
 
-    public static final String ENEMY_VIKING_AXE_FRAME1 = "viking_axe_frame1.png";
-    public static final String ENEMY_VIKING_AXE_FRAME2 = "viking_axe_frame2.png";
-    public static final String ENEMY_VIKING_AXE_FRAME3 = "viking_axe_frame3.png";
-    public static final String ENEMY_VIKING_AXE_FRAME4 = "viking_axe_frame4.png";
+    public static final String ENEMY_VIKING_AXE_FRAME1 = "sprites/enemies/viking_axe_frame1.png";
+    public static final String ENEMY_VIKING_AXE_FRAME2 = "sprites/enemies/viking_axe_frame2.png";
+    public static final String ENEMY_VIKING_AXE_FRAME3 = "sprites/enemies/viking_axe_frame3.png";
+    public static final String ENEMY_VIKING_AXE_FRAME4 = "sprites/enemies/viking_axe_frame4.png";
 
-    public static final String ENEMY_VIKING_SWORD_FRAME1 = "viking_sword_frame1.png";
-    public static final String ENEMY_VIKING_SWORD_FRAME2 = "viking_sword_frame2.png";
-    public static final String ENEMY_VIKING_SWORD_FRAME3 = "viking_sword_frame3.png";
-    public static final String ENEMY_VIKING_SWORD_FRAME4 = "viking_sword_frame4.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME1 = "sprites/enemies/viking_sword_frame1.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME2 = "sprites/enemies/viking_sword_frame2.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME3 = "sprites/enemies/viking_sword_frame3.png";
+    public static final String ENEMY_VIKING_SWORD_FRAME4 = "sprites/enemies/viking_sword_frame4.png";
 
-    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME1 = "viking_sword_shield_frame1.png";
-    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME2 = "viking_sword_shield_frame2.png";
-    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME3 = "viking_sword_shield_frame3.png";
-    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME4 = "viking_sword_shield_frame4.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME1 = "sprites/enemies/viking_sword_shield_frame1.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME2 = "sprites/enemies/viking_sword_shield_frame2.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME3 = "sprites/enemies/viking_sword_shield_frame3.png";
+    public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME4 = "sprites/enemies/viking_sword_shield_frame4.png";
 
-    public static final String ENEMY_TROLL_FRAME1 = "troll_frame1.png";
-    public static final String ENEMY_TROLL_FRAME2 = "troll_frame2.png";
-    public static final String ENEMY_TROLL_FRAME3 = "troll_frame3.png";
+    public static final String ENEMY_TROLL_FRAME1 = "sprites/enemies/troll_frame1.png";
+    public static final String ENEMY_TROLL_FRAME2 = "sprites/enemies/troll_frame2.png";
+    public static final String ENEMY_TROLL_FRAME3 = "sprites/enemies/troll_frame3.png";
 
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
