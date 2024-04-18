@@ -80,9 +80,10 @@ public class InGame extends State implements Observer, GameOverObserver {
             
             EnemySystem enemySystem = new EnemySystem(this);
             AttackSystem attackSystem = new AttackSystem(gameMap);
+            AnimationSystem animationSystem = new AnimationSystem();
+            ECSManager.getInstance().addSystem(animationSystem);
             ECSManager.getInstance().addSystem(enemySystem);
             ECSManager.getInstance().addSystem(attackSystem);
-            
             // Initialize the Village-entity
             initializeVillage();
         } 
@@ -135,12 +136,12 @@ public class InGame extends State implements Observer, GameOverObserver {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         MovementSystem MovementSystem = new MovementSystem();
-        AnimationSystem animationSystem = new AnimationSystem();
+        
 
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
-        ECSManager.getInstance().addSystem(animationSystem);
+        
 
     }
 
