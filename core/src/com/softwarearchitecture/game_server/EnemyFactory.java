@@ -20,7 +20,7 @@ import com.softwarearchitecture.math.Vector2;
 public class EnemyFactory {
 
     public enum EnemyType {
-        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR
+        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR, TROLL
 
     }
 
@@ -122,6 +122,23 @@ public class EnemyFactory {
                 maxHealth = 300;
                 sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 100;
+
+                break;
+
+            case TROLL:
+                textures.add(TexturePack.ENEMY_TROLL_FRAME1);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME1);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME2);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME2);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME3);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME3);
+
+                damage = 5;
+                size.set(0.05f, 0.15f);
+                velocity.set(0.003f, 0.003f);
+                maxHealth = 5000;
+                sound = "soundPath"; // TODO: Add the correct sound path
+                money = 1000;
 
                 break;
 

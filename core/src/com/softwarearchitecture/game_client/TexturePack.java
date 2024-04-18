@@ -141,6 +141,10 @@ public class TexturePack {
     public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME3 = "viking_sword_shield_frame3.png";
     public static final String ENEMY_VIKING_SWORD_SHIELD_FRAME4 = "viking_sword_shield_frame4.png";
 
+    public static final String ENEMY_TROLL_FRAME1 = "troll_frame1.png";
+    public static final String ENEMY_TROLL_FRAME2 = "troll_frame2.png";
+    public static final String ENEMY_TROLL_FRAME3 = "troll_frame3.png";
+
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
 
