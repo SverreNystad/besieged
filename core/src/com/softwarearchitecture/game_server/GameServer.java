@@ -315,11 +315,28 @@ public class GameServer {
             if (playerBalance >= costOfCard) {
                 playerBalance -= costOfCard;
                 village.getComponent(MoneyComponent.class).get().amount = playerBalance;
-                // updateTopRightCornerText();
+                updateTopRightCornerText(village);
                 return true;
             }
         }
         return false;
+    }
+
+    private void updateTopRightCornerText(Entity village) {
+        // Get the text-component of the village and update the health
+        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+        Optional<TextComponent> textComponent = textManager.getComponent(village);
+        Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
+        Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+     
+        if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
+            int villageHealth = healthComponent.get().getHealth();
+            int money = moneyComponent.get().amount;
+            String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
+            textComponent.get().text = textToDisplay;
+        }
     }
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
