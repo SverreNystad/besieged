@@ -59,10 +59,13 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME3);
 
+                areaOfEffectComponent = new AreaOfEffectComponent();
+
                 damage = 10;
                 range = 2;
-                attackCooldown = 0.2f * timeFactor;
+                attackCooldown = 1f;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
+
                 break;
             case TOR:
                 textures.add(TexturePack.TOWER_TOR_FRAME1);
