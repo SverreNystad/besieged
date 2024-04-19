@@ -64,7 +64,7 @@ public class AttackSystem implements System {
 
         for (Entity tower : towers) {
             TowerComponent towerComponent = tower.getComponent(TowerComponent.class).get();
-            Vector2 towerPosition = tower.getComponent(PositionComponent.class).get().getPosition();
+            Vector2 towerPosition = tower.getComponent(PositionComponent.class).get().position;
             float range = towerComponent.getRange();
             int damage = towerComponent.getDamage();
             Vector2 uvDistance = convertRangeToUVDistance(range);
@@ -73,7 +73,7 @@ public class AttackSystem implements System {
             if (areaOfAffectComponent.isPresent()) {
                 // If the tower has an area of affect, attack all enemies within the range
                 for (Entity enemy : enemies) {
-                    Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
+                    Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, enemyPosition);
                     if (distance <= uvDistance.len()) {
                         attackEnemy(enemy, damage);
@@ -87,7 +87,7 @@ public class AttackSystem implements System {
             if (activeAttacks.containsKey(tower)) {
                 Entity currentEnemy = activeAttacks.get(tower);
                 if (currentEnemy != null && entities.contains(currentEnemy)) {
-                    Vector2 currentEnemyPosition = currentEnemy.getComponent(PositionComponent.class).get().getPosition();
+                    Vector2 currentEnemyPosition = currentEnemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, currentEnemyPosition);
                     if (distance <= uvDistance.len()) {
                         // Enemy is still in range, continue to attack
@@ -106,7 +106,7 @@ public class AttackSystem implements System {
 
             // Find a new enemy to attack if not already attacking or target is out of range
             for (Entity enemy : enemies) {
-                Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
+                Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                 float distance = Vector2.dst(towerPosition, enemyPosition);
                 if (distance <= uvDistance.len()) {
                     activeAttacks.put(tower, enemy); // Assign new enemy to tower

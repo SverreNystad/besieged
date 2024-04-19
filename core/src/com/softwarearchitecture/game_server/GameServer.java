@@ -352,8 +352,8 @@ public class GameServer {
                     && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
                 // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
+                int xCoord = (int) (positionComponent.position.x / tileWidth);
+                int yCoord = (int) (positionComponent.position.y / tileHeight);
 
                 if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
                     return entity;
@@ -390,8 +390,8 @@ public class GameServer {
 
         // Calculate the centered position for the card/tower within the tile
         Vector2 centeredPosition = new Vector2(
-                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
-                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+                tilePositionComponent.position.x + padding * gameMap.getTileWidth(),
+                tilePositionComponent.position.y + padding * gameMap.getTileHeight() + entityHeight / 4);
 
         // Update the PositionComponent of the entity to place
         PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
