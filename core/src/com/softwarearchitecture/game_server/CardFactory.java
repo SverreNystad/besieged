@@ -1,11 +1,8 @@
 package com.softwarearchitecture.game_server;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.CostComponent;
-import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;

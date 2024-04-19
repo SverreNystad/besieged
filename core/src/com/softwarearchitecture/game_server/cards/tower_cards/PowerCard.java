@@ -12,7 +12,6 @@ public class PowerCard extends Card implements Serializable {
     public PowerCard(PlacedCardComponent placedCardComponent, CostComponent costComponent,
             SpriteComponent spriteComponent) {
         super(placedCardComponent, costComponent, spriteComponent);
-        //TODO Auto-generated constructor stub
     }
 
  

@@ -5,7 +5,7 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
-import com.softwarearchitecture.ecs.components.AreaOfAffectComponent;
+import com.softwarearchitecture.ecs.components.AreaOfEffectComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -38,7 +38,7 @@ public class TowerFactory {
             throw new IllegalArgumentException("Invalid tower type combination");
         }
 
-        AreaOfAffectComponent areaOfAffectComponent = null;
+        AreaOfEffectComponent areaOfEffectComponent = null;
 
         switch (towerType.get()) {
             case FIRE_MAGIC:
@@ -105,7 +105,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME2);
                 textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME3);
                 textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME4);
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
                 damage = 30;
                 range = 2.5f;
                 attackCooldown = 1;
@@ -122,7 +122,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME3);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME4);
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 45;
                 range = 2;
@@ -151,12 +151,89 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_INFERNO_FRAME4);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME5);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME6);
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 1;
                 range = 1;
                 attackCooldown = 0.5f;
                 sound = AudioPack.TOWER_BOW;
+                break;
+
+            case FURNACE:
+                textures.add(TexturePack.TOWER_FURNACE_FRAME1);
+                textures.add(TexturePack.TOWER_FURNACE_FRAME2);
+                textures.add(TexturePack.TOWER_FURNACE_FRAME3);
+                textures.add(TexturePack.TOWER_FURNACE_FRAME4);
+                textures.add(TexturePack.TOWER_FURNACE_FRAME5);
+                textures.add(TexturePack.TOWER_FURNACE_FRAME6);
+
+                areaOfEffectComponent = new AreaOfEffectComponent();
+
+                damage = 1000;
+                range = 1;
+                attackCooldown = 300;
+                sound = AudioPack.TOWER_BOW;
+                break;
+
+            case TESLA:
+                textures.add(TexturePack.TOWER_TESLA_FRAME1);
+                textures.add(TexturePack.TOWER_TESLA_FRAME2);
+                textures.add(TexturePack.TOWER_TESLA_FRAME3);
+                textures.add(TexturePack.TOWER_TESLA_FRAME4);
+                textures.add(TexturePack.TOWER_TESLA_FRAME5);
+
+                areaOfEffectComponent = new AreaOfEffectComponent();
+
+                damage = 1000;
+                range = 1;
+                attackCooldown = 300;
+                sound = AudioPack.TOWER_BOW;
+
+                break;
+
+            case THUNDERBOLT:
+                textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME1);
+                textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME2);
+                textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME3);
+
+                areaOfEffectComponent = new AreaOfEffectComponent();
+
+                damage = 100;
+                range = 2;
+                attackCooldown = 300;
+                sound = AudioPack.TOWER_BOW;
+
+                break;
+
+            case BOW_MAGIC:
+                textures.add(TexturePack.TOWER_BOW_MAGIC_FRAME1);
+                textures.add(TexturePack.TOWER_BOW_MAGIC_FRAME2);
+                textures.add(TexturePack.TOWER_BOW_MAGIC_FRAME3);
+                textures.add(TexturePack.TOWER_BOW_MAGIC_FRAME4);
+
+                damage = 20;
+                range = 3;
+                attackCooldown = 50;
+                sound = AudioPack.TOWER_BOW;
+
+                break;
+
+            case FIRE_LIGHTNING:
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME1);
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME2);
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME3);
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME5);
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME2);
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME4);
+                textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME1);
+
+                areaOfEffectComponent = new AreaOfEffectComponent();
+
+                damage = 20;
+                range = 3;
+                attackCooldown = 150;
+                sound = AudioPack.TOWER_BOW;
+
                 break;
 
         }
@@ -176,10 +253,10 @@ public class TowerFactory {
         tower.addComponent(AnimationComponent.class, animationComponent);
         tower.addComponent(TargetComponent.class, targetComponent);
         tower.addComponent(SoundComponent.class, soundComponent);
-        if (areaOfAffectComponent != null) {
-            tower.addComponent(AreaOfAffectComponent.class, areaOfAffectComponent);
+        if (areaOfEffectComponent != null) {
+            tower.addComponent(AreaOfEffectComponent.class, areaOfEffectComponent);
         }
-        
+
         return tower;
     }
 }

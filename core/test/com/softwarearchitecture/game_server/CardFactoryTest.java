@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Optional;
 
+import org.checkerframework.checker.units.qual.t;
 import org.junit.Test;
 
 import com.softwarearchitecture.ecs.Entity;
@@ -22,17 +23,17 @@ public class CardFactoryTest {
 
     @Test
     public void testCreateCardNotNull() {
-        assertNotNull("Card should not be null", CardFactory.createCard(CardType.FIRE, position));
+        assertNotNull("Card should not be null", CardFactory.createCard(CardType.FIRE, position, true));
     }
 
     @Test
     public void testCardAttributes() {
-        Entity magicCard = CardFactory.createCard(CardType.MAGIC, position);
-        MoneyComponent moneyComponent = magicCard.getComponent(MoneyComponent.class).get();
+        Entity magicCard = CardFactory.createCard(CardType.MAGIC, position, true);
+        CostComponent moneyComponent = magicCard.getComponent(CostComponent.class).get();
 
-        assertEquals(" cost should be correct for MagicCard", 100, moneyComponent.getAmount());
+        assertEquals(" cost should be correct for MagicCard", 500, moneyComponent.getCost());
 
-        Entity bowCard = CardFactory.createCard(CardType.BOW, position);
+        Entity bowCard = CardFactory.createCard(CardType.BOW, position, true);
         PositionComponent positionComponent = bowCard.getComponent(PositionComponent.class).get();
         assertEquals("Attack value should be correct for BattleCard", position, positionComponent.getPosition());
 
@@ -41,7 +42,7 @@ public class CardFactoryTest {
     @Test
     public void testInvalidCardType() {
         try {
-            CardFactory.createCard(null, position); // Assuming 'position' is defined elsewhere in your test class
+            CardFactory.createCard(null, position, false); // Assuming 'position' is defined elsewhere in your test class
             fail("Should have thrown an IllegalArgumentException for unknown card type");
         } catch (IllegalArgumentException e) {
             assertNotNull("Exception message should not be null", e.getMessage());

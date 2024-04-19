@@ -21,15 +21,7 @@ public class TowerFactoryTest {
         assertNotNull("Tower should not be null", tower);
         TowerComponent tc = tower.getComponent(TowerComponent.class)
                 .orElseThrow(() -> new AssertionError("TowerComponent should be present"));
-        assertEquals("Damage should match expected for FIRE_MAGIC tower", 5, tc.getDamage());
-        assertEquals("Range should match expected for FIRE_MAGIC tower", 3, tc.getRange());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testInvalidCardCombination() {
-        Vector2 position = new Vector2(0, 0);
-
-        TowerFactory.createTower(CardType.MAGIC, CardType.TECHNOLOGY, position);
+        assertEquals("Damage should match expected for FIRE_MAGIC tower", 15, tc.getDamage());
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -18,6 +18,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
@@ -76,7 +77,7 @@ public class GameServer {
         
         // Add a text component to the village entity
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.amount;
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
 
@@ -334,6 +335,12 @@ public class GameServer {
 
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
+                
+                // Play sound
+                Optional<TowerComponent> towerComponent = towerEntity.getComponent(TowerComponent.class);
+                if (towerComponent.isPresent()) {
+                    towerComponent.get().playSound = true;
+                }
             }
         }
         // No card on tile, place card
@@ -350,6 +357,12 @@ public class GameServer {
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
+
+            // Play sound
+            Optional<PlacedCardComponent> cardComponent = cardEntity.getComponent(PlacedCardComponent.class);
+            if (cardComponent.isPresent()) {
+                cardComponent.get().playSound = true;
+            }
         }
     }
 
@@ -426,8 +439,8 @@ public class GameServer {
 
         // Calculate the centered position for the card/tower within the tile
         Vector2 centeredPosition = new Vector2(
-                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
-                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+                tilePositionComponent.position.x + padding * gameMap.getTileWidth(),
+                tilePositionComponent.position.y + padding * gameMap.getTileHeight() + entityHeight / 4);
 
         // Update the PositionComponent of the entity to place
         PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
@@ -454,7 +467,7 @@ public class GameServer {
         MoneyComponent moneyComponent = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class).getComponent(gameState.playerOne).get();
         HealthComponent healthComponent = new HealthComponent(1000);
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.amount;
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
 
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
