@@ -136,9 +136,10 @@ public class GameServer {
             gameState.timeStamp = System.currentTimeMillis();
             messageController.setNewGameState(gameId, gameState);
             
-            if (Clock.getInstance().getDeltaTime() <= 0.01f) {
+            float deltaTime = Clock.getInstance().getDeltaTime();
+            if (deltaTime < 0.01f) {
                 try {
-                    Thread.sleep(10 - (long) (Clock.getInstance().getDeltaTime() * 1000));
+                    Thread.sleep(10 - (long) (deltaTime * 1000));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
