@@ -38,6 +38,5 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		// gameClient.dispose();
 	}
 }

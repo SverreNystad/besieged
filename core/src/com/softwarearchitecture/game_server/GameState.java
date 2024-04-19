@@ -39,8 +39,6 @@ import com.softwarearchitecture.game_server.cards.elemental_cards.LightningCard;
 import com.softwarearchitecture.game_server.cards.elemental_cards.TechnologyCard;
 import com.softwarearchitecture.game_server.cards.tower_cards.BowCard;
 import com.softwarearchitecture.game_server.cards.tower_cards.MagicCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.MeleeCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.PowerCard;
 
 
 public class GameState implements Externalizable {
@@ -51,9 +49,7 @@ public class GameState implements Externalizable {
             LightningCard.class,
             TechnologyCard.class,
             BowCard.class,
-            MagicCard.class,
-            MeleeCard.class,
-            PowerCard.class
+            MagicCard.class
             )
     );
 
