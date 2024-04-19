@@ -74,4 +74,8 @@ public class Tile implements Serializable {
     public void removeCard() {
         this.card = null;
     }
+
+    public TileType getTileType() {
+        return type;
+    }
 }
