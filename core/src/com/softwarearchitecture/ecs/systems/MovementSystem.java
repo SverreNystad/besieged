@@ -59,7 +59,7 @@ public class MovementSystem implements System {
             Tile nextTile = pathfinding.get().targetTile;
             int currentIndex = find.indexOf(nextTile);
             Vector2 nextWaypoint = new Vector2(nextTile.getX()*tileSize.x, nextTile.getY()*tileSize.y+tileSize.y/4);
-            if (moveTowards(pos, nextWaypoint, vel, deltaTime)) {
+            if (moveTowards(pos, nextWaypoint, vel, deltaTime) && find.size() > currentIndex+1) {
                 pathfinding.get().targetTile = find.get(currentIndex+1);  // Move to next waypoint and remove it from the path
             }
 

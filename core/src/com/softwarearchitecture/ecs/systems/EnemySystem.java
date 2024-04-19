@@ -229,14 +229,12 @@ public class EnemySystem implements System {
             if (villageComponent.isPresent() && healthComponent.isPresent()) {
                 int villageHealth = healthComponent.get().getHealth();
 
-                villageHealth -= villageDamage;
+                villageHealth -= villageDamage;;
                 // If the village health is 0, the game is over
                 if (villageHealth <= 0) {
                     villageHealth = 0;
-                    if (this.gameOverObserver != null) {
-                        this.gameOverObserver.handleGameOver();
-                    }
                 }
+                
                 healthComponent.get().setHealth(villageHealth);
                 
                 updateTopRightCornerText(village);

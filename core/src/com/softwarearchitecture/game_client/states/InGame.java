@@ -23,6 +23,7 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
+import com.softwarearchitecture.ecs.systems.GameOverSystem;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.InputSystem;
@@ -133,13 +134,13 @@ public class InGame extends State implements Observer, GameOverObserver {
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
-        MovementSystem MovementSystem = new MovementSystem();
-        
+        MovementSystem movementSystem = new MovementSystem();
+        GameOverSystem gameOverSystem = new GameOverSystem(this);
 
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
-        ECSManager.getInstance().addSystem(MovementSystem);
-        
+        ECSManager.getInstance().addSystem(movementSystem);
+        ECSManager.getInstance().addSystem(gameOverSystem);
 
     }
 

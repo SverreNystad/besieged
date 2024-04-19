@@ -62,4 +62,8 @@ public class ScreenManager {
     public void setIsLocalServer(boolean isLocal) {
         this.isLocalServer = isLocal;
     }
+
+    public <T> boolean isCurrentStateOfType(Class<T> classType) {
+        return classType.isInstance(currentState);
+    }
 }

@@ -104,13 +104,17 @@ public class GameServer {
         // TODO: Add relevant systems
         setupGame(mapName, gameState);
 
+        // Component managers
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
         // Main gameplay loop
         boolean gamesOver = false;
-        
+
         while (!gamesOver) {
             float deltatime = 1.0f;
             ECSManager.getInstance().update(deltatime);
             
+            if (healthManager.getComponent(village).get().getHealth() <= 0) gamesOver = true;
+
             // Process each pending player action.
             for (PlayerInput action : messageController.lookForPendingActions(playerOneID)) {
                 // Actions to process player inputs and update game state
@@ -129,8 +133,12 @@ public class GameServer {
             // Update all clients with the latest game state.
 
             messageController.setNewGameState(gameId, gameState);
+        }
 
-            // TODO: check if game is over
+        try {
+            Thread.sleep(10_000); // TODO: Find a better solution than waiting for 10 seconds. If we don't wait the player will never get that the village has 0 health and has to go to the game over screen.
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         // Teardown of server and delete game from games listing
