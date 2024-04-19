@@ -15,7 +15,6 @@ import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
-import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
@@ -192,7 +191,7 @@ public class GameServer {
 
 
     private void setupGame(String mapName, GameState gameState) {
-        String backgroundPath = TexturePack.BACKGROUND_TOR;
+        String backgroundPath = TexturePack.BACKGROUND_BLACK;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
