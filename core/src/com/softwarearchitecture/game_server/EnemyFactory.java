@@ -34,7 +34,7 @@ public class EnemyFactory {
         float velocity = 0f;
         int damage = 1;
         int maxHealth = 0;
-        String sound = AudioPack.JENS;
+        String sound = AudioPack.ENEMY_DEATH; // TODO: Add default sound
         int money = 0;
 
         switch (enemyType) {

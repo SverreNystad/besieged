@@ -20,7 +20,6 @@ public class AudioPack {
 
     // Tower sounds
     public static final String TOWER_TECHNOLOGY = "sounds/technology.mp3";
-    public static final String TOWER_LIGHTNING = "sounds/thunder.mp3";
     public static final String TOWER_BOW = "sounds/crossbow.mp3";
     public static final String TOWER_MAGIC = "sounds/magic.mp3";
     public static final String TOWER_SHARP_SHOOTER = "sounds/crossbow.mp3";
@@ -33,7 +32,7 @@ public class AudioPack {
     public static final String TOWER_MORTAR = "sounds/mortar.mp3";
     public static final String TOWER_FURNACE = "sounds/gears.mp3";
     public static final String TOWER_TESLA = "sounds/electricity.mp3";
-    public static final String TOWER_THUNDERBOLT = "sounds/thunder.mp3";
+    public static final String TOWER_THUNDERBOLT = "sounds/electricity.mp3";
     public static final String TOWER_BOW_MAGIC = "sounds/magic.mp3";
     public static final String TOWER_FIRE_LIGHTNING = "sounds/thunder.mp3";
     
@@ -42,4 +41,6 @@ public class AudioPack {
     public static final String BACKGROUND_CELLO_SOLO = "sounds/viking_cello_solo.mp3";
     public static final String BACKGROUND_VIKING_CHOIR = "sounds/viking_choir.mp3";
 
+    // Enemy death sounds
+    public static final String ENEMY_DEATH = "sounds/death_sound.mp3";
 }

@@ -10,6 +10,7 @@ import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
+import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.AreaOfEffectComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
@@ -113,7 +114,6 @@ public class AttackSystem implements System {
                 if (distance <= uvDistance.len()) {
                     activeAttacks.put(tower, enemy); // Assign new enemy to tower
                     attackEnemy(tower, enemy, damage);
-
                     towerComponent.resetAttackTimer();
                     break; // Ensure the tower only attacks one enemy
                 } 
@@ -123,10 +123,17 @@ public class AttackSystem implements System {
 
 
     private void attackEnemy(Entity tower, Entity enemy, int damage) {
+        java.lang.System.out.println("Angriper!");
         ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
         if (towerComp.isPresent()) {
             towerComp.get().playSound = true;
+        }
+
+        ComponentManager<AnimationComponent> animationManager = ECSManager.getInstance().getOrDefaultComponentManager(AnimationComponent.class);
+        Optional<AnimationComponent> animationComp = animationManager.getComponent(tower);
+        if (animationComp.isPresent()) {
+            animationComp.get().isPlaying = true;
         }
         
         HealthComponent healthComp = enemy.getComponent(HealthComponent.class).get();
