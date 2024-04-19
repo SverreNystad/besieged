@@ -34,11 +34,11 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
-import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
-import com.softwarearchitecture.game_server.cards.elemental_cards.LightningCard;
-import com.softwarearchitecture.game_server.cards.elemental_cards.TechnologyCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.BowCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.MagicCard;
+import com.softwarearchitecture.game_server.cards.BowCard;
+import com.softwarearchitecture.game_server.cards.IceCard;
+import com.softwarearchitecture.game_server.cards.LightningCard;
+import com.softwarearchitecture.game_server.cards.MagicCard;
+import com.softwarearchitecture.game_server.cards.TechnologyCard;
 
 
 public class GameState implements Externalizable {
