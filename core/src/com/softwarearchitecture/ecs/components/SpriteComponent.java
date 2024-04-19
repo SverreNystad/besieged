@@ -43,21 +43,4 @@ public class SpriteComponent implements Serializable {
         this.texture_path = texture_path;
         this.size_uv = size_uv;
     }
-
-    // Getters and setters
-    public String getTexturePath() {
-        return texture_path;
-    }
-
-    public void setTexturePath(String texture_path) {
-        this.texture_path = texture_path;
-    }
-
-    public Vector2 getSizeUV() {
-        return size_uv;
-    }
-
-    public void setSizeUV(Vector2 size_uv) {
-        this.size_uv = size_uv;
-    }
 }

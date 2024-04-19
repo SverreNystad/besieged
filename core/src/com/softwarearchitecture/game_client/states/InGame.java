@@ -170,7 +170,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         
         // Add a text component to the village entity
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.amount;
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
         
@@ -275,7 +275,7 @@ public class InGame extends State implements Observer, GameOverObserver {
 
         // Increase the size of the sprite
         Vector2 largerSize = new Vector2(size.x, size.y); // Increase the size by 50%
-        cardSprite.setSizeUV(largerSize);
+        cardSprite.size_uv  = largerSize;
 
         // Button component also has a callback now
         Runnable onButtonClick = () -> {
@@ -464,8 +464,8 @@ public class InGame extends State implements Observer, GameOverObserver {
 
         // Calculate the centered position for the card/tower within the tile
         Vector2 centeredPosition = new Vector2(
-                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
-                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+                tilePositionComponent.position.x + padding * gameMap.getTileWidth(),
+                tilePositionComponent.position.y + padding * gameMap.getTileHeight() + entityHeight / 4);
 
         // Update the PositionComponent of the entity to place
         PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
@@ -488,8 +488,8 @@ public class InGame extends State implements Observer, GameOverObserver {
                     && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
                 // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
+                int xCoord = (int) (positionComponent.position.x / tileWidth);
+                int yCoord = (int) (positionComponent.position.y / tileHeight);
 
                 if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
                     return entity;
