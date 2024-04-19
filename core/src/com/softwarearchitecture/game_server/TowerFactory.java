@@ -276,4 +276,33 @@ public class TowerFactory {
 
         return tower;
     }
+
+    public static Entity copyTower(Entity tower) {
+        if (tower == null) {
+            throw new IllegalArgumentException("Tower cannot be null");
+        }
+        Optional<TowerComponent> towerComponentOptional = tower.getComponent(TowerComponent.class);
+        Optional<PositionComponent> positionComponentOptional = tower.getComponent(PositionComponent.class);
+        Optional<AnimationComponent> animationComponentOptional = tower.getComponent(AnimationComponent.class);
+        Optional<SpriteComponent> spriteComponentOptional = tower.getComponent(SpriteComponent.class);
+        Optional<TargetComponent> targetComponentOptional = tower.getComponent(TargetComponent.class);
+        Optional<SoundComponent> soundComponentOptional = tower.getComponent(SoundComponent.class);
+        if (!towerComponentOptional.isPresent() || !positionComponentOptional.isPresent() || !animationComponentOptional.isPresent() || !spriteComponentOptional.isPresent() || !targetComponentOptional.isPresent() || !soundComponentOptional.isPresent()) {
+            return null;
+        }
+        TowerComponent towerComponent = towerComponentOptional.get();
+        PositionComponent positionComponent = positionComponentOptional.get();
+        AnimationComponent animationComponent = animationComponentOptional.get();
+        SpriteComponent spriteComponent = spriteComponentOptional.get();
+        TargetComponent targetComponent = targetComponentOptional.get();
+        SoundComponent soundComponent = soundComponentOptional.get();
+        Entity newTower = new Entity();
+        newTower.addComponent(TowerComponent.class, towerComponent);
+        newTower.addComponent(PositionComponent.class, positionComponent);
+        newTower.addComponent(AnimationComponent.class, animationComponent);
+        newTower.addComponent(SpriteComponent.class, spriteComponent);
+        newTower.addComponent(TargetComponent.class, targetComponent);
+        newTower.addComponent(SoundComponent.class, soundComponent);
+        return newTower;
+    }
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.checkerframework.checker.units.qual.t;
+
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -17,6 +19,8 @@ import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.game_server.Map;
+import com.softwarearchitecture.game_server.PairableCards;
+import com.softwarearchitecture.game_server.TowerFactory;
 import com.softwarearchitecture.math.Vector2;
 
 
@@ -127,9 +131,9 @@ public class AttackSystem implements System {
         ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
         if (towerComp.isPresent()) {
-            towerComp.get().playSound = true;
+            towerComp.get().playSound = false;
         }
-
+        
         ComponentManager<AnimationComponent> animationManager = ECSManager.getInstance().getOrDefaultComponentManager(AnimationComponent.class);
         Optional<AnimationComponent> animationComp = animationManager.getComponent(tower);
         if (animationComp.isPresent()) {
@@ -139,6 +143,13 @@ public class AttackSystem implements System {
         HealthComponent healthComp = enemy.getComponent(HealthComponent.class).get();
         
         healthComp.setHealth(healthComp.getHealth() - damage);
+        
+        Entity newTowerEntity = TowerFactory.copyTower(tower);
+        if (newTowerEntity != null) {
+            ECSManager.getInstance().addLocalEntity(newTowerEntity);
+            ECSManager.getInstance().removeLocalEntity(tower);
+        }
+
     }
 
 }
