@@ -9,7 +9,4 @@ public class MoneyComponent implements Serializable {
         this.amount = amount;
     }
 
-    public int getAmount() {
-        return amount;
-    }
 }
