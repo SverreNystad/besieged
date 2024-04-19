@@ -14,7 +14,6 @@ import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
-import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 
 public class AudioSystem implements System {
@@ -92,16 +91,8 @@ public class AudioSystem implements System {
                         soundController.playSound(soundComponent.get());
                         towerComponent.get().playSound = false;
                     }
-
-                    
                 }
             }
         }
     }
-    
-
-    // public void playSound(SoundComponent soundComponent) {
-    //     soundController.playSound(soundComponent);
-    // }
-    
 }
