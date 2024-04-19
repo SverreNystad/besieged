@@ -31,14 +31,6 @@ public class AudioSystem implements System {
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         
-        // Check for newly added entities that has sound components.
-        for (Entity entity : ECSManager.getInstance().getAndClearNewlyRemoteAddedEntities()) {
-            Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
-            Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
-            if (soundComponent.isPresent() && cardComponent.isPresent()) {
-                cardComponent.get().playSound = true;
-            }
-        }
         
         for (Entity entity : entities) {
             // Play the sound component.
@@ -63,6 +55,7 @@ public class AudioSystem implements System {
                     // Sound for towers
                     Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
                     if (towerComponent.isPresent() && towerComponent.get().playSound == true) {
+                        java.lang.System.out.println("Tower sound");
                         soundController.playSound(soundComponent.get());
                         towerComponent.get().playSound = false;
                     }
