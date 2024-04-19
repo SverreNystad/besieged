@@ -19,7 +19,7 @@ import com.softwarearchitecture.math.Vector2;
 public class EnemyFactory {
 
     public enum EnemyType {
-        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR, TROLL
+        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR, TROLL, ICE_GIANT
 
     }
 
@@ -34,7 +34,7 @@ public class EnemyFactory {
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int maxHealth = 0;
-        String sound = AudioPack.PLACING_CARD; //TIDO: Add default sound
+        String sound = AudioPack.PLACING_CARD; // TIDO: Add default sound
         int money = 0;
 
         switch (enemyType) {
@@ -139,6 +139,28 @@ public class EnemyFactory {
                 sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1000;
 
+                break;
+
+            case ICE_GIANT:
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME1);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME1);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME2);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME2);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME3);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME3);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME4);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME4);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME3);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME3);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME2);
+                textures.add(TexturePack.ENEMY_ICE_GIANT_FRAME2);
+
+                damage = 5;
+                size.set(0.12f, 0.15f);
+                velocity.set(0.003f, 0.003f);
+                maxHealth = 5000;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
+                money = 1000;
                 break;
 
             default:
