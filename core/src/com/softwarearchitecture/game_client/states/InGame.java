@@ -16,12 +16,12 @@ import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
-import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
@@ -171,7 +171,7 @@ public class InGame extends State implements Observer, GameOverObserver {
         
         // Add a text component to the village entity
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.amount;
         TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
         villageHealthText.setColor(new Vector3(0f, 0f, 0f));
         
@@ -276,7 +276,7 @@ public class InGame extends State implements Observer, GameOverObserver {
 
         // Increase the size of the sprite
         Vector2 largerSize = new Vector2(size.x, size.y); // Increase the size by 50%
-        cardSprite.setSizeUV(largerSize);
+        cardSprite.size_uv  = largerSize;
 
         // Button component also has a callback now
         Runnable onButtonClick = () -> {
@@ -345,7 +345,11 @@ public class InGame extends State implements Observer, GameOverObserver {
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
 
-                
+                // Play sound
+                Optional<TowerComponent> towerComponent = towerEntity.getComponent(TowerComponent.class);
+                if (towerComponent.isPresent()) {
+                    towerComponent.get().playSound = true;
+                }
             }
         }
         // No card on tile, place card
@@ -367,13 +371,11 @@ public class InGame extends State implements Observer, GameOverObserver {
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
-
-            System.out.println("Test");
+            
             // Play sound
-            Optional<SoundComponent> soundComponent = soundManager.getComponent(cardEntity);
-            if (soundComponent.isPresent()) {
-                System.out.println("Sound path: " + soundComponent.get().sound_path);
-                audioSystem.playSound(soundComponent.get());
+            Optional<PlacedCardComponent> cardComponent = cardEntity.getComponent(PlacedCardComponent.class);
+            if (cardComponent.isPresent()) {
+                cardComponent.get().playSound = true;
             }
         }
 
@@ -465,8 +467,8 @@ public class InGame extends State implements Observer, GameOverObserver {
 
         // Calculate the centered position for the card/tower within the tile
         Vector2 centeredPosition = new Vector2(
-                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
-                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+                tilePositionComponent.position.x + padding * gameMap.getTileWidth(),
+                tilePositionComponent.position.y + padding * gameMap.getTileHeight() + entityHeight / 4);
 
         // Update the PositionComponent of the entity to place
         PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
@@ -489,8 +491,8 @@ public class InGame extends State implements Observer, GameOverObserver {
                     && entity.getComponent(PositionComponent.class).isPresent()) {
                 PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
                 // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
+                int xCoord = (int) (positionComponent.position.x / tileWidth);
+                int yCoord = (int) (positionComponent.position.y / tileHeight);
 
                 if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
                     return entity;

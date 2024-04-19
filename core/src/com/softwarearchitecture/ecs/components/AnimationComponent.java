@@ -5,9 +5,9 @@ import java.util.List;
 
 public class AnimationComponent implements Serializable {
 
-    public List<String> animationPaths;
-    public int currentFrame;
-    public int frameCount;
+    private List<String> animationPaths;
+    private int currentFrame;
+    private int frameCount;
 
     public AnimationComponent(List<String> animationPaths) {
         this.animationPaths = animationPaths;

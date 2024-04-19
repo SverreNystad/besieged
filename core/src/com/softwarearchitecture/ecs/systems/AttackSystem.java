@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.softwarearchitecture.ecs.ComponentManager;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
-import com.softwarearchitecture.ecs.components.AreaOfAffectComponent;
+import com.softwarearchitecture.ecs.components.AreaOfEffectComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
@@ -64,19 +66,19 @@ public class AttackSystem implements System {
 
         for (Entity tower : towers) {
             TowerComponent towerComponent = tower.getComponent(TowerComponent.class).get();
-            Vector2 towerPosition = tower.getComponent(PositionComponent.class).get().getPosition();
+            Vector2 towerPosition = tower.getComponent(PositionComponent.class).get().position;
             float range = towerComponent.getRange();
             int damage = towerComponent.getDamage();
             Vector2 uvDistance = convertRangeToUVDistance(range);
 
-            Optional<AreaOfAffectComponent> areaOfAffectComponent = tower.getComponent(AreaOfAffectComponent.class);
-            if (areaOfAffectComponent.isPresent()) {
+            Optional<AreaOfEffectComponent> areaOfEffectComponent = tower.getComponent(AreaOfEffectComponent.class);
+            if (areaOfEffectComponent.isPresent()) {
                 // If the tower has an area of affect, attack all enemies within the range
                 for (Entity enemy : enemies) {
-                    Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
+                    Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, enemyPosition);
                     if (distance <= uvDistance.len()) {
-                        attackEnemy(enemy, damage);
+                        attackEnemy(tower, enemy, damage);
                     }
                 }
                 towerComponent.resetAttackTimer();
@@ -87,11 +89,11 @@ public class AttackSystem implements System {
             if (activeAttacks.containsKey(tower)) {
                 Entity currentEnemy = activeAttacks.get(tower);
                 if (currentEnemy != null && entities.contains(currentEnemy)) {
-                    Vector2 currentEnemyPosition = currentEnemy.getComponent(PositionComponent.class).get().getPosition();
+                    Vector2 currentEnemyPosition = currentEnemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, currentEnemyPosition);
                     if (distance <= uvDistance.len()) {
                         // Enemy is still in range, continue to attack
-                        attackEnemy(currentEnemy, damage);
+                        attackEnemy(tower, currentEnemy, damage);
                         towerComponent.resetAttackTimer();
                         continue; // Skip to next tower
                     } else {
@@ -106,11 +108,12 @@ public class AttackSystem implements System {
 
             // Find a new enemy to attack if not already attacking or target is out of range
             for (Entity enemy : enemies) {
-                Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().getPosition();
+                Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                 float distance = Vector2.dst(towerPosition, enemyPosition);
                 if (distance <= uvDistance.len()) {
                     activeAttacks.put(tower, enemy); // Assign new enemy to tower
-                    attackEnemy(enemy, damage);
+                    attackEnemy(tower, enemy, damage);
+
                     towerComponent.resetAttackTimer();
                     break; // Ensure the tower only attacks one enemy
                 } 
@@ -119,8 +122,16 @@ public class AttackSystem implements System {
     }
 
 
-    private void attackEnemy(Entity enemy, int damage) {
+    private void attackEnemy(Entity tower, Entity enemy, int damage) {
+        ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
+        Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
+        if (towerComp.isPresent()) {
+            towerComp.get().playSound = true;
+        }
+        
         HealthComponent healthComp = enemy.getComponent(HealthComponent.class).get();
+        
         healthComp.setHealth(healthComp.getHealth() - damage);
     }
+
 }

@@ -12,7 +12,6 @@ public class MeleeCard extends Card implements Serializable {
     public MeleeCard(PlacedCardComponent placedCardComponent, CostComponent costComponent,
             SpriteComponent spriteComponent) {
         super(placedCardComponent, costComponent, spriteComponent);
-        //TODO Auto-generated constructor stub
     }
 
 }

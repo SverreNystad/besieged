@@ -111,6 +111,34 @@ public class TexturePack {
     public static final String TOWER_INFERNO_FRAME5 = "sprites/towers/inferno_frame5.png";
     public static final String TOWER_INFERNO_FRAME6 = "sprites/towers/inferno_frame6.png";
 
+    public static final String TOWER_FURNACE_FRAME1 = "sprites/towers/furnace_frame1.png";
+    public static final String TOWER_FURNACE_FRAME2 = "sprites/towers/furnace_frame2.png";
+    public static final String TOWER_FURNACE_FRAME3 = "sprites/towers/furnace_frame3.png";
+    public static final String TOWER_FURNACE_FRAME4 = "sprites/towers/furnace_frame4.png";
+    public static final String TOWER_FURNACE_FRAME5 = "sprites/towers/furnace_frame5.png";
+    public static final String TOWER_FURNACE_FRAME6 = "sprites/towers/furnace_frame6.png";
+
+    public static final String TOWER_TESLA_FRAME1 = "sprites/towers/tesla_frame1.png";
+    public static final String TOWER_TESLA_FRAME2 = "sprites/towers/tesla_frame2.png";
+    public static final String TOWER_TESLA_FRAME3 = "sprites/towers/tesla_frame3.png";
+    public static final String TOWER_TESLA_FRAME4 = "sprites/towers/tesla_frame4.png";
+    public static final String TOWER_TESLA_FRAME5 = "sprites/towers/tesla_frame5.png";
+
+    public static final String TOWER_FIRE_LIGHTNING_FRAME1 = "sprites/towers/fire_lightning_frame1.png";
+    public static final String TOWER_FIRE_LIGHTNING_FRAME2 = "sprites/towers/fire_lightning_frame2.png";
+    public static final String TOWER_FIRE_LIGHTNING_FRAME3 = "sprites/towers/fire_lightning_frame3.png";
+    public static final String TOWER_FIRE_LIGHTNING_FRAME4 = "sprites/towers/fire_lightning_frame4.png";
+    public static final String TOWER_FIRE_LIGHTNING_FRAME5 = "sprites/towers/fire_lightning_frame5.png";
+
+    public static final String TOWER_BOW_MAGIC_FRAME1 = "sprites/towers/bow_magic_frame1.png";
+    public static final String TOWER_BOW_MAGIC_FRAME2 = "sprites/towers/bow_magic_frame2.png";
+    public static final String TOWER_BOW_MAGIC_FRAME3 = "sprites/towers/bow_magic_frame3.png";
+    public static final String TOWER_BOW_MAGIC_FRAME4 = "sprites/towers/bow_magic_frame4.png";
+
+    public static final String TOWER_THUNDERBOLT_FRAME1 = "sprites/towers/thunderbolt_frame1.png";
+    public static final String TOWER_THUNDERBOLT_FRAME2 = "sprites/towers/thunderbolt_frame2.png";
+    public static final String TOWER_THUNDERBOLT_FRAME3 = "sprites/towers/thunderbolt_frame3.png";
+
     // Enemies
     public static final String ENEMY_ANT_FRAME1 = "sprites/enemies/ant_frame1.png";
     public static final String ENEMY_ANT_FRAME2 = "sprites/enemies/ant_frame2.png";
@@ -156,6 +184,11 @@ public class TexturePack {
     public static final String ENEMY_TROLL_FRAME1 = "sprites/enemies/troll_frame1.png";
     public static final String ENEMY_TROLL_FRAME2 = "sprites/enemies/troll_frame2.png";
     public static final String ENEMY_TROLL_FRAME3 = "sprites/enemies/troll_frame3.png";
+
+    public static final String ENEMY_ICE_GIANT_FRAME1 = "sprites/enemies/ice_giant_frame1.png";
+    public static final String ENEMY_ICE_GIANT_FRAME2 = "sprites/enemies/ice_giant_frame2.png";
+    public static final String ENEMY_ICE_GIANT_FRAME3 = "sprites/enemies/ice_giant_frame3.png";
+    public static final String ENEMY_ICE_GIANT_FRAME4 = "sprites/enemies/ice_giant_frame4.png";
 
     // Colors
     public static final String COLOR_WHITE = "white_square.jpg";
