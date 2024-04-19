@@ -109,7 +109,7 @@ public class TowerFactory {
                 damage = 30;
                 range = 2.5f;
                 attackCooldown = 100;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_BOW_LIGHTNING;
                 break;
 
             case MAGIC_TECH:
@@ -127,7 +127,7 @@ public class TowerFactory {
                 damage = 45;
                 range = 2;
                 attackCooldown = 50;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_MAGIC_TECH;
                 break;
 
             case MORTAR:
@@ -141,7 +141,7 @@ public class TowerFactory {
                 damage = 100;
                 range = 4.5f;
                 attackCooldown = 150;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_MORTAR;
                 break;
 
             case INFERNO:
@@ -156,7 +156,7 @@ public class TowerFactory {
                 damage = 1;
                 range = 1;
                 attackCooldown = 2;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_INFERNO;
                 break;
 
             case FURNACE:
@@ -172,7 +172,7 @@ public class TowerFactory {
                 damage = 1000;
                 range = 1;
                 attackCooldown = 300;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_FURNACE;
                 break;
 
             case TESLA:
@@ -187,7 +187,7 @@ public class TowerFactory {
                 damage = 1000;
                 range = 1;
                 attackCooldown = 300;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_TESLA;
 
                 break;
 
@@ -201,7 +201,7 @@ public class TowerFactory {
                 damage = 100;
                 range = 2;
                 attackCooldown = 300;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_THUNDERBOLT;
 
                 break;
 
@@ -214,7 +214,7 @@ public class TowerFactory {
                 damage = 20;
                 range = 3;
                 attackCooldown = 50;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_BOW_MAGIC;
 
                 break;
 
@@ -232,7 +232,7 @@ public class TowerFactory {
                 damage = 20;
                 range = 3;
                 attackCooldown = 150;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_FIRE_LIGHTNING;
 
                 break;
 

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.softwarearchitecture.ecs.ComponentManager;
+import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.AreaOfEffectComponent;
@@ -76,7 +78,7 @@ public class AttackSystem implements System {
                     Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, enemyPosition);
                     if (distance <= uvDistance.len()) {
-                        attackEnemy(enemy, damage);
+                        attackEnemy(tower, enemy, damage);
                     }
                 }
                 towerComponent.resetAttackTimer();
@@ -91,7 +93,7 @@ public class AttackSystem implements System {
                     float distance = Vector2.dst(towerPosition, currentEnemyPosition);
                     if (distance <= uvDistance.len()) {
                         // Enemy is still in range, continue to attack
-                        attackEnemy(currentEnemy, damage);
+                        attackEnemy(tower, currentEnemy, damage);
                         towerComponent.resetAttackTimer();
                         continue; // Skip to next tower
                     } else {
@@ -110,7 +112,8 @@ public class AttackSystem implements System {
                 float distance = Vector2.dst(towerPosition, enemyPosition);
                 if (distance <= uvDistance.len()) {
                     activeAttacks.put(tower, enemy); // Assign new enemy to tower
-                    attackEnemy(enemy, damage);
+                    attackEnemy(tower, enemy, damage);
+
                     towerComponent.resetAttackTimer();
                     break; // Ensure the tower only attacks one enemy
                 } 
@@ -119,8 +122,16 @@ public class AttackSystem implements System {
     }
 
 
-    private void attackEnemy(Entity enemy, int damage) {
+    private void attackEnemy(Entity tower, Entity enemy, int damage) {
+        ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
+        Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
+        if (towerComp.isPresent()) {
+            towerComp.get().playSound = true;
+        }
+        
         HealthComponent healthComp = enemy.getComponent(HealthComponent.class).get();
+        
         healthComp.setHealth(healthComp.getHealth() - damage);
     }
+
 }

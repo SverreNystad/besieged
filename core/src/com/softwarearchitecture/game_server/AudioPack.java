@@ -9,14 +9,23 @@ public class AudioPack {
     public static final String PLACING_CARD = "sounds/placing_card.mp3";
 
     // Tower sounds
-    public static final String TOWER_TECHNOLOGY = PLACING_CARD;
-    public static final String TOWER_LIGHTNING = PLACING_CARD;
-    public static final String TOWER_BOW = PLACING_CARD;
-    public static final String TOWER_MAGIC = PLACING_CARD;
-    public static final String TOWER_SHARP_SHOOTER = PLACING_CARD;
-    public static final String TOWER_TOR = PLACING_CARD;
-    public static final String TOWER_FIRE_BOW = PLACING_CARD;
-    public static final String TOWER_FIRE_MAGIC = PLACING_CARD;
+    public static final String TOWER_TECHNOLOGY = "sounds/technology.mp3";
+    public static final String TOWER_LIGHTNING = "sounds/thunder.mp3";
+    public static final String TOWER_BOW = "sounds/crossbow.mp3";
+    public static final String TOWER_MAGIC = "sounds/magic.mp3";
+    public static final String TOWER_SHARP_SHOOTER = "sounds/crossbow.mp3";
+    public static final String TOWER_TOR = "sounds/thunder.mp3";
+    public static final String TOWER_FIRE_BOW = "sounds/fire_attack.mp3";
+    public static final String TOWER_FIRE_MAGIC = "sounds/fire_attack.mp3";
+    public static final String TOWER_INFERNO = "sounds/fire_attack.mp3";
+    public static final String TOWER_BOW_LIGHTNING = "sounds/thunder.mp3";
+    public static final String TOWER_MAGIC_TECH = "sounds/gears.mp3";
+    public static final String TOWER_MORTAR = "sounds/mortar.mp3";
+    public static final String TOWER_FURNACE = "sounds/gears.mp3";
+    public static final String TOWER_TESLA = "sounds/electricity.mp3";
+    public static final String TOWER_THUNDERBOLT = "sounds/thunder.mp3";
+    public static final String TOWER_BOW_MAGIC = "sounds/magic.mp3";
+    public static final String TOWER_FIRE_LIGHTNING = "sounds/thunder.mp3";
     
     // Background music
     public static final String BACKGROUND_GIRL_SINGING = "sounds/valhalla_maiden.mp3";
