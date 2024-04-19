@@ -48,7 +48,7 @@ public class Menu extends State implements Observer {
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         ComponentManager<SoundComponent> audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
-        AudioSystem audioSystem = new AudioSystem(audioManager, defaultControllers.soundController);
+        AudioSystem audioSystem = new AudioSystem(defaultControllers.soundController);
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
         ECSManager.getInstance().addSystem(audioSystem);

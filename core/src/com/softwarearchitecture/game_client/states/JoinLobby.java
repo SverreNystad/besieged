@@ -58,7 +58,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         ECSManager.getInstance().addSystem(inputSystem);
         
         // Create buttons for joining a game based on the available games
-        List<GameState> games = defaultControllers.clientMessagingController.getAllAvailableGames();
+        List<GameState> games = defaultControllers.onlineClientMessagingController.getAllAvailableGames();
         initializeJoinLobbyTable(games);
     }
     
@@ -123,12 +123,13 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
 
         // Send a message to the server to join the game
         UUID gameID = game.gameID;
-        boolean didJoin = defaultControllers.clientMessagingController.joinGame(gameID, yourId);
+        boolean didJoin = defaultControllers.onlineClientMessagingController.joinGame(gameID, yourId);
         // Wait for the server to respond
         if (didJoin) {
             screenManager.setGameId(gameID);
+            screenManager.setIsLocalServer(false);
             // Change the state to the game
-            screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game), true));
+            screenManager.nextState(new InGame(defaultControllers, yourId, getGameName(game)));
         } else {
             // Notify the user that the game is full
             System.out.println("Game is full");

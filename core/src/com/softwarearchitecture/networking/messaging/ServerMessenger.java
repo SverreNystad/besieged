@@ -23,10 +23,10 @@ public class ServerMessenger implements ServerMessagingController {
     private final String JOIN_PREFIX = "JOIN";
     private static final String GAME_PREFIX = "GAME";
 
-    public ServerMessenger() {
-        gameDao = new DAOBuilder<String, byte[]>().build(String.class, byte[].class);
-        pendingPlayerDao = new DAOBuilder<String, UUID>().build(String.class, UUID.class);
-        actionDao = new DAOBuilder<UUID, PlayerInput>().build(UUID.class, PlayerInput.class);
+    public ServerMessenger(boolean isMultiplayer) {
+        gameDao = new DAOBuilder<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
+        pendingPlayerDao = new DAOBuilder<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
+        actionDao = new DAOBuilder<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
     }
 
     @Override

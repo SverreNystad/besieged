@@ -1,4 +1,4 @@
-package com.softwarearchitecture.game_server.cards.elemental_cards;
+package com.softwarearchitecture.game_server.cards;
 
 import java.io.Serializable;
 
