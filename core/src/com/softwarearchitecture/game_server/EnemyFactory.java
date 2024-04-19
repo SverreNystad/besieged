@@ -34,7 +34,7 @@ public class EnemyFactory {
         float velocity = 0f;
         int damage = 1;
         int maxHealth = 0;
-        String sound = AudioPack.JENS;
+        String sound = AudioPack.PLACING_CARD; // TIDO: Add default sound
         int money = 0;
         float timeFactor = 1.3f;
 
@@ -49,7 +49,7 @@ public class EnemyFactory {
                 size.set(0.03f, 0.03f);
                 velocity = 0.02f * timeFactor;
                 maxHealth = 10;
-                sound = AudioPack.ENEMY_ANT;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1;
 
                 break;
@@ -64,7 +64,7 @@ public class EnemyFactory {
                 size.set(0.075f, 0.075f);
                 velocity = 0.07f * timeFactor;
                 maxHealth = 100;
-                sound = AudioPack.ENEMY_WOLF;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 30;
 
                 break;
@@ -168,7 +168,7 @@ public class EnemyFactory {
                 size.set(0.11f, 0.15f);
                 velocity = 0.005f * timeFactor;
                 maxHealth = 5000;
-                sound = AudioPack.ENEMY_ICE_GIANT;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1000;
                 break;
 

@@ -110,7 +110,7 @@ public class TowerFactory {
                 damage = 60;
                 range = 1.5f;
                 attackCooldown = 4f * timeFactor;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_BOW_LIGHTNING;
                 break;
 
             case MAGIC_TECH:
@@ -128,7 +128,7 @@ public class TowerFactory {
                 damage = 10000;
                 range = 1f;
                 attackCooldown = 15f * timeFactor;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_MAGIC_TECH;
                 break;
 
             case MORTAR:
@@ -142,7 +142,7 @@ public class TowerFactory {
                 damage = 300;
                 range = 4.5f;
                 attackCooldown = 7f * timeFactor;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_MORTAR;
                 break;
 
             case INFERNO:
@@ -157,7 +157,7 @@ public class TowerFactory {
                 damage = 1;
                 range = 1;
                 attackCooldown = 0.2f * timeFactor;
-                sound = AudioPack.TOWER_BOW;
+                sound = AudioPack.TOWER_INFERNO;
                 break;
 
             case FURNACE:
@@ -203,6 +203,7 @@ public class TowerFactory {
                 range = 2;
                 attackCooldown = 6f * timeFactor;
                 sound = AudioPack.TOWER_THUNDERBOLT;
+
                 break;
 
             case BOW_MAGIC:

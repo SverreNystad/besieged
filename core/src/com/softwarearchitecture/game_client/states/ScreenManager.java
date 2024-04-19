@@ -15,7 +15,6 @@ public class ScreenManager {
     private Deque<State> stateStack = new ArrayDeque<>();
     private static ScreenManager instance = new ScreenManager();
     private UUID gameId;
-    private boolean isLocalServer = false;
     
     public static ScreenManager getInstance() {
         return instance;
@@ -56,17 +55,5 @@ public class ScreenManager {
 
     public UUID getGameId() {
         return this.gameId;
-    }
-
-    public boolean isLocalServer() {
-        return isLocalServer;
-    }
-
-    public void setIsLocalServer(boolean isLocal) {
-        this.isLocalServer = isLocal;
-    }
-
-    public <T> boolean isCurrentStateOfType(Class<T> classType) {
-        return classType.isInstance(currentState);
     }
 }
