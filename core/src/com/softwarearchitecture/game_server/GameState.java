@@ -28,6 +28,7 @@ import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
+import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
@@ -111,6 +112,9 @@ public class GameState implements Externalizable {
         serializeComponent(out, TextComponent.class);
         // Animation components
         serializeComponent(out, AnimationComponent.class);
+
+        // Sound
+        serializeComponent(out, SoundComponent.class);
     }
 
     private <T> void serializeComponent(ObjectOutput out, Class<T> componentClass) throws IOException {
@@ -201,6 +205,9 @@ public class GameState implements Externalizable {
         deserializeComponent(in, TextComponent.class);
         // Animation components
         deserializeComponent(in, AnimationComponent.class);
+
+        // Sound
+        deserializeComponent(in, SoundComponent.class);
 
     }
 
