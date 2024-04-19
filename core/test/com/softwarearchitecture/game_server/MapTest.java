@@ -42,8 +42,8 @@ public class MapTest {
     public void testGetPath() {
         List<Tile> abyssPath = abyssMap.getPath();
         List<Tile> testPath = TestMap.getPath();
-        assertTrue(abyssPath.size() == 22);
-        assertTrue(testPath.size() == 6);
+        assertEquals(abyssPath.size(), 25);
+        assertEquals(testPath.size(), 6);
 
     }
 }
