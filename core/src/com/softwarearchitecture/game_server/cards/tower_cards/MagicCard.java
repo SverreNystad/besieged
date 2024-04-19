@@ -12,7 +12,6 @@ public class MagicCard extends Card implements Serializable {
     public MagicCard(PlacedCardComponent placedCardComponent, CostComponent costComponent,
             SpriteComponent spriteComponent) {
         super(placedCardComponent, costComponent, spriteComponent);
-        //TODO Auto-generated constructor stub
     }
 
 }

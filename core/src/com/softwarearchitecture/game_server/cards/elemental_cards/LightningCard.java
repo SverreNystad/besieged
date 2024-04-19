@@ -12,7 +12,6 @@ public class LightningCard extends Card implements Serializable {
     public LightningCard(PlacedCardComponent placedCardComponent, CostComponent costComponent,
             SpriteComponent spriteComponent) {
         super(placedCardComponent, costComponent, spriteComponent);
-        //TODO Auto-generated constructor stub
     }
 
 }
