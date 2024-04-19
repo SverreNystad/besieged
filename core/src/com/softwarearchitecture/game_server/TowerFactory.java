@@ -29,7 +29,7 @@ public class TowerFactory {
         Vector2 size = new Vector2(1, 1);
         int damage = 0;
         float range = 0;
-        int attackCooldown = 0;
+        float attackCooldown = 0;
         String sound = AudioPack.PLACING_CARD; // TODO: Add default sound
 
         Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
