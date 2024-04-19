@@ -3,11 +3,12 @@ package com.softwarearchitecture.ecs.components;
 import java.io.Serializable;
 
 public class TowerComponent implements Serializable {
-
+    // TODO: Change all fields to public and remove getters and setters
     private int damage;
     private float range;
     private int attackCooldown;
     private float timeSinceLastAttack;
+    public boolean playSound = false;
 
     public TowerComponent(int damage, float range, int attackCooldown) {
         if (damage >= 1 && range >= 1 && attackCooldown >= 1) {

@@ -21,6 +21,7 @@ import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
@@ -344,7 +345,11 @@ public class InGame extends State implements Observer, GameOverObserver {
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
 
-                
+                // Play sound
+                Optional<TowerComponent> towerComponent = towerEntity.getComponent(TowerComponent.class);
+                if (towerComponent.isPresent()) {
+                    towerComponent.get().playSound = true;
+                }
             }
         }
         // No card on tile, place card
@@ -366,13 +371,11 @@ public class InGame extends State implements Observer, GameOverObserver {
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
-
-            System.out.println("Test");
+            
             // Play sound
-            Optional<SoundComponent> soundComponent = soundManager.getComponent(cardEntity);
-            if (soundComponent.isPresent()) {
-                System.out.println("Sound path: " + soundComponent.get().sound_path);
-                audioSystem.playSound(soundComponent.get());
+            Optional<PlacedCardComponent> cardComponent = cardEntity.getComponent(PlacedCardComponent.class);
+            if (cardComponent.isPresent()) {
+                cardComponent.get().playSound = true;
             }
         }
 

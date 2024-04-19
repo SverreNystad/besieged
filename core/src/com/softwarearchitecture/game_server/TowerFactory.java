@@ -167,7 +167,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FURNACE_FRAME5);
                 textures.add(TexturePack.TOWER_FURNACE_FRAME6);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 1000;
                 range = 1;
@@ -182,7 +182,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_TESLA_FRAME4);
                 textures.add(TexturePack.TOWER_TESLA_FRAME5);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 1000;
                 range = 1;
@@ -196,7 +196,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME2);
                 textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME3);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 100;
                 range = 2;
@@ -227,7 +227,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME4);
                 textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME1);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 20;
                 range = 3;
