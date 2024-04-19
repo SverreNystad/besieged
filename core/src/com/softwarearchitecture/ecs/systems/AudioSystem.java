@@ -36,9 +36,7 @@ public class AudioSystem implements System {
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
             Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
             if (soundComponent.isPresent() && cardComponent.isPresent()) {
-                java.lang.System.out.println("cardComponent.get().playSound: " + cardComponent.get().playSound);
                 cardComponent.get().playSound = true;
-                java.lang.System.out.println("Tidlig loop");
             }
         }
         
@@ -52,13 +50,11 @@ public class AudioSystem implements System {
                 }
                 soundComponent.get().isPlaying = true;
                 if (soundComponent.get().isBackgroundMusic) {
-                    java.lang.System.out.println("Spiller bakgrunnsmusikk");
                     soundController.playBackgroundMusic(soundComponent.get());
                 } else {
                     // TODO: Case for cards
                     Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
                     if (cardComponent.isPresent() && cardComponent.get().playSound == true) {
-                        java.lang.System.out.println("Spiller kortlyd");
                         java.lang.System.out.println(entity);
                         soundController.playSound(soundComponent.get());
                         cardComponent.get().playSound = false;
@@ -67,15 +63,9 @@ public class AudioSystem implements System {
                     // TODO: Case for towers
                     Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
                     if (towerComponent.isPresent() && towerComponent.get().playSound == true) {
-                        java.lang.System.out.println("Spiller tårnlyd");
                         soundController.playSound(soundComponent.get());
                         towerComponent.get().playSound = false;
                     }
-                    
-                    
-                    // TODO: Case for enemies
-                    Optional<EnemyComponent> enemyComponent = enemyManager.getComponent(entity);
-                    
                 }
             }
         }
