@@ -111,7 +111,8 @@ public class InGame extends State implements Observer, GameOverObserver {
     
                         if (position.position.x <= u && u <= position.position.x + sprite.size_uv.x && position.position.y <= v && v <= position.position.y + sprite.size_uv.y) {
                             PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getTile().getX(), tile.getTile().getY());
-                            defaultControllers.onlineClientMessagingController.addAction(action);
+                            if (screenManager.isLocalServer()) defaultControllers.localClientMessagingController.addAction(action);
+                            else defaultControllers.onlineClientMessagingController.addAction(action);
                         }
                     }
                 }

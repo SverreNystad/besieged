@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -110,9 +111,9 @@ public class GameServer {
         boolean gamesOver = false;
 
         while (!gamesOver) {
-            float deltatime = 1.0f;
-            ECSManager.getInstance().update(deltatime);
-            
+            // System.out.println("[SERVER] Deltatime: " + Clock.getInstance().getDeltaTime());
+            ECSManager.getInstance().update(Clock.getInstance().getAndResetDeltaTime());
+
             if (healthManager.getComponent(village).get().getHealth() <= 0) gamesOver = true;
 
             // Process each pending player action.
@@ -131,8 +132,15 @@ public class GameServer {
 
 
             // Update all clients with the latest game state.
-
             messageController.setNewGameState(gameId, gameState);
+            
+            if (Clock.getInstance().getDeltaTime() <= 0.01f) {
+                try {
+                    Thread.sleep(10 - (long) (Clock.getInstance().getDeltaTime() * 1000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         try {
