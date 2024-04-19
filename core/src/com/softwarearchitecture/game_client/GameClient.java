@@ -3,12 +3,8 @@ package com.softwarearchitecture.game_client;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
-import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.components.PlacedCardComponent;
-import com.softwarearchitecture.ecs.components.SpriteComponent;
-import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.game_client.states.GameOver;
 import com.softwarearchitecture.game_client.states.InGame;
 import com.softwarearchitecture.game_client.states.Menu;
 import com.softwarearchitecture.game_client.states.ScreenManager;
@@ -17,6 +13,9 @@ import com.softwarearchitecture.game_server.GameState;
 public class GameClient {
     private ScreenManager screenManager;
     private Controllers defaultControllers;
+
+    private long maxServerResponseTime = 10_000;
+    private long lastServerResponse;
 
     public GameClient(Controllers defaultControllers, UUID yourId) throws IllegalArgumentException {
         this.defaultControllers = defaultControllers;
@@ -38,7 +37,22 @@ public class GameClient {
             gameId = screenManager.getGameId();
             Optional<GameState> game = defaultControllers.onlineClientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
-                game.get();
+                if (this.lastServerResponse == 0) {
+                    this.lastServerResponse = game.get().timeStamp;
+                }
+                GameState state = game.get();
+                
+                // Check for server heartbeat
+                if (System.currentTimeMillis()  - this.lastServerResponse >= this.maxServerResponseTime) {
+                    System.out.println("Timestamp: " + state.timeStamp);
+                    System.out.println("Last server response: " + this.lastServerResponse);
+                    System.out.println("Server heartbeat lost");
+                    screenManager.nextState(new GameOver(defaultControllers, gameId, "LOST CONNECTION"));
+                }
+                // No update
+                if (state.timeStamp != this.lastServerResponse) {
+                    this.lastServerResponse = state.timeStamp;
+                }
             }
         }
         else if (defaultControllers.gameServer.getGameId() != null  && screenManager.isCurrentStateOfType(InGame.class)) {
