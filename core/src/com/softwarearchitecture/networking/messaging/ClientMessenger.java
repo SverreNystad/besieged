@@ -63,6 +63,26 @@ public class ClientMessenger implements ClientMessagingController {
         return false; 
     }
 
+    private class GameStateWrapper implements Runnable {
+
+        private volatile byte[] data;
+        private volatile GameState gameState = null;
+
+        public GameStateWrapper(byte[] data) {
+            this.data = data;
+        }
+
+        @Override
+        public void run() {
+            try {
+                gameState = GameState.deserializeFromByteArray(data);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     public List<GameState> getAllAvailableGames() {
         List<String> indexes = gamesDAO.loadAllIndices();
         List<GameState> games = new ArrayList<>();
@@ -71,14 +91,19 @@ public class ClientMessenger implements ClientMessagingController {
                 try {
                     
                     Optional<byte[]> data = gameDAO.get(index);
+                    
                     if (data.isPresent()) {
-                        GameState gameState = GameState.deserializeFromByteArray(data.get());
-                        if (gameState.playerTwo == null) {
+                        GameStateWrapper getter = new GameStateWrapper(data.get());
+                        Thread thread = new Thread(getter);
+                        thread.start();
+                        thread.join();
+                        GameState gameState = getter.gameState;
+                        if (gameState != null && gameState.playerTwo == null) {
                             games.add(gameState);
                         }
                     }
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                } catch (InterruptedException i) {
+                    i.printStackTrace();
                 }
             }
         }

@@ -65,7 +65,6 @@ public class GameState implements Externalizable {
     public Entity playerOne;
     public Entity playerTwo;
     public String mapName;
-    public boolean serializeFurther = false;
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -79,12 +78,6 @@ public class GameState implements Externalizable {
         out.writeObject(playerTwo);
         // Map
         out.writeObject(mapName);
-
-        // Serialize further?
-        out.writeBoolean(serializeFurther);
-        if (!serializeFurther) {
-            return;
-        }
 
         // All Entities
         out.writeObject(ECSManager.getInstance().getLocalEntities());
@@ -148,8 +141,9 @@ public class GameState implements Externalizable {
             System.out.println("Game version: " + game_version + game_version.length());
             String read_game_version = (String) readObject;
             System.out.println("Read version: " + read_game_version + read_game_version.length());
-            
-            throw new IllegalStateException("Game version mismatch");
+            System.err.println("Missmatch in game version!");
+            return;
+            //throw new IllegalStateException("Game version mismatch");
         }
         
         // Game ID
@@ -168,12 +162,6 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Map name must be a string");
         }
         mapName = (String) readObject;
-        
-        // Serialize further?
-        serializeFurther = in.readBoolean();
-        if (!serializeFurther) {
-            return;
-        }
 
         // All Entities
         deserializeRemoteEntities(in);
