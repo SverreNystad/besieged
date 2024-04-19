@@ -232,9 +232,13 @@ public class GameState implements Externalizable {
         
         // Check for player two
         readObject = in.readObject();
-        if (!(readObject instanceof Entity)) {
+        if (!(readObject instanceof Entity) && readObject != null) {
             return;
         }
+        if (readObject == null) {
+            playerTwo = null;
+            return;
+        } 
         playerTwo = (Entity) readObject;
         manager.addRemoteEntity(playerTwo);
     }

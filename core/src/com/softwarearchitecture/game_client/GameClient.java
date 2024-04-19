@@ -35,16 +35,18 @@ public class GameClient {
         UUID gameId = null;
         if (screenManager.getGameId() != null) {
             gameId = screenManager.getGameId();
-            Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
+            Optional<GameState> game = defaultControllers.onlineClientMessagingController.requestGameState(gameId);
             if (game.isPresent()) {
                 // removePlacedCardsFromScreen();
                 game.get();
                 // System.out.println("[CLIENT] Requested game gotten: " + game.get());
             }
         }
-        if (defaultControllers.gameServer.getGameId() != null) {
+        else if (defaultControllers.gameServer.getGameId() != null) {
             gameId = defaultControllers.gameServer.getGameId();
-            Optional<GameState> game = defaultControllers.clientMessagingController.requestGameState(gameId);
+            Optional<GameState> game = Optional.empty();
+            game = screenManager.isLocalServer() ? defaultControllers.localClientMessagingController.requestGameState(gameId) : defaultControllers.onlineClientMessagingController.requestGameState(gameId);
+            
             if (game.isPresent()) {
                 // removePlacedCardsFromScreen();
                 game.get();

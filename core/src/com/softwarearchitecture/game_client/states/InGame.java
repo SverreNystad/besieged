@@ -48,46 +48,44 @@ public class InGame extends State implements Observer, GameOverObserver {
     private Entity village;
     private String mapName;
     private CardType selectedCardType = null;
-    private boolean isMultiplayer;
     private List<Entity> cardButtonEntities = new ArrayList<>();
     
-    protected InGame(Controllers defaultControllers, UUID yourId, String mapName, boolean isMultiplayer)  {
+    protected InGame(Controllers defaultControllers, UUID yourId, String mapName)  {
         super(defaultControllers, yourId);
         this.mapName = mapName;
-        this.isMultiplayer = isMultiplayer;
     }
 
 
     @Override
     protected void activate() {
-        if (!isMultiplayer) {
-            // Background
-            String backgroundPath = TexturePack.BACKGROUND_TOR;
-            Entity background = new Entity();
-            SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
-            PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
-            background.addComponent(SpriteComponent.class, backgroundSprite);
-            background.addComponent(PositionComponent.class, backgroundPosition);
-            ECSManager.getInstance().addLocalEntity(background);
+        // if (!isMultiplayer) {
+        //     // Background
+        //     String backgroundPath = TexturePack.BACKGROUND_TOR;
+        //     Entity background = new Entity();
+        //     SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
+        //     PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
+        //     background.addComponent(SpriteComponent.class, backgroundSprite);
+        //     background.addComponent(PositionComponent.class, backgroundPosition);
+        //     ECSManager.getInstance().addLocalEntity(background);
 
-            // Map and tiles
-            Map gameMap = MapFactory.createMap(mapName);
-            initializeMapEntities(gameMap);
+        //     // Map and tiles
+        //     Map gameMap = MapFactory.createMap(mapName);
+        //     initializeMapEntities(gameMap);
 
             
 
-            this.gameMap = gameMap;
+        //     this.gameMap = gameMap;
             
-            EnemySystem enemySystem = new EnemySystem(this);
-            AttackSystem attackSystem = new AttackSystem(gameMap);
-            AnimationSystem animationSystem = new AnimationSystem();
-            ECSManager.getInstance().addSystem(animationSystem);
-            ECSManager.getInstance().addSystem(enemySystem);
-            ECSManager.getInstance().addSystem(attackSystem);
-            // Initialize the Village-entity
-            initializeVillage();
-        } 
-        else {
+        //     EnemySystem enemySystem = new EnemySystem(this);
+        //     AttackSystem attackSystem = new AttackSystem(gameMap);
+        //     AnimationSystem animationSystem = new AnimationSystem();
+        //     ECSManager.getInstance().addSystem(animationSystem);
+        //     ECSManager.getInstance().addSystem(enemySystem);
+        //     ECSManager.getInstance().addSystem(attackSystem);
+        //     // Initialize the Village-entity
+        //     initializeVillage();
+        // } 
+        // else {
             // Make a button that covers the whole screen and sends a message to the server when clicked
             Entity screenTouch = new Entity();
             Runnable callback = () -> {
@@ -108,7 +106,7 @@ public class InGame extends State implements Observer, GameOverObserver {
     
                         if (position.position.x <= u && u <= position.position.x + sprite.size_uv.x && position.position.y <= v && v <= position.position.y + sprite.size_uv.y) {
                             PlayerInput action = new PlayerInput(yourId, selectedCardType, tile.getTile().getX(), tile.getTile().getY());
-                            defaultControllers.clientMessagingController.addAction(action);
+                            defaultControllers.onlineClientMessagingController.addAction(action);
                         }
                     }
                 }
@@ -118,7 +116,7 @@ public class InGame extends State implements Observer, GameOverObserver {
             screenTouch.addComponent(ButtonComponent.class, button);
             ECSManager.getInstance().addLocalEntity(screenTouch);
             System.out.println("Added screen touch button");
-        }
+        // }
 
 
         // Buttons
@@ -156,80 +154,80 @@ public class InGame extends State implements Observer, GameOverObserver {
         }
     }
 
-    private void initializeVillage() {
-        // Initialize the village entity
-        Entity village = new Entity();
-        VillageComponent villageComponent = new VillageComponent();
-        HealthComponent healthComponent = new HealthComponent(1000);
-        MoneyComponent moneyComponent = new MoneyComponent(1000);
+    // private void initializeVillage() {
+    //     // Initialize the village entity
+    //     Entity village = new Entity();
+    //     VillageComponent villageComponent = new VillageComponent();
+    //     HealthComponent healthComponent = new HealthComponent(1000);
+    //     MoneyComponent moneyComponent = new MoneyComponent(1000);
         
         
-        // Add a text component to the village entity
-        PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
-        String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
-        TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
-        villageHealthText.setColor(new Vector3(0f, 0f, 0f));
+    //     // Add a text component to the village entity
+    //     PositionComponent villagePosition = new PositionComponent(new Vector2(0.80f, 0.90f), 1000);
+    //     String textToDisplay = "Health: " + healthComponent.getHealth() + "\n Money: " + moneyComponent.getAmount();
+    //     TextComponent villageHealthText = new TextComponent(textToDisplay, new Vector2(0.05f, 0.05f));
+    //     villageHealthText.setColor(new Vector3(0f, 0f, 0f));
         
-        village.addComponent(TextComponent.class, villageHealthText);
-        village.addComponent(HealthComponent.class, healthComponent);
-        village.addComponent(MoneyComponent.class, moneyComponent);
-        village.addComponent(VillageComponent.class, villageComponent);
-        village.addComponent(PositionComponent.class, villagePosition);
+    //     village.addComponent(TextComponent.class, villageHealthText);
+    //     village.addComponent(HealthComponent.class, healthComponent);
+    //     village.addComponent(MoneyComponent.class, moneyComponent);
+    //     village.addComponent(VillageComponent.class, villageComponent);
+    //     village.addComponent(PositionComponent.class, villagePosition);
         
-        ECSManager.getInstance().addLocalEntity(village);
-        this.village = village;
-    }
+    //     ECSManager.getInstance().addLocalEntity(village);
+    //     this.village = village;
+    // }
 
-    private void initializeMapEntities(Map gameMap) {
-        Tile[][] tiles = gameMap.getMapLayout();
-        int numOfColumns = tiles.length;
-        int numOfRows = tiles[0].length;
+    // private void initializeMapEntities(Map gameMap) {
+    //     Tile[][] tiles = gameMap.getMapLayout();
+    //     int numOfColumns = tiles.length;
+    //     int numOfRows = tiles[0].length;
 
-        float tileWidth = 1.0f / numOfColumns;
-        float tileHeight = 1.0f / numOfRows;
+    //     float tileWidth = 1.0f / numOfColumns;
+    //     float tileHeight = 1.0f / numOfRows;
 
-        // Set tileWidth and tileHeight in the gameMap
-        gameMap.setTileWidth(tileWidth);
-        gameMap.setTileHeight(tileHeight);
+    //     // Set tileWidth and tileHeight in the gameMap
+    //     gameMap.setTileWidth(tileWidth);
+    //     gameMap.setTileHeight(tileHeight);
 
-        // Create Path entitiy
-        List<Tile> enemyPath = gameMap.getPath();
-        PathfindingComponent pathfindingComponent = new PathfindingComponent(enemyPath);
-        Entity path = new Entity();
-        path.addComponent(PathfindingComponent.class, pathfindingComponent);
-        ECSManager.getInstance().addLocalEntity(path);
+    //     // Create Path entitiy
+    //     List<Tile> enemyPath = gameMap.getPath();
+    //     PathfindingComponent pathfindingComponent = new PathfindingComponent(enemyPath);
+    //     Entity path = new Entity();
+    //     path.addComponent(PathfindingComponent.class, pathfindingComponent);
+    //     ECSManager.getInstance().addLocalEntity(path);
 
-        for (int i = 0; i < numOfColumns; i++) {
-            for (int j = numOfRows - 1; j >= 0; j--) {
-                final int finalI = i; // Create a final copy of i
-                final int finalJ = j; // Create a final copy of j
+    //     for (int i = 0; i < numOfColumns; i++) {
+    //         for (int j = numOfRows - 1; j >= 0; j--) {
+    //             final int finalI = i; // Create a final copy of i
+    //             final int finalJ = j; // Create a final copy of j
 
-                Entity tileEntity = new Entity();
-                String tileTexture = gameMap.getTextureForTile(tiles[i][j]);
+    //             Entity tileEntity = new Entity();
+    //             String tileTexture = gameMap.getTextureForTile(tiles[i][j]);
 
-                Vector2 position = new Vector2(i * tileWidth, j * tileHeight);
-                Vector2 size = new Vector2(tileWidth, tileHeight);
-                SpriteComponent spriteComponent = new SpriteComponent(tileTexture.toString(), size);
-                PositionComponent positionComponent = new PositionComponent(position, 1);
-                TileComponent tileComponent = new TileComponent(tiles[i][j]); // Added
+    //             Vector2 position = new Vector2(i * tileWidth, j * tileHeight);
+    //             Vector2 size = new Vector2(tileWidth, tileHeight);
+    //             SpriteComponent spriteComponent = new SpriteComponent(tileTexture.toString(), size);
+    //             PositionComponent positionComponent = new PositionComponent(position, 1);
+    //             TileComponent tileComponent = new TileComponent(tiles[i][j]); // Added
 
-                // Create the callback-function for the button
-                Runnable callback = () -> {
-                    // Do action client side
-                    handleTileClick(finalI, finalJ);
-                };
+    //             // Create the callback-function for the button
+    //             Runnable callback = () -> {
+    //                 // Do action client side
+    //                 handleTileClick(finalI, finalJ);
+    //             };
 
-                ButtonComponent buttonComponent = new ButtonComponent(position, size, ButtonEnum.TILE, 0, callback);
+    //             ButtonComponent buttonComponent = new ButtonComponent(position, size, ButtonEnum.TILE, 0, callback);
 
-                tileEntity.addComponent(SpriteComponent.class, spriteComponent);
-                tileEntity.addComponent(PositionComponent.class, positionComponent);
-                tileEntity.addComponent(ButtonComponent.class, buttonComponent);
-                tileEntity.addComponent(TileComponent.class, tileComponent); // Added
-                ECSManager.getInstance().addLocalEntity(tileEntity);
+    //             tileEntity.addComponent(SpriteComponent.class, spriteComponent);
+    //             tileEntity.addComponent(PositionComponent.class, positionComponent);
+    //             tileEntity.addComponent(ButtonComponent.class, buttonComponent);
+    //             tileEntity.addComponent(TileComponent.class, tileComponent); // Added
+    //             ECSManager.getInstance().addLocalEntity(tileEntity);
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
     private void createCardSelectionMenu() {
         float menuYPosition = -0.02f; // Bottom of the screen
@@ -302,191 +300,191 @@ public class InGame extends State implements Observer, GameOverObserver {
         return buttonEntity;
     }
 
-    // Callback-function for when a tile is clicked. Responsible for placing either
-    // a card or a tower on the tile
-    private void handleTileClick(int x, int y) {
-        System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
-        Tile tile = gameMap.getMapLayout()[x][y];
-        Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
-        CardType existingCardType = null;
-        if (tileEntity == null)
-            return; // Exit if there is no entity for this tile
-        if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
-            return;
-        }
+    // // Callback-function for when a tile is clicked. Responsible for placing either
+    // // a card or a tower on the tile
+    // private void handleTileClick(int x, int y) {
+    //     System.out.println("Clicked tile at position: (" + x + ", " + y + ")");
+    //     Tile tile = gameMap.getMapLayout()[x][y];
+    //     Entity tileEntity = getTileEntityByPosition(new Vector2(x, y));
+    //     CardType existingCardType = null;
+    //     if (tileEntity == null)
+    //         return; // Exit if there is no entity for this tile
+    //     if (selectedCardType == null || !tile.isBuildable() || tile.hasTower()) {
+    //         return;
+    //     }
         
 
-        // Card already placed, place tower
-        if (tile.hasCard()) {
-            System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
-            PlacedCardComponent existingCardComponent = ECSManager.getInstance()
-                    .getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
-            existingCardType = existingCardComponent.cardType;
-            Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
+    //     // Card already placed, place tower
+    //     if (tile.hasCard()) {
+    //         System.out.println("Placing tower on tile at position (" + x + ", " + y + ")");
+    //         PlacedCardComponent existingCardComponent = ECSManager.getInstance()
+    //                 .getOrDefaultComponentManager(PlacedCardComponent.class).getComponent(tileEntity).get();
+    //         existingCardType = existingCardComponent.cardType;
+    //         Optional<TowerType> towerType = PairableCards.getTower(selectedCardType, existingCardType);
 
-            if (towerType.isPresent()) {
-                // Buy the card if the player can afford it
-                Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
-                if (!buyCard(cardEntity)) {
-                    return;
-                }
+    //         if (towerType.isPresent()) {
+    //             // Buy the card if the player can afford it
+    //             Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+    //             if (!buyCard(cardEntity)) {
+    //                 return;
+    //             }
 
-                // Remove the card thats already there
-                removeCardFromTile(tile, tileEntity);
+    //             // Remove the card thats already there
+    //             removeCardFromTile(tile, tileEntity);
 
-                // Create the tower entity
-                Entity towerEntity = TowerFactory.createTower(selectedCardType, existingCardType, new Vector2(x, y));
+    //             // Create the tower entity
+    //             Entity towerEntity = TowerFactory.createTower(selectedCardType, existingCardType, new Vector2(x, y));
 
-                // Update the tile with the new tower
-                updateTileWithTower(tile, tileEntity, towerEntity);
+    //             // Update the tile with the new tower
+    //             updateTileWithTower(tile, tileEntity, towerEntity);
 
                 
-            }
-        }
-        // No card on tile, place card
-        else {
-            System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
+    //         }
+    //     }
+    //     // No card on tile, place card
+    //     else {
+    //         System.out.println("Placing card on tile at position (" + x + ", " + y + ")");
 
-            // Create the card entity
-            Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
+    //         // Create the card entity
+    //         Entity cardEntity = CardFactory.createCard(selectedCardType, new Vector2(x, y), true);
 
-            // Buy the card if the player can afford it
-            if (!buyCard(cardEntity)) {
-                return;
-            }
+    //         // Buy the card if the player can afford it
+    //         if (!buyCard(cardEntity)) {
+    //             return;
+    //         }
             
-            // Add a PlacedCardComponent the Tile-entity (to keep track of the cards' type)
-            PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
-            ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
-                    placedCardComponent);
+    //         // Add a PlacedCardComponent the Tile-entity (to keep track of the cards' type)
+    //         PlacedCardComponent placedCardComponent = new PlacedCardComponent(selectedCardType);
+    //         ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class).addComponent(tileEntity,
+    //                 placedCardComponent);
 
-            // Update the tile with the new card
-            updateTileWithCard(tile, tileEntity, cardEntity);
-        }
+    //         // Update the tile with the new card
+    //         updateTileWithCard(tile, tileEntity, cardEntity);
+    //     }
 
-        // Reset the position of all other cards
-        for (Entity entity : cardButtonEntities) {
-            PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
-            positionComponent.position.y = -0.085f;
+    //     // Reset the position of all other cards
+    //     for (Entity entity : cardButtonEntities) {
+    //         PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
+    //         positionComponent.position.y = -0.085f;
 
-        }
+    //     }
 
-        // Reset the selected card type after placing a card
-        selectedCardType = null;
-    }
+    //     // Reset the selected card type after placing a card
+    //     selectedCardType = null;
+    // }
 
-    private void updateTileWithCard(Tile tile, Entity tileEntity, Entity cardEntity) {
-        if (tileEntity != null) {
-            centerAndResizeEntity(cardEntity, tileEntity, gameMap);
-            tile.setCard(cardEntity);
+    // private void updateTileWithCard(Tile tile, Entity tileEntity, Entity cardEntity) {
+    //     if (tileEntity != null) {
+    //         centerAndResizeEntity(cardEntity, tileEntity, gameMap);
+    //         tile.setCard(cardEntity);
 
-            ECSManager.getInstance().addLocalEntity(cardEntity);
-        }
-    }
+    //         ECSManager.getInstance().addLocalEntity(cardEntity);
+    //     }
+    // }
 
-    private void updateTileWithTower(Tile tile, Entity tileEntity, Entity towerEntity) {
-        if (tileEntity != null) {
-            centerAndResizeEntity(towerEntity, tileEntity, gameMap);
-            tile.setTower(towerEntity);
+    // private void updateTileWithTower(Tile tile, Entity tileEntity, Entity towerEntity) {
+    //     if (tileEntity != null) {
+    //         centerAndResizeEntity(towerEntity, tileEntity, gameMap);
+    //         tile.setTower(towerEntity);
 
-            ECSManager.getInstance().addLocalEntity(towerEntity);
-        }
-    }
+    //         ECSManager.getInstance().addLocalEntity(towerEntity);
+    //     }
+    // }
 
-    private void removeCardFromTile(Tile tile, Entity tileEntity) {
-        ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
-                        .removeComponent(tileEntity);
-        Entity card = tile.getCard();
-        ECSManager.getInstance().removeLocalEntity(card);
-        tile.removeCard();
-    }
+    // private void removeCardFromTile(Tile tile, Entity tileEntity) {
+    //     ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class)
+    //                     .removeComponent(tileEntity);
+    //     Entity card = tile.getCard();
+    //     ECSManager.getInstance().removeLocalEntity(card);
+    //     tile.removeCard();
+    // }
 
-    private boolean buyCard(Entity cardEntity) {
-        ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
-        Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
-        if (costComponent.isPresent()) {
-            int playerBalance = village.getComponent(MoneyComponent.class).get().amount;
-            int costOfCard = costComponent.get().getCost();
-            if (playerBalance >= costOfCard) {
-                playerBalance -= costOfCard;
-                village.getComponent(MoneyComponent.class).get().amount = playerBalance;
-                updateTopRightCornerText();
-                return true;
-            }
-        }
-        return false;
-    }
+    // private boolean buyCard(Entity cardEntity) {
+    //     ComponentManager<CostComponent> costComponentManager = ECSManager.getInstance().getOrDefaultComponentManager(CostComponent.class);
+    //     Optional<CostComponent> costComponent = costComponentManager.getComponent(cardEntity);
+    //     if (costComponent.isPresent()) {
+    //         int playerBalance = village.getComponent(MoneyComponent.class).get().amount;
+    //         int costOfCard = costComponent.get().getCost();
+    //         if (playerBalance >= costOfCard) {
+    //             playerBalance -= costOfCard;
+    //             village.getComponent(MoneyComponent.class).get().amount = playerBalance;
+    //             updateTopRightCornerText();
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
 
-    private void updateTopRightCornerText() {
-        // Get the text-component of the village and update the health
-        ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
-        ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
-        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
-        Optional<TextComponent> textComponent = textManager.getComponent(village);
-        Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
-        Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
+    // private void updateTopRightCornerText() {
+    //     // Get the text-component of the village and update the health
+    //     ComponentManager<TextComponent> textManager = ECSManager.getInstance().getOrDefaultComponentManager(TextComponent.class);
+    //     ComponentManager<MoneyComponent> moneyManager = ECSManager.getInstance().getOrDefaultComponentManager(MoneyComponent.class);
+    //     ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
+    //     Optional<TextComponent> textComponent = textManager.getComponent(village);
+    //     Optional<MoneyComponent> moneyComponent = moneyManager.getComponent(village);
+    //     Optional<HealthComponent> healthComponent = healthManager.getComponent(village);
      
-        if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
-            int villageHealth = healthComponent.get().getHealth();
-            int money = moneyComponent.get().amount;
-            String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
-            textComponent.get().text = textToDisplay;
-        }
-    }
+    //     if (textComponent.isPresent() && moneyComponent.isPresent() && healthComponent.isPresent()) {
+    //         int villageHealth = healthComponent.get().getHealth();
+    //         int money = moneyComponent.get().amount;
+    //         String textToDisplay = "Health: " + villageHealth + "\n Money: " + money;
+    //         textComponent.get().text = textToDisplay;
+    //     }
+    // }
 
 
-    private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
-        float padding = 0.05f; // 5% padding on each side
+    // private void centerAndResizeEntity(Entity entityToPlace, Entity tileEntity, Map gameMap) {
+    //     float padding = 0.05f; // 5% padding on each side
 
-        float entityWidth = gameMap.getTileWidth();
-        float entityHeight = gameMap.getTileHeight();
-        if (entityToPlace.getComponent(PlacedCardComponent.class).isPresent()) {
-            // Cards should be slightly smaller than towers
-            entityWidth = gameMap.getTileWidth() * (1 - 2 * padding) * 0.9f;
-            entityHeight = gameMap.getTileHeight() * (1 - 2 * padding) * 0.9f;
-        }
+    //     float entityWidth = gameMap.getTileWidth();
+    //     float entityHeight = gameMap.getTileHeight();
+    //     if (entityToPlace.getComponent(PlacedCardComponent.class).isPresent()) {
+    //         // Cards should be slightly smaller than towers
+    //         entityWidth = gameMap.getTileWidth() * (1 - 2 * padding) * 0.9f;
+    //         entityHeight = gameMap.getTileHeight() * (1 - 2 * padding) * 0.9f;
+    //     }
 
-        // Get the position of the tile (in UV-coordinates)
-        PositionComponent tilePositionComponent = tileEntity.getComponent(PositionComponent.class).get();
+    //     // Get the position of the tile (in UV-coordinates)
+    //     PositionComponent tilePositionComponent = tileEntity.getComponent(PositionComponent.class).get();
 
-        // Calculate the centered position for the card/tower within the tile
-        Vector2 centeredPosition = new Vector2(
-                tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
-                tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
+    //     // Calculate the centered position for the card/tower within the tile
+    //     Vector2 centeredPosition = new Vector2(
+    //             tilePositionComponent.getPosition().x + padding * gameMap.getTileWidth(),
+    //             tilePositionComponent.getPosition().y + padding * gameMap.getTileHeight() + entityHeight / 4);
 
-        // Update the PositionComponent of the entity to place
-        PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
-        entityPositionComponent.position = centeredPosition;
-        entityToPlace.addComponent(PositionComponent.class, entityPositionComponent);
+    //     // Update the PositionComponent of the entity to place
+    //     PositionComponent entityPositionComponent = entityToPlace.getComponent(PositionComponent.class).get();
+    //     entityPositionComponent.position = centeredPosition;
+    //     entityToPlace.addComponent(PositionComponent.class, entityPositionComponent);
 
-        // Update the SpriteComponent of the entity to place
-        SpriteComponent entitySpriteComponent = entityToPlace.getComponent(SpriteComponent.class).get();
-        entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
-        entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
-    }
+    //     // Update the SpriteComponent of the entity to place
+    //     SpriteComponent entitySpriteComponent = entityToPlace.getComponent(SpriteComponent.class).get();
+    //     entitySpriteComponent.size_uv = new Vector2(entityWidth, entityHeight);
+    //     entityToPlace.addComponent(SpriteComponent.class, entitySpriteComponent);
+    // }
 
 
-    private Entity getTileEntityByPosition(Vector2 tilePosition) {
-        float tileWidth = gameMap.getTileWidth();
-        float tileHeight = gameMap.getTileHeight();
+    // private Entity getTileEntityByPosition(Vector2 tilePosition) {
+    //     float tileWidth = gameMap.getTileWidth();
+    //     float tileHeight = gameMap.getTileHeight();
 
-        for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
-            if (entity.getComponent(TileComponent.class).isPresent()
-                    && entity.getComponent(PositionComponent.class).isPresent()) {
-                PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
-                // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
+    //     for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
+    //         if (entity.getComponent(TileComponent.class).isPresent()
+    //                 && entity.getComponent(PositionComponent.class).isPresent()) {
+    //             PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
+    //             // Convert the UV coordinates back to XY coordinates
+    //             int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
+    //             int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
 
-                if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
-                    return entity;
+    //             if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
+    //                 return entity;
 
-                }
-            }
-        }
-        return null;
-    }
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
 
 
     @Override

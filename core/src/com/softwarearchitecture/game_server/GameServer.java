@@ -37,17 +37,20 @@ public class GameServer {
     private UUID gameId;
     private UUID playerOneID;
     private UUID playerTwoID;
-    private ServerMessagingController messageController;
+    private ServerMessagingController onlineMessageController;
+    private ServerMessagingController localMessageController;
 
     private Map gameMap;
 
     /**
      * Initializes a new game server with a message controller for communication and the UUID of player one.
-     * @param messageController The communication controller used for interacting with clients.
+     * @param onlineMessageController The communication controller used for interacting with clients.
+     * @param localMessageController The communication controller used for local communication.
      * @param playerOneID The unique identifier for the first player in the game.
      */
-    public GameServer(ServerMessagingController messageController, UUID playerOneID) {
-        this.messageController = messageController;
+    public GameServer(ServerMessagingController onlineMessageController, ServerMessagingController localMessageController, UUID playerOneID) {
+        this.onlineMessageController = onlineMessageController;
+        this.localMessageController = localMessageController;
         this.playerOneID = playerOneID;
     }
 
@@ -55,11 +58,13 @@ public class GameServer {
      * Starts the server operation, creating a game instance and entering the main gameplay loop.
      * The method handles game setup, player joining, and periodic state updates until the game ends.
      */
-    public void run(String mapName) {
-        GameState gameState = hostGame(mapName);
+    public void run(String mapName, boolean isMultiplayer) {
+        ServerMessagingController messageController = isMultiplayer ? onlineMessageController : localMessageController;
+        GameState gameState = hostGame(mapName, messageController);
 
         // Wait for player two to join
-        playerTwoID = waitForPlayerToJoin(gameState);
+        if (isMultiplayer) 
+            playerTwoID = waitForPlayerToJoin(gameState);
 
         // TODO: Add relevant entities
         Entity village = new Entity();
@@ -103,7 +108,6 @@ public class GameServer {
         boolean gamesOver = false;
         
         while (!gamesOver) {
-
             float deltatime = 1.0f;
             ECSManager.getInstance().update(deltatime);
             
@@ -113,10 +117,12 @@ public class GameServer {
                 System.out.println("[SERVER] Processing player one action: " + action.getAction());
                 handlePlayerAction(action);
             }
-            for (PlayerInput action : messageController.lookForPendingActions(playerTwoID)) {
-                // Actions to process player inputs and update game state
-                System.out.println("[SERVER] Processing player two action: " + action.getAction());
-                handlePlayerAction(action);
+            if (isMultiplayer) {
+                for (PlayerInput action : messageController.lookForPendingActions(playerTwoID)) {
+                    // Actions to process player inputs and update game state
+                    System.out.println("[SERVER] Processing player two action: " + action.getAction());
+                    handlePlayerAction(action);
+                }
             }
 
 
@@ -131,7 +137,7 @@ public class GameServer {
         messageController.removeGame(gameId);
     }
 
-    private GameState hostGame(String mapName) {
+    private GameState hostGame(String mapName, ServerMessagingController messageController) {
         this.gameId = messageController.createGame(mapName);
         System.out.println("[SERVER] Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
@@ -152,8 +158,8 @@ public class GameServer {
      */
     private UUID waitForPlayerToJoin(GameState gameState) {
         UUID playerTwoID = null;
-        while (messageController.getGameState(gameId).playerTwo == null) {
-            Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
+        while (onlineMessageController.getGameState(gameId).playerTwo == null) {
+            Optional<UUID> playerTwo = onlineMessageController.lookForPendingPlayer(gameId);
             System.out.println("[SERVER] Looking for player two");
             if (!playerTwo.isPresent())
                 continue;

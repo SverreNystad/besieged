@@ -23,11 +23,11 @@ public class ClientMessenger implements ClientMessagingController {
     private static final String GAME_PREFIX = "GAME";
     
 
-    public ClientMessenger() {
-        this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
-        this.actionDAO = new DAOBuilder().build(UUID.class, PlayerInput.class);
-        this.joinPlayerDAO = new DAOBuilder().build(String.class, UUID.class);
-        this.gamesDAO = new DAOBuilder().build(String.class, String.class);
+    public ClientMessenger(boolean isMultiplayer) {
+        this.gameDAO = new DAOBuilder(!isMultiplayer).build(String.class, byte[].class);
+        this.actionDAO = new DAOBuilder(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        this.joinPlayerDAO = new DAOBuilder(!isMultiplayer).build(String.class, UUID.class);
+        this.gamesDAO = new DAOBuilder(!isMultiplayer).build(String.class, String.class);
     }
     
     @Override
