@@ -177,7 +177,7 @@ public class ECSManager {
         entities.addAll(remoteEntities);
         for (System system : this.systems) {
             // Update each system
-            system.update(entities, deltaTime); // TODO: Render function should be the last system called!
+            system.update(entities, deltaTime); 
         }
     }
 

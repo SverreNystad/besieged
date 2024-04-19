@@ -52,7 +52,7 @@ public class AudioSystem implements System {
                 if (soundComponent.get().isBackgroundMusic) {
                     soundController.playBackgroundMusic(soundComponent.get());
                 } else {
-                    // TODO: Case for cards
+                    // Sound for cards
                     Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
                     if (cardComponent.isPresent() && cardComponent.get().playSound == true) {
                         java.lang.System.out.println(entity);
@@ -60,7 +60,7 @@ public class AudioSystem implements System {
                         cardComponent.get().playSound = false;
                     }
                     
-                    // TODO: Case for towers
+                    // Sound for towers
                     Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
                     if (towerComponent.isPresent() && towerComponent.get().playSound == true) {
                         soundController.playSound(soundComponent.get());
