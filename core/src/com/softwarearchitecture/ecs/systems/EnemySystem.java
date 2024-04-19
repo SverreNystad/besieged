@@ -76,7 +76,7 @@ public class EnemySystem implements System {
         this.monsterCounter = 0;
         this.waveNumber = 1;
         this.spawnTimer = 7.5f;
-        this.waveTimer = 500f;
+        this.waveTimer = 20f;
         this.maxLiveMonsters = 5;
         this.liveMonsterCounter = 0;
         this.villageDamage = 0;
@@ -183,7 +183,7 @@ public class EnemySystem implements System {
                 ECSManager.getInstance().addLocalEntity(mob);
                 monsterCounter++;
                 liveMonsterCounter++;
-                spawnTimer = 200f;
+                spawnTimer = 20f;
             }
             // If the max number of enemies has been met, check if any of them are dead
             else {

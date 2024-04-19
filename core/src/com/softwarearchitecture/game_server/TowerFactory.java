@@ -29,7 +29,7 @@ public class TowerFactory {
         Vector2 size = new Vector2(1, 1);
         int damage = 0;
         float range = 0;
-        int attackCooldown = 0;
+        float attackCooldown = 0;
         String sound = AudioPack.PLACING_CARD; //TODO: Add default sound
 
         Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
@@ -51,7 +51,7 @@ public class TowerFactory {
 
                 damage = 15;
                 range = 2;
-                attackCooldown = 2;
+                attackCooldown = 0.5f;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
                 break;
             case TOR:
@@ -62,7 +62,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_TOR_FRAME1);
                 damage = 20;
                 range = 3;
-                attackCooldown = 7;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_TOR;
                 break;
             case MAGIC:
@@ -73,28 +73,28 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_FRAME1);
                 damage = 13;
                 range = 3;
-                attackCooldown = 8;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_MAGIC;
                 break;
             case FIRE_BOW:
                 textures.add(TexturePack.TOWER_BOW_FIRE);
                 damage = 7;
                 range = 2;
-                attackCooldown = 4;
+                attackCooldown = 0.5f;
                 sound = AudioPack.TOWER_FIRE_BOW;
                 break;
             case SHARP_SHOOTER:
                 textures.add(TexturePack.TOWER_SHARPSHOOTER);
                 damage = 40;
                 range = 10f;
-                attackCooldown = 15;
+                attackCooldown = 2;
                 sound = AudioPack.TOWER_SHARP_SHOOTER;
                 break;
             case BOW:
                 textures.add(TexturePack.TOWER_BOW);
                 damage = 12;
                 range = 3;
-                attackCooldown = 4;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_BOW;
                 break;
 
@@ -108,7 +108,7 @@ public class TowerFactory {
                 areaOfAffectComponent = new AreaOfAffectComponent();
                 damage = 30;
                 range = 2.5f;
-                attackCooldown = 15;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_BOW;
                 break;
 
@@ -126,7 +126,7 @@ public class TowerFactory {
 
                 damage = 45;
                 range = 2;
-                attackCooldown = 8;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_BOW;
                 break;
 
@@ -140,7 +140,7 @@ public class TowerFactory {
                 textures.add(TexturePack.MORTAR_FRAME1);
                 damage = 100;
                 range = 4.5f;
-                attackCooldown = 25;
+                attackCooldown = 3;
                 sound = AudioPack.TOWER_BOW;
                 break;
 
@@ -155,7 +155,7 @@ public class TowerFactory {
 
                 damage = 1;
                 range = 1;
-                attackCooldown = 1;
+                attackCooldown = 0.5f;
                 sound = AudioPack.TOWER_BOW;
                 break;
 

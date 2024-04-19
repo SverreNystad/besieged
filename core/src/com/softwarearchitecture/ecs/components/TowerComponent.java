@@ -6,10 +6,10 @@ public class TowerComponent implements Serializable {
 
     private int damage;
     private float range;
-    private int attackCooldown;
+    private float attackCooldown;
     private float timeSinceLastAttack;
 
-    public TowerComponent(int damage, float range, int attackCooldown) {
+    public TowerComponent(int damage, float range, float attackCooldown) {
         if (damage >= 1 && range >= 1 && attackCooldown >= 1) {
             this.damage = damage;
             this.range = range;
