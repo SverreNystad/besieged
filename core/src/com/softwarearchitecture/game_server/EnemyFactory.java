@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
-import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;

@@ -12,7 +12,6 @@ public class FlameCard extends Card implements Serializable {
     public FlameCard(PlacedCardComponent placedCardComponent, CostComponent costComponent,
             SpriteComponent spriteComponent) {
         super(placedCardComponent, costComponent, spriteComponent);
-        //TODO Auto-generated constructor stub
     }
 
 }

@@ -12,7 +12,6 @@ public class TechnologyCard extends Card implements Serializable {
     public TechnologyCard(PlacedCardComponent placedCardComponent, CostComponent costComponent,
             SpriteComponent spriteComponent) {
         super(placedCardComponent, costComponent, spriteComponent);
-        //TODO Auto-generated constructor stub
     }
 
 }
