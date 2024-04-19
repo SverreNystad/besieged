@@ -15,8 +15,7 @@ public class TowerComponent implements Serializable {
             this.damage = damage;
             this.range = range;
             this.attackCooldown = attackCooldown;
-        }
-        else {
+        } else {
             this.damage = 1;
             this.range = 1;
             this.attackCooldown = 1;
@@ -34,8 +33,7 @@ public class TowerComponent implements Serializable {
     public void setDamage(int damage) {
         if (damage >= 1) {
             this.damage = damage;
-        }
-        else {
+        } else {
             this.damage = 1;
         }
     }
@@ -43,8 +41,7 @@ public class TowerComponent implements Serializable {
     public void setRange(int range) {
         if (range >= 1) {
             this.range = range;
-        }
-        else {
+        } else {
             this.range = 1;
         }
     }
