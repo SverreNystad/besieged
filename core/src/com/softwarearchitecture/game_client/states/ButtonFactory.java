@@ -124,6 +124,10 @@ public class ButtonFactory {
             case TEST:
                 texture = TexturePack.BUTTON_TEST;
                 break;
+            case TUTORIAL:
+                texture = TexturePack.BUTTON_TUTORIAL;
+                break;
+                
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }

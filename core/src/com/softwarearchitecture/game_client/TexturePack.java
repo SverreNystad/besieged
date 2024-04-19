@@ -44,6 +44,8 @@ public class TexturePack {
     public static final String BUTTON_MUTE = "gui/buttons/mute.png";
     public static final String BUTTON_ABYSS = "gui/buttons/abyss.png";
     public static final String BUTTON_TEST = "gui/buttons/test.png";
+    public static final String BUTTON_TUTORIAL = "gui/buttons/play.png";
+    
 
     // Logo
     public static final String LOGO = "gui/logo.png";
