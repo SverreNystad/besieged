@@ -65,6 +65,7 @@ public class GameState implements Externalizable {
     public Entity playerOne;
     public Entity playerTwo;
     public String mapName;
+    public long timeStamp;
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -78,6 +79,9 @@ public class GameState implements Externalizable {
         out.writeObject(playerTwo);
         // Map
         out.writeObject(mapName);
+
+        // Time stamp
+        out.writeObject(timeStamp);
 
         // All Entities
         out.writeObject(ECSManager.getInstance().getLocalEntities());
@@ -162,6 +166,13 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Map name must be a string");
         }
         mapName = (String) readObject;
+
+        // Time stamp
+        readObject = in.readObject();
+        if (!(readObject instanceof Long)) {
+            throw new IllegalStateException("Time stamp must be a long");
+        }
+        timeStamp = (Long) readObject;
 
         // All Entities
         deserializeRemoteEntities(in);

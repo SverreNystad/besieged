@@ -132,6 +132,7 @@ public class GameServer {
 
 
             // Update all clients with the latest game state.
+            gameState.timeStamp = System.currentTimeMillis();
             messageController.setNewGameState(gameId, gameState);
             
             if (Clock.getInstance().getDeltaTime() <= 0.01f) {
@@ -157,6 +158,7 @@ public class GameServer {
         this.gameId = messageController.createGame(mapName);
         System.out.println("[SERVER] Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
+        gameState.timeStamp = System.currentTimeMillis();
         if (messageController.getGameState(gameId).playerOne == null) {
             gameState.playerOne = new Entity();
             gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerOneID));
