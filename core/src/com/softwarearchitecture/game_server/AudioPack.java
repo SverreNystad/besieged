@@ -8,15 +8,18 @@ public class AudioPack {
     // Placing a card
     public static final String PLACING_CARD = "sounds/placing_card.mp3";
 
+    // Enemy death sounds
+    public static final String ENEMY_DEATH = "sounds/death_sound.mp3";
+
     // Enemy sounds
-    public static final String ENEMY_ANT = JENS;
-    public static final String ENEMY_WOLF = JENS;
-    public static final String ENEMY_VIKING_SWORD_SHIELD = JENS;
-    public static final String ENEMY_VIKING_SWORD = JENS;
-    public static final String ENEMY_VIKING_AXE = JENS;
-    public static final String ENEMY_VIKING_SPEAR = JENS;
-    public static final String ENEMY_TROLL = JENS;
-    public static final String ENEMY_ICE_GIANT = JENS;
+    public static final String ENEMY_ANT = ENEMY_DEATH;
+    public static final String ENEMY_WOLF = ENEMY_DEATH;
+    public static final String ENEMY_VIKING_SWORD_SHIELD = ENEMY_DEATH;
+    public static final String ENEMY_VIKING_SWORD = ENEMY_DEATH;
+    public static final String ENEMY_VIKING_AXE = ENEMY_DEATH;
+    public static final String ENEMY_VIKING_SPEAR = ENEMY_DEATH;
+    public static final String ENEMY_TROLL = ENEMY_DEATH;
+    public static final String ENEMY_ICE_GIANT = ENEMY_DEATH;
 
     // Tower sounds
     public static final String TOWER_TECHNOLOGY = "sounds/technology.mp3";
@@ -41,6 +44,5 @@ public class AudioPack {
     public static final String BACKGROUND_CELLO_SOLO = "sounds/viking_cello_solo.mp3";
     public static final String BACKGROUND_VIKING_CHOIR = "sounds/viking_choir.mp3";
 
-    // Enemy death sounds
-    public static final String ENEMY_DEATH = "sounds/death_sound.mp3";
+ 
 }

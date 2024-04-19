@@ -299,6 +299,7 @@ public class TowerFactory {
         SpriteComponent spriteComponent = spriteComponentOptional.get();
         TargetComponent targetComponent = targetComponentOptional.get();
         SoundComponent soundComponent = soundComponentOptional.get();
+        AreaOfEffectComponent areaOfEffectComponent = tower.getComponent(AreaOfEffectComponent.class).orElse(null);
         Entity newTower = new Entity();
         newTower.addComponent(TowerComponent.class, towerComponent);
         newTower.addComponent(PositionComponent.class, positionComponent);
@@ -306,6 +307,9 @@ public class TowerFactory {
         newTower.addComponent(SpriteComponent.class, spriteComponent);
         newTower.addComponent(TargetComponent.class, targetComponent);
         newTower.addComponent(SoundComponent.class, soundComponent);
+        if (areaOfEffectComponent != null) {
+            newTower.addComponent(AreaOfEffectComponent.class, areaOfEffectComponent);
+        }
         return newTower;
     }
 }
