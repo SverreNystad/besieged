@@ -31,6 +31,7 @@ public class ECSManager {
     private Set<Entity> remoteEntities;
     private Set<Entity> toAdd; // Entities to be added before the next update
     private Set<Entity> toRemove; // Entities to be removed before the next update
+    private Set<Entity> newlyAddedEntities; // Entities that were added in the last update
 
     /** Stores the systems */
     private Set<System> systems;
@@ -45,6 +46,7 @@ public class ECSManager {
         remoteEntities = new HashSet<>();
         toAdd = new HashSet<>();
         toRemove = new HashSet<>();
+        newlyAddedEntities = new HashSet<>();
         systems = new HashSet<>();
         componentManagers = new HashMap<>();
 
@@ -179,5 +181,11 @@ public class ECSManager {
         systems.clear();
         componentManagers.clear();
         remoteEntities.clear();
+    }
+
+    public Set<Entity> getAndClearNewlyRemoteAddedEntities() {
+        Set<Entity> temp = new HashSet<>(newlyAddedEntities);
+        newlyAddedEntities.clear();
+        return temp;
     }
 }

@@ -54,7 +54,7 @@ public class MovementSystem implements System {
                 continue;
             }
             Vector2 pos = position.get().position;
-            Vector2 vel = velocity.get().velocity;
+            float vel = velocity.get().velocity;
             List<Tile> find = pathfinding.get().path;
             Tile nextTile = pathfinding.get().targetTile;
             int currentIndex = find.indexOf(nextTile);
@@ -73,11 +73,11 @@ public class MovementSystem implements System {
      * @param deltaTime
      * @return
      */
-    private boolean moveTowards(Vector2 currentPosition, Vector2 targetPosition, Vector2 velocity, float deltaTime) {
+    private boolean moveTowards(Vector2 currentPosition, Vector2 targetPosition, float velocity, float deltaTime) {
 
         Vector2 direction = targetPosition.cpy().sub(currentPosition).nor();
         float distance = currentPosition.dst(targetPosition);
-        float stepLength = velocity.len() * deltaTime/20;
+        float stepLength = velocity * deltaTime/20;
         if (distance > stepLength) {
             currentPosition.add(direction.scl(stepLength));
             return false;  // Target not reached
