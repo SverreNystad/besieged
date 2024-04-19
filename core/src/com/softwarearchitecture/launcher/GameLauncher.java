@@ -24,13 +24,15 @@ public class GameLauncher {
         LibGDXInput libGDXInput = new LibGDXInput(viewport);
         GraphicsController graphicsController = new LibGDXGraphics(camera, viewport);
         SoundController soundController = new LibGDXSound(50);
-        ServerMessenger serverMessenger = new ServerMessenger();
-        ClientMessagingController clientMessaging = new ClientMessenger();
+        ServerMessenger onlineServerMessenger = new ServerMessenger(true);
+        ServerMessenger localServerMessenger = new ServerMessenger(false);
+        ClientMessagingController onlineClientMessaging = new ClientMessenger(true);
+        ClientMessagingController localClientMessaging = new ClientMessenger(false);
 
         // Set to main manu
         UUID yourId = UUID.randomUUID();
-        GameServer gameServer = new GameServer(serverMessenger, yourId);
-        Controllers defaultControllers = new Controllers(graphicsController, libGDXInput, soundController, serverMessenger, clientMessaging, gameServer);
+        GameServer gameServer = new GameServer(onlineServerMessenger, localServerMessenger, yourId, graphicsController.getAspectRatio());
+        Controllers defaultControllers = new Controllers(graphicsController, libGDXInput, soundController, onlineServerMessenger, onlineClientMessaging, localClientMessaging, gameServer);
         return new GameClient(defaultControllers, yourId);
     }
 }

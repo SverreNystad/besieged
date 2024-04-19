@@ -38,7 +38,7 @@ public class DAOBuilder<K, T>{
         // based on the configuration of system capabilities
         DAO<K, T> dao;
         if (useLocalStorage) {
-            dao = new LocalDAO<K, T>();
+            dao = LocalDAO.getInstance(idParameterClass, typeParameterClass);
             return dao;
         }
 

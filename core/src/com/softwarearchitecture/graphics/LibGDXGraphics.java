@@ -88,6 +88,11 @@ public class LibGDXGraphics implements GraphicsController {
     }
 
     @Override
+    public float getAspectRatio() {
+        return ((float) viewport.getWorldWidth()) / ((float) viewport.getWorldHeight());
+    }
+
+    @Override
     public void drawSquare(PositionComponent positionComponent, float width, float height, float r, float g, float b,
             float a) {
         shapeRenderer.setProjectionMatrix(camera.combined);
