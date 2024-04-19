@@ -57,6 +57,10 @@ public class AudioSystem implements System {
                 towerComponent.get().playSound = true;
             }
 
+            Optional<EnemyComponent> enemyComponent = enemyManager.getComponent(entity);
+            if (soundComponent.isPresent() && enemyComponent.isPresent()) {
+                soundController.playSound(soundComponent.get());
+            }
         }
         
         for (Entity entity : entities) {
@@ -89,14 +93,7 @@ public class AudioSystem implements System {
                         towerComponent.get().playSound = false;
                     }
 
-                    // TODO: Case for enemies
-                    Optional<EnemyComponent> enemyComponent = enemyManager.getComponent(entity);
-                    if (enemyComponent.isPresent() && enemyComponent.get().isDead == true) {
-                        soundController.playSound(soundComponent.get());
-                        enemyComponent.get().isDead = false;
-                    }
-
-
+                    
                 }
             }
         }
