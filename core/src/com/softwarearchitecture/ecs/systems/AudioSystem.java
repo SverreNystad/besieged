@@ -1,5 +1,7 @@
 package com.softwarearchitecture.ecs.systems;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,6 +14,8 @@ import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
+import com.softwarearchitecture.game_server.CardFactory.CardType;
+import com.softwarearchitecture.game_server.PairableCards.TowerType;
 
 public class AudioSystem implements System {
     private ComponentManager<SoundComponent> audioManager;
@@ -19,6 +23,7 @@ public class AudioSystem implements System {
     private ComponentManager<TowerComponent> towerManager;
     private ComponentManager<PlacedCardComponent> cardManager;
     private ComponentManager<EnemyComponent> enemyManager;
+    private List<TowerType> towersWithoutSounds = new ArrayList<TowerType>();
 
     public AudioSystem(SoundController soundController) {
         this.audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
@@ -26,6 +31,12 @@ public class AudioSystem implements System {
         this.towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         this.cardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
         this.enemyManager = ECSManager.getInstance().getOrDefaultComponentManager(EnemyComponent.class);
+
+        towersWithoutSounds.add(TowerType.INFERNO);
+        towersWithoutSounds.add(TowerType.FURNACE);
+        towersWithoutSounds.add(TowerType.MAGIC_TECH);
+        towersWithoutSounds.add(TowerType.BOW_MAGIC);
+        towersWithoutSounds.add(TowerType.MAGIC);
     }
 
     @Override
@@ -51,34 +62,49 @@ public class AudioSystem implements System {
         for (Entity entity : entities) {
             // If the entity does not have a sound component, skip it.
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
-            if (!soundComponent.isPresent())
-                continue;
+            if (soundComponent.isPresent()) {
+                if (soundComponent.get().isPlaying) {
+                    java.lang.System.out.println("Her ja");
+                    continue;
+                }
+                
+                if (soundComponent.get().isBackgroundMusic) {
+                    java.lang.System.out.println("Spiller bakgrunnsmusikk");
+                    soundController.playBackgroundMusic(soundComponent.get());
+                    soundComponent.get().isPlaying = true;
+                    
+                } else {
+                    // TODO: Case for cards
+                    Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
+                    if (cardComponent.isPresent() && cardComponent.get().playSound == true) {
+                        
+                        soundController.playSound(soundComponent.get());
+                        cardComponent.get().playSound = false;
+                    }
 
-            SoundComponent sound = soundComponent.get();
-            
-            // Check background music
-            if (sound.isBackgroundMusic) {
-                soundController.playBackgroundMusic(sound);
-                continue;
-            }
+                    // TODO: Case for towers
+                    Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
+                    if (towerComponent.isPresent() && towerComponent.get().playSound == true && !towersWithoutSounds.contains(towerComponent.get().towerType)) {
+                        soundController.playSound(soundComponent.get());
+                        towerComponent.get().playSound = false;
+                    }
 
-            // Check if the sound is a sound effect
-            // Sound for cards
-            Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
-            if (cardComponent.isPresent() && cardComponent.get().playSound == true) {
-                java.lang.System.out.println("PLAYING CARD SOUND");
-                soundController.playSound(soundComponent.get());
-                cardComponent.get().playSound = false;
-            }
-            
-            // Sound for towers
-            Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
-            if (towerComponent.isPresent() && towerComponent.get().playSound == true) {
-                java.lang.System.out.println("AUDIO system: " + towerComponent.isPresent());
-                java.lang.System.out.println("PLAYING TOWER SOUND");
-                soundController.playSound(soundComponent.get());
-                towerComponent.get().playSound = false;
+                    // TODO: Case for enemies
+                    Optional<EnemyComponent> enemyComponent = enemyManager.getComponent(entity);
+                    if (enemyComponent.isPresent() && enemyComponent.get().isDead == true) {
+                        soundController.playSound(soundComponent.get());
+                        enemyComponent.get().isDead = false;
+                    }
+
+
+                }
             }
         }
     }
+    
+
+    // public void playSound(SoundComponent soundComponent) {
+    //     soundController.playSound(soundComponent);
+    // }
+    
 }

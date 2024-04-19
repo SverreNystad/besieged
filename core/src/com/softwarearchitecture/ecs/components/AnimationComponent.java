@@ -10,6 +10,7 @@ public class AnimationComponent implements Serializable {
     private int frameCount;
     private float timeSinceLastFrame;
     private final float frameDuration = 0.15f;
+    public boolean isPlaying = false;
 
     public AnimationComponent(List<String> animationPaths) {
         this.animationPaths = animationPaths;

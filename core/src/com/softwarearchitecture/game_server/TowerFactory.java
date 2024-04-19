@@ -80,7 +80,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_BOW_FIRE);
                 damage = 7;
                 range = 2;
-                attackCooldown = 35;
+                attackCooldown = 1;
                 sound = AudioPack.TOWER_FIRE_BOW;
                 break;
             case SHARP_SHOOTER:
@@ -238,7 +238,7 @@ public class TowerFactory {
         }
 
         // Create the components for the tower
-        TowerComponent towerComponent = new TowerComponent(damage, range, attackCooldown);
+        TowerComponent towerComponent = new TowerComponent(damage, range, attackCooldown, towerType.get());
         PositionComponent positionComponent = new PositionComponent(position, 10);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);

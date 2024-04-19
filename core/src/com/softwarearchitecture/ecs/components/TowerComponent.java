@@ -2,20 +2,26 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
+import com.softwarearchitecture.game_server.PairableCards;
+import com.softwarearchitecture.game_server.PairableCards.TowerType;
+
 public class TowerComponent implements Serializable {
     // TODO: Change all fields to public and remove getters and setters
+    public TowerType towerType;
     private int damage;
     private float range;
     private float attackCooldown;
     private float timeSinceLastAttack;
     public boolean playSound = false;
 
-    public TowerComponent(int damage, float range, float attackCooldown) {
+    public TowerComponent(int damage, float range, float attackCooldown, TowerType towerType) {
         if (damage >= 1 && range >= 1 && attackCooldown >= 1) {
             this.damage = damage;
             this.range = range;
             this.attackCooldown = attackCooldown;
-        } else {
+            this.towerType = towerType;
+        }
+        else {
             this.damage = 1;
             this.range = 1;
             this.attackCooldown = 1;

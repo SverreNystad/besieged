@@ -155,15 +155,18 @@ public class EnemySystem implements System {
                 monsterCounter++;
                 int remainingEnemyHealth = health.get().getHealth();
                 this.villageDamage += remainingEnemyHealth;
-            } else if (hp <= 0) {
+            }
+            // If the enemy is dead, set its velocity to 0
+            else if (hp <= 0) {
                 position.get().position = new Vector2(-1, -1);
                 velocity.get().velocity = 0f;
                 liveMonsterCounter--;
                 boolean claimedReward = enemy.get().claimedReward;
                 if (!claimedReward) {
-
                     awardPlayerMoney(village, entity);
                     enemy.get().claimedReward = true;
+                    enemy.get().isDead = true;
+
                 }
             }
         }
@@ -193,13 +196,14 @@ public class EnemySystem implements System {
                     Optional<VelocityComponent> velocity = velocityManager.getComponent(entity);
                     Optional<PathfindingComponent> pathfinding = pathfindingManager.getComponent(entity);
                     Optional<HealthComponent> health = healthManager.getComponent(entity);
+                    Optional<EnemyComponent> enemy = enemyManager.getComponent(entity);
 
-                    if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent()
+                    if (!position.isPresent() || !velocity.isPresent() || !pathfinding.isPresent() || !enemy.isPresent()
                             || !health.isPresent()) {
                         continue;
                     }
 
-                    // If the enemy is dead, reset its position and velocity
+                    // Spawn a new enemy
                     List<Tile> find = pathfinding.get().path;
                     if (velocity.get().velocity == 0f) {
                         float startPosition_x = find.get(0).getX() * tileSize.x;
