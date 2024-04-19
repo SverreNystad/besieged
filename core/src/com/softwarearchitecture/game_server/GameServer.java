@@ -42,6 +42,7 @@ public class GameServer {
     private ServerMessagingController localMessageController;
 
     private Map gameMap;
+    private float aspectRatio;
 
     /**
      * Initializes a new game server with a message controller for communication and the UUID of player one.
@@ -49,9 +50,10 @@ public class GameServer {
      * @param localMessageController The communication controller used for local communication.
      * @param playerOneID The unique identifier for the first player in the game.
      */
-    public GameServer(ServerMessagingController onlineMessageController, ServerMessagingController localMessageController, UUID playerOneID) {
+    public GameServer(ServerMessagingController onlineMessageController, ServerMessagingController localMessageController, UUID playerOneID, float aspect_ratio) {
         this.onlineMessageController = onlineMessageController;
         this.localMessageController = localMessageController;
+        this.aspectRatio = aspect_ratio;
         this.playerOneID = playerOneID;
     }
 
@@ -229,6 +231,22 @@ public class GameServer {
         float tileWidth = 1.0f / numOfColumns;
         float tileHeight = 1.0f / numOfRows;
 
+        // Take aspect_ratio into account
+        if (tileWidth < tileHeight) {
+            tileHeight = tileWidth * aspectRatio;
+        } else {
+            tileWidth = tileHeight / aspectRatio;
+        }
+        if (tileWidth * numOfColumns > 1) {
+            tileHeight = tileHeight / (tileWidth * numOfColumns);
+            tileWidth = 1.0f / numOfColumns;
+        } else if (tileHeight * numOfRows > 1) {
+            tileWidth = tileWidth / (tileHeight * numOfRows);
+            tileHeight = 1.0f / numOfRows;
+        }
+
+        System.out.println("2Tile width: " + tileWidth + " Tile height: " + tileHeight);
+
         // Set tileWidth and tileHeight in the gameMap
         gameMap.setTileWidth(tileWidth);
         gameMap.setTileHeight(tileHeight);
@@ -369,20 +387,13 @@ public class GameServer {
     }
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
-        float tileWidth = gameMap.getTileWidth();
-        float tileHeight = gameMap.getTileHeight();
-
         for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent()
                     && entity.getComponent(PositionComponent.class).isPresent()) {
-                PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
-                // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.getPosition().x / tileWidth);
-                int yCoord = (int) (positionComponent.getPosition().y / tileHeight);
-
-                if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
+                Tile tile = entity.getComponent(TileComponent.class).get().getTile();
+                
+                if (tile.getX() == (int) tilePosition.x && tile.getY() == (int) tilePosition.y) {
                     return entity;
-
                 }
             }
         }
