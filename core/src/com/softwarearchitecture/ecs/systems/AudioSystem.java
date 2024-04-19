@@ -67,7 +67,6 @@ public class AudioSystem implements System {
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
             if (soundComponent.isPresent()) {
                 if (soundComponent.get().isPlaying) {
-                    java.lang.System.out.println("Her ja");
                     continue;
                 }
                 

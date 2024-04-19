@@ -83,9 +83,10 @@ public class AttackSystem implements System {
                     Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, enemyPosition);
                     if (distance <= uvDistance.len()) {
-                        attackEnemy(tower, enemy, damage);
+                        attackEnemy(tower, enemy, damage, true);
                     }
                 }
+                copyTower(tower);
                 towerComponent.resetAttackTimer();
                 continue; // Skip to next tower
             }
@@ -98,7 +99,7 @@ public class AttackSystem implements System {
                     float distance = Vector2.dst(towerPosition, currentEnemyPosition);
                     if (distance <= uvDistance.len()) {
                         // Enemy is still in range, continue to attack
-                        attackEnemy(tower, currentEnemy, damage);
+                        attackEnemy(tower, currentEnemy, damage, false);
                         towerComponent.resetAttackTimer();
                         continue; // Skip to next tower
                     } else {
@@ -117,7 +118,7 @@ public class AttackSystem implements System {
                 float distance = Vector2.dst(towerPosition, enemyPosition);
                 if (distance <= uvDistance.len()) {
                     activeAttacks.put(tower, enemy); // Assign new enemy to tower
-                    attackEnemy(tower, enemy, damage);
+                    attackEnemy(tower, enemy, damage, false);
                     towerComponent.resetAttackTimer();
                     break; // Ensure the tower only attacks one enemy
                 } 
@@ -126,7 +127,7 @@ public class AttackSystem implements System {
     }
 
 
-    private void attackEnemy(Entity tower, Entity enemy, int damage) {
+    private void attackEnemy(Entity tower, Entity enemy, int damage, boolean isAreaOfEffect) {
         java.lang.System.out.println("Angriper!");
         ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
@@ -144,12 +145,17 @@ public class AttackSystem implements System {
         
         healthComp.setHealth(healthComp.getHealth() - damage);
         
+        if (!isAreaOfEffect)
+            copyTower(tower);
+
+    }
+
+    private void copyTower(Entity tower) {
         Entity newTowerEntity = TowerFactory.copyTower(tower);
         if (newTowerEntity != null) {
             ECSManager.getInstance().addLocalEntity(newTowerEntity);
             ECSManager.getInstance().removeLocalEntity(tower);
         }
-
     }
 
 }

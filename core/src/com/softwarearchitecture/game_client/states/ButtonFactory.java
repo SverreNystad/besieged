@@ -48,7 +48,8 @@ public class ButtonFactory {
         return buttonEntity;
     }
 
-    public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size, JoinGameObserver observer, GameState game, int z_index) {
+    public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size,
+            JoinGameObserver observer, GameState game, int z_index) {
         String texture = chooseTexture(button);
 
         // Here, we pass the game to the joinGame method directly in the lambda
@@ -66,7 +67,7 @@ public class ButtonFactory {
         ECSManager.getInstance().addLocalEntity(buttonEntity);
         return buttonEntity;
     }
-    
+
     private static String chooseTexture(ButtonEnum button) {
         String texture = TexturePack.BUTTON_PLACEHOLDER;
         switch (button) {
@@ -124,12 +125,18 @@ public class ButtonFactory {
             case TEST:
                 texture = TexturePack.BUTTON_TEST;
                 break;
+            case AVAILABLE_LOBBY:
+                texture = TexturePack.BUTTON_AVAILABLE_LOBBY;
+                break;
+            case TUTORIAL:
+                texture = TexturePack.BUTTON_TUTORIAL;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }
         return texture;
     }
-    
+
     public static List<Rectangle> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition,
             float containerUVWidth, float containerUVHeight) {
         List<Rectangle> rectangles = new ArrayList<Rectangle>();

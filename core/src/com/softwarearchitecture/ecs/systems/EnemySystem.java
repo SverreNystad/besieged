@@ -7,6 +7,7 @@ import java.util.Set;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
+import com.softwarearchitecture.ecs.GraphicsController;
 import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
@@ -26,7 +27,6 @@ import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.game_server.TileType;
 import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
-import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
  * This class is supposed to check if enemies are at the end of the map, and if
@@ -184,9 +184,9 @@ public class EnemySystem implements System {
 
                 mob = EnemyFactory.createEnemy(randomEnemy, path, tileSize);
                 ECSManager.getInstance().addLocalEntity(mob);
-                monsterCounter++;
-                liveMonsterCounter++;
-                spawnTimer = 20f;
+                // monsterCounter++;
+                // liveMonsterCounter++;
+                spawnTimer = 1f;
             }
             // If the max number of enemies has been met, check if any of them are dead
             else {

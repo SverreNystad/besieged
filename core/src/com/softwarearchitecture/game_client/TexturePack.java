@@ -44,6 +44,8 @@ public class TexturePack {
     public static final String BUTTON_MUTE = "gui/buttons/mute.png";
     public static final String BUTTON_ABYSS = "gui/buttons/abyss.png";
     public static final String BUTTON_TEST = "gui/buttons/test.png";
+    public static final String BUTTON_AVAILABLE_LOBBY = "gui/buttons/available_lobby.png";
+    public static final String BUTTON_TUTORIAL = "gui/buttons/play.png";
 
     // Logo
     public static final String LOGO = "gui/logo.png";
@@ -53,6 +55,7 @@ public class TexturePack {
     public static final String BIG_EMPTY_SING = "gui/overlay/sign_big.png";
     public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
     public static final String BOARD = "gui/overlay/board.png";
+    public static final String JOIN_LOBBY = "gui/overlay/join_lobby.png";
 
     // Cards
     public static final String CARD_FIRE = "cards/fire_card.png";
