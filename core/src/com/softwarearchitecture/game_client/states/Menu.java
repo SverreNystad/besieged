@@ -49,7 +49,8 @@ public class Menu extends State implements Observer {
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
-        ComponentManager<SoundComponent> audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);
+        ComponentManager<SoundComponent> audioManager = ECSManager.getInstance()
+                .getOrDefaultComponentManager(SoundComponent.class);
         AudioSystem audioSystem = new AudioSystem(audioManager, defaultControllers.soundController);
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
@@ -85,10 +86,11 @@ public class Menu extends State implements Observer {
                 new Vector2(buttonWidth, buttonHeight), this, 1));
 
         // Set up background music
-        Entity backgroundMusicEntity = new Entity();
-        SoundComponent backgroundMusic = new SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for looping
-        backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
-        ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
+        // SoundComponent backgroundMusic = new
+        // SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for
+        // looping
+        // backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
+        // ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
     }
 
     /**

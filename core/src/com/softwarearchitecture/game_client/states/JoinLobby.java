@@ -21,7 +21,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
     private final int TEXT_Z_INDEX = PAGE_Z_INDEX + 2;
     private final int BUTTON_Z_INDEX = PAGE_Z_INDEX + 1;
     private final float gap = 0.2f;
-    
+
     public JoinLobby(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
     }
@@ -29,7 +29,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
     @Override
     protected void activate() {
         System.out.println("Join lobby activated");
-        String backgroundPath = TexturePack.BACKGROUND_VIKING_BATTLE_ICE;
+        String backgroundPath = TexturePack.BACKGROUND_MULTIPLAYER;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), PAGE_Z_INDEX);
@@ -48,31 +48,31 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
         // Add a centered back button
         float backButtonWidth = 0.3f;
         float backButtonX = 0.5f - backButtonWidth / 2;
-        ButtonFactory.createAndAddButtonEntity(ButtonEnum.MULTI_PLAYER, new Vector2(backButtonX, 0.1f), new Vector2(backButtonWidth, 0.1f), this, BUTTON_Z_INDEX);
-        
-        
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(backButtonX, 0.1f),
+                new Vector2(backButtonWidth, 0.1f), this, BUTTON_Z_INDEX);
+
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
         InputSystem inputSystem = new InputSystem(defaultControllers.inputController);
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
-        
+
         // Create buttons for joining a game based on the available games
         List<GameState> games = defaultControllers.clientMessagingController.getAllAvailableGames();
         initializeJoinLobbyTable(games);
     }
-    
+
     private void initializeJoinLobbyTable(List<GameState> games) {
         // Table background
         Entity tableBackground = new Entity();
-        SpriteComponent logoSprite = new SpriteComponent(TexturePack.BIG_EMPTY_SING, new Vector2(0.5f, 1f));
-        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), PAGE_Z_INDEX);
+        SpriteComponent logoSprite = new SpriteComponent(TexturePack.BIG_EMPTY_SING, new Vector2(0.65f, 1.1f));
+        PositionComponent logoPosition = new PositionComponent(new Vector2(0.185f, 0.0f), PAGE_Z_INDEX);
         tableBackground.addComponent(SpriteComponent.class, logoSprite);
         tableBackground.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addLocalEntity(tableBackground);
 
         // Table content
-        float translateY = 0.7f;
+        float translateY = 0.6f;
         for (GameState game : games) {
             // Add the id and map name of as text components
             String idText = "ID: " + game.gameID.toString();
@@ -91,15 +91,14 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
             ECSManager.getInstance().addLocalEntity(mapTextEntity);
 
             // Add a join button current game
-            ButtonEnum buttonType = ButtonEnum.JOIN;
-            Vector2 buttonWidth = new Vector2(0.2f, 0.2f);
+            ButtonEnum buttonType = ButtonEnum.AVAILABLE_LOBBY;
+            Vector2 buttonWidth = new Vector2(0.48f, 0.19f);
             float buttonX = 0.5f - buttonWidth.x / 2;
             Vector2 position = new Vector2(buttonX, translateY);
             ButtonFactory.createAndAddButtonEntity(buttonType, position, buttonWidth, this, game, BUTTON_Z_INDEX);
             translateY -= gap;
         }
     }
-
 
     /**
      * Handles button actions based on the type of the button.
@@ -110,7 +109,7 @@ public class JoinLobby extends State implements Observer, JoinGameObserver {
     @Override
     public void onAction(ButtonEnum type) {
         switch (type) {
-            case MULTI_PLAYER:
+            case BACK:
                 screenManager.nextState(new Multiplayer(defaultControllers, yourId));
                 break;
             default:

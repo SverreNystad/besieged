@@ -3,6 +3,8 @@ package com.softwarearchitecture.game_client.states;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.A;
+
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
@@ -13,6 +15,10 @@ import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.math.Rectangle;
 import com.softwarearchitecture.math.Vector2;
+import com.softwarearchitecture.game_server.AudioPack;
+import com.softwarearchitecture.ecs.SoundController;
+import com.softwarearchitecture.ecs.systems.AudioSystem;
+import com.softwarearchitecture.ecs.components.SoundComponent;
 
 /**
  * This is a button factory
@@ -31,7 +37,12 @@ public class ButtonFactory {
             int z_index) throws IllegalArgumentException {
         // factory that makes buttons based on the state enum
         String texture = chooseTexture(button);
+        String sound = AudioPack.BUTTON_CLICK;
+        Entity buttonEntity = new Entity();
+        SoundComponent soundComponent = new SoundComponent(sound, false, false);
         Runnable callback = () -> {
+            System.out.println("Button clicked");
+            buttonEntity.addComponent(SoundComponent.class, soundComponent);
             observer.onAction(button);
         };
 
@@ -39,7 +50,6 @@ public class ButtonFactory {
         PositionComponent positionComponent = new PositionComponent(position, z_index);
         SpriteComponent spriteComponent = new SpriteComponent(texture, size);
 
-        Entity buttonEntity = new Entity();
         buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
         buttonEntity.addComponent(PositionComponent.class, positionComponent);
         buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
@@ -48,17 +58,24 @@ public class ButtonFactory {
         return buttonEntity;
     }
 
-    public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size, JoinGameObserver observer, GameState game, int z_index) {
+    public static Entity createAndAddButtonEntity(ButtonEnum button, Vector2 position, Vector2 size,
+            JoinGameObserver observer, GameState game, int z_index) {
         String texture = chooseTexture(button);
+        String sound = AudioPack.BUTTON_CLICK;
+        Entity buttonEntity = new Entity();
+        SoundComponent soundComponent = new SoundComponent(sound, false, false);
 
         // Here, we pass the game to the joinGame method directly in the lambda
-        Runnable callback = () -> observer.onJoinGame(game);
+        Runnable callback = () -> {
+            System.out.println("Button clicked");
+            buttonEntity.addComponent(SoundComponent.class, soundComponent);
+            observer.onJoinGame(game);
+        };
 
         ButtonComponent buttonComponent = new ButtonComponent(position, size, button, z_index, callback);
         PositionComponent positionComponent = new PositionComponent(position, z_index);
         SpriteComponent spriteComponent = new SpriteComponent(texture, size);
 
-        Entity buttonEntity = new Entity();
         buttonEntity.addComponent(ButtonComponent.class, buttonComponent);
         buttonEntity.addComponent(PositionComponent.class, positionComponent);
         buttonEntity.addComponent(SpriteComponent.class, spriteComponent);
@@ -66,7 +83,7 @@ public class ButtonFactory {
         ECSManager.getInstance().addLocalEntity(buttonEntity);
         return buttonEntity;
     }
-    
+
     private static String chooseTexture(ButtonEnum button) {
         String texture = TexturePack.BUTTON_PLACEHOLDER;
         switch (button) {
@@ -103,6 +120,9 @@ public class ButtonFactory {
             case BACK_MENU:
                 texture = TexturePack.BUTTON_BACK_MENU;
                 break;
+            case AVAILABLE_LOBBY:
+                texture = TexturePack.BUTTON_AVAILABLE_LOBBY;
+                break;
             case PLUSS:
                 texture = TexturePack.BUTTON_PLUSS;
                 break;
@@ -129,7 +149,7 @@ public class ButtonFactory {
         }
         return texture;
     }
-    
+
     public static List<Rectangle> FindUVButtonPositions(int numberOfButtons, Vector2 containerUVPosition,
             float containerUVWidth, float containerUVHeight) {
         List<Rectangle> rectangles = new ArrayList<Rectangle>();

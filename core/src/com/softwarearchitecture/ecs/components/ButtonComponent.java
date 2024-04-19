@@ -29,7 +29,9 @@ public class ButtonComponent implements Serializable {
         TILE,
         CARD,
         ABYSS,
-        TEST
+        TEST,
+        BACK_MULTIPLAYER,
+        AVAILABLE_LOBBY
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, ButtonEnum type, int z_index, Runnable callback) {
