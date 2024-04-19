@@ -123,9 +123,6 @@ public class RenderingSystem implements System {
                     i_sprite++;
                 }
             } else if (sprite != null) {
-                if (sprite.first.texture_path == "button_placeholder.png") {
-                    // java.lang.System.out.println(sprite.first.size_uv);
-                }
                 graphicsController.draw(sprite.first, sprite.second);
                 i_sprite++;
             } else if (text != null) {

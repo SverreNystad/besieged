@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -17,6 +18,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
@@ -36,17 +38,22 @@ public class GameServer {
     private UUID gameId;
     private UUID playerOneID;
     private UUID playerTwoID;
-    private ServerMessagingController messageController;
+    private ServerMessagingController onlineMessageController;
+    private ServerMessagingController localMessageController;
 
     private Map gameMap;
+    private float aspectRatio;
 
     /**
      * Initializes a new game server with a message controller for communication and the UUID of player one.
-     * @param messageController The communication controller used for interacting with clients.
+     * @param onlineMessageController The communication controller used for interacting with clients.
+     * @param localMessageController The communication controller used for local communication.
      * @param playerOneID The unique identifier for the first player in the game.
      */
-    public GameServer(ServerMessagingController messageController, UUID playerOneID) {
-        this.messageController = messageController;
+    public GameServer(ServerMessagingController onlineMessageController, ServerMessagingController localMessageController, UUID playerOneID, float aspect_ratio) {
+        this.onlineMessageController = onlineMessageController;
+        this.localMessageController = localMessageController;
+        this.aspectRatio = aspect_ratio;
         this.playerOneID = playerOneID;
     }
 
@@ -54,11 +61,13 @@ public class GameServer {
      * Starts the server operation, creating a game instance and entering the main gameplay loop.
      * The method handles game setup, player joining, and periodic state updates until the game ends.
      */
-    public void run(String mapName) {
-        GameState gameState = hostGame(mapName);
+    public void run(String mapName, boolean isMultiplayer) {
+        ServerMessagingController messageController = isMultiplayer ? onlineMessageController : localMessageController;
+        GameState gameState = hostGame(mapName, messageController);
 
         // Wait for player two to join
-        playerTwoID = waitForPlayerToJoin(gameState);
+        if (isMultiplayer) 
+            playerTwoID = waitForPlayerToJoin(gameState);
 
         // TODO: Add relevant entities
         Entity village = new Entity();
@@ -98,42 +107,61 @@ public class GameServer {
         // TODO: Add relevant systems
         setupGame(mapName, gameState);
 
+        // Component managers
+        ComponentManager<HealthComponent> healthManager = ECSManager.getInstance().getOrDefaultComponentManager(HealthComponent.class);
         // Main gameplay loop
         boolean gamesOver = false;
-        
-        while (!gamesOver) {
 
-            float deltatime = 1.0f;
-            ECSManager.getInstance().update(deltatime);
-            
+        while (!gamesOver) {
+            // System.out.println("[SERVER] Deltatime: " + Clock.getInstance().getDeltaTime());
+            ECSManager.getInstance().update(Clock.getInstance().getAndResetDeltaTime());
+
+            if (healthManager.getComponent(village).get().getHealth() <= 0) gamesOver = true;
+
             // Process each pending player action.
             for (PlayerInput action : messageController.lookForPendingActions(playerOneID)) {
                 // Actions to process player inputs and update game state
                 System.out.println("[SERVER] Processing player one action: " + action.getAction());
                 handlePlayerAction(action);
             }
-            for (PlayerInput action : messageController.lookForPendingActions(playerTwoID)) {
-                // Actions to process player inputs and update game state
-                System.out.println("[SERVER] Processing player two action: " + action.getAction());
-                handlePlayerAction(action);
+            if (isMultiplayer) {
+                for (PlayerInput action : messageController.lookForPendingActions(playerTwoID)) {
+                    // Actions to process player inputs and update game state
+                    System.out.println("[SERVER] Processing player two action: " + action.getAction());
+                    handlePlayerAction(action);
+                }
             }
 
 
             // Update all clients with the latest game state.
-
+            gameState.timeStamp = System.currentTimeMillis();
             messageController.setNewGameState(gameId, gameState);
+            
+            float deltaTime = Clock.getInstance().getDeltaTime();
+            if (deltaTime < 0.01f) {
+                try {
+                    Thread.sleep(10 - (long) (deltaTime * 1000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-            // TODO: check if game is over
+        try {
+            Thread.sleep(10_000); // TODO: Find a better solution than waiting for 10 seconds. If we don't wait the player will never get that the village has 0 health and has to go to the game over screen.
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         // Teardown of server and delete game from games listing
         messageController.removeGame(gameId);
     }
 
-    private GameState hostGame(String mapName) {
+    private GameState hostGame(String mapName, ServerMessagingController messageController) {
         this.gameId = messageController.createGame(mapName);
         System.out.println("[SERVER] Game created with ID: " + gameId);
         GameState gameState = messageController.getGameState(gameId);
+        gameState.timeStamp = System.currentTimeMillis();
         if (messageController.getGameState(gameId).playerOne == null) {
             gameState.playerOne = new Entity();
             gameState.playerOne.addComponent(PlayerComponent.class, new PlayerComponent(playerOneID));
@@ -151,8 +179,8 @@ public class GameServer {
      */
     private UUID waitForPlayerToJoin(GameState gameState) {
         UUID playerTwoID = null;
-        while (messageController.getGameState(gameId).playerTwo == null) {
-            Optional<UUID> playerTwo = messageController.lookForPendingPlayer(gameId);
+        while (onlineMessageController.getGameState(gameId).playerTwo == null) {
+            Optional<UUID> playerTwo = onlineMessageController.lookForPendingPlayer(gameId);
             System.out.println("[SERVER] Looking for player two");
             if (!playerTwo.isPresent())
                 continue;
@@ -165,7 +193,7 @@ public class GameServer {
 
 
     private void setupGame(String mapName, GameState gameState) {
-        String backgroundPath = TexturePack.BACKGROUND_TOR;
+        String backgroundPath = TexturePack.BACKGROUND_BLACK;
         Entity background = new Entity();
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0, 0), -1);
@@ -203,6 +231,22 @@ public class GameServer {
 
         float tileWidth = 1.0f / numOfColumns;
         float tileHeight = 1.0f / numOfRows;
+
+        // Take aspect_ratio into account
+        if (tileWidth < tileHeight) {
+            tileHeight = tileWidth * aspectRatio;
+        } else {
+            tileWidth = tileHeight / aspectRatio;
+        }
+        if (tileWidth * numOfColumns > 1) {
+            tileHeight = tileHeight / (tileWidth * numOfColumns);
+            tileWidth = 1.0f / numOfColumns;
+        } else if (tileHeight * numOfRows > 1) {
+            tileWidth = tileWidth / (tileHeight * numOfRows);
+            tileHeight = 1.0f / numOfRows;
+        }
+
+        System.out.println("2Tile width: " + tileWidth + " Tile height: " + tileHeight);
 
         // Set tileWidth and tileHeight in the gameMap
         gameMap.setTileWidth(tileWidth);
@@ -291,6 +335,12 @@ public class GameServer {
 
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
+                
+                // Play sound
+                Optional<TowerComponent> towerComponent = towerEntity.getComponent(TowerComponent.class);
+                if (towerComponent.isPresent()) {
+                    towerComponent.get().playSound = true;
+                }
             }
         }
         // No card on tile, place card
@@ -307,6 +357,12 @@ public class GameServer {
 
             // Update the tile with the new card
             updateTileWithCard(tile, tileEntity, cardEntity);
+
+            // Play sound
+            Optional<PlacedCardComponent> cardComponent = cardEntity.getComponent(PlacedCardComponent.class);
+            if (cardComponent.isPresent()) {
+                cardComponent.get().playSound = false;
+            }
         }
     }
 
@@ -344,20 +400,13 @@ public class GameServer {
     }
 
     private Entity getTileEntityByPosition(Vector2 tilePosition) {
-        float tileWidth = gameMap.getTileWidth();
-        float tileHeight = gameMap.getTileHeight();
-
         for (Entity entity : ECSManager.getInstance().getLocalEntities()) {
             if (entity.getComponent(TileComponent.class).isPresent()
                     && entity.getComponent(PositionComponent.class).isPresent()) {
-                PositionComponent positionComponent = entity.getComponent(PositionComponent.class).get();
-                // Convert the UV coordinates back to XY coordinates
-                int xCoord = (int) (positionComponent.position.x / tileWidth);
-                int yCoord = (int) (positionComponent.position.y / tileHeight);
-
-                if (xCoord == (int) tilePosition.x && yCoord == tilePosition.y) {
+                Tile tile = entity.getComponent(TileComponent.class).get().getTile();
+                
+                if (tile.getX() == (int) tilePosition.x && tile.getY() == (int) tilePosition.y) {
                     return entity;
-
                 }
             }
         }

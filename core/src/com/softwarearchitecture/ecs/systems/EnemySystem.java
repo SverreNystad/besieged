@@ -75,8 +75,8 @@ public class EnemySystem implements System {
         this.waveSize = 10;
         this.monsterCounter = 0;
         this.waveNumber = 1;
-        this.spawnTimer = 20f;
-        this.waveTimer = 1000f;
+        this.spawnTimer = 7.5f;
+        this.waveTimer = 20f;
         this.maxLiveMonsters = 5;
         this.liveMonsterCounter = 0;
         this.villageDamage = 0;
@@ -157,7 +157,7 @@ public class EnemySystem implements System {
                 this.villageDamage += remainingEnemyHealth;
             } else if (hp <= 0) {
                 position.get().position = new Vector2(-1, -1);
-                velocity.get().velocity = new Vector2(0, 0);
+                velocity.get().velocity = 0f;
                 liveMonsterCounter--;
                 boolean claimedReward = enemy.get().claimedReward;
                 if (!claimedReward) {
@@ -183,7 +183,7 @@ public class EnemySystem implements System {
                 ECSManager.getInstance().addLocalEntity(mob);
                 monsterCounter++;
                 liveMonsterCounter++;
-                spawnTimer = 200f;
+                spawnTimer = 20f;
             }
             // If the max number of enemies has been met, check if any of them are dead
             else {
@@ -201,7 +201,7 @@ public class EnemySystem implements System {
 
                     // If the enemy is dead, reset its position and velocity
                     List<Tile> find = pathfinding.get().path;
-                    if (velocity.get().velocity.len() == 0) {
+                    if (velocity.get().velocity == 0f) {
                         float startPosition_x = find.get(0).getX() * tileSize.x;
                         float startPosition_y = find.get(0).getY() * tileSize.y;
                         position.get().position = new Vector2(startPosition_x, startPosition_y);
@@ -228,14 +228,12 @@ public class EnemySystem implements System {
             if (villageComponent.isPresent() && healthComponent.isPresent()) {
                 int villageHealth = healthComponent.get().getHealth();
 
-                villageHealth -= villageDamage;
+                villageHealth -= villageDamage;;
                 // If the village health is 0, the game is over
                 if (villageHealth <= 0) {
                     villageHealth = 0;
-                    if (this.gameOverObserver != null) {
-                        this.gameOverObserver.handleGameOver();
-                    }
                 }
+                
                 healthComponent.get().setHealth(villageHealth);
                 
                 updateTopRightCornerText(village);

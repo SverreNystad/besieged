@@ -23,7 +23,7 @@ public class ChooseMap extends State implements Observer {
     private final int BUTTON_Z_INDEX = PAGE_Z_INDEX + 1;
     private final int MAP_PREVIEW_Z_INDEX = PAGE_Z_INDEX + 3;
 
-    private boolean isHost;
+    private boolean isMultiplayer;
     /**
      * Generic state is a state that can be used for multiple purposes
      * for different types of menus.
@@ -33,7 +33,7 @@ public class ChooseMap extends State implements Observer {
      */
     public ChooseMap(Controllers defaultControllers, UUID yourId, boolean isMultiplayer) {
         super(defaultControllers, yourId);
-        isHost = isMultiplayer;
+        this.isMultiplayer = isMultiplayer;
     }
 
     @Override
@@ -125,11 +125,10 @@ public class ChooseMap extends State implements Observer {
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }
-        if (isHost) {
             startServer(map);
-        }
+        screenManager.setIsLocalServer(!isMultiplayer);
         
-       screenManager.nextState(new InGame(defaultControllers, yourId, map, isHost));
+        screenManager.nextState(new InGame(defaultControllers, yourId, map));
     }
 
     private void startServer(String mapName) {
@@ -139,7 +138,7 @@ public class ChooseMap extends State implements Observer {
             public void run() {
                 try {
                     System.out.println("Starting server on a new thread");
-                    defaultControllers.gameServer.run(mapName);
+                    defaultControllers.gameServer.run(mapName, isMultiplayer);
                 } catch (Exception e) {
                     System.out.println("Error running server: " + e.getMessage());
                     e.printStackTrace();
