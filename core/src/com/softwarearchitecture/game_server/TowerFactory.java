@@ -22,6 +22,15 @@ public class TowerFactory {
         if (cardType1 == null || cardType2 == null) {
             throw new IllegalArgumentException("Card type cannot be null");
         }
+        Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
+
+        if (!towerType.isPresent()) {
+            throw new IllegalArgumentException("Invalid tower type combination");
+        }
+        return createTower(towerType.get(), position);
+    }
+
+    public static Entity createTower(TowerType towerType, Vector2 position) {
         if (position == null) {
             throw new IllegalArgumentException("Position cannot be null");
         }
@@ -33,15 +42,15 @@ public class TowerFactory {
         String sound = AudioPack.PLACING_CARD;
         float timeFactor = 1f;
 
-        Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
+        // Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
 
-        if (!towerType.isPresent()) {
-            throw new IllegalArgumentException("Invalid tower type combination");
-        }
+        // if (!towerType.isPresent()) {
+        // throw new IllegalArgumentException("Invalid tower type combination");
+        // }
 
         AreaOfEffectComponent areaOfEffectComponent = null;
 
-        switch (towerType.get()) {
+        switch (towerType) {
             case FIRE_MAGIC:
                 textures.add(TexturePack.TOWER_FIRE_FRAME1);
                 textures.add(TexturePack.TOWER_FIRE_FRAME2);
@@ -244,7 +253,7 @@ public class TowerFactory {
         }
 
         // Create the components for the tower
-        TowerComponent towerComponent = new TowerComponent(damage, range, attackCooldown, towerType.get());
+        TowerComponent towerComponent = new TowerComponent(damage, range, attackCooldown, towerType);
         PositionComponent positionComponent = new PositionComponent(position, 10);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
