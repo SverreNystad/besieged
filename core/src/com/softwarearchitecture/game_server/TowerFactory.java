@@ -61,9 +61,9 @@ public class TowerFactory {
 
                 areaOfEffectComponent = new AreaOfEffectComponent();
 
-                damage = 10;
+                damage = 5;
                 range = 2;
-                attackCooldown = 1f;
+                attackCooldown = 0.2f;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
 
                 break;
@@ -164,9 +164,10 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_INFERNO_FRAME4);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME5);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME6);
+
                 areaOfEffectComponent = new AreaOfEffectComponent();
 
-                damage = 100;
+                damage = 2;
                 range = 1;
                 attackCooldown = 0.1f * timeFactor;
                 sound = AudioPack.TOWER_INFERNO;
@@ -287,7 +288,9 @@ public class TowerFactory {
         Optional<SpriteComponent> spriteComponentOptional = tower.getComponent(SpriteComponent.class);
         Optional<TargetComponent> targetComponentOptional = tower.getComponent(TargetComponent.class);
         Optional<SoundComponent> soundComponentOptional = tower.getComponent(SoundComponent.class);
-        if (!towerComponentOptional.isPresent() || !positionComponentOptional.isPresent() || !animationComponentOptional.isPresent() || !spriteComponentOptional.isPresent() || !targetComponentOptional.isPresent() || !soundComponentOptional.isPresent()) {
+        if (!towerComponentOptional.isPresent() || !positionComponentOptional.isPresent()
+                || !animationComponentOptional.isPresent() || !spriteComponentOptional.isPresent()
+                || !targetComponentOptional.isPresent() || !soundComponentOptional.isPresent()) {
             return null;
         }
         TowerComponent towerComponent = towerComponentOptional.get();
