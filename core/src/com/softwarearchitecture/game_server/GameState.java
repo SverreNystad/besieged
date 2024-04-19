@@ -22,6 +22,7 @@ import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
 import com.softwarearchitecture.ecs.components.CostComponent;
+import com.softwarearchitecture.ecs.components.EnemyComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
 import com.softwarearchitecture.ecs.components.PathfindingComponent;
@@ -109,6 +110,9 @@ public class GameState implements Externalizable {
 
         // Tower components
         serializeComponent(out, TowerComponent.class);
+
+        // Enemy components
+        serializeComponent(out, EnemyComponent.class);
 
         // UI components
         // Text components
@@ -205,6 +209,9 @@ public class GameState implements Externalizable {
 
         // Tower components
         deserializeComponent(in, TowerComponent.class);
+
+        // Enemy components
+        deserializeComponent(in, EnemyComponent.class);
 
         // UI components
         // Text components
