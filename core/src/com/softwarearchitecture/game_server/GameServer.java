@@ -66,6 +66,7 @@ public class GameServer {
         // Wait for player two to join
         if (isMultiplayer) 
             playerTwoID = waitForPlayerToJoin(gameState);
+        gameState.serializeFurther = true;
 
         // TODO: Add relevant entities
         Entity village = new Entity();
