@@ -20,8 +20,8 @@ public class AudioSystem implements System {
     private ComponentManager<PlacedCardComponent> cardManager;
     private ComponentManager<EnemyComponent> enemyManager;
 
-    public AudioSystem(ComponentManager<SoundComponent> audioManager, SoundController soundController) {
-        this.audioManager = audioManager;
+    public AudioSystem(SoundController soundController) {
+        this.audioManager = ECSManager.getInstance().getOrDefaultComponentManager(SoundComponent.class);;
         this.soundController = soundController;
         this.towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         this.cardManager = ECSManager.getInstance().getOrDefaultComponentManager(PlacedCardComponent.class);
