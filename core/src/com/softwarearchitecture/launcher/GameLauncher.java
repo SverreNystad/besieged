@@ -31,7 +31,7 @@ public class GameLauncher {
 
         // Set to main manu
         UUID yourId = UUID.randomUUID();
-        GameServer gameServer = new GameServer(onlineServerMessenger, localServerMessenger, yourId, graphicsController.getAspectRatio(), soundController);
+        GameServer gameServer = new GameServer(onlineServerMessenger, localServerMessenger, yourId, graphicsController.getAspectRatio());
         Controllers defaultControllers = new Controllers(graphicsController, libGDXInput, soundController, onlineServerMessenger, onlineClientMessaging, localClientMessaging, gameServer);
         return new GameClient(defaultControllers, yourId);
     }

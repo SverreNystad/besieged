@@ -8,7 +8,6 @@ import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
-import com.softwarearchitecture.ecs.SoundController;
 import com.softwarearchitecture.ecs.components.CostComponent;
 import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.MoneyComponent;
@@ -23,7 +22,6 @@ import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
-import com.softwarearchitecture.ecs.systems.AudioSystem;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
 import com.softwarearchitecture.ecs.systems.MovementSystem;
 import com.softwarearchitecture.game_client.TexturePack;
@@ -42,7 +40,6 @@ public class GameServer {
     private UUID playerTwoID;
     private ServerMessagingController onlineMessageController;
     private ServerMessagingController localMessageController;
-    private SoundController audioController;
 
     private Map gameMap;
     private float aspectRatio;
@@ -58,12 +55,6 @@ public class GameServer {
         this.localMessageController = localMessageController;
         this.aspectRatio = aspect_ratio;
         this.playerOneID = playerOneID;
-    }
-
-    public GameServer(ServerMessagingController onlineMessageController, ServerMessagingController localMessageController, UUID playerOneID, float aspect_ratio, SoundController audioController) {
-        this(onlineMessageController, localMessageController, playerOneID, aspect_ratio);
-        this.audioController = audioController;
-    
     }
 
     /**
@@ -224,15 +215,11 @@ public class GameServer {
         EnemySystem EnemySystem = new EnemySystem();
         AttackSystem attackSystem = new AttackSystem(gameMap);
         AnimationSystem animationSystem = new AnimationSystem();
-        AudioSystem audioSystem = new AudioSystem(audioController);
 
         ECSManager.getInstance().addSystem(animationSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
         ECSManager.getInstance().addSystem(EnemySystem);
         ECSManager.getInstance().addSystem(attackSystem);
-        ECSManager.getInstance().addSystem(audioSystem);
-
-
     }
 
     private void initializeMapEntities(Map gameMap) {
@@ -350,7 +337,7 @@ public class GameServer {
                 // Play sound
                 Optional<TowerComponent> towerComponent = towerEntity.getComponent(TowerComponent.class);
                 if (towerComponent.isPresent()) {
-                    towerComponent.get().playSound = true;
+                    towerComponent.get().playSound = false;
                 }
             }
         }
@@ -372,7 +359,7 @@ public class GameServer {
             // Play sound
             Optional<PlacedCardComponent> cardComponent = cardEntity.getComponent(PlacedCardComponent.class);
             if (cardComponent.isPresent()) {
-                cardComponent.get().playSound = true;
+                cardComponent.get().playSound = false;
             }
         }
     }
