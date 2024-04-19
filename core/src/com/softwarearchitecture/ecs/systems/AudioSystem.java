@@ -31,9 +31,21 @@ public class AudioSystem implements System {
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         
+        // Check for newly added entities that has sound components.
+        for (Entity entity : ECSManager.getInstance().getAndClearNewlyRemoteAddedEntities()) {
+            Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
+            Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
+            if (soundComponent.isPresent() && cardComponent.isPresent()) {
+                java.lang.System.out.println("cardComponent.get().playSound: " + cardComponent.get().playSound);
+                cardComponent.get().playSound = true;
+                java.lang.System.out.println("Tidlig loop");
+            }
+        }
+        
         for (Entity entity : entities) {
             // Play the sound component.
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
+            
             if (soundComponent.isPresent()) {
                 if (soundComponent.get().isPlaying) {
                     continue;
@@ -47,10 +59,11 @@ public class AudioSystem implements System {
                     Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
                     if (cardComponent.isPresent() && cardComponent.get().playSound == true) {
                         java.lang.System.out.println("Spiller kortlyd");
+                        java.lang.System.out.println(entity);
                         soundController.playSound(soundComponent.get());
                         cardComponent.get().playSound = false;
                     }
-
+                    
                     // TODO: Case for towers
                     Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
                     if (towerComponent.isPresent() && towerComponent.get().playSound == true) {
@@ -58,22 +71,14 @@ public class AudioSystem implements System {
                         soundController.playSound(soundComponent.get());
                         towerComponent.get().playSound = false;
                     }
-
-
+                    
+                    
                     // TODO: Case for enemies
                     Optional<EnemyComponent> enemyComponent = enemyManager.getComponent(entity);
-
-
-                    java.lang.System.out.println("Spiller lyd");
-                    // soundController.playSound(soundComponent.get());
+                    
                 }
             }
         }
-    }
-    
-
-    // public void playSound(SoundComponent soundComponent) {
-    //     soundController.playSound(soundComponent);
-    // }
-    
+    }    
 }
+    

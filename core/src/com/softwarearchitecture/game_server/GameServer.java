@@ -361,7 +361,7 @@ public class GameServer {
             // Play sound
             Optional<PlacedCardComponent> cardComponent = cardEntity.getComponent(PlacedCardComponent.class);
             if (cardComponent.isPresent()) {
-                cardComponent.get().playSound = true;
+                cardComponent.get().playSound = false;
             }
         }
     }

@@ -31,7 +31,7 @@ public class ECSManager {
     private Set<Entity> remoteEntities;
     private Set<Entity> toAdd; // Entities to be added before the next update
     private Set<Entity> toRemove; // Entities to be removed before the next update
-
+    private Set<Entity> newlyRemoteAddedEntities; // Entities that were added this frame
     /** Stores the systems */
     private Set<System> systems;
 
@@ -42,6 +42,7 @@ public class ECSManager {
     // Private constructor to prevent instantiation
     private ECSManager() {
         localEntities = new HashSet<>();
+        newlyRemoteAddedEntities = new HashSet();
         remoteEntities = new HashSet<>();
         toAdd = new HashSet<>();
         toRemove = new HashSet<>();
@@ -88,7 +89,16 @@ public class ECSManager {
      * @param entity The entity to be added.
      */
     public void addRemoteEntity(Entity entity) {
-        remoteEntities.add(entity);
+        boolean result = remoteEntities.add(entity);
+        if (result) {
+            newlyRemoteAddedEntities.add(entity);
+        }
+    }
+
+    public Set<Entity> getAndClearNewlyRemoteAddedEntities() {
+        Set<Entity> result = new HashSet<>(newlyRemoteAddedEntities);
+        newlyRemoteAddedEntities.clear();
+        return result;
     }
 
     /**
