@@ -30,14 +30,18 @@ public class AnimationSystem implements System {
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
+
+        boolean isAnimation = Clock.getInstance().isTimeToAnimate();
+
         for (Entity entity : entities) {
             Optional<SpriteComponent> spriteComponent = spriteManager.getComponent(entity);
             Optional<AnimationComponent> animationComponent = animationManager.getComponent(entity);
 
-            if (spriteComponent.isPresent() && animationComponent.isPresent()) {
+            if (spriteComponent.isPresent() && animationComponent.isPresent() && isAnimation) {
                 SpriteComponent sprite = spriteComponent.get();
                 AnimationComponent animation = animationComponent.get();
-                sprite.texture_path = animation.getFramePath(deltaTime);
+                sprite.texture_path = animation.getAnimationPath();
+                animation.nextFrame();
             }
         }
     }

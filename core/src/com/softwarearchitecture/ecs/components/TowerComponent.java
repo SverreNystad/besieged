@@ -3,6 +3,7 @@ package com.softwarearchitecture.ecs.components;
 import java.io.Serializable;
 
 public class TowerComponent implements Serializable {
+    // TODO: Change all fields to public and remove getters and setters
     private int damage;
     private float range;
     private float attackCooldown;

@@ -13,7 +13,6 @@ public class TexturePack {
     public static final String BACKGROUND_ABYSS = "gui/backgrounds/chad.jpg";
     public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
     public static final String BACKGROUND_MULTIPLAYER = "gui/backgrounds/multiplayer.png";
-    public static final String BACKGROUND_BLACK = "gui/backgrounds/background_black.png";
 
     // Previews of maps
     public static final String PREVIEW_ABYSS = "gui/map_previews/besieged_abyss_map.png";
@@ -44,6 +43,7 @@ public class TexturePack {
     public static final String BUTTON_MUTE = "gui/buttons/mute.png";
     public static final String BUTTON_ABYSS = "gui/buttons/abyss.png";
     public static final String BUTTON_TEST = "gui/buttons/test.png";
+    public static final String BUTTON_AVAILABLE_LOBBY = "gui/buttons/available_lobby.png";
 
     // Logo
     public static final String LOGO = "gui/logo.png";

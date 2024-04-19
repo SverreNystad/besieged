@@ -2,14 +2,16 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
+import com.softwarearchitecture.math.Vector2;
 
 public class VelocityComponent implements Serializable {
-    public float velocity = 0f;
+    public float velocity;
 
-    public float baseVelocity = 0f;
+    public float baseVelocity;
 
     public VelocityComponent(float velocity) {
         this.velocity = velocity;
-        baseVelocity = velocity;
+
+        this.baseVelocity = velocity;
     }
 }

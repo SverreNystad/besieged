@@ -15,15 +15,8 @@ import com.softwarearchitecture.math.Vector3;
 
 public class GameOver extends State implements Observer {
 
-    private String title = "GAME OVER";
-
     public GameOver(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
-    }
-
-    public GameOver(Controllers defaultControllers, UUID yourId, String title) {
-        super(defaultControllers, yourId);
-        this.title = title;
     }
 
     @Override
@@ -33,7 +26,7 @@ public class GameOver extends State implements Observer {
 
         // Display Game Over text
         Entity gameOverTextEntity = new Entity();
-        TextComponent gameOverText = new TextComponent(title, new Vector2(0.1f, 0.1f));
+        TextComponent gameOverText = new TextComponent("GAME OVER", new Vector2(0.1f, 0.1f));
         gameOverText.setColor(new Vector3(1f, 0f, 0f)); // Red text
         PositionComponent textPosition = new PositionComponent(new Vector2(0.34f, 0.56f), 10); // Position near the top and centered
         gameOverTextEntity.addComponent(TextComponent.class, gameOverText);

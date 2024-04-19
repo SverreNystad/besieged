@@ -27,7 +27,7 @@ public class CardFactory {
         String texturePath = "texturePath";
         Vector2 size = new Vector2(0.02f, 0.02f);
         int cost = 0;
-        String sound = AudioPack.PLACING_CARD; 
+        String sound = AudioPack.PLACING_CARD; //TODO: Add default sound
 
         switch (type) {
 
@@ -38,7 +38,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_FIRE;
                 }
                 cost = 200;
-                sound = AudioPack.PLACING_CARD; 
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case TECHNOLOGY:
@@ -48,7 +48,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_TECHNOLOGY;
                 }
                 cost = 1000;
-                sound = AudioPack.PLACING_CARD;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case LIGHTNING:
@@ -58,7 +58,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_LIGHTNING;
                 }
                 cost = 300;
-                sound = AudioPack.PLACING_CARD;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case BOW:
@@ -68,7 +68,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_BOW;
                 }
                 cost = 100;
-                sound = AudioPack.PLACING_CARD; 
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case MAGIC:
@@ -78,7 +78,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_MAGIC;
                 }
                 cost = 500;
-                sound = AudioPack.PLACING_CARD;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             default:
