@@ -31,10 +31,10 @@ public class EnemyFactory {
         Vector2 size = new Vector2(1, 1);
         Vector2 position = new Vector2((float) enemyPath.get(0).getX() * tileWidth,
                 (float) enemyPath.get(0).getY() * tileHeight + tileHeight / 4);
-        float velocity = 0f;
+        Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int maxHealth = 0;
-        String sound = AudioPack.JENS;
+        String sound = AudioPack.PLACING_CARD; // TIDO: Add default sound
         int money = 0;
 
         switch (enemyType) {
@@ -46,9 +46,9 @@ public class EnemyFactory {
 
                 damage = 1;
                 size.set(0.03f, 0.03f);
-                velocity = 0.02f;
+                velocity.set(0.02f, 0.02f);
                 maxHealth = 10;
-                sound = AudioPack.ENEMY_ANT;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1;
 
                 break;
@@ -61,9 +61,9 @@ public class EnemyFactory {
 
                 damage = 2;
                 size.set(0.075f, 0.075f);
-                velocity = 0.05f;
+                velocity.set(0.05f, 0.05f);
                 maxHealth = 100;
-                sound = AudioPack.ENEMY_WOLF;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 30;
 
                 break;
@@ -75,9 +75,9 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_VIKING_SPEAR_FRAME4);
                 damage = 3;
                 size.set(0.065f, 0.093f);
-                velocity = 0.04f;
+                velocity.set(0.04f, 0.04f);
                 maxHealth = 100;
-                sound = AudioPack.ENEMY_VIKING_SPEAR;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 100;
 
                 break;
@@ -89,9 +89,9 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_VIKING_SWORD_FRAME4);
                 damage = 4;
                 size.set(0.05f, 0.08f);
-                velocity = 0.03f;
+                velocity.set(0.03f, 0.03f);
                 maxHealth = 100;
-                sound = AudioPack.ENEMY_VIKING_SWORD;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 150;
 
                 break;
@@ -103,9 +103,9 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_VIKING_SWORD_SHIELD_FRAME4);
                 damage = 5;
                 size.set(0.05f, 0.08f);
-                velocity = 0.03f;
+                velocity.set(0.03f, 0.03f);
                 maxHealth = 200;
-                sound = AudioPack.ENEMY_VIKING_SWORD_SHIELD;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 200;
 
                 break;
@@ -117,9 +117,9 @@ public class EnemyFactory {
                 textures.add(TexturePack.ENEMY_VIKING_AXE_FRAME4);
                 damage = 4;
                 size.set(0.05f, 0.08f);
-                velocity = 0.023f;
+                velocity.set(0.023f, 0.023f);
                 maxHealth = 300;
-                sound = AudioPack.ENEMY_VIKING_AXE;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 100;
 
                 break;
@@ -134,9 +134,9 @@ public class EnemyFactory {
 
                 damage = 5;
                 size.set(0.05f, 0.15f);
-                velocity = 0.003f;
+                velocity.set(0.003f, 0.003f);
                 maxHealth = 5000;
-                sound = AudioPack.ENEMY_TROLL;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1000;
 
                 break;
@@ -157,9 +157,9 @@ public class EnemyFactory {
 
                 damage = 5;
                 size.set(0.12f, 0.15f);
-                velocity = 0.003f;
+                velocity.set(0.003f, 0.003f);
                 maxHealth = 5000;
-                sound = AudioPack.ENEMY_ICE_GIANT;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1000;
                 break;
 
@@ -172,7 +172,7 @@ public class EnemyFactory {
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         HealthComponent healthComponent = new HealthComponent(maxHealth);
         SoundComponent soundComponent = new SoundComponent(sound, false, false);
-        VelocityComponent velocityComponent = new VelocityComponent(velocity);
+        VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
         PathfindingComponent PathfindingComponent = new PathfindingComponent(enemyPath);
         MoneyComponent moneyComponent = new MoneyComponent(money);
         // TODO: Add target component if necessary

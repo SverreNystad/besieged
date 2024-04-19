@@ -6,18 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalDAO<K,T> implements DAO<K,T> {
 
-    private static ConcurrentHashMap<String, LocalDAO<?, ?>> instances = new ConcurrentHashMap<>();
-
     private ConcurrentHashMap<K, T> data;
 
-    private LocalDAO(String key) {
+    public LocalDAO() {
         this.data = new ConcurrentHashMap<>();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static synchronized <K, T> LocalDAO<K, T> getInstance(Class<K> kClass, Class<T> tClass) {
-        String key = kClass.getName() + tClass.getName();
-        return (LocalDAO<K, T>) instances.computeIfAbsent(key, k -> new LocalDAO<>(key));
     }
 
     @Override

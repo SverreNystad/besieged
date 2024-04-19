@@ -54,43 +54,38 @@ public class MovementSystem implements System {
                 continue;
             }
             Vector2 pos = position.get().position;
-            float vel = velocity.get().velocity;
+            Vector2 vel = velocity.get().velocity;
             List<Tile> find = pathfinding.get().path;
             Tile nextTile = pathfinding.get().targetTile;
             int currentIndex = find.indexOf(nextTile);
             Vector2 nextWaypoint = new Vector2(nextTile.getX()*tileSize.x, nextTile.getY()*tileSize.y+tileSize.y/4);
-            float remainingStepSize = moveTowards(pos, nextWaypoint, vel * deltaTime);
-            while (remainingStepSize != -1f && find.size() > currentIndex+1) {
+            if (moveTowards(pos, nextWaypoint, vel, deltaTime)) {
                 pathfinding.get().targetTile = find.get(currentIndex+1);  // Move to next waypoint and remove it from the path
-                nextTile = pathfinding.get().targetTile;
-                currentIndex = find.indexOf(nextTile);
-                nextWaypoint = new Vector2(nextTile.getX()*tileSize.x, nextTile.getY()*tileSize.y+tileSize.y/4);
-                remainingStepSize = moveTowards(pos, nextWaypoint, remainingStepSize);
             }
+
         }
     }
     /**
      * Changes currentPosition by velocity or sets current position as target position if target is reached
      * @param currentPosition
      * @param targetPosition
-     * @param stepLength
+     * @param velocity
      * @param deltaTime
-     * @return Remaining distance to target. {@code -1} if target not reached.
+     * @return
      */
-    private float moveTowards(Vector2 currentPosition, Vector2 targetPosition, float stepLength) {
+    private boolean moveTowards(Vector2 currentPosition, Vector2 targetPosition, Vector2 velocity, float deltaTime) {
 
         Vector2 direction = targetPosition.cpy().sub(currentPosition).nor();
         float distance = currentPosition.dst(targetPosition);
+        float stepLength = velocity.len() * deltaTime/20;
         if (distance > stepLength) {
             currentPosition.add(direction.scl(stepLength));
-            return -1f;  // Target not reached
+            return false;  // Target not reached
         } else {
             currentPosition.set(targetPosition);
-            return stepLength - distance;  // Target reached
+            return true;  // Target reached
         }
     }
-
-
 
 
 }

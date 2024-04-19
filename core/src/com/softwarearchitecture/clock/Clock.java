@@ -1,29 +1,50 @@
 package com.softwarearchitecture.clock;
 
 public class Clock {
-    private long deltaTimeTime;
+    private long currentTime;
+    private float animationTime = 150f;
+    private float movementTime = 100f;
+    private float attackTime = 300f;
 
     // singleton instance
-    private static ThreadLocal<Clock> instance = null;
+    private static Clock instance = null;
 
     public static Clock getInstance() {
         if (instance == null) {
-            instance = ThreadLocal.withInitial(Clock::new);
+
+            instance = new Clock();
         }
-        return instance.get();
+        return instance;
     }
 
     private Clock() {
-        deltaTimeTime = System.currentTimeMillis();
+        currentTime = System.currentTimeMillis();
+
     }
 
-    public float getDeltaTime() {
-        return (float) (System.currentTimeMillis() - deltaTimeTime) / 1_000f;
+    public boolean isTimeToAnimate() {
+        boolean timeToAnimate = System.currentTimeMillis() - currentTime >= animationTime;
+        if (timeToAnimate) {
+            currentTime = System.currentTimeMillis();
+        }
+        return timeToAnimate;
     }
 
-    public float getAndResetDeltaTime() {
-        float deltaTime = (float)(System.currentTimeMillis() - deltaTimeTime) / 1_000f;
-        deltaTimeTime = System.currentTimeMillis();
-        return deltaTime;
+    public boolean isTimeToMove() {
+
+        boolean timeToMove = System.currentTimeMillis() - currentTime >= movementTime;
+        if (timeToMove) {
+            currentTime = System.currentTimeMillis();
+        }
+        return timeToMove;
+
+    }
+
+    public boolean isTimeToAttack(float time) {
+        boolean timeToMove = System.currentTimeMillis() - currentTime >= attackTime;
+        if (timeToMove) {
+            currentTime = System.currentTimeMillis();
+        }
+        return timeToMove;
     }
 }

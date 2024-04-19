@@ -28,17 +28,18 @@ import com.softwarearchitecture.ecs.components.PathfindingComponent;
 import com.softwarearchitecture.ecs.components.PlacedCardComponent;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
-import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
-import com.softwarearchitecture.game_server.cards.BowCard;
-import com.softwarearchitecture.game_server.cards.IceCard;
-import com.softwarearchitecture.game_server.cards.LightningCard;
-import com.softwarearchitecture.game_server.cards.MagicCard;
-import com.softwarearchitecture.game_server.cards.TechnologyCard;
+import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
+import com.softwarearchitecture.game_server.cards.elemental_cards.LightningCard;
+import com.softwarearchitecture.game_server.cards.elemental_cards.TechnologyCard;
+import com.softwarearchitecture.game_server.cards.tower_cards.BowCard;
+import com.softwarearchitecture.game_server.cards.tower_cards.MagicCard;
+import com.softwarearchitecture.game_server.cards.tower_cards.MeleeCard;
+import com.softwarearchitecture.game_server.cards.tower_cards.PowerCard;
 
 
 public class GameState implements Externalizable {
@@ -49,7 +50,9 @@ public class GameState implements Externalizable {
             LightningCard.class,
             TechnologyCard.class,
             BowCard.class,
-            MagicCard.class
+            MagicCard.class,
+            MeleeCard.class,
+            PowerCard.class
             )
     );
 
@@ -58,7 +61,6 @@ public class GameState implements Externalizable {
     public Entity playerOne;
     public Entity playerTwo;
     public String mapName;
-    public long timeStamp;
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -72,9 +74,6 @@ public class GameState implements Externalizable {
         out.writeObject(playerTwo);
         // Map
         out.writeObject(mapName);
-
-        // Time stamp
-        out.writeObject(timeStamp);
 
         // All Entities
         out.writeObject(ECSManager.getInstance().getLocalEntities());
@@ -108,9 +107,6 @@ public class GameState implements Externalizable {
         serializeComponent(out, TextComponent.class);
         // Animation components
         serializeComponent(out, AnimationComponent.class);
-
-        // Sound
-        serializeComponent(out, SoundComponent.class);
     }
 
     private <T> void serializeComponent(ObjectOutput out, Class<T> componentClass) throws IOException {
@@ -141,9 +137,8 @@ public class GameState implements Externalizable {
             System.out.println("Game version: " + game_version + game_version.length());
             String read_game_version = (String) readObject;
             System.out.println("Read version: " + read_game_version + read_game_version.length());
-            System.err.println("Missmatch in game version!");
-            return;
-            //throw new IllegalStateException("Game version mismatch");
+            
+            throw new IllegalStateException("Game version mismatch");
         }
         
         // Game ID
@@ -162,14 +157,7 @@ public class GameState implements Externalizable {
             throw new IllegalStateException("Map name must be a string");
         }
         mapName = (String) readObject;
-
-        // Time stamp
-        readObject = in.readObject();
-        if (!(readObject instanceof Long)) {
-            throw new IllegalStateException("Time stamp must be a long");
-        }
-        timeStamp = (Long) readObject;
-
+        
         // All Entities
         deserializeRemoteEntities(in);
         // Player components
@@ -201,9 +189,6 @@ public class GameState implements Externalizable {
         deserializeComponent(in, TextComponent.class);
         // Animation components
         deserializeComponent(in, AnimationComponent.class);
-
-        // Sound
-        deserializeComponent(in, SoundComponent.class);
 
     }
 
@@ -243,13 +228,9 @@ public class GameState implements Externalizable {
         
         // Check for player two
         readObject = in.readObject();
-        if (!(readObject instanceof Entity) && readObject != null) {
+        if (!(readObject instanceof Entity)) {
             return;
         }
-        if (readObject == null) {
-            playerTwo = null;
-            return;
-        } 
         playerTwo = (Entity) readObject;
         manager.addRemoteEntity(playerTwo);
     }

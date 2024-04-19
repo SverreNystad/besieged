@@ -29,7 +29,7 @@ public class TowerFactory {
         Vector2 size = new Vector2(1, 1);
         int damage = 0;
         float range = 0;
-        float attackCooldown = 0;
+        int attackCooldown = 0;
         String sound = AudioPack.PLACING_CARD; // TODO: Add default sound
 
         Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
@@ -169,9 +169,9 @@ public class TowerFactory {
 
                 areaOfEffectComponent = new AreaOfEffectComponent();
 
-                damage = 500;
-                range = 2;
-                attackCooldown = 3f;
+                damage = 1000;
+                range = 1;
+                attackCooldown = 300;
                 sound = AudioPack.TOWER_FURNACE;
                 break;
 
@@ -186,7 +186,7 @@ public class TowerFactory {
 
                 damage = 1000;
                 range = 1;
-                attackCooldown = 5f;
+                attackCooldown = 300;
                 sound = AudioPack.TOWER_TESLA;
 
                 break;
@@ -200,8 +200,9 @@ public class TowerFactory {
 
                 damage = 100;
                 range = 2;
-                attackCooldown = 6f;
+                attackCooldown = 300;
                 sound = AudioPack.TOWER_THUNDERBOLT;
+
                 break;
 
             case BOW_MAGIC:
@@ -211,8 +212,8 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_BOW_MAGIC_FRAME4);
 
                 damage = 20;
-                range = 20;
-                attackCooldown = 5f;
+                range = 3;
+                attackCooldown = 50;
                 sound = AudioPack.TOWER_BOW_MAGIC;
 
                 break;
@@ -228,9 +229,9 @@ public class TowerFactory {
 
                 areaOfEffectComponent = new AreaOfEffectComponent();
 
-                damage = 30;
+                damage = 20;
                 range = 3;
-                attackCooldown = 3f;
+                attackCooldown = 150;
                 sound = AudioPack.TOWER_FIRE_LIGHTNING;
 
                 break;

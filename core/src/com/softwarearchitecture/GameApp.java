@@ -10,9 +10,6 @@ import com.softwarearchitecture.game_client.GameClient;
 import com.softwarearchitecture.launcher.GameLauncher;
 
 public class GameApp extends ApplicationAdapter {
-
-	public static final int SCREEN_WIDTH = 1300;
-    public static final int SCREEN_HEIGHT = 600;
 	GameClient gameClient;
 	OrthographicCamera camera;
 	Viewport viewport;
@@ -21,7 +18,7 @@ public class GameApp extends ApplicationAdapter {
 	public void create() {
 		Clock.getInstance();
 		camera = new OrthographicCamera();
-		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
+		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		gameClient = GameLauncher.createGameClient(this.camera, this.viewport);
 	}
 
@@ -38,5 +35,6 @@ public class GameApp extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		// gameClient.dispose();
 	}
 }

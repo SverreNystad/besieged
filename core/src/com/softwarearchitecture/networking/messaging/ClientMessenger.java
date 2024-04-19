@@ -23,11 +23,11 @@ public class ClientMessenger implements ClientMessagingController {
     private static final String GAME_PREFIX = "GAME";
     
 
-    public ClientMessenger(boolean isMultiplayer) {
-        this.gameDAO = new DAOBuilder(!isMultiplayer).build(String.class, byte[].class);
-        this.actionDAO = new DAOBuilder(!isMultiplayer).build(UUID.class, PlayerInput.class);
-        this.joinPlayerDAO = new DAOBuilder(!isMultiplayer).build(String.class, UUID.class);
-        this.gamesDAO = new DAOBuilder(!isMultiplayer).build(String.class, String.class);
+    public ClientMessenger() {
+        this.gameDAO = new DAOBuilder().build(UUID.class, byte[].class);
+        this.actionDAO = new DAOBuilder().build(UUID.class, PlayerInput.class);
+        this.joinPlayerDAO = new DAOBuilder().build(String.class, UUID.class);
+        this.gamesDAO = new DAOBuilder().build(String.class, String.class);
     }
     
     @Override
@@ -63,26 +63,6 @@ public class ClientMessenger implements ClientMessagingController {
         return false; 
     }
 
-    private class GameStateWrapper implements Runnable {
-
-        private volatile byte[] data;
-        private volatile GameState gameState = null;
-
-        public GameStateWrapper(byte[] data) {
-            this.data = data;
-        }
-
-        @Override
-        public void run() {
-            try {
-                gameState = GameState.deserializeFromByteArray(data);
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
     public List<GameState> getAllAvailableGames() {
         List<String> indexes = gamesDAO.loadAllIndices();
         List<GameState> games = new ArrayList<>();
@@ -91,19 +71,14 @@ public class ClientMessenger implements ClientMessagingController {
                 try {
                     
                     Optional<byte[]> data = gameDAO.get(index);
-                    
                     if (data.isPresent()) {
-                        GameStateWrapper getter = new GameStateWrapper(data.get());
-                        Thread thread = new Thread(getter);
-                        thread.start();
-                        thread.join();
-                        GameState gameState = getter.gameState;
-                        if (gameState != null && gameState.playerTwo == null) {
+                        GameState gameState = GameState.deserializeFromByteArray(data.get());
+                        if (gameState.playerTwo == null) {
                             games.add(gameState);
                         }
                     }
-                } catch (InterruptedException i) {
-                    i.printStackTrace();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         }

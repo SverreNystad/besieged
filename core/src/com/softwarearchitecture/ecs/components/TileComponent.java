@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.softwarearchitecture.game_server.Tile;
 
 public class TileComponent implements Serializable {
+    // TODO: Change all fields to public and remove getters and setters
 
     private Tile tile;
 
