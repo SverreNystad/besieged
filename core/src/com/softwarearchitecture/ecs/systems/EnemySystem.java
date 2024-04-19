@@ -157,7 +157,7 @@ public class EnemySystem implements System {
                 this.villageDamage += remainingEnemyHealth;
             } else if (hp <= 0) {
                 position.get().position = new Vector2(-1, -1);
-                velocity.get().velocity = new Vector2(0, 0);
+                velocity.get().velocity = 0; 
                 liveMonsterCounter--;
                 boolean claimedReward = enemy.get().claimedReward;
                 if (!claimedReward) {
@@ -201,7 +201,7 @@ public class EnemySystem implements System {
 
                     // If the enemy is dead, reset its position and velocity
                     List<Tile> find = pathfinding.get().path;
-                    if (velocity.get().velocity.len() == 0) {
+                    if (velocity.get().velocity == 0) {
                         float startPosition_x = find.get(0).getX() * tileSize.x;
                         float startPosition_y = find.get(0).getY() * tileSize.y;
                         position.get().position = new Vector2(startPosition_x, startPosition_y);

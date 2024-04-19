@@ -173,6 +173,7 @@ public class TowerFactory {
                 damage = 500;
                 range = 2;
                 attackCooldown = 3f * timeFactor;
+                attackCooldown = 3f;
                 sound = AudioPack.TOWER_FURNACE;
                 break;
 
@@ -188,6 +189,7 @@ public class TowerFactory {
                 damage = 1000;
                 range = 1;
                 attackCooldown = 6f * timeFactor;
+                attackCooldown = 5f;
                 sound = AudioPack.TOWER_TESLA;
 
                 break;

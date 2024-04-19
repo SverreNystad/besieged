@@ -84,11 +84,10 @@ public class Menu extends State implements Observer {
                 new Vector2(buttonWidth, buttonHeight), this, 1));
 
         // Set up background music
-        // SoundComponent backgroundMusic = new
-        // SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for
-        // looping
-        // backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
-        // ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
+        Entity backgroundMusicEntity = new Entity();
+        SoundComponent backgroundMusic = new SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for looping
+        backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
+        ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
     }
 
     /**

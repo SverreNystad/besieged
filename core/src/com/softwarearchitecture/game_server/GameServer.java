@@ -17,6 +17,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
@@ -187,13 +188,11 @@ public class GameServer {
         EnemySystem EnemySystem = new EnemySystem();
         AttackSystem attackSystem = new AttackSystem(gameMap);
         AnimationSystem animationSystem = new AnimationSystem();
-        
+
         ECSManager.getInstance().addSystem(animationSystem);
         ECSManager.getInstance().addSystem(MovementSystem);
         ECSManager.getInstance().addSystem(EnemySystem);
         ECSManager.getInstance().addSystem(attackSystem);
-
-
     }
 
     private void initializeMapEntities(Map gameMap) {
@@ -291,6 +290,12 @@ public class GameServer {
 
                 // Update the tile with the new tower
                 updateTileWithTower(tile, tileEntity, towerEntity);
+                
+                // Play sound
+                Optional<TowerComponent> towerComponent = towerEntity.getComponent(TowerComponent.class);
+                if (towerComponent.isPresent()) {
+                    towerComponent.get().playSound = false;
+                }
             }
         }
         // No card on tile, place card

@@ -34,6 +34,7 @@ public class AudioPack {
     public static final String TOWER_THUNDERBOLT = "sounds/thunder.mp3";
     public static final String TOWER_BOW_MAGIC = "sounds/magic.mp3";
     public static final String TOWER_FIRE_LIGHTNING = "sounds/thunder.mp3";
+    
 
     // Background music
     public static final String BACKGROUND_GIRL_SINGING = "sounds/valhalla_maiden.mp3";

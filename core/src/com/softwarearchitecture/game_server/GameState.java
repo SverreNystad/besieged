@@ -31,6 +31,7 @@ import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
 import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
+import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
 import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
@@ -101,6 +102,8 @@ public class GameState implements Externalizable {
         // Village components
         serializeComponent(out, VillageComponent.class);
 
+        // Tower components
+        serializeComponent(out, TowerComponent.class);
 
         // UI components
         // Text components
@@ -184,6 +187,8 @@ public class GameState implements Externalizable {
         // Village components
         deserializeComponent(in, VillageComponent.class);
 
+        // Tower components
+        deserializeComponent(in, TowerComponent.class);
         // UI components
         // Text components
         deserializeComponent(in, TextComponent.class);
