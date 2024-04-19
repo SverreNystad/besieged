@@ -128,6 +128,9 @@ public class ButtonFactory {
             case AVAILABLE_LOBBY:
                 texture = TexturePack.BUTTON_AVAILABLE_LOBBY;
                 break;
+            case TUTORIAL:
+                texture = TexturePack.BUTTON_TUTORIAL;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }

@@ -65,14 +65,17 @@ public class Menu extends State implements Observer {
         List<Entity> buttons = new ArrayList<>();
         float buttonWidth = 0.3f;
         float buttonHeight = 0.1f;
-        float gap = 0.02f;
-        float translateY = 0.1f;
+        float gap = 0.01f;
+        float translateY = 0.05f;
 
         // Create button rectangles
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.PLAY,
-                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 3),
+                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 4),
                 new Vector2(buttonWidth, buttonHeight), this, 1));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.MULTI_PLAYER,
+                new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 3),
+                new Vector2(buttonWidth, buttonHeight), this, 1));
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.TUTORIAL,
                 new Vector2(0.5f - buttonWidth / 2, translateY + (buttonHeight + gap) * 2),
                 new Vector2(buttonWidth, buttonHeight), this, 1));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.OPTIONS,
@@ -83,10 +86,10 @@ public class Menu extends State implements Observer {
                 new Vector2(buttonWidth, buttonHeight), this, 1));
 
         // Set up background music
-        // Entity backgroundMusicEntity = new Entity();
-        // SoundComponent backgroundMusic = new SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for looping
-        // backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
-        // ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
+        Entity backgroundMusicEntity = new Entity();
+        SoundComponent backgroundMusic = new SoundComponent(AudioPack.BACKGROUND_VIKING_CHOIR, true, true); // true for looping
+        backgroundMusicEntity.addComponent(SoundComponent.class, backgroundMusic);
+        ECSManager.getInstance().addLocalEntity(backgroundMusicEntity);
     }
 
     /**
@@ -118,6 +121,11 @@ public class Menu extends State implements Observer {
             case PLAY:
                 System.out.println("Play button pressed");
                 screenManager.nextState(new ChooseMap(defaultControllers, yourId, false));
+                break;
+
+            case TUTORIAL:
+                System.out.println("Tutorial button pressed");
+                screenManager.nextState(new Tutorial(defaultControllers, yourId));
                 break;
 
             default:
