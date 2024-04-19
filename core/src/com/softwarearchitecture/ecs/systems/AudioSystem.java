@@ -36,7 +36,7 @@ public class AudioSystem implements System {
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
             Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
             if (soundComponent.isPresent() && cardComponent.isPresent()) {
-                
+                java.lang.System.out.println("Entity card: " + entity);
                 cardComponent.get().playSound = true;
             }
 

@@ -90,7 +90,8 @@ public class ECSManager {
      * @param entity The entity to be added.
      */
     public void addRemoteEntity(Entity entity) {
-        remoteEntities.add(entity);
+        boolean result = remoteEntities.add(entity);
+        if (result) newlyAddedEntities.add(entity);
     }
 
     /**
