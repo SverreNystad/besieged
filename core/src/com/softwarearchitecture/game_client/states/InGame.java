@@ -275,7 +275,7 @@ public class InGame extends State implements Observer, GameOverObserver {
 
         // Increase the size of the sprite
         Vector2 largerSize = new Vector2(size.x, size.y); // Increase the size by 50%
-        cardSprite.setSizeUV(largerSize);
+        cardSprite.size_uv  = largerSize;
 
         // Button component also has a callback now
         Runnable onButtonClick = () -> {
