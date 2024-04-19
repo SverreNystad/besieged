@@ -20,7 +20,7 @@ import com.softwarearchitecture.math.Vector2;
 public class EnemyFactory {
 
     public enum EnemyType {
-        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR
+        NORDIC_ANT, WOLF, VIKING_SWORD_SHIELD, VIKING_SWORD, VIKING_AXE, VIKING_SPEAR, TROLL
 
     }
 
@@ -35,7 +35,7 @@ public class EnemyFactory {
         Vector2 velocity = new Vector2(0, 0);
         int damage = 1;
         int maxHealth = 0;
-        String sound = "soundPath";
+        String sound = AudioPack.PLACING_CARD; //TIDO: Add default sound
         int money = 0;
 
         switch (enemyType) {
@@ -49,7 +49,7 @@ public class EnemyFactory {
                 size.set(0.03f, 0.03f);
                 velocity.set(0.02f, 0.02f);
                 maxHealth = 10;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 1;
 
                 break;
@@ -64,7 +64,7 @@ public class EnemyFactory {
                 size.set(0.075f, 0.075f);
                 velocity.set(0.05f, 0.05f);
                 maxHealth = 100;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 30;
 
                 break;
@@ -78,7 +78,7 @@ public class EnemyFactory {
                 size.set(0.065f, 0.093f);
                 velocity.set(0.04f, 0.04f);
                 maxHealth = 100;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 100;
 
                 break;
@@ -92,7 +92,7 @@ public class EnemyFactory {
                 size.set(0.05f, 0.08f);
                 velocity.set(0.03f, 0.03f);
                 maxHealth = 100;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 150;
 
                 break;
@@ -106,7 +106,7 @@ public class EnemyFactory {
                 size.set(0.05f, 0.08f);
                 velocity.set(0.03f, 0.03f);
                 maxHealth = 200;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 200;
 
                 break;
@@ -120,8 +120,25 @@ public class EnemyFactory {
                 size.set(0.05f, 0.08f);
                 velocity.set(0.023f, 0.023f);
                 maxHealth = 300;
-                sound = "soundPath"; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 money = 100;
+
+                break;
+
+            case TROLL:
+                textures.add(TexturePack.ENEMY_TROLL_FRAME1);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME1);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME2);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME2);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME3);
+                textures.add(TexturePack.ENEMY_TROLL_FRAME3);
+
+                damage = 5;
+                size.set(0.05f, 0.15f);
+                velocity.set(0.003f, 0.003f);
+                maxHealth = 5000;
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
+                money = 1000;
 
                 break;
 
@@ -133,7 +150,7 @@ public class EnemyFactory {
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
         HealthComponent healthComponent = new HealthComponent(maxHealth);
-        SoundComponent soundComponent = new SoundComponent(sound);
+        SoundComponent soundComponent = new SoundComponent(sound, false, false);
         VelocityComponent velocityComponent = new VelocityComponent(velocity.x, velocity.y);
         PathfindingComponent PathfindingComponent = new PathfindingComponent(enemyPath);
         MoneyComponent moneyComponent = new MoneyComponent(money);

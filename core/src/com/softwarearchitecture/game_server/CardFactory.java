@@ -30,7 +30,7 @@ public class CardFactory {
         String texturePath = "texturePath";
         Vector2 size = new Vector2(0.02f, 0.02f);
         int cost = 0;
-        String sound = "soundPath";
+        String sound = AudioPack.PLACING_CARD; //TODO: Add default sound
 
         switch (type) {
 
@@ -41,7 +41,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_FIRE;
                 }
                 cost = 200;
-                sound = AudioPack.JENS; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case TECHNOLOGY:
@@ -51,7 +51,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_TECHNOLOGY;
                 }
                 cost = 1000;
-                sound = AudioPack.JENS; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case LIGHTNING:
@@ -61,7 +61,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_LIGHTNING;
                 }
                 cost = 300;
-                sound = AudioPack.JENS; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case BOW:
@@ -71,7 +71,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_BOW;
                 }
                 cost = 100;
-                sound = AudioPack.JENS; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             case MAGIC:
@@ -81,7 +81,7 @@ public class CardFactory {
                     texturePath = TexturePack.CARD_MAGIC;
                 }
                 cost = 500;
-                sound = AudioPack.JENS; // TODO: Add the correct sound path
+                sound = AudioPack.PLACING_CARD; // TODO: Add the correct sound path
                 break;
 
             default:
@@ -91,7 +91,7 @@ public class CardFactory {
         PlacedCardComponent placedCardComponent = new PlacedCardComponent(type);
         PositionComponent positionComponent = new PositionComponent(position, 20);
         SpriteComponent spriteComponent = new SpriteComponent(texturePath, size);
-        SoundComponent soundComponent = new SoundComponent(sound);
+        SoundComponent soundComponent = new SoundComponent(sound, false, false);
         CostComponent costComponent = new CostComponent(cost);
 
         Entity cardEntity = new Entity();

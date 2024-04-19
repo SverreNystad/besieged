@@ -2,6 +2,8 @@ package com.softwarearchitecture.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.LongMap;
+
 import java.util.HashMap;
 
 import com.softwarearchitecture.ecs.SoundController;
@@ -10,6 +12,7 @@ import com.softwarearchitecture.ecs.components.SoundComponent;
 public class LibGDXSound implements SoundController {
     // Cache loaded sounds to avoid loading them multiple times
     private final HashMap<String, Sound> soundCache = new HashMap<>();
+    private final LongMap<Boolean> soundPlaying = new LongMap<>();
     private int volume;
 
     /**
@@ -38,24 +41,45 @@ public class LibGDXSound implements SoundController {
         System.out.println("Volume set to: " + this.volume);
     }
 
-    public void playSound(SoundComponent soundComponent, float volume) {
-        // Check if the sound is already loaded
-        Sound sound = soundCache.get(soundComponent.sound_path);
-        if (sound == null) {
-            System.out.println("Loading sound: " + soundComponent.sound_path);
-            // Sound not in cache, load it and add to cache
-            sound = Gdx.audio.newSound(Gdx.files.internal(soundComponent.sound_path));
-            soundCache.put(soundComponent.sound_path, sound);
-        }
-
-        // Play the sound
-        sound.play(((float) volume)/100f);
-    }
-
-    @Override
     public void playSound(SoundComponent soundComponent) {
-        playSound(soundComponent, volume);
+        Sound sound = soundCache.computeIfAbsent(soundComponent.sound_path, path -> {
+            System.out.println("Loading sound: " + path);
+            return Gdx.audio.newSound(Gdx.files.internal(path));
+        });
+
+        // Determine if sound should loop
+        long id;
+        if (soundComponent.loop) {
+            id = sound.loop(((float) this.volume) / 100f); // Start looping the sound
+            soundPlaying.put(id, true);
+        } else {
+            sound.play(((float) this.volume) / 100f); // Play sound once
+        }
+        
     }
+
+    public void playBackgroundMusic(SoundComponent soundComponent) {
+        if (!isAnySoundPlaying()) {
+            Sound sound = soundCache.computeIfAbsent(soundComponent.sound_path, path -> {
+                System.out.println("Loading sound: " + path);
+                return Gdx.audio.newSound(Gdx.files.internal(path));
+            });
+
+            long id = sound.loop(((float) this.volume) / 100f);  // Always loop background music
+            soundPlaying.put(id, true);  // Mark this sound ID as playing
+        }
+    }
+
+    // Check if any sound is still marked as playing
+    private boolean isAnySoundPlaying() {
+        for (Boolean state : soundPlaying.values()) {
+            if (state) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // Optional: Consider adding a method to dispose of sounds when no longer needed
     public void dispose() {
@@ -63,6 +87,7 @@ public class LibGDXSound implements SoundController {
             sound.dispose();
         }
         soundCache.clear();
+        soundPlaying.clear();
     }
 
     @Override
