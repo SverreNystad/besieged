@@ -5,7 +5,7 @@ import com.softwarearchitecture.game_server.CardFactory.CardType;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.ecs.components.AnimationComponent;
-import com.softwarearchitecture.ecs.components.AreaOfAffectComponent;
+import com.softwarearchitecture.ecs.components.AreaOfEffectComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
@@ -31,6 +31,7 @@ public class TowerFactory {
         float range = 0;
         float attackCooldown = 0f;
         String sound = AudioPack.PLACING_CARD; // TODO: Add default sound
+        AreaOfEffectComponent areaOfAffectComponent = null;
 
         Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
 
@@ -38,7 +39,7 @@ public class TowerFactory {
             throw new IllegalArgumentException("Invalid tower type combination");
         }
 
-        AreaOfAffectComponent areaOfAffectComponent = null;
+        AreaOfEffectComponent areaOfEffectComponent = null;
 
         switch (towerType.get()) {
             case FIRE_MAGIC:
@@ -105,7 +106,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME2);
                 textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME3);
                 textures.add(TexturePack.TOWER_BOW_LIGHTING_FRAME4);
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfAffectComponent = new AreaOfEffectComponent();
                 damage = 50;
                 range = 2;
                 attackCooldown = 4f;
@@ -122,7 +123,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME3);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME1);
                 textures.add(TexturePack.TOWER_MAGIC_TECH_FRAME4);
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 10000;
                 range = 1;
@@ -151,7 +152,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_INFERNO_FRAME4);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME5);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME6);
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 1;
                 range = 1;
@@ -167,7 +168,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FURNACE_FRAME5);
                 textures.add(TexturePack.TOWER_FURNACE_FRAME6);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 500;
                 range = 2;
@@ -182,7 +183,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_TESLA_FRAME4);
                 textures.add(TexturePack.TOWER_TESLA_FRAME5);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 1000;
                 range = 1;
@@ -196,7 +197,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME2);
                 textures.add(TexturePack.TOWER_THUNDERBOLT_FRAME3);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 100;
                 range = 2;
@@ -226,7 +227,7 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME4);
                 textures.add(TexturePack.TOWER_FIRE_LIGHTNING_FRAME1);
 
-                areaOfAffectComponent = new AreaOfAffectComponent();
+                areaOfEffectComponent = new AreaOfEffectComponent();
 
                 damage = 30;
                 range = 3;
@@ -252,8 +253,8 @@ public class TowerFactory {
         tower.addComponent(AnimationComponent.class, animationComponent);
         tower.addComponent(TargetComponent.class, targetComponent);
         tower.addComponent(SoundComponent.class, soundComponent);
-        if (areaOfAffectComponent != null) {
-            tower.addComponent(AreaOfAffectComponent.class, areaOfAffectComponent);
+        if (areaOfEffectComponent != null) {
+            tower.addComponent(AreaOfEffectComponent.class, areaOfEffectComponent);
         }
 
         return tower;

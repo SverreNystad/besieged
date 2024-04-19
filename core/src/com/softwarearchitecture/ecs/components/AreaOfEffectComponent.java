@@ -1,5 +1,5 @@
 package com.softwarearchitecture.ecs.components;
 
-public class AreaOfAffectComponent {
+public class AreaOfEffectComponent {
     
 }
