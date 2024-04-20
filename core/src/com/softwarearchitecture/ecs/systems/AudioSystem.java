@@ -40,13 +40,12 @@ public class AudioSystem implements System {
 
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
-        
+
         // Check for newly added entities that has sound components.
         for (Entity entity : ECSManager.getInstance().getAndClearNewlyRemoteAddedEntities()) {
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
             Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
             if (soundComponent.isPresent() && cardComponent.isPresent()) {
-                java.lang.System.out.println("Entity card: " + entity);
                 cardComponent.get().playSound = true;
             }
 
@@ -61,33 +60,32 @@ public class AudioSystem implements System {
                 soundController.playSound(soundComponent.get());
             }
         }
-        
+
         for (Entity entity : entities) {
             // If the entity does not have a sound component, skip it.
             Optional<SoundComponent> soundComponent = audioManager.getComponent(entity);
             if (soundComponent.isPresent()) {
                 if (soundComponent.get().isPlaying) {
-                    java.lang.System.out.println("Her ja");
                     continue;
                 }
-                
+
                 if (soundComponent.get().isBackgroundMusic) {
-                    java.lang.System.out.println("Spiller bakgrunnsmusikk");
                     soundController.playBackgroundMusic(soundComponent.get());
                     soundComponent.get().isPlaying = true;
-                    
+
                 } else {
                     // TODO: Case for cards
                     Optional<PlacedCardComponent> cardComponent = cardManager.getComponent(entity);
                     if (cardComponent.isPresent() && cardComponent.get().playSound == true) {
-                        
+
                         soundController.playSound(soundComponent.get());
                         cardComponent.get().playSound = false;
                     }
 
                     // TODO: Case for towers
                     Optional<TowerComponent> towerComponent = towerManager.getComponent(entity);
-                    if (towerComponent.isPresent() && towerComponent.get().playSound == true && !towersWithoutSounds.contains(towerComponent.get().towerType)) {
+                    if (towerComponent.isPresent() && towerComponent.get().playSound == true
+                            && !towersWithoutSounds.contains(towerComponent.get().towerType)) {
                         soundController.playSound(soundComponent.get());
                         towerComponent.get().playSound = false;
                     }

@@ -30,7 +30,7 @@ public class GameOverSystem implements System {
         for (Entity entity : entities) {
             Optional<HealthComponent> healthComponent = healthManager.getComponent(entity);
             Optional<VillageComponent> villageComponent = villageManger.getComponent(entity);
-            if (villageComponent.isPresent() && healthComponent.isPresent()) {  
+            if (villageComponent.isPresent() && healthComponent.isPresent()) {
                 village = entity;
                 break;
             }
@@ -39,13 +39,12 @@ public class GameOverSystem implements System {
         if (village == null) {
             return;
         }
-        
+
         if (healthManager.getComponent(village).get().getHealth() <= 0) {
-            java.lang.System.out.println("Game Over");
             if (this.observer != null) {
                 this.observer.handleGameOver();
             }
         }
     }
-    
+
 }
