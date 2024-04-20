@@ -3,6 +3,7 @@ package com.softwarearchitecture.game_client;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.game_client.states.GameOver;
 import com.softwarearchitecture.game_client.states.InGame;
@@ -27,7 +28,7 @@ public class GameClient {
     public void update() {
         screenManager.activateCurrentStateIfChanged();
 
-        float deltaTime = 1f; // TODO: Implement deltatime
+        float deltaTime = Clock.getInstance().getAndResetDeltaTime();
 
         ECSManager.getInstance().update(deltaTime);
 
