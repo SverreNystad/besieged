@@ -18,47 +18,62 @@ package "networking" {
     }
 }
 
-package "gameClient" {
-    interface clientMessagingController {
-        +joinGame(gameID : UUID, playerID : UUID) : Optional<GameState>
+package "game_client" {
+    interface ClientMessagingController {
+        +joinGame(gameID : UUID, playerID : UUID) : boolean
         +requestGameState(gameID : UUID) : Optional<GameState>
-        +addAction(gameID : UUID, playerID : UUID, action : Action): void
+        +addAction(action : PlayerInput): void
+        +getAllAvailableGames() : List<GameState>
+        +getHighScores() : List<HighScore>
     }
 
     component "<<some other classes>>GameClient" as GameClient
 
-    GameClient --> clientMessagingController
+    GameClient --> ClientMessagingController
 }
 
-package "gameServer"{
-    interface serverMessagingController {
-        +createGame(): UUID
-        +setGameState(gameID : UUID, playerID : UUID, action : Action) : void
-        +popActions(gameID : UUID) : List<PlayerAction>
-    }
-
-    interface persistenceAccess {
-        +updateHighScore(playerID : UUID, score : int) : void
+package "game_server"{
+    interface ServerMessagingController {
+        +createGame(mapName : String): UUID
+        +getGameState(gameID : UUID) : GameState
+        +setGameState(UUID gameId, GameState gameState) : void
+        +lookForPendingActions(playerId : UUID) : List<PlayerAction>
+        +lookForPendingActions(gameId : UUID) : Optional<UUID>
+        +removeGame(gameId : UUID) : void
+        +updateHighScore(HighScore) : void
     }
     
-    object PlayerAction {
+    class GameState {
+
+    }
+
+    class HighScore {
+        +gameID : UUID
+        +waveNumber : int
+    }
+
+    class PlayerInput {
         +player : UUID
-        +action : Action
+        +x : int
+        +y : int
+        +cardType : CardType
+        +action : String
     }
 
     component "<<some other classes>>GameServer" as GameServer
 
-    serverMessagingController -left-> PlayerAction
-    serverMessagingController -[hidden]-> persistenceAccess
-    GameServer -> serverMessagingController
-    GameServer -> persistenceAccess
+    ServerMessagingController -left-> PlayerInput
+    GameServer -> ServerMessagingController
+    ServerMessagingController -> GameState
+    ServerMessagingController -> HighScore
 }
 
-messaging -up-|> clientMessagingController
-messaging -left-|> serverMessagingController 
+messaging -up-|> ClientMessagingController
+messaging -left-|> ServerMessagingController 
 
-persistence -right-|> persistenceAccess 
-
-
+ClientMessagingController -down-> PlayerInput
+ClientMessagingController -down-> GameState
+ClientMessagingController -down-> HighScore
+'serverMessagingController -[hidden]right-> clientMessagingController
 
 @enduml
