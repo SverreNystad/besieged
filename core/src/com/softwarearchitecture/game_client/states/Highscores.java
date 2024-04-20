@@ -66,7 +66,7 @@ public class Highscores extends State implements Observer {
         
         // add buttons
         ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.30f / 2f, 0.10f),
-        new Vector2(0.30f, 0.10f), this, 1);
+        new Vector2(0.30f, 0.10f), this, 3);
         
         
         // Add highscores
