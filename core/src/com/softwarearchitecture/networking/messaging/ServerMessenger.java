@@ -12,6 +12,7 @@ import com.softwarearchitecture.networking.persistence.DAO;
 import com.softwarearchitecture.networking.persistence.DAOBuilder;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
+import com.softwarearchitecture.game_client.Score;
 import com.softwarearchitecture.game_server.GameState;
 
 public class ServerMessenger implements ServerMessagingController {
@@ -19,14 +20,17 @@ public class ServerMessenger implements ServerMessagingController {
     private DAO<String, byte[]> gameDao;
     private DAO<String, UUID> pendingPlayerDao;
     private DAO<UUID, PlayerInput> actionDao;
+    private DAO<String, Score> highscoreDao;
     
     private final String JOIN_PREFIX = "JOIN";
     private static final String GAME_PREFIX = "GAME";
+    private final String HIGHSCORE_PREFIX = "HIGHSCORE";
 
     public ServerMessenger(boolean isMultiplayer) {
         gameDao = new DAOBuilder<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
         pendingPlayerDao = new DAOBuilder<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
         actionDao = new DAOBuilder<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        highscoreDao = new DAOBuilder<String, Score>(!isMultiplayer).build(String.class, Score.class);
     }
 
     @Override
@@ -60,6 +64,10 @@ public class ServerMessenger implements ServerMessagingController {
     
     private String createJoinGameId(UUID gameId) {
         return JOIN_PREFIX + gameId.toString();
+    }
+    
+    private String createHighScoreId(UUID gameId) {
+        return HIGHSCORE_PREFIX + gameId.toString();
     }
 
     @Override
@@ -109,5 +117,11 @@ public class ServerMessenger implements ServerMessagingController {
     @Override
     public void removeGame(UUID gameId) {
         gameDao.delete(createGameId(gameId));
+    }
+
+    @Override
+    public void setHighScore(UUID gameId, int wavesSurvived) {
+        Score score = new Score(gameId, wavesSurvived);
+        highscoreDao.add(createHighScoreId(gameId), score);
     }
 }

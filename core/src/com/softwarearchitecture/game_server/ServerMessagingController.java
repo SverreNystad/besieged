@@ -43,4 +43,7 @@ public interface ServerMessagingController {
     public Optional<UUID> lookForPendingPlayer(UUID gameId);
 
     public void removeGame(UUID gameId);
+
+
+    public void setHighScore(UUID gameId, int wavesSurvived);
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.softwarearchitecture.game_client.ClientMessagingController;
+import com.softwarearchitecture.game_client.Score;
 import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.networking.persistence.DAO;
@@ -19,15 +20,18 @@ public class ClientMessenger implements ClientMessagingController {
     private DAO<String, UUID> joinPlayerDAO;
     private DAO<String, String> gamesDAO;
 
+    private DAO<String, Score> highscoreDAO;
+    
     private final String JOIN_PREFIX = "JOIN";
     private static final String GAME_PREFIX = "GAME";
-    
+        
 
     public ClientMessenger(boolean isMultiplayer) {
         this.gameDAO = new DAOBuilder(!isMultiplayer).build(String.class, byte[].class);
         this.actionDAO = new DAOBuilder(!isMultiplayer).build(UUID.class, PlayerInput.class);
         this.joinPlayerDAO = new DAOBuilder(!isMultiplayer).build(String.class, UUID.class);
         this.gamesDAO = new DAOBuilder(!isMultiplayer).build(String.class, String.class);
+        this.highscoreDAO = new DAOBuilder(!isMultiplayer).build(String.class, Score.class);
     }
     
     @Override
@@ -133,8 +137,23 @@ public class ClientMessenger implements ClientMessagingController {
         return JOIN_PREFIX + gameId.toString();
     }
 
+
     @Override
     public void addAction(PlayerInput action) {
         actionDAO.add(action.getPlayerId(), action);
+    }
+
+
+    @Override
+    public List<Score> getAllHighScores() {
+        List<Score> scores = new ArrayList<>();
+        for (String index : highscoreDAO.loadAllIndices()) {
+                Optional<Score> possibleScore = highscoreDAO.get(index);
+                if (possibleScore.isPresent()) {
+                    Score score = possibleScore.get();
+                    scores.add(score);
+                }
+        }
+        return scores;
     }
 }

@@ -128,7 +128,6 @@ public class AttackSystem implements System {
 
 
     private void attackEnemy(Entity tower, Entity enemy, int damage, boolean isAreaOfEffect) {
-        java.lang.System.out.println("Angriper!");
         ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
         if (towerComp.isPresent()) {
