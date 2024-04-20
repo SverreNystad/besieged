@@ -1,0 +1,54 @@
+@startuml
+
+package "launcher" {
+    
+}
+
+package "gameClient" {
+    
+}
+
+package "gameServer" {
+
+}
+
+package "input" {
+    
+}
+
+package "networking" {
+    
+}
+
+package "sound" {
+    
+}
+
+' package "utils" {
+    
+' }
+
+package "graphics" {
+    
+}
+
+launcher --> gameClient : creates
+
+launcher --> input : uses
+launcher --> networking : uses
+launcher --> sound : uses
+' launcher --> utils : uses
+launcher --> graphics : uses
+launcher --> gameServer : uses
+
+input --> gameClient : implements
+networking --> gameClient : implements
+sound --> gameClient : implements
+' utils --> gameClient : implements
+graphics --> gameClient : implements
+gameServer --> gameClient : implements
+
+gameClient --> gameServer : launches
+
+
+@enduml
