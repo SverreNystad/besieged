@@ -98,7 +98,6 @@ public class EnemySystem implements System {
         }
         // Get the wave entity
         WaveComponent wave = WaveManager.getComponent(this.waveEntity).get();
-        java.lang.System.out.println("Wave number: " + wave.waveNumber + " Wave size: " + wave.waveSize + " Wave timer: " + wave.waveTimer + " Monster counter: " + wave.monsterCounter + " Live monster counter: " + wave.liveMonsterCounter + " Max live monsters: " + wave.maxLiveMonsters + " Spawn timer: " + wave.spawnTimer);
 
         // Set this.village to the village entity, but only once
         if (firstUpdate == true) {
@@ -254,14 +253,9 @@ public class EnemySystem implements System {
             wave.waveTimer = wave.waveDuration;
             wave.spawnTimer = 0f;
             wave.maxLiveMonsters++;
-            java.lang.System.out.println("Updated values");
-            java.lang.System.out.println("Wave number: " + wave.waveNumber + " Wave size: " + wave.waveSize + " Wave timer: " + wave.waveTimer + " Monster counter: " + wave.monsterCounter + " Live monster counter: " + wave.liveMonsterCounter + " Max live monsters: " + wave.maxLiveMonsters + " Spawn timer: " + wave.spawnTimer);
-
         }
 
         updateWaveNumberDisplay();
-        
-        // Copy wave entity to the server
     }
 
     private void awardPlayerMoney(Entity village, Entity enemy) {
