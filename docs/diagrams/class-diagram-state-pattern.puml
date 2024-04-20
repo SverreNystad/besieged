@@ -1,0 +1,51 @@
+@startuml
+
+class State {
+    - screenManager : ScreenManager
+    - mouse : Vector2
+    - buttons : List<Entity>
+    - defaultControllers : Controllers
+    - yourId : UUID
+    + init() : void
+    + activate() : void
+}
+
+class Menu extends State {
+}
+
+class GameOver extends State {
+}
+
+class Tutorial extends State {
+}
+
+class JoinLobby extends State {
+}
+
+
+
+class Options extends State {
+}
+
+class Multiplayer extends State {
+}
+
+class InGame extends State {
+}
+
+class ScreenManager {
+    - currentState : State
+    - stateChanged : Boolean
+    - stateStack : Deque<State>
+    - instance : ScreenManager
+    - gameId : UUID
+    - updateState(newState : State) : void
+    - getCurrentState() : State
+    - goToPreviousState() : void
+    - clearStates() : void
+    + getInstance() : ScreenManager
+}
+
+ScreenManager "1" *-- "*" State : manages >
+
+@enduml
