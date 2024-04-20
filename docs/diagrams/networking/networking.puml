@@ -9,9 +9,6 @@ package "networking" {
     '     +add(object : Type) : boolean
     ' }
     ' note left of DAO : follows DataBase Access\n Object pattern
-    package persistence {
-
-    }
     
     package messaging {
 
@@ -69,7 +66,8 @@ package "game_server"{
 }
 
 messaging -up-|> ClientMessagingController
-messaging -left-|> ServerMessagingController 
+messaging -down-|> ServerMessagingController 
+
 
 ClientMessagingController -down-> PlayerInput
 ClientMessagingController -down-> GameState
