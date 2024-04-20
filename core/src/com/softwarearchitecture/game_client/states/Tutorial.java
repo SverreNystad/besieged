@@ -14,11 +14,11 @@ import com.softwarearchitecture.game_client.Controllers;
 import com.softwarearchitecture.game_client.TexturePack;
 import com.softwarearchitecture.math.Vector2;
 
-public class Tutorial extends State implements Observer  {
+public class Tutorial extends State implements Observer {
 
     protected Tutorial(Controllers defaultControllers, UUID yourId) {
         super(defaultControllers, yourId);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Tutorial extends State implements Observer  {
     protected void activate() {
 
         // set background image
-        String backgroundPath = TexturePack.BACKGROUND_VIKING_BATTLE_FIRE;
+        String backgroundPath = TexturePack.BACKGROUND_TUTORIAL;
         SpriteComponent backgroundSprite = new SpriteComponent(backgroundPath, new Vector2(1, 1));
         PositionComponent backgroundPosition = new PositionComponent(new Vector2(0f, 0f), -1);
         Entity background = new Entity();
@@ -45,19 +45,9 @@ public class Tutorial extends State implements Observer  {
         background.addComponent(PositionComponent.class, backgroundPosition);
         ECSManager.getInstance().addLocalEntity(background);
 
-
-        // add text
-        TextComponent textComponent = new TextComponent("Combine cards to build towers in order to prevent enemies from reaching your base. If your base's health reaches zero, the game is over.", new Vector2(0.05f, 0.05f));
-        PositionComponent textPosition = new PositionComponent(new Vector2(0.0f, 0.75f), 0);
-        Entity text = new Entity();
-        text.addComponent(TextComponent.class, textComponent);
-        text.addComponent(PositionComponent.class, textPosition);
-        ECSManager.getInstance().addLocalEntity(text);
-
-
         // add buttons
-        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.30f / 2f, 0.10f), new Vector2(0.30f, 0.10f), this, 0);
-
+        ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK, new Vector2(0.5f - 0.30f / 2f, 0.10f),
+                new Vector2(0.30f, 0.10f), this, 0);
 
         // Add systems to the ECSManager
         RenderingSystem renderingSystem = new RenderingSystem(defaultControllers.graphicsController);
@@ -65,5 +55,5 @@ public class Tutorial extends State implements Observer  {
         ECSManager.getInstance().addSystem(renderingSystem);
         ECSManager.getInstance().addSystem(inputSystem);
     }
-    
+
 }
