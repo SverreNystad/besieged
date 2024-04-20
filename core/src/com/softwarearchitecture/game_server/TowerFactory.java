@@ -42,12 +42,6 @@ public class TowerFactory {
         String sound = AudioPack.PLACING_CARD;
         float timeFactor = 1f;
 
-        // Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
-
-        // if (!towerType.isPresent()) {
-        // throw new IllegalArgumentException("Invalid tower type combination");
-        // }
-
         AreaOfEffectComponent areaOfEffectComponent = null;
 
         switch (towerType) {
