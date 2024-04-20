@@ -1,7 +1,7 @@
 @startuml
 
 frame "Arrow definitions" {
-    note "creates: A creates some instance of class in B\nuses: A uses some instance/implementation of class in B\nimplements: A implements some interface in B" as definitionNote
+    note "creates: One or more classes in A creates some instance of class in B\nuses: One or more classes in A uses some instance/implementation of class in B\nimplements: One or more classes in A implements some interface(s) in B" as definitionNote
 }
 
 package "clock" {
