@@ -50,8 +50,8 @@ public class Multiplayer extends State implements Observer {
 
         // Add the sign in button
         Entity logo = new Entity();
-        SpriteComponent logoSprite = new SpriteComponent(TexturePack.SIGN, new Vector2(0.5f, 1f));
-        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, 0f), 1);
+        SpriteComponent logoSprite = new SpriteComponent(TexturePack.SIGN, new Vector2(0.5f, 1.2f));
+        PositionComponent logoPosition = new PositionComponent(new Vector2(0.5f - 0.25f, -0.1f), 1);
         logo.addComponent(SpriteComponent.class, logoSprite);
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addLocalEntity(logo);
@@ -71,10 +71,10 @@ public class Multiplayer extends State implements Observer {
                 new Vector2(0.503f, translateY + (buttonHeight + gap) * 2),
                 new Vector2(buttonWidth, buttonHeight), this, 2));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.HIGHSCORES,
-                new Vector2(0.5f - 0.35f / 2, translateY + (buttonHeight + gap) * 0),
+                new Vector2(0.5f - 0.35f / 2, translateY + (buttonHeight + gap) * 1),
                 new Vector2(0.35f, buttonHeight), this, 2));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK_MENU,
-                new Vector2(0.495f - 0.35f / 2, translateY + (buttonHeight + gap) * 1),
+                new Vector2(0.495f - 0.35f / 2, translateY + (buttonHeight + gap) * 0),
                 new Vector2(0.35f, buttonHeight), this, 2));
     }
 
