@@ -70,6 +70,9 @@ public class Multiplayer extends State implements Observer {
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.HOST,
                 new Vector2(0.503f, translateY + (buttonHeight + gap) * 2),
                 new Vector2(buttonWidth, buttonHeight), this, 2));
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.HIGHSCORES,
+                new Vector2(0.5f - 0.35f / 2, translateY + (buttonHeight + gap) * 0),
+                new Vector2(0.35f, buttonHeight), this, 2));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK_MENU,
                 new Vector2(0.495f - 0.35f / 2, translateY + (buttonHeight + gap) * 1),
                 new Vector2(0.35f, buttonHeight), this, 2));
@@ -94,6 +97,11 @@ public class Multiplayer extends State implements Observer {
             case HOST:
                 System.out.println("Host button pressed");
                 screenManager.nextState(new ChooseMap(defaultControllers, yourId, true));
+                break;
+
+            case HIGHSCORES:
+                System.out.println("Highscores button pressed");
+                screenManager.nextState(new Highscores(defaultControllers, yourId));
                 break;
 
             case BACK_MENU:

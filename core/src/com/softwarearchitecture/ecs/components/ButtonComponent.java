@@ -30,7 +30,7 @@ public class ButtonComponent implements Serializable {
         CARD,
         ABYSS,
         TEST, AVAILABLE_LOBBY,
-        TUTORIAL,
+        TUTORIAL, HIGHSCORES,
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, ButtonEnum type, int z_index, Runnable callback) {
