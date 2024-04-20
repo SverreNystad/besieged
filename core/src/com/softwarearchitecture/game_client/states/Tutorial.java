@@ -2,7 +2,6 @@ package com.softwarearchitecture.game_client.states;
 
 import java.util.UUID;
 
-import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.systems.InputSystem;
 import com.softwarearchitecture.ecs.systems.RenderingSystem;
 import com.softwarearchitecture.ecs.ECSManager;
