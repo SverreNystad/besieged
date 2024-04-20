@@ -66,7 +66,7 @@
     <summary><b>Android SDK (if you want to run the game on Android)</b></summary>
     When testing the Android app one can run it either by connecting your Android phone via USB to your computer, or you could use an Android emulator (virtual device). To do this, you need to have the Android SDK installed. 
 </ul>
-Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable for being able to run the game.
+Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable to be able to run the game. 
 
 ### Installing
 To install the project, you can use the following commands:
