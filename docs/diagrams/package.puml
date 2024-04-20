@@ -1,0 +1,72 @@
+@startuml
+
+frame "Arrow definitions" {
+    note "creates: One or more classes in A creates some instance of class in B\nuses: One or more classes in A uses some instance/implementation of class in B\nimplements: One or more classes in A implements some interface(s) in B" as definitionNote
+}
+
+package "clock" {
+
+}
+
+package "ecs" {
+
+}
+
+package "game_client" {
+    
+}
+
+package "game_server" {
+
+}
+
+package "graphics" {
+    
+}
+
+package "input" {
+    
+}
+
+package "launcher" {
+    
+}
+
+package "math" {
+    note "This is a self defined math classes we use.\nIt's used by a lot of packages,\nso to avoid cluttering the diagram,\nit's not shown here." as mathNote
+}
+
+package "networking" {
+    
+}
+
+package "sound" {
+    
+}
+
+math -[hidden]up-> "Arrow definitions"
+
+launcher --> game_client : creates
+launcher --> game_server : creates
+
+launcher --> input : uses
+launcher --> graphics : uses
+launcher --> sound : uses
+launcher --> networking : uses
+
+graphics --> ecs : implements
+input --> ecs : implements
+sound --> ecs : implements
+
+networking --> game_client : implements
+networking --> game_server : implements
+
+game_client -down-> ecs : uses
+game_server -down-> ecs : uses
+
+game_server --> clock : uses
+game_client --> clock : uses
+
+game_client -right-> game_server : uses
+
+@enduml
