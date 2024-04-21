@@ -181,8 +181,6 @@ public class EnemySystem implements System {
                 if (!claimedReward) {
                     awardPlayerMoney(village, entity);
                     enemy.get().claimedReward = true;
-                    enemy.get().isDead = true;
-
                 }
             }
         }
