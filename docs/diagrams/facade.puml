@@ -1,0 +1,31 @@
+@startuml
+
+package "rest_of_system" {
+    [core logic] <|-- [facadeInterfaces]
+}
+
+package "Input" {
+    [facadeInterfaces] <|-- [InputController] : use
+}
+
+package "Graphics" {
+    [facadeInterfaces] <|-- [GraphicsController] : use
+    
+}
+
+package "Sound" {
+    
+    [facadeInterfaces] <|-- [AudioController] : use
+}
+
+package "libGDX" {
+    [GraphicsController] ..> [libGDX Graphics] : depends on
+    [InputController] ..> [libGDX Input] : depends on
+    [AudioController] ..> [libGDX Audio] : depends on
+}
+
+[libGDX Graphics] <-- [libGDX] : part of
+[libGDX Input] <-- [libGDX] : part of
+[libGDX Audio] <-- [libGDX] : part of
+
+@enduml
