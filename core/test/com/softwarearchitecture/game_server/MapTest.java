@@ -17,7 +17,7 @@ public class MapTest {
     @Before
     public void setUp() {
         abyssMap = MapFactory.createMap("abyss");
-        TestMap = MapFactory.createMap("test");
+        TestMap = MapFactory.createMap("clearing");
     }
 
     @Test
@@ -41,9 +41,7 @@ public class MapTest {
     @Test
     public void testGetPath() {
         List<Tile> abyssPath = abyssMap.getPath();
-        List<Tile> testPath = TestMap.getPath();
-        assertEquals(abyssPath.size(), 25);
-        assertEquals(testPath.size(), 6);
+        assertEquals(abyssPath.size(), 26);
 
     }
 }

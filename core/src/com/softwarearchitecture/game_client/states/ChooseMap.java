@@ -113,8 +113,8 @@ public class ChooseMap extends State implements Observer {
                 break;
 
             case TEST:
-                System.out.println("Test map button pressed");
-                map = "test";
+                System.out.println("clearing map button pressed");
+                map = "clearing";
                 break;
 
             case BACK:
