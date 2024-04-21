@@ -11,7 +11,7 @@ import com.softwarearchitecture.game_client.Score;
 import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.networking.persistence.DAO;
-import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.softwarearchitecture.networking.persistence.DAOFactory;
 
 public class ClientMessenger implements ClientMessagingController {
 
@@ -19,7 +19,6 @@ public class ClientMessenger implements ClientMessagingController {
     private DAO<UUID, PlayerInput> actionDAO;
     private DAO<String, UUID> joinPlayerDAO;
     private DAO<String, String> gamesDAO;
-
     private DAO<String, Score> highscoreDAO;
     
     private final String JOIN_PREFIX = "JOIN";
@@ -28,11 +27,11 @@ public class ClientMessenger implements ClientMessagingController {
         
 
     public ClientMessenger(boolean isMultiplayer) {
-        this.gameDAO = new DAOBuilder(!isMultiplayer).build(String.class, byte[].class);
-        this.actionDAO = new DAOBuilder(!isMultiplayer).build(UUID.class, PlayerInput.class);
-        this.joinPlayerDAO = new DAOBuilder(!isMultiplayer).build(String.class, UUID.class);
-        this.gamesDAO = new DAOBuilder(!isMultiplayer).build(String.class, String.class);
-        this.highscoreDAO = new DAOBuilder(!isMultiplayer).build(String.class, Score.class);
+        this.gameDAO = new DAOFactory<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
+        this.actionDAO = new DAOFactory<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        this.joinPlayerDAO = new DAOFactory<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
+        this.gamesDAO = new DAOFactory<String, String>(!isMultiplayer).build(String.class, String.class);
+        this.highscoreDAO = new DAOFactory<String, Score>(!isMultiplayer).build(String.class, Score.class);
     }
     
     @Override

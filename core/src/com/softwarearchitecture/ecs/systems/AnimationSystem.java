@@ -12,7 +12,12 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.System;
 
 /**
- * AnimationSystem is responsible for updating the path of spriteComponent.
+ * The {@code AnimationSystem} class updates animation frames of entities based on the elapsed time.
+ * This system handles the interaction between {@link SpriteComponent} and {@link AnimationComponent}
+ * to update and animate sprites accordingly during each frame of the game loop.
+ *
+ * It uses component managers to fetch relevant components from entities and applies frame updates
+ * based on the delta time provided by the game loop.
  */
 public class AnimationSystem implements System {
 
@@ -27,6 +32,15 @@ public class AnimationSystem implements System {
         this.animationManager = ECSManager.getInstance().getOrDefaultComponentManager(AnimationComponent.class);
     }
 
+    /**
+     * Updates the sprite and animation components of all entities provided.
+     * This method is called every game loop iteration with the set of entities
+     * that might contain {@link SpriteComponent} and {@link AnimationComponent} to update
+     * their animation state based on the provided delta time.
+     *
+     * @param entities  The set of entities to be updated.
+     * @param deltaTime The time elapsed since the last update, used to determine the current frame of the animation.
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         for (Entity entity : entities) {

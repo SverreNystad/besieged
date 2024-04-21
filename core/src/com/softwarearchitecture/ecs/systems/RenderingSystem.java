@@ -17,10 +17,14 @@ import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.GraphicsController;
 
 /**
- * RenderingSystem is responsible for rendering entities that have a
- * SpriteComponent.
- * It implements the System interface and defines logic in the update method to
- * render entities.
+ * The {@code RenderingSystem} is responsible for rendering visual components of entities within the game,
+ * such as sprites and text, based on their positional data and visibility settings. This system ensures
+ * that all graphical elements are drawn in the correct order and at the right location on the screen,
+ * taking into account their z-index to handle overlapping elements properly.
+ *
+ * <p>Entities with {@link SpriteComponent} and {@link TextComponent} are sorted and rendered according to
+ * their depth (z-index) to maintain the correct visual stacking. Health components are also rendered to
+ * provide visual feedback on entity health status.</p>
  */
 public class RenderingSystem implements System {
     private ComponentManager<SpriteComponent> drawableManager;
@@ -53,6 +57,14 @@ public class RenderingSystem implements System {
         }
     }
 
+    /**
+     * Updates the rendering state of the game by determining which components to draw based on their
+     * component states and z-index. This method handles the sorting of graphical components and calls
+     * the appropriate rendering functions in the graphics controller.
+     *
+     * @param entities   the set of entities to render
+     * @param deltaTime  the time since the last update, not used here as rendering is typically independent of time
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) throws IllegalStateException {
         if (graphicsController == null) {

@@ -2,7 +2,6 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
-import com.softwarearchitecture.game_server.PairableCards;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 
 public class TowerComponent implements Serializable {

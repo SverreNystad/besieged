@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.checkerframework.checker.units.qual.t;
-
 import com.softwarearchitecture.ecs.ComponentManager;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.ecs.Entity;
@@ -19,23 +17,22 @@ import com.softwarearchitecture.ecs.components.HealthComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.game_server.Map;
-import com.softwarearchitecture.game_server.PairableCards;
 import com.softwarearchitecture.game_server.TowerFactory;
 import com.softwarearchitecture.math.Vector2;
 
 
 /**
+ * The {@code AttackSystem} class manages the interaction between tower entities and enemy entities,
+ * enabling towers to attack enemies within their range. It utilizes several component managers to
+ * facilitate the retrieval and updating of necessary components such as {@link TowerComponent},
+ * {@link EnemyComponent}, and {@link HealthComponent}.
  * 
- * Class responsible for handling attacks of Towers on enemies.
+ * <p>This system checks the proximity of each tower to potential enemy targets, applying damage if
+ * enemies are within attack range. It supports both single-target and area-of-effect attacks,
+ * depending on the tower's specifications.</p>
  * 
- * <p>
- * @param entities All entities in the game
- * @param deltaTime The time between frames
- * </p>
- * 
- * Loops through all tower-entities. If there are enemies within the range of the tower, it
- * decrements their health-component by the towers' damage-component.
- * 
+ * <p>It also has the capability to 'copy' a tower through the {@link TowerFactory}, simulating effects
+ * like replication or cloning as a gameplay mechanic.</p>
  */
 public class AttackSystem implements System {
     private final Map gameMap;
@@ -45,12 +42,15 @@ public class AttackSystem implements System {
         this.gameMap = gameMap;
     }
 
-    private Vector2 convertRangeToUVDistance(float range) {
-        float tileWidth = gameMap.getTileWidth();
-        float tileHeight = gameMap.getTileHeight();
-        return new Vector2(range * tileWidth, range * tileHeight);
-    }
-    
+
+    /**
+     * Updates the attack state of all towers, enabling them to attack enemies within their range.
+     * This method processes each entity, distinguishing between towers and enemies, and handles
+     * their interactions based on proximity and attack capabilities.
+     *
+     * @param entities   the set of all active entities that may include both towers and enemies
+     * @param deltaTime  the time elapsed since the last update, used for managing attack timings
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         List<Entity> towers = new ArrayList<>();
@@ -76,9 +76,9 @@ public class AttackSystem implements System {
             int damage = towerComponent.getDamage();
             Vector2 uvDistance = convertRangeToUVDistance(range);
 
+            // Handle area of effect if applicable
             Optional<AreaOfEffectComponent> areaOfEffectComponent = tower.getComponent(AreaOfEffectComponent.class);
             if (areaOfEffectComponent.isPresent()) {
-                // If the tower has an area of affect, attack all enemies within the range
                 for (Entity enemy : enemies) {
                     Vector2 enemyPosition = enemy.getComponent(PositionComponent.class).get().position;
                     float distance = Vector2.dst(towerPosition, enemyPosition);
@@ -90,8 +90,9 @@ public class AttackSystem implements System {
                 towerComponent.resetAttackTimer();
                 continue; // Skip to next tower
             }
-            // Check if the tower is already attacking an enemy and if that enemy is still in range
             
+            // Handle individual attacks
+            // Check if the tower is already attacking an enemy and if that enemy is still in range
             if (activeAttacks.containsKey(tower)) {
                 Entity currentEnemy = activeAttacks.get(tower);
                 if (currentEnemy != null && entities.contains(currentEnemy)) {
@@ -126,7 +127,29 @@ public class AttackSystem implements System {
         }
     }
 
+    
+    /**
+     * Converts a range in game units to a vector representing distance in UV coordinates,
+     * based on the tile dimensions of the game map.
+     *
+     * @param range the range in game units
+     * @return a {@code Vector2} representing the distance in UV coordinates
+     */
+    private Vector2 convertRangeToUVDistance(float range) {
+        float tileWidth = gameMap.getTileWidth();
+        float tileHeight = gameMap.getTileHeight();
+        return new Vector2(range * tileWidth, range * tileHeight);
+    }
 
+    /**
+     * Performs an attack on an enemy entity by a tower entity. It manages health reduction, animations,
+     * and sound effects based on whether the attack is a standard or area of effect.
+     *
+     * @param tower            the tower performing the attack
+     * @param enemy            the enemy being attacked
+     * @param damage           the damage to apply to the enemy's health
+     * @param isAreaOfEffect   indicates whether the attack is an area effect
+     */
     private void attackEnemy(Entity tower, Entity enemy, int damage, boolean isAreaOfEffect) {
         ComponentManager<TowerComponent> towerManager = ECSManager.getInstance().getOrDefaultComponentManager(TowerComponent.class);
         Optional<TowerComponent> towerComp = towerManager.getComponent(tower);
@@ -149,6 +172,12 @@ public class AttackSystem implements System {
 
     }
 
+    /**
+     * Replicates a tower entity when a specific gameplay mechanic is triggered,
+     * effectively cloning the tower and placing the new instance into the game world.
+     *
+     * @param tower the tower to copy
+     */
     private void copyTower(Entity tower) {
         Entity newTowerEntity = TowerFactory.copyTower(tower);
         if (newTowerEntity != null) {

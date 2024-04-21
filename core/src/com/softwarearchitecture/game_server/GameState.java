@@ -36,15 +36,21 @@ import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VelocityComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
-import com.softwarearchitecture.game_server.cards.elemental_cards.IceCard;
-import com.softwarearchitecture.game_server.cards.elemental_cards.LightningCard;
-import com.softwarearchitecture.game_server.cards.elemental_cards.TechnologyCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.BowCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.MagicCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.MeleeCard;
-import com.softwarearchitecture.game_server.cards.tower_cards.PowerCard;
+import com.softwarearchitecture.game_server.cards.BowCard;
+import com.softwarearchitecture.game_server.cards.IceCard;
+import com.softwarearchitecture.game_server.cards.LightningCard;
+import com.softwarearchitecture.game_server.cards.MagicCard;
+import com.softwarearchitecture.game_server.cards.TechnologyCard;
 
-
+/**
+ * The {@code GameState} class is responsible for serializing and deserializing the game's state,
+ * ensuring that game data can be transmitted between the server and clients in a multiplayer setting.
+ * This class handles all critical game data necessary to recreate the game environment at any point
+ * in time across different systems.
+ *
+ * <p>This includes player data, entity components, and any dynamic changes that occur during gameplay,
+ * allowing the game state to be fully restored or updated from a serialized form.</p>
+ */
 public class GameState implements Externalizable {
 
     public static final List<Class<? extends Card>> card_classes = new ArrayList<Class<? extends Card>>(
@@ -53,9 +59,7 @@ public class GameState implements Externalizable {
             LightningCard.class,
             TechnologyCard.class,
             BowCard.class,
-            MagicCard.class,
-            MeleeCard.class,
-            PowerCard.class
+            MagicCard.class
             )
     );
 

@@ -30,9 +30,17 @@ import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
 
 /**
- * This class is supposed to check if enemies are at the end of the map, and if
- * so despawns them
- * 
+ * The {@code EnemySystem} class is responsible for managing enemy behaviors within the game, 
+ * including their movement along paths, health management, and interactions with other entities 
+ * such as the player's village. It handles the spawning of enemies, their removal upon reaching 
+ * the end of a path or being defeated, and updates the game state based on these events.
+ *
+ * <p>Enemies that reach the endpoint of a path will deal damage to the village, potentially
+ * leading to game over conditions if the village's health reaches zero. The system also manages
+ * wave timing, spawning enemies in waves, and increasing difficulty with each wave.</p>
+ *
+ * <p>This system also interacts with various other components and managers to update game state,
+ * display health, manage money rewards for defeating enemies, and other gameplay elements.</p>
  */
 public class EnemySystem implements System {
     private ComponentManager<PositionComponent> positionManager;
@@ -83,6 +91,14 @@ public class EnemySystem implements System {
         this.gameOverObserver = gameOverObserver;
     }
 
+    /**
+     * Updates the enemy system, processing each enemy entity to manage movements, health, 
+     * and interactions with the game world, such as reaching the village or being defeated.
+     * Also manages spawning of new enemies based on timing and wave conditions.
+     *
+     * @param entities   the set of all entities to be processed this update cycle
+     * @param deltaTime  the time elapsed since the last update, used for timing events like spawning
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         

@@ -9,7 +9,7 @@ import java.util.UUID;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.ServerMessagingController;
 import com.softwarearchitecture.networking.persistence.DAO;
-import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.softwarearchitecture.networking.persistence.DAOFactory;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_client.Score;
