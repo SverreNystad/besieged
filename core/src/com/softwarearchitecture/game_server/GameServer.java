@@ -20,6 +20,7 @@ import com.softwarearchitecture.ecs.components.TextComponent;
 import com.softwarearchitecture.ecs.components.TileComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.ecs.components.VillageComponent;
+import com.softwarearchitecture.ecs.components.WaveComponent;
 import com.softwarearchitecture.ecs.systems.AnimationSystem;
 import com.softwarearchitecture.ecs.systems.AttackSystem;
 import com.softwarearchitecture.ecs.systems.EnemySystem;
@@ -172,6 +173,9 @@ public class GameServer {
         }
 
         // Teardown of server and delete game from games listing
+        WaveComponent waveComponent = ECSManager.getInstance().getLocalEntities().stream()
+                .filter(e -> e.getComponent(WaveComponent.class).isPresent()).findFirst().get().getComponent(WaveComponent.class).get();
+        messageController.setHighScore(gameId, waveComponent.waveNumber);
         messageController.removeGame(gameId);
     }
 

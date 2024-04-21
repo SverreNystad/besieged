@@ -41,4 +41,9 @@ public interface ClientMessagingController {
      * @return a list of all games that are currently available
      */
     public List<GameState> getAllAvailableGames();
+
+    /**
+     * Get all high scores.
+     */
+    public List<Score> getAllHighScores();
 }
