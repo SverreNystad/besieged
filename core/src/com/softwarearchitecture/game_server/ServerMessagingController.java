@@ -42,8 +42,18 @@ public interface ServerMessagingController {
      */
     public Optional<UUID> lookForPendingPlayer(UUID gameId);
 
+    /**
+     * Removes a game from the server.
+     * 
+     * @param gameId the UUID of the game to remove
+     */
     public void removeGame(UUID gameId);
 
-
+    /**
+     * Sets the high score for a game based on the number of waves survived.
+     * 
+     * @param gameId the UUID of the game
+     * @param wavesSurvived the number of waves survived
+     */
     public void setHighScore(UUID gameId, int wavesSurvived);
 }

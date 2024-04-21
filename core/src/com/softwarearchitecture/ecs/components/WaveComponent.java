@@ -6,6 +6,7 @@ public class WaveComponent {
     public int waveSize;
     public int monsterCounter;
     public float spawnTimer;
+    public float spawnDuration;
     public float waveDuration;
     public float waveTimer;
     public int maxLiveMonsters;
@@ -15,6 +16,7 @@ public class WaveComponent {
         this.waveNumber = waveNumber;
         this.waveSize = waveSize;
         this.spawnTimer = spawnTimer;
+        this.spawnDuration = 3f;
         this.maxLiveMonsters = maxLiveMonsters;
         this.waveDuration = waveDuration;
         this.waveTimer = waveDuration;
