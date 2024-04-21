@@ -84,7 +84,7 @@ public class ChooseMap extends State implements Observer {
                 new Vector2(0.495f - 0.35f / 2, translateY),
                 new Vector2(0.35f, 0.1f), this, BUTTON_Z_INDEX));
 
-        // Create Preview Image
+        // Create first Preview Image
         Entity mapPreview = new Entity();
         String imagePath = TexturePack.PREVIEW_ABYSS;
         SpriteComponent mapPreviewSprite = new SpriteComponent(imagePath, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
@@ -92,6 +92,15 @@ public class ChooseMap extends State implements Observer {
         mapPreview.addComponent(SpriteComponent.class, mapPreviewSprite);
         mapPreview.addComponent(PositionComponent.class, mapPreviewPosition);
         ECSManager.getInstance().addLocalEntity(mapPreview);
+
+        // Create second Preview Image
+        Entity mapPreview2 = new Entity();
+        String imagePath2 = TexturePack.PREVIEW_CLEARING;
+        SpriteComponent mapPreviewSprite2 = new SpriteComponent(imagePath2, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
+        PositionComponent mapPreviewPosition2 = new PositionComponent(new Vector2(0.77f - buttonWidth - 0.01f, translateY + 0.31f), MAP_PREVIEW_Z_INDEX); // Adjust the position as necessary
+        mapPreview2.addComponent(SpriteComponent.class, mapPreviewSprite2);
+        mapPreview2.addComponent(PositionComponent.class, mapPreviewPosition2);
+        ECSManager.getInstance().addLocalEntity(mapPreview2);
     }
 
     /**

@@ -17,7 +17,8 @@ public class TexturePack {
     public static final String BACKGROUND_TUTORIAL = "gui/backgrounds/tutorial.png";
 
     // Previews of maps
-    public static final String PREVIEW_ABYSS = "gui/map_previews/besieged_abyss_map.png";
+    public static final String PREVIEW_ABYSS = "gui/map_previews/abyss_preview.png";
+    public static final String PREVIEW_CLEARING = "gui/map_previews/clearing_preview.png";
 
     // Tiles
     public static final String PLACEABLE = "grass.png";
