@@ -200,8 +200,9 @@ public class EnemySystem implements System {
 
                 mob = EnemyFactory.createEnemy(randomEnemy, path, tileSize);
                 ECSManager.getInstance().addLocalEntity(mob);
-
-                wave.spawnTimer = 1f;
+                wave.monsterCounter++;
+                wave.liveMonsterCounter++;
+                wave.spawnTimer = wave.spawnDuration;
             }
             // If the max number of enemies has been met, check if any of them are dead
             else {
@@ -268,6 +269,7 @@ public class EnemySystem implements System {
             wave.waveSize += wave.waveNumber * 2 - 2;
             wave.waveTimer = wave.waveDuration;
             wave.spawnTimer = 0f;
+            wave.spawnDuration -= 0;
             wave.maxLiveMonsters++;
         }
 
