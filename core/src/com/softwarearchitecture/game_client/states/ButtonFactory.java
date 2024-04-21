@@ -132,7 +132,10 @@ public class ButtonFactory {
                 texture = TexturePack.BUTTON_TUTORIAL;
                 break;
             case HIGHSCORES:
-                texture = TexturePack.BUTTON_TUTORIAL;
+                texture = TexturePack.BUTTON_HIGHSCORES;
+                break;
+            case CLEARING:
+                texture = TexturePack.BUTTON_CLEARING;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid button type");

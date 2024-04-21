@@ -48,6 +48,8 @@ public class TexturePack {
     public static final String BUTTON_TEST = "gui/buttons/test.png";
     public static final String BUTTON_AVAILABLE_LOBBY = "gui/buttons/available_lobby.png";
     public static final String BUTTON_TUTORIAL = "gui/buttons/tutorial.png";
+    public static final String BUTTON_CLEARING = "gui/buttons/clearing.png";
+    public static final String BUTTON_HIGHSCORES = "gui/buttons/highscores.png";
 
     // Logo
     public static final String LOGO = "gui/logo.png";

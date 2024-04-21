@@ -24,6 +24,7 @@ public class ChooseMap extends State implements Observer {
     private final int MAP_PREVIEW_Z_INDEX = PAGE_Z_INDEX + 3;
 
     private boolean isMultiplayer;
+
     /**
      * Generic state is a state that can be used for multiple purposes
      * for different types of menus.
@@ -62,8 +63,6 @@ public class ChooseMap extends State implements Observer {
         logo.addComponent(PositionComponent.class, logoPosition);
         ECSManager.getInstance().addLocalEntity(logo);
 
-        
-
         // Set up the UI elements
         List<Entity> buttons = new ArrayList<>();
         float buttonWidth = 0.25f;
@@ -77,7 +76,7 @@ public class ChooseMap extends State implements Observer {
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.ABYSS,
                 new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.25f),
                 new Vector2(buttonWidth, buttonHeight), this, BUTTON_Z_INDEX));
-        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.TEST,
+        buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.CLEARING,
                 new Vector2(0.5f + 0.01f, translateY + 0.25f),
                 new Vector2(buttonWidth, buttonHeight), this, BUTTON_Z_INDEX));
         buttons.add(ButtonFactory.createAndAddButtonEntity(ButtonEnum.BACK,
@@ -87,8 +86,12 @@ public class ChooseMap extends State implements Observer {
         // Create first Preview Image
         Entity mapPreview = new Entity();
         String imagePath = TexturePack.PREVIEW_ABYSS;
-        SpriteComponent mapPreviewSprite = new SpriteComponent(imagePath, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
-        PositionComponent mapPreviewPosition = new PositionComponent(new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.31f), MAP_PREVIEW_Z_INDEX); // Adjust the position as necessary
+        SpriteComponent mapPreviewSprite = new SpriteComponent(imagePath,
+                new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
+        PositionComponent mapPreviewPosition = new PositionComponent(
+                new Vector2(0.5f - buttonWidth - 0.01f, translateY + 0.31f), MAP_PREVIEW_Z_INDEX); // Adjust the
+                                                                                                   // position as
+                                                                                                   // necessary
         mapPreview.addComponent(SpriteComponent.class, mapPreviewSprite);
         mapPreview.addComponent(PositionComponent.class, mapPreviewPosition);
         ECSManager.getInstance().addLocalEntity(mapPreview);
@@ -96,8 +99,12 @@ public class ChooseMap extends State implements Observer {
         // Create second Preview Image
         Entity mapPreview2 = new Entity();
         String imagePath2 = TexturePack.PREVIEW_CLEARING;
-        SpriteComponent mapPreviewSprite2 = new SpriteComponent(imagePath2, new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
-        PositionComponent mapPreviewPosition2 = new PositionComponent(new Vector2(0.77f - buttonWidth - 0.01f, translateY + 0.31f), MAP_PREVIEW_Z_INDEX); // Adjust the position as necessary
+        SpriteComponent mapPreviewSprite2 = new SpriteComponent(imagePath2,
+                new Vector2(buttonWidth, buttonHeight - 0.05f)); // Adjust the size as necessary
+        PositionComponent mapPreviewPosition2 = new PositionComponent(
+                new Vector2(0.77f - buttonWidth - 0.01f, translateY + 0.31f), MAP_PREVIEW_Z_INDEX); // Adjust the
+                                                                                                    // position as
+                                                                                                    // necessary
         mapPreview2.addComponent(SpriteComponent.class, mapPreviewSprite2);
         mapPreview2.addComponent(PositionComponent.class, mapPreviewPosition2);
         ECSManager.getInstance().addLocalEntity(mapPreview2);
@@ -121,7 +128,7 @@ public class ChooseMap extends State implements Observer {
                 map = "abyss";
                 break;
 
-            case TEST:
+            case CLEARING:
                 System.out.println("clearing map button pressed");
                 map = "clearing";
                 break;
@@ -134,9 +141,9 @@ public class ChooseMap extends State implements Observer {
             default:
                 throw new IllegalArgumentException("Invalid button type");
         }
-            startServer(map);
+        startServer(map);
         screenManager.setIsLocalServer(!isMultiplayer);
-        
+
         screenManager.nextState(new InGame(defaultControllers, yourId, map));
     }
 
@@ -153,6 +160,6 @@ public class ChooseMap extends State implements Observer {
                     e.printStackTrace();
                 }
             }
-        }, "ServerThread").start(); 
+        }, "ServerThread").start();
     }
 }

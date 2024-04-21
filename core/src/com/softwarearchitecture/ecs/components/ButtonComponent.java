@@ -31,6 +31,7 @@ public class ButtonComponent implements Serializable {
         ABYSS,
         TEST, AVAILABLE_LOBBY,
         TUTORIAL, HIGHSCORES,
+        CLEARING
     }
 
     public ButtonComponent(Vector2 uv_offset, Vector2 uv_size, ButtonEnum type, int z_index, Runnable callback) {
