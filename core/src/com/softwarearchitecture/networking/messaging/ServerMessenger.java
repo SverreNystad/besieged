@@ -27,10 +27,10 @@ public class ServerMessenger implements ServerMessagingController {
     private final String HIGHSCORE_PREFIX = "HIGHSCORE";
 
     public ServerMessenger(boolean isMultiplayer) {
-        gameDao = new DAOBuilder<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
-        pendingPlayerDao = new DAOBuilder<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
-        actionDao = new DAOBuilder<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
-        highscoreDao = new DAOBuilder<String, Score>(!isMultiplayer).build(String.class, Score.class);
+        gameDao = new DAOFactory<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
+        pendingPlayerDao = new DAOFactory<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
+        actionDao = new DAOFactory<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        highscoreDao = new DAOFactory<String, Score>(!isMultiplayer).build(String.class, Score.class);
     }
 
     @Override
