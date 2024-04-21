@@ -16,6 +16,19 @@ import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 
+
+/**
+ * The {@code AudioSystem} class manages the playback of sound effects and background music
+ * for entities within the game environment. It leverages component managers to access
+ * and manipulate sound-related properties of entities, such as towers, cards, and enemies.
+ * 
+ * <p>This system ensures that sounds are played when certain conditions are met, like the placement
+ * of a card or attack actions of a tower. It also manages continuous playback of background music.</p>
+ * 
+ * <p>Sound playback is contingent upon the presence of {@link SoundComponent} and is further
+ * influenced by other components like {@link PlacedCardComponent}, {@link TowerComponent},
+ * and {@link EnemyComponent}.</p>
+ */
 public class AudioSystem implements System {
     private ComponentManager<SoundComponent> audioManager;
     private SoundController soundController;
@@ -38,6 +51,13 @@ public class AudioSystem implements System {
         towersWithoutSounds.add(TowerType.MAGIC);
     }
 
+    /**
+     * Processes sound actions for all active entities and newly added remote entities.
+     * It plays individual sound effects and background music based on the entity's components and state.
+     *
+     * @param entities   the set of all entities to process for sound actions
+     * @param deltaTime  the time since the last frame, used to manage sound timings
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
 

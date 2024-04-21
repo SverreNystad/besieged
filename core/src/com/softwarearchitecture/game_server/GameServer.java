@@ -31,10 +31,12 @@ import com.softwarearchitecture.math.Vector2;
 import com.softwarearchitecture.math.Vector3;
 
 /**
- * Represents a game server that manages the lifecycle and state of a
- * multiplayer game.
- * The server coordinates game creation, state updates, player actions, the main
- * game loop and teardown after game over.
+ * Represents a game server that coordinates the lifecycle and state of a multiplayer game.
+ * This server manages game creation, state updates, player actions, and the main game loop,
+ * handling communication between clients and the server through message controllers.
+ *
+ * <p>Responsibilities include setting up the game environment, managing player connections,
+ * updating the game state based on player inputs, and ensuring consistent game logic execution.</p>
  */
 public class GameServer {
     private UUID gameId;
@@ -66,10 +68,11 @@ public class GameServer {
     }
 
     /**
-     * Starts the server operation, creating a game instance and entering the main
-     * gameplay loop.
-     * The method handles game setup, player joining, and periodic state updates
-     * until the game ends.
+     * Starts the server, setting up the game environment and entering the main gameplay loop.
+     * Handles all aspects of game initialization including player joining and periodic state updates.
+     *
+     * @param mapName The name of the map to use for setting up the game environment.
+     * @param isMultiplayer A boolean indicating if the game will be multiplayer or single-player.
      */
     public void run(String mapName, boolean isMultiplayer) {
         ServerMessagingController messageController = isMultiplayer ? onlineMessageController : localMessageController;
@@ -172,6 +175,13 @@ public class GameServer {
         messageController.removeGame(gameId);
     }
 
+    /**
+     * Hosts a new game session, setting up initial conditions and waiting for all players to join.
+     *
+     * @param mapName Name of the map on which the game will be played.
+     * @param messageController The message controller to use for this game session.
+     * @return A new {@link GameState} representing the initial state of the game.
+     */
     private GameState hostGame(String mapName, ServerMessagingController messageController) {
         this.gameId = messageController.createGame(mapName);
         System.out.println("[SERVER] Game created with ID: " + gameId);
@@ -187,11 +197,10 @@ public class GameServer {
     }
 
     /**
-     * Waits for the second player to join the game.
-     * This method polls the server state until a second player joins the game.
-     * This is a blocking action.
-     * 
-     * @param gameState The current state of the game.
+     * Waits for the second player to join the game. This method is blocking and will wait until the second player has joined.
+     *
+     * @param gameState The current state of the game to be updated when the second player joins.
+     * @return The UUID of the second player once they have joined.
      */
     private UUID waitForPlayerToJoin(GameState gameState) {
         UUID playerTwoID = null;
