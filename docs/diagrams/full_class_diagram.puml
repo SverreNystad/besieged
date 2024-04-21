@@ -1,0 +1,229 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AnimationComponent
+class AnimationSystem
+class AreaOfAffectComponent
+class AreaOfEffectComponent
+class AttackSystem
+class AudioPack
+class AudioSystem
+class BowCard
+class ButtonComponent
+class ButtonFactory
+class Card
+class CardFactory
+class CardFactoryTest
+class CardHolderComponent
+class ChooseMap
+interface ClientMessagingController << interface >>
+class ClientMessenger
+class Clock
+class ComponentManager<T>
+class Controllers
+class CostComponent
+interface DAO<K, T> << interface >>
+class DAOBuilder<K, T>
+class ECSManager
+class ECSManagerTest
+class EnemyComponent
+class EnemyFactory
+class EnemyFactoryTest
+class EnemySystem
+class Entity
+class FirebaseDAO<K, T>
+class FlameCard
+class GameApp
+class GameAppTest
+class GameClient
+class GameLauncher
+class GameOver
+interface GameOverObserver << interface >>
+class GameOverSystem
+class GameServer
+class GameState
+interface GraphicsController << interface >>
+class HealthComponent
+class HostLobby
+class IceCard
+class InGame
+interface InputController << interface >>
+class InputSystem
+interface JoinGameObserver << interface >>
+class JoinLobby
+class LibGDXGraphics
+class LibGDXInput
+class LibGDXSound
+class LightningCard
+class LocalDAO<K, T>
+class LocalDAOTest
+class MagicCard
+class Map
+class MapFactory
+class MapTest
+class MeleeCard
+class Menu
+class MoneyComponent
+class MovementSystem
+class Multiplayer
+interface Observer << interface >>
+class Options
+class PairableCards
+class PathfindingComponent
+interface PersistenceAccess << interface >>
+class PlacedCardComponent
+class PlayerComponent
+class PlayerInput
+class PositionComponent
+class PowerCard
+class Rectangle
+class RenderingSystem
+class ScreenManager
+interface ServerMessagingController << interface >>
+class ServerMessenger
+class SoundComponent
+interface SoundController << interface >>
+class SpriteComponent
+class State
+interface System << interface >>
+class TechnologyCard
+class TextComponent
+class TexturePack
+class TexturePack
+class Tile
+class TileComponent
+class TileComponentManager
+enum TileType << enumeration >>
+class TouchLocation
+class TowerComponent
+class TowerFactory
+class TowerFactoryTest
+class Tutorial
+class Vector2
+class Vector3
+class VelocityComponent
+class VillageComponent
+class build
+
+AnimationSystem           "1" *-[#595959,plain]-> "spriteManager\n1" ComponentManager          
+AnimationSystem            -[#008200,dashed]-^  System                    
+AttackSystem              "1" *-[#595959,plain]-> "activeAttacks\n*" Entity                    
+AttackSystem              "1" *-[#595959,plain]-> "gameMap\n1" Map                       
+AttackSystem               -[#008200,dashed]-^  System                    
+AudioSystem               "1" *-[#595959,plain]-> "audioManager\n1" ComponentManager          
+AudioSystem               "1" *-[#595959,plain]-> "soundController\n1" SoundController           
+AudioSystem                -[#008200,dashed]-^  System                    
+BowCard                    -[#000082,plain]-^  Card                      
+ButtonComponent           "1" *-[#595959,plain]-> "uv_offset\n1" Vector2                   
+Card                      "1" *-[#595959,plain]-> "costComponent\n1" CostComponent             
+Card                      "1" *-[#595959,plain]-> "placedCardComponent\n1" PlacedCardComponent       
+Card                      "1" *-[#595959,plain]-> "spriteComponent\n1" SpriteComponent           
+CardFactoryTest           "1" *-[#595959,plain]-> "position\n1" Vector2                   
+CardFactoryTest            -[#595959,dashed]->  Vector2                   : "«create»"
+CardHolderComponent       "1" *-[#595959,plain]-> "cardList\n*" Card                      
+ChooseMap                  -[#008200,dashed]-^  Observer                  
+ChooseMap                  -[#000082,plain]-^  State                     
+ClientMessenger            -[#008200,dashed]-^  ClientMessagingController 
+ClientMessenger           "1" *-[#595959,plain]-> "gameDAO\n1" DAO                       
+Controllers               "1" *-[#595959,plain]-> "onlineClientMessagingController\n1" ClientMessagingController 
+Controllers               "1" *-[#595959,plain]-> "gameServer\n1" GameServer                
+Controllers               "1" *-[#595959,plain]-> "graphicsController\n1" GraphicsController        
+Controllers               "1" *-[#595959,plain]-> "inputController\n1" InputController           
+Controllers               "1" *-[#595959,plain]-> "serverMessagingController\n1" ServerMessagingController 
+Controllers               "1" *-[#595959,plain]-> "soundController\n1" SoundController           
+ECSManager                "1" *-[#595959,plain]-> "componentManagers\n*" ComponentManager          
+ECSManager                "1" *-[#595959,plain]-> "localEntities\n*" Entity                    
+ECSManager                "1" *-[#595959,plain]-> "systems\n*" System                    
+ECSManagerTest            "1" *-[#595959,plain]-> "manager\n1" ECSManager                
+ECSManagerTest             -[#595959,dashed]->  Entity                    : "«create»"
+EnemyFactoryTest           -[#595959,dashed]->  Tile                      : "«create»"
+EnemyFactoryTest          "1" *-[#595959,plain]-> "tiles\n*" Tile                      
+EnemyFactoryTest          "1" *-[#595959,plain]-> "tileSize\n1" Vector2                   
+EnemyFactoryTest           -[#595959,dashed]->  Vector2                   : "«create»"
+EnemySystem               "1" *-[#595959,plain]-> "positionManager\n1" ComponentManager          
+EnemySystem               "1" *-[#595959,plain]-> "mob\n1" Entity                    
+EnemySystem               "1" *-[#595959,plain]-> "gameOverObserver\n1" GameOverObserver          
+EnemySystem               "1" *-[#595959,plain]-> "graphicsController\n1" GraphicsController        
+EnemySystem                -[#008200,dashed]-^  System                    
+EnemySystem               "1" *-[#595959,plain]-> "path\n*" Tile                      
+Entity                    "1" *-[#595959,plain]-> "ecs\n1" ECSManager                
+FirebaseDAO                -[#008200,dashed]-^  DAO                       
+FlameCard                  -[#000082,plain]-^  Card                      
+GameApp                   "1" *-[#595959,plain]-> "gameClient\n1" GameClient                
+GameAppTest                -[#595959,dashed]->  GameApp                   : "«create»"
+GameAppTest               "1" *-[#595959,plain]-> "gameApp\n1" GameApp                   
+GameClient                "1" *-[#595959,plain]-> "defaultControllers\n1" Controllers               
+GameClient                "1" *-[#595959,plain]-> "screenManager\n1" ScreenManager             
+GameOver                   -[#008200,dashed]-^  Observer                  
+GameOver                   -[#000082,plain]-^  State                     
+GameOverSystem            "1" *-[#595959,plain]-> "healthManager\n1" ComponentManager          
+GameOverSystem            "1" *-[#595959,plain]-> "observer\n1" GameOverObserver          
+GameOverSystem             -[#008200,dashed]-^  System                    
+GameServer                "1" *-[#595959,plain]-> "gameMap\n1" Map                       
+GameServer                "1" *-[#595959,plain]-> "onlineMessageController\n1" ServerMessagingController 
+GameState                 "1" *-[#595959,plain]-> "playerOne\n1" Entity                    
+HostLobby                  -[#008200,dashed]-^  Observer                  
+HostLobby                  -[#000082,plain]-^  State                     
+IceCard                    -[#000082,plain]-^  Card                      
+InGame                    "1" *-[#595959,plain]-> "cardButtonEntities\n*" Entity                    
+InGame                     -[#008200,dashed]-^  GameOverObserver          
+InGame                     -[#008200,dashed]-^  Observer                  
+InGame                     -[#000082,plain]-^  State                     
+InputSystem               "1" *-[#595959,plain]-> "buttonManager\n1" ComponentManager          
+InputSystem               "1" *-[#595959,plain]-> "toAdd\n*" Entity                    
+InputSystem               "1" *-[#595959,plain]-> "inputController\n1" InputController           
+InputSystem                -[#008200,dashed]-^  System                    
+InputSystem               "1" *-[#595959,plain]-> "lastTouched\n1" TouchLocation             
+JoinLobby                  -[#008200,dashed]-^  JoinGameObserver          
+JoinLobby                  -[#008200,dashed]-^  Observer                  
+JoinLobby                  -[#000082,plain]-^  State                     
+LibGDXGraphics             -[#008200,dashed]-^  GraphicsController        
+LibGDXInput                -[#008200,dashed]-^  InputController           
+LibGDXInput               "1" *-[#595959,plain]-> "lastReleaseLocation\n1" TouchLocation             
+LibGDXSound                -[#008200,dashed]-^  SoundController           
+LightningCard              -[#000082,plain]-^  Card                      
+LocalDAO                   -[#008200,dashed]-^  DAO                       
+LocalDAOTest              "1" *-[#595959,plain]-> "mockDAO\n1" DAO                       
+LocalDAOTest               -[#595959,dashed]->  LocalDAO                  : "«create»"
+MagicCard                  -[#000082,plain]-^  Card                      
+Map                       "1" *-[#595959,plain]-> "tiles\n*" Tile                      
+MapTest                   "1" *-[#595959,plain]-> "abyssMap\n1" Map                       
+MeleeCard                  -[#000082,plain]-^  Card                      
+Menu                       -[#008200,dashed]-^  Observer                  
+Menu                       -[#000082,plain]-^  State                     
+MovementSystem            "1" *-[#595959,plain]-> "positionManager\n1" ComponentManager          
+MovementSystem             -[#008200,dashed]-^  System                    
+Multiplayer                -[#008200,dashed]-^  Observer                  
+Multiplayer                -[#000082,plain]-^  State                     
+Options                   "1" *-[#595959,plain]-> "volumeText\n1" Entity                    
+Options                    -[#008200,dashed]-^  Observer                  
+Options                    -[#000082,plain]-^  State                     
+PathfindingComponent      "1" *-[#595959,plain]-> "path\n*" Tile                      
+PositionComponent         "1" *-[#595959,plain]-> "position\n1" Vector2                   
+PowerCard                  -[#000082,plain]-^  Card                      
+RenderingSystem           "1" *-[#595959,plain]-> "drawableManager\n1" ComponentManager          
+RenderingSystem           "1" *-[#595959,plain]-> "graphicsController\n1" GraphicsController        
+RenderingSystem            -[#008200,dashed]-^  System                    
+ScreenManager             "1" *-[#595959,plain]-> "stateStack\n*" State                     
+ServerMessenger           "1" *-[#595959,plain]-> "gameDao\n1" DAO                       
+ServerMessenger            -[#008200,dashed]-^  ServerMessagingController 
+SpriteComponent           "1" *-[#595959,plain]-> "size_uv\n1" Vector2                   
+State                     "1" *-[#595959,plain]-> "defaultControllers\n1" Controllers               
+State                     "1" *-[#595959,plain]-> "buttons\n*" Entity                    
+State                     "1" *-[#595959,plain]-> "screenManager\n1" ScreenManager             
+State                     "1" *-[#595959,plain]-> "mouse\n1" Vector2                   
+TechnologyCard             -[#000082,plain]-^  Card                      
+TextComponent             "1" *-[#595959,plain]-> "fontScale\n1" Vector2                   
+TextComponent             "1" *-[#595959,plain]-> "color\n1" Vector3                   
+Tile                      "1" *-[#595959,plain]-> "card\n1" Entity                    
+Tile                      "1" *-[#595959,plain]-> "type\n1" TileType                  
+TileComponent             "1" *-[#595959,plain]-> "tile\n1" Tile                      
+TileComponentManager       -[#000082,plain]-^  ComponentManager          
+TileComponentManager      "1" *-[#595959,plain]-> "tileMap\n*" TileComponent             
+TowerFactoryTest           -[#595959,dashed]->  Vector2                   : "«create»"
+Tutorial                   -[#008200,dashed]-^  Observer                  
+Tutorial                   -[#000082,plain]-^  State                     
+@enduml

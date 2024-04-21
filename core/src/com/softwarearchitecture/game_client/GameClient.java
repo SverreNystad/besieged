@@ -3,6 +3,7 @@ package com.softwarearchitecture.game_client;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.softwarearchitecture.clock.Clock;
 import com.softwarearchitecture.ecs.ECSManager;
 import com.softwarearchitecture.game_client.states.GameOver;
 import com.softwarearchitecture.game_client.states.InGame;
@@ -27,7 +28,7 @@ public class GameClient {
     public void update() {
         screenManager.activateCurrentStateIfChanged();
 
-        float deltaTime = 1f; // TODO: Implement deltatime
+        float deltaTime = Clock.getInstance().getAndResetDeltaTime();
 
         ECSManager.getInstance().update(deltaTime);
 
@@ -41,12 +42,9 @@ public class GameClient {
                     this.lastServerResponse = game.get().timeStamp;
                 }
                 GameState state = game.get();
-                
+
                 // Check for server heartbeat
-                if (System.currentTimeMillis()  - this.lastServerResponse >= this.maxServerResponseTime) {
-                    System.out.println("Timestamp: " + state.timeStamp);
-                    System.out.println("Last server response: " + this.lastServerResponse);
-                    System.out.println("Server heartbeat lost");
+                if (System.currentTimeMillis() - this.lastServerResponse >= this.maxServerResponseTime) {
                     screenManager.nextState(new GameOver(defaultControllers, gameId, "LOST CONNECTION"));
                 }
                 // No update
@@ -54,12 +52,14 @@ public class GameClient {
                     this.lastServerResponse = state.timeStamp;
                 }
             }
-        }
-        else if (defaultControllers.gameServer.getGameId() != null  && screenManager.isCurrentStateOfType(InGame.class)) {
+        } else if (defaultControllers.gameServer.getGameId() != null
+                && screenManager.isCurrentStateOfType(InGame.class)) {
             gameId = defaultControllers.gameServer.getGameId();
             Optional<GameState> game = Optional.empty();
-            game = screenManager.isLocalServer() ? defaultControllers.localClientMessagingController.requestGameState(gameId) : defaultControllers.onlineClientMessagingController.requestGameState(gameId);
-            
+            game = screenManager.isLocalServer()
+                    ? defaultControllers.localClientMessagingController.requestGameState(gameId)
+                    : defaultControllers.onlineClientMessagingController.requestGameState(gameId);
+
             if (game.isPresent()) {
                 game.get();
             }

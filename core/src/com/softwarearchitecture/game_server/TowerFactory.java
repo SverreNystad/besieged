@@ -9,7 +9,6 @@ import com.softwarearchitecture.ecs.components.AreaOfEffectComponent;
 import com.softwarearchitecture.ecs.components.PositionComponent;
 import com.softwarearchitecture.ecs.components.SoundComponent;
 import com.softwarearchitecture.ecs.components.SpriteComponent;
-import com.softwarearchitecture.ecs.components.TargetComponent;
 import com.softwarearchitecture.ecs.components.TowerComponent;
 import com.softwarearchitecture.game_client.TexturePack;
 
@@ -42,12 +41,6 @@ public class TowerFactory {
         String sound = AudioPack.PLACING_CARD;
         float timeFactor = 1f;
 
-        // Optional<TowerType> towerType = PairableCards.getTower(cardType1, cardType2);
-
-        // if (!towerType.isPresent()) {
-        // throw new IllegalArgumentException("Invalid tower type combination");
-        // }
-
         AreaOfEffectComponent areaOfEffectComponent = null;
 
         switch (towerType) {
@@ -59,10 +52,13 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME2);
                 textures.add(TexturePack.TOWER_FIRE_ATTACK_FRAME3);
 
-                damage = 10;
+                areaOfEffectComponent = new AreaOfEffectComponent();
+
+                damage = 5;
                 range = 2;
-                attackCooldown = 0.2f * timeFactor;
+                attackCooldown = 0.2f;
                 sound = AudioPack.TOWER_FIRE_MAGIC; // TODO: Add the correct sound path
+
                 break;
             case TOR:
                 textures.add(TexturePack.TOWER_TOR_FRAME1);
@@ -161,9 +157,10 @@ public class TowerFactory {
                 textures.add(TexturePack.TOWER_INFERNO_FRAME4);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME5);
                 textures.add(TexturePack.TOWER_INFERNO_FRAME6);
+
                 areaOfEffectComponent = new AreaOfEffectComponent();
 
-                damage = 100;
+                damage = 2;
                 range = 1;
                 attackCooldown = 0.1f * timeFactor;
                 sound = AudioPack.TOWER_INFERNO;
@@ -257,7 +254,6 @@ public class TowerFactory {
         PositionComponent positionComponent = new PositionComponent(position, 10);
         AnimationComponent animationComponent = new AnimationComponent(textures);
         SpriteComponent spriteComponent = new SpriteComponent(textures.get(0), size);
-        TargetComponent targetComponent = new TargetComponent();
         SoundComponent soundComponent = new SoundComponent(sound, false, false); // TODO: Add the correct sound path
         // Create the tower entity and add the components
         Entity tower = new Entity();
@@ -265,7 +261,6 @@ public class TowerFactory {
         tower.addComponent(SpriteComponent.class, spriteComponent);
         tower.addComponent(PositionComponent.class, positionComponent);
         tower.addComponent(AnimationComponent.class, animationComponent);
-        tower.addComponent(TargetComponent.class, targetComponent);
         tower.addComponent(SoundComponent.class, soundComponent);
         if (areaOfEffectComponent != null) {
             tower.addComponent(AreaOfEffectComponent.class, areaOfEffectComponent);
@@ -282,24 +277,27 @@ public class TowerFactory {
         Optional<PositionComponent> positionComponentOptional = tower.getComponent(PositionComponent.class);
         Optional<AnimationComponent> animationComponentOptional = tower.getComponent(AnimationComponent.class);
         Optional<SpriteComponent> spriteComponentOptional = tower.getComponent(SpriteComponent.class);
-        Optional<TargetComponent> targetComponentOptional = tower.getComponent(TargetComponent.class);
         Optional<SoundComponent> soundComponentOptional = tower.getComponent(SoundComponent.class);
-        if (!towerComponentOptional.isPresent() || !positionComponentOptional.isPresent() || !animationComponentOptional.isPresent() || !spriteComponentOptional.isPresent() || !targetComponentOptional.isPresent() || !soundComponentOptional.isPresent()) {
+        if (!towerComponentOptional.isPresent() || !positionComponentOptional.isPresent()
+                || !animationComponentOptional.isPresent() || !spriteComponentOptional.isPresent()
+                || !soundComponentOptional.isPresent()) {
             return null;
         }
         TowerComponent towerComponent = towerComponentOptional.get();
         PositionComponent positionComponent = positionComponentOptional.get();
         AnimationComponent animationComponent = animationComponentOptional.get();
         SpriteComponent spriteComponent = spriteComponentOptional.get();
-        TargetComponent targetComponent = targetComponentOptional.get();
         SoundComponent soundComponent = soundComponentOptional.get();
+        AreaOfEffectComponent areaOfEffectComponent = tower.getComponent(AreaOfEffectComponent.class).orElse(null);
         Entity newTower = new Entity();
         newTower.addComponent(TowerComponent.class, towerComponent);
         newTower.addComponent(PositionComponent.class, positionComponent);
         newTower.addComponent(AnimationComponent.class, animationComponent);
         newTower.addComponent(SpriteComponent.class, spriteComponent);
-        newTower.addComponent(TargetComponent.class, targetComponent);
         newTower.addComponent(SoundComponent.class, soundComponent);
+        if (areaOfEffectComponent != null) {
+            newTower.addComponent(AreaOfEffectComponent.class, areaOfEffectComponent);
+        }
         return newTower;
     }
 }

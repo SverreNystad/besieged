@@ -16,6 +16,15 @@ import com.softwarearchitecture.ecs.components.VelocityComponent;
 import com.softwarearchitecture.game_server.Tile;
 import com.softwarearchitecture.math.Vector2;
 
+/**
+ * The {@code MovementSystem} is responsible for managing the movement of entities within the game environment.
+ * This system processes entities that possess position, velocity, and pathfinding components, calculating
+ * and updating their positions based on their current velocities and the paths defined in their pathfinding components.
+ *
+ * <p>It utilizes the game's tile system to translate path coordinates into actual game world positions, ensuring
+ * that entities move along predefined paths accurately. The system also accounts for dynamic changes in velocity
+ * and adjusts entity movement accordingly.</p>
+ */
 public class MovementSystem implements System {
     private ComponentManager<PositionComponent> positionManager;
     private ComponentManager<VelocityComponent> velocityManager;
@@ -32,6 +41,14 @@ public class MovementSystem implements System {
 
     }
 
+    /**
+     * Updates the positions of all entities with position, velocity, and pathfinding components.
+     * This method calculates the next waypoint for each entity and moves them towards it based on
+     * their current velocity and the time elapsed since the last update.
+     *
+     * @param entities   the set of entities that might need to be moved
+     * @param deltaTime  the time elapsed since the last update, used for calculating movement
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         
@@ -89,8 +106,4 @@ public class MovementSystem implements System {
             return stepLength - distance;  // Target reached
         }
     }
-
-
-
-
 }

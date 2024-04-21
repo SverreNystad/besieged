@@ -14,9 +14,11 @@ public class TexturePack {
     public static final String BACKGROUND_MAIN_MENU = "gui/backgrounds/main_menu.png";
     public static final String BACKGROUND_MULTIPLAYER = "gui/backgrounds/multiplayer.png";
     public static final String BACKGROUND_BLACK = "gui/backgrounds/background_black.png";
+    public static final String BACKGROUND_TUTORIAL = "gui/backgrounds/tutorial.png";
 
     // Previews of maps
-    public static final String PREVIEW_ABYSS = "gui/map_previews/besieged_abyss_map.png";
+    public static final String PREVIEW_ABYSS = "gui/map_previews/abyss_preview.png";
+    public static final String PREVIEW_CLEARING = "gui/map_previews/clearing_preview.png";
 
     // Tiles
     public static final String PLACEABLE = "grass.png";
@@ -44,6 +46,10 @@ public class TexturePack {
     public static final String BUTTON_MUTE = "gui/buttons/mute.png";
     public static final String BUTTON_ABYSS = "gui/buttons/abyss.png";
     public static final String BUTTON_TEST = "gui/buttons/test.png";
+    public static final String BUTTON_AVAILABLE_LOBBY = "gui/buttons/available_lobby.png";
+    public static final String BUTTON_TUTORIAL = "gui/buttons/tutorial.png";
+    public static final String BUTTON_CLEARING = "gui/buttons/clearing.png";
+    public static final String BUTTON_HIGHSCORES = "gui/buttons/highscores.png";
 
     // Logo
     public static final String LOGO = "gui/logo.png";
@@ -53,6 +59,7 @@ public class TexturePack {
     public static final String BIG_EMPTY_SING = "gui/overlay/sign_big.png";
     public static final String CHOOSE_MAP = "gui/overlay/choose_map.png";
     public static final String BOARD = "gui/overlay/board.png";
+    public static final String JOIN_LOBBY = "gui/overlay/join_lobby.png";
 
     // Cards
     public static final String CARD_FIRE = "cards/fire_card.png";

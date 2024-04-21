@@ -13,6 +13,18 @@ import com.softwarearchitecture.ecs.System;
 import com.softwarearchitecture.ecs.TouchLocation;
 import com.softwarearchitecture.ecs.components.ButtonComponent;
 
+/**
+ * The {@code InputSystem} class manages user interactions with virtual buttons within the game. 
+ * It captures touch inputs, determines if these touches correspond to button presses, and triggers 
+ * the respective actions associated with those buttons.
+ * 
+ * <p>This system utilizes the {@link InputController} to monitor touch events, invoking specific
+ * callbacks for touch and release actions. It processes these inputs to check against known 
+ * button locations and behaviors, thereby facilitating a responsive user interface.</p>
+ *
+ * <p>Buttons are evaluated based on their z-index to prioritize which button's action is triggered 
+ * when multiple buttons overlap. This ensures that the most foregrounded button receives the interaction.</p>
+ */
 public class InputSystem implements System {
     private ComponentManager<ButtonComponent> buttonManager;
     private InputController inputController;
@@ -27,16 +39,34 @@ public class InputSystem implements System {
         this.inputController.onRelease(this::onRelease);
     }
 
+    /**
+     * Callback for handling touch input. This method records the location of the touch.
+     *
+     * @param touchLocation the location of the touch on the input surface
+     */
     public void onTouch(TouchLocation touchLocation) {
         this.lastTouched = touchLocation;
         // Process touch input here
     }
 
+    /**
+     * Callback for handling release input. This method records the location of the release.
+     *
+     * @param touchLocation the location of the release on the input surface
+     */
     public void onRelease(TouchLocation touchLocation) {
         this.lastReleased = touchLocation;
         // Process release input here
     }
 
+    /**
+     * Updates the state of the system based on user inputs, checking each button to see if it was pressed.
+     * It processes all entities with a {@link ButtonComponent} to determine if a touch or release event
+     * corresponds to an actionable button press.
+     *
+     * @param entities   the set of all entities to process for button interactions
+     * @param deltaTime  the time since the last update, not directly used here but necessary for system interface
+     */
     @Override
     public void update(Set<Entity> entities, float deltaTime) {
         List<ButtonComponent> buttonsPressed = new ArrayList<>();

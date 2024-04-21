@@ -64,9 +64,30 @@
 <ul>
   <details> 
     <summary><b>Android SDK (if you want to run the game on Android)</b></summary>
-    When testing the Android app one can run it either by connecting your Android phone via USB to your computer, or you could use an Android emulator (virtual device). To do this, you need to have the Android SDK installed. 
+    When testing the Android app one can run it either by connecting your Android phone via USB to your computer, or you could use an Android emulator (virtual device). To do this, you need to have the Android SDK installed.
+    details> 
+    <summary><b> Android SDK (if you want to run the game on Android) </b></summary>
+    To set up the Android SDK for running the game on an emulator, you need to create a file called `local.properties` in the root of the project and add the path to your SDK with the following line:
+    
+    echo sdk.dir=YOUR/ANDROID/SDK/PATH > local.properties
+
+  </details> 
 </ul>
-Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable for being able to run the game.
+<ul>
+  <details>
+    <summary><b>Firebase Secret Key (for multiplayer features)</b></summary>
+    To enable multiplayer features in the game, you need to obtain a Firebase secret key. This key is necessary to authenticate and manage the game's online interactions securely.
+    <ul> 
+     Obtain your Firebase secret key from the Firebase console.
+    </ul>
+    <ul>
+      Put the key into the asset` folder with the name 
+      ``FirebaseSecretKey.json``
+    </ul>
+  </details>
+</ul>
+
+Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable to be able to run the game. 
 
 ### Installing
 To install the project, you can use the following commands:

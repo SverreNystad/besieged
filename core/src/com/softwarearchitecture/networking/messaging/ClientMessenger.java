@@ -7,10 +7,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.softwarearchitecture.game_client.ClientMessagingController;
+import com.softwarearchitecture.game_client.Score;
 import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.networking.persistence.DAO;
-import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.softwarearchitecture.networking.persistence.DAOFactory;
 
 public class ClientMessenger implements ClientMessagingController {
 
@@ -18,16 +19,19 @@ public class ClientMessenger implements ClientMessagingController {
     private DAO<UUID, PlayerInput> actionDAO;
     private DAO<String, UUID> joinPlayerDAO;
     private DAO<String, String> gamesDAO;
-
-    private final String JOIN_PREFIX = "JOIN";
-    private static final String GAME_PREFIX = "GAME";
+    private DAO<String, Score> highscoreDAO;
     
+    private final String JOIN_PREFIX = "JOIN";
+    private final String GAME_PREFIX = "GAME";
+    private final String HIGHSCORE_PREFIX = "HIGHSCORE";
+        
 
     public ClientMessenger(boolean isMultiplayer) {
-        this.gameDAO = new DAOBuilder(!isMultiplayer).build(String.class, byte[].class);
-        this.actionDAO = new DAOBuilder(!isMultiplayer).build(UUID.class, PlayerInput.class);
-        this.joinPlayerDAO = new DAOBuilder(!isMultiplayer).build(String.class, UUID.class);
-        this.gamesDAO = new DAOBuilder(!isMultiplayer).build(String.class, String.class);
+        this.gameDAO = new DAOFactory<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
+        this.actionDAO = new DAOFactory<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        this.joinPlayerDAO = new DAOFactory<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
+        this.gamesDAO = new DAOFactory<String, String>(!isMultiplayer).build(String.class, String.class);
+        this.highscoreDAO = new DAOFactory<String, Score>(!isMultiplayer).build(String.class, Score.class);
     }
     
     @Override
@@ -87,7 +91,7 @@ public class ClientMessenger implements ClientMessagingController {
         List<String> indexes = gamesDAO.loadAllIndices();
         List<GameState> games = new ArrayList<>();
         for (String index : indexes) {
-            if (index.contains("GAME")) {
+            if (index.contains(GAME_PREFIX)) {
                 try {
                     
                     Optional<byte[]> data = gameDAO.get(index);
@@ -133,8 +137,26 @@ public class ClientMessenger implements ClientMessagingController {
         return JOIN_PREFIX + gameId.toString();
     }
 
+
     @Override
     public void addAction(PlayerInput action) {
         actionDAO.add(action.getPlayerId(), action);
+    }
+
+
+    @Override
+    public List<Score> getAllHighScores() {
+        List<Score> scores = new ArrayList<>();
+        for (String index : highscoreDAO.loadAllIndices()) {
+            if (!index.contains(HIGHSCORE_PREFIX)) {
+                continue;
+            }
+            Optional<Score> possibleScore = highscoreDAO.get(index);
+            if (possibleScore.isPresent()) {
+                Score score = possibleScore.get();
+                scores.add(score);
+            }
+        }
+        return scores;
     }
 }

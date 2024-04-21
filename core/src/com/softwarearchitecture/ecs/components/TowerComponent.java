@@ -2,7 +2,6 @@ package com.softwarearchitecture.ecs.components;
 
 import java.io.Serializable;
 
-import com.softwarearchitecture.game_server.PairableCards;
 import com.softwarearchitecture.game_server.PairableCards.TowerType;
 
 public class TowerComponent implements Serializable {
@@ -15,13 +14,12 @@ public class TowerComponent implements Serializable {
     public boolean playSound = false;
 
     public TowerComponent(int damage, float range, float attackCooldown, TowerType towerType) {
-        if (damage >= 1 && range >= 1 && attackCooldown >= 1) {
+        if (damage >= 1 && range >= 0 && attackCooldown >= 0) {
             this.damage = damage;
             this.range = range;
             this.attackCooldown = attackCooldown;
             this.towerType = towerType;
-        }
-        else {
+        } else {
             this.damage = 1;
             this.range = 1;
             this.attackCooldown = 1;
