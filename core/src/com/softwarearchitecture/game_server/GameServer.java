@@ -83,7 +83,7 @@ public class GameServer {
         Entity village = new Entity();
         VillageComponent villageComponent = new VillageComponent();
         HealthComponent healthComponent = new HealthComponent(1000);
-        MoneyComponent moneyComponent = new MoneyComponent(20000);
+        MoneyComponent moneyComponent = new MoneyComponent(1100);
 
         // Add a text component to the village entity
         PositionComponent villagePosition = new PositionComponent(new Vector2(0.73f, 0.90f), 1000);
