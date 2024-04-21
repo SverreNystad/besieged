@@ -1,0 +1,48 @@
+@startuml
+
+package "Rest of System" {
+    package "CoreLogic"{}
+    interface "FacadeInterfaces" {
+        +void operation()
+    }
+    CoreLogic <|-- FacadeInterfaces
+}
+
+package "Input" {
+    class "InputController" {
+        +void handleInput()
+    }
+    FacadeInterfaces <|-- InputController
+}
+
+package "Graphics" {
+    class "GraphicsController" {
+        +void render()
+    }
+    FacadeInterfaces <|-- GraphicsController
+}
+
+package "Sound" {
+    class "AudioController" {
+        +void playSound()
+    }
+    FacadeInterfaces <|-- AudioController
+}
+
+package "libGDX" {
+    class "libGDX Graphics" {
+        +void draw()
+    }
+    class "libGDX Input" {
+        +void getInput()
+    }
+    class "libGDX Audio" {
+        +void emitSound()
+    }
+    
+    GraphicsController ..> "libGDX Graphics" : depends on
+    InputController ..> "libGDX Input" : depends on
+    AudioController ..> "libGDX Audio" : depends on
+}
+
+@enduml
