@@ -10,7 +10,7 @@ import com.softwarearchitecture.game_client.ClientMessagingController;
 import com.softwarearchitecture.game_server.GameState;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.networking.persistence.DAO;
-import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.softwarearchitecture.networking.persistence.DAOFactory;
 
 public class ClientMessenger implements ClientMessagingController {
 
@@ -24,10 +24,10 @@ public class ClientMessenger implements ClientMessagingController {
     
 
     public ClientMessenger(boolean isMultiplayer) {
-        this.gameDAO = new DAOBuilder(!isMultiplayer).build(String.class, byte[].class);
-        this.actionDAO = new DAOBuilder(!isMultiplayer).build(UUID.class, PlayerInput.class);
-        this.joinPlayerDAO = new DAOBuilder(!isMultiplayer).build(String.class, UUID.class);
-        this.gamesDAO = new DAOBuilder(!isMultiplayer).build(String.class, String.class);
+        this.gameDAO = new DAOFactory(!isMultiplayer).build(String.class, byte[].class);
+        this.actionDAO = new DAOFactory(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        this.joinPlayerDAO = new DAOFactory(!isMultiplayer).build(String.class, UUID.class);
+        this.gamesDAO = new DAOFactory(!isMultiplayer).build(String.class, String.class);
     }
     
     @Override

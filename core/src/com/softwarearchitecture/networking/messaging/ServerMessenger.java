@@ -9,7 +9,7 @@ import java.util.UUID;
 import com.softwarearchitecture.game_server.PlayerInput;
 import com.softwarearchitecture.game_server.ServerMessagingController;
 import com.softwarearchitecture.networking.persistence.DAO;
-import com.softwarearchitecture.networking.persistence.DAOBuilder;
+import com.softwarearchitecture.networking.persistence.DAOFactory;
 import com.softwarearchitecture.ecs.Entity;
 import com.softwarearchitecture.ecs.components.PlayerComponent;
 import com.softwarearchitecture.game_server.GameState;
@@ -24,9 +24,9 @@ public class ServerMessenger implements ServerMessagingController {
     private static final String GAME_PREFIX = "GAME";
 
     public ServerMessenger(boolean isMultiplayer) {
-        gameDao = new DAOBuilder<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
-        pendingPlayerDao = new DAOBuilder<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
-        actionDao = new DAOBuilder<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
+        gameDao = new DAOFactory<String, byte[]>(!isMultiplayer).build(String.class, byte[].class);
+        pendingPlayerDao = new DAOFactory<String, UUID>(!isMultiplayer).build(String.class, UUID.class);
+        actionDao = new DAOFactory<UUID, PlayerInput>(!isMultiplayer).build(UUID.class, PlayerInput.class);
     }
 
     @Override

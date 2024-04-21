@@ -11,15 +11,15 @@ import java.io.IOException;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Builder_pattern">Builder pattern on Wikipedia</a>
  */
-public class DAOBuilder<K, T>{
+public class DAOFactory<K, T>{
 
     private boolean useLocalStorage;
 
-    public DAOBuilder() {
+    public DAOFactory() {
         this.useLocalStorage = false;
     }
 
-    public DAOBuilder(boolean useLocalStorage) {
+    public DAOFactory(boolean useLocalStorage) {
         this.useLocalStorage = useLocalStorage;
     }
 
