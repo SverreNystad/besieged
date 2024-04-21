@@ -89,7 +89,6 @@ interface SoundController << interface >>
 class SpriteComponent
 class State
 interface System << interface >>
-class TargetComponent
 class TechnologyCard
 class TextComponent
 class TexturePack
