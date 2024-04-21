@@ -1,31 +1,48 @@
 @startuml
 
-package "rest_of_system" {
-    [core logic] <|-- [facadeInterfaces]
+package "Rest of System" {
+    package "CoreLogic"{}
+    interface "FacadeInterfaces" {
+        +void operation()
+    }
+    CoreLogic <|-- FacadeInterfaces
 }
 
 package "Input" {
-    [facadeInterfaces] <|-- [InputController] : use
+    class "InputController" {
+        +void handleInput()
+    }
+    FacadeInterfaces <|-- InputController
 }
 
 package "Graphics" {
-    [facadeInterfaces] <|-- [GraphicsController] : use
-    
+    class "GraphicsController" {
+        +void render()
+    }
+    FacadeInterfaces <|-- GraphicsController
 }
 
 package "Sound" {
-    
-    [facadeInterfaces] <|-- [AudioController] : use
+    class "AudioController" {
+        +void playSound()
+    }
+    FacadeInterfaces <|-- AudioController
 }
 
 package "libGDX" {
-    [GraphicsController] ..> [libGDX Graphics] : depends on
-    [InputController] ..> [libGDX Input] : depends on
-    [AudioController] ..> [libGDX Audio] : depends on
+    class "libGDX Graphics" {
+        +void draw()
+    }
+    class "libGDX Input" {
+        +void getInput()
+    }
+    class "libGDX Audio" {
+        +void emitSound()
+    }
+    
+    GraphicsController ..> "libGDX Graphics" : depends on
+    InputController ..> "libGDX Input" : depends on
+    AudioController ..> "libGDX Audio" : depends on
 }
-
-[libGDX Graphics] <-- [libGDX] : part of
-[libGDX Input] <-- [libGDX] : part of
-[libGDX Audio] <-- [libGDX] : part of
 
 @enduml
