@@ -1,12 +1,16 @@
 # Group Project in TDT4240 - Software Architecture
+
 <div align="center">
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SverreNystad/progark/ci.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/SverreNystad/progark)
 ![GitHub language count](https://img.shields.io/github/languages/count/SverreNystad/progark)
-[![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
+[![Project Version](https://img.shields.io/badge/version-1.0.0-blue)](https://img.shields.io/badge/version-1.0.0-blue)
 
+</div>
 
+<div align="center">
+  <img src="docs\images\besieged.png" alt="logo"           width="200" height="200" />
 </div>
 
 <details>
@@ -25,18 +29,17 @@
 
 ## Introduction
 
-
 ## Installation and Setup
 
-
 ### Prerequisites
+
 <ul>
 <details> <summary><b> Git </b> </summary>
   Git is a distributed version control system that is used to manage the source code of this project. It is essential for cloning the project from GitHub and collaborating with other developers.
 
-  * Git - Version Control System
-    * Download and install Git from the official [Git website](https://git-scm.com/downloads).
-    * After installation, verify the installation by running ```git --version``` in your command line or terminal.
+- Git - Version Control System
+_ Download and install Git from the official [Git website](https://git-scm.com/downloads).
+_ After installation, verify the installation by running `git --version` in your command line or terminal.
 </details>
 </ul>
 
@@ -44,9 +47,9 @@
   <details> <summary><b> Java JDK 17 (Download from Oracle's website) </b></summary>
   This project requires Java JDK to be installed. The project is tested with JDK 17.
 
-  * Java JDK 17 - Java Development Kit is essential for compiling and running Java applications.
-    * Download and install it from [Oracle's Java JDK Download Page](https://www.oracle.com/java/technologies/downloads/#java17) or adopt an open-source JDK like AdoptOpenJDK.
-    * After installation, verify the installation by running ```java -version``` and ```javac -version``` in your command line or terminal.
+- Java JDK 17 - Java Development Kit is essential for compiling and running Java applications.
+_ Download and install it from [Oracle's Java JDK Download Page](https://www.oracle.com/java/technologies/downloads/#java17) or adopt an open-source JDK like AdoptOpenJDK.
+_ After installation, verify the installation by running `java -version` and `javac -version` in your command line or terminal.
   </details>
 </ul>
 <ul>
@@ -54,10 +57,9 @@
   <summary><b> Gradle 6.7 </b></summary>
   Gradle is used as the build tool for this project. It automates the process of building, testing, and deploying the application.
 
-  * Gradle 6.7 - Gradle brings advanced build toolkit to manage dependencies and other aspects of the build process.
-    * You can download Gradle from the [Gradle Download Page](https://gradle.org/install/).
-    * Alternatively, if you are using a Gradle Wrapper script (gradlew or gradlew.bat), you do not need to manually install Gradle, as the wrapper script will handle the installation for you.
-    * To confirm that Gradle is properly installed, run ```gradlew -v``` in your command line or terminal which will display the installed Gradle version.
+- Gradle 6.7 - Gradle brings advanced build toolkit to manage dependencies and other aspects of the build process.
+_ You can download Gradle from the [Gradle Download Page](https://gradle.org/install/).
+_ Alternatively, if you are using a Gradle Wrapper script (gradlew or gradlew.bat), you do not need to manually install Gradle, as the wrapper script will handle the installation for you. \* To confirm that Gradle is properly installed, run `gradlew -v` in your command line or terminal which will display the installed Gradle version.
   </details>
 </ul>
 
@@ -87,35 +89,42 @@
   </details>
 </ul>
 
-Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable to be able to run the game. 
+Ensure that both Java and Gradle are properly installed and configured in your system's PATH environment variable to be able to run the game.
 
 ### Installing
+
 To install the project, you can use the following commands:
+
 ```cmd
 git clone https://github.com/SverreNystad/besieged.git
 ```
 
-
 ## How to Play
+
 The game can be played on both desktop and Android.
 
 To start the game, you can start it on desktop using the following command:
+
 ```cmd
 gradlew desktop:run
 ```
 
 To start the game on Android, you can use the following command:
+
 ```cmd
 gradlew android:run
 ```
 
 ## Running the tests
+
 To run the tests, you can use the following command:
+
 ```cmd
 ./gradlew test
 ```
 
 ## Contributors
+
 <table>
   <tr>
     <td align="center">
