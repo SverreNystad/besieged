@@ -19,11 +19,13 @@
 - [Group Project in TDT4240 - Software Architecture](#group-project-in-tdt4240---software-architecture)
   - [Introduction](#introduction)
     - [Game play](#game-play)
+    - [Trailer](#trailer)
   - [Installation and Setup](#installation-and-setup)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
   - [How to Play](#how-to-play)
   - [Running the tests](#running-the-tests)
+    - [General overview of how the game runs when starting either a singleplayer or multiplayer-match](#general-overview-of-how-the-game-runs-when-starting-either-a-singleplayer-or-multiplayer-match)
   - [Contributors](#contributors)
 
 </details>
@@ -37,15 +39,21 @@ Besieged! is a cooperative, real-time multiplayer tower defense game inspired by
 <div align="center">
   <div align="center">
     <img src="docs\images\mainmenu.png"alt="main menu"           width="200" height="100">
-    <img src="docs\images\tutorial_besieged.png" alt="tutorial"           width="200" height="100">
+    <img src="docs\images\tutorial_besieged.png" alt="tutorial"  width="200" height="100">
   </div>
   <div align="center">
-    <img src="docs\images\map_choice_menu.png" alt="gameplay"           width="200" height="100">
+    <img src="docs\images\map_choice_menu.png" alt="gameplay"    width="200" height="100">
     <img src="docs\images\gameplay.png" alt="gameplay"           width="200" height="100">
   </div>
 </div>
 
+### Trailer
+
+<div align="center">
+
 [![Trailer](https://img.youtube.com/vi/hZOwTa846p4/0.jpg)](https://www.youtube.com/watch?v=hZOwTa846p4)
+
+</div>
 
 ## Installation and Setup
 
