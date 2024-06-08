@@ -18,6 +18,7 @@
 
 - [Group Project in TDT4240 - Software Architecture](#group-project-in-tdt4240---software-architecture)
   - [Introduction](#introduction)
+    - [Game play](#game-play)
   - [Installation and Setup](#installation-and-setup)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
@@ -28,6 +29,12 @@
 </details>
 
 ## Introduction
+
+Besieged! is a cooperative, real-time multiplayer tower defense game inspired by Viking and Norse mythology. Supporting both single player and multiplayer. Players collaborate in shared instances to defend their village against waves of mythological creatures. Gameplay involves purchasing and strategically placing combination of "tower-cards"—on the map to build unique towers that attack invading enemies. Each kill grants players money to acquire more cards. Enemies spawn in waves and follow a set path toward your village; if they succeed in destroying it, the game ends. Besieged! innovates on traditional tower defense mechanics, such as those in Bloons Tower Defense 4, by enabling dynamic tower creation through card combinations.
+
+### Game play
+
+[![Trailer](https://img.youtube.com/vi/hZOwTa846p4/0.jpg)](https://www.youtube.com/watch?v=hZOwTa846p4)
 
 ## Installation and Setup
 
@@ -123,6 +130,44 @@ To run the tests, you can use the following command:
 ./gradlew test
 ```
 
+### General overview of how the game runs when starting either a singleplayer or multiplayer-match
+
+<div>
+    <li> The GameApp, which is the entry point of the application, creates the GameLauncher. 
+    </li> 
+    <li> The GameLauncher creates all the different instances of the necessary interfaces that are needed to run the application like drawing, audio and input. It also creates the Data Access Objects (DAOs) for the client and server. It also creates the GameClient itself.
+    </li> 
+    <li>The GameClient tells the ScreenManager to initialize and enter the Menu state, i.e. the main menu. 
+    </li> 
+    <li>The Menu-state instantiates the required ECS-systems like the InputSystem, RenderingSystem, AudioSystem.
+    </li> 
+    <li>The GameApp starts its update-method which updates the GameClient continuously, which in turn updates the ECS-system. Review the next subsection to get a better deeper understand of the update-cycle in the ECS. 
+    </li> 
+    <li>After each iteration of the ECS update-cycle, the GameClient checks if it has joined a game or not. 
+    </li> 
+    <li>User navigates through the multiplayer-menu to the "Choose map"-menu and chooses a map. 
+    </li> 
+    <li>After choosing a map, the server is started on a separate thread. Depending on if the game is a singleplayer or a multiplayer-game, the Server and Client get either a LocalDAO or a FirebaseDAO, respectively. 
+    </li> 
+    <li>The server continuously polls to check if there is a pending player waiting to join the game. 
+    </li> 
+    <li>A client notifies the server that it wants to join the game. This happens in the "Join Game"-menu by pressing an available game. It then waits a short period before checking for a response from the server. 
+    </li> 
+    <li>The server handles the join request and puts the player hosting the game into the game itself, i.e. the InGame-state. This also happens to the joining player. 
+    </li> 
+    <li>The server then initializes the game itself by creating entities and adding them to the ECS-system, and updating all clients. 
+    </li> 
+    <li>During each update-cycle in the Server while In-game, the following things happen: The ECS-systems are updated, progressing the game. It then checks if the game has ended or not. Then, it looks for pending actions received from players, and handles them if they are valid, like placing a card on an available tile if the player has enough money to buy it. At the end of each update-cycle the new updated GameState is applied and sent to all clients. 
+    </li> 
+    <li>Repeat main update-cycle until the game is over, or the host terminates the application or loses connection. 
+    </li> 
+    <li>Clients continuously pull updates to the GameState from the server and updates their local ECS-systems. 
+    </li> 
+    <li>Clients send request for doing actions to the server. 
+    </li> 
+    <li>The game ends in one of the two following ways: Case 1. The server abruptly loses connection. If a client does not receive new updates from the server within 10 seconds, it exits to the "lost connection"-screen. Case 2: The game ends with the players losing all their health, and the "Game Over"-screen is displayed. The server does a teardown-procedure which include updating the global highscore, and removes the game from the list of pollable games.    
+   
+</div>
 ## Contributors
 
 <table>

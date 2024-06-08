@@ -1,0 +1,9 @@
+@startuml
+participant "Client" as C
+participant "Server" as S
+
+loop Every client update
+    C -> S: Heartbeat signal
+    S -> C: Heartbeat acknowledgment
+end loop
+@enduml

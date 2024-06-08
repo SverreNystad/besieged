@@ -1,30 +1,24 @@
 @startuml
 
-[*] --> GameMenu : Starts game
-GameMenu --> SinglePlayer : Presses Single Player
-GameMenu --> Multiplayer : Presses Multiplayer
-GameMenu --> Options : Presses Options
-GameMenu --> Quit : Presses Quit
-
-Options --> GameMenu : Presses Back
-
-Multiplayer --> HostGame : Presses Host Game
-Multiplayer --> JoinGame : Presses Join Game
-
-HostGame : Has a unique id. Can be shared with another player.
-HostGame --> Lobby : Automatically creates lobby
-JoinGame --> Lobby : Joins a lobby after entering a unique id
-Lobby --> GameMenu : Leaves the lobby
-
-SinglePlayer --> Game : Automatically starts
-Lobby --> Game : Presses Start once the lobby is full
-
-Game --> Pause : Presses Pause
-Pause --> Game : Presses Resume
-Pause --> GameMenu : Presses Leave Game
-
-Game --> GameOver : Game ends, either a victory or defeat
-GameOver --> GameMenu : Automatically returns to the main menu
+[*] --> Menu : Starts the game
+Menu --> Options : Presses Options
+Menu --> Quit : Presses Quit
+Menu --> Multiplayer : Presses Multiplayer
+Menu --> ChooseMap : Presses Play
+Menu --> Tutorial : Presses Tutorial
+Options --> Menu : Presses Go back
+Multiplayer --> Menu : Presses Go back
+ChooseMap --> Menu : Presses Go back
+Tutorial --> Menu : Presses Go back
+Multiplayer --> JoinLobby : Presses Join
+Multiplayer --> ChooseMap : Presses Host
+Multiplayer --> Highscores : Presses Highscore
+JoinLobby --> Multiplayer : Presses Go back
+JoinLobby --> InGame : Presses Join on a lobby
+ChooseMap --> InGame : Presses on one of the maps
+InGame --> GameOver : Game ends, the player(s) have no life left or the client has lost connection with the server
+GameOver --> Menu : Presses Go back
+Highscores --> Multiplayer : Presses Go back
 
 Quit --> [*]
 
