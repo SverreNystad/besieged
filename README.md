@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SverreNystad/progark/ci.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/SverreNystad/progark)
 ![GitHub language count](https://img.shields.io/github/languages/count/SverreNystad/progark)
 [![Project Version](https://img.shields.io/badge/version-1.0.0-blue)](https://img.shields.io/badge/version-1.0.0-blue)
@@ -24,8 +23,11 @@
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
   - [How to Play](#how-to-play)
+    - [Desktop](#desktop)
+    - [Android](#android)
+    - [Generating APK in Android Studio](#generating-apk-in-android-studio)
   - [Running the tests](#running-the-tests)
-    - [General overview of how the game runs when starting either a singleplayer or multiplayer-match](#general-overview-of-how-the-game-runs-when-starting-either-a-singleplayer-or-multiplayer-match)
+  - [Architecture](#architecture)
   - [Contributors](#contributors)
 
 </details>
@@ -129,27 +131,37 @@ git clone https://github.com/SverreNystad/besieged.git
 
 The game can be played on both desktop and Android.
 
+### Desktop
 To start the game, you can start it on desktop using the following command:
 
 ```cmd
 gradlew desktop:run
 ```
+### Android
+To start the game on Android one needs to run the APK file of the Besieged project. This can either be done by generating this your self or genereting it with tools like Android Studio
+When one have the APK file one can then run it on an emulator or on any android device by executing the file.
 
-To start the game on Android, you can use the following command:
-
-```cmd
-gradlew android:run
-```
+### Generating APK in Android Studio
+Open the root folder as a project in Android Studio and let it configure itself the first time you open it. It should then automatically make an Android run configuration, so all you have to do is press the green run button on the top bar. Please take a look at [Figure](docs/images/android_running_of_project.png):
 
 ## Running the tests
 
 To run the tests, you can use the following command:
 
 ```cmd
-./gradlew test
+gradlew test
 ```
 
-### General overview of how the game runs when starting either a singleplayer or multiplayer-match
+## Architecture
+
+- [Requirements](docs/architectural_documents/Requirements.pdf)
+- [Architectural Design](docs/architectural_documents/Architectural%20Design.pdf)
+- [Implementation](docs/architectural_documents/Implementation%20Report.pdf)
+
+<details>
+
+<summary> General overview of how the game runs when starting either a singleplayer or multiplayer-match
+</summary>
 
 <div>
     <li> The GameApp, which is the entry point of the application, creates the GameLauncher. 
@@ -187,6 +199,9 @@ To run the tests, you can use the following command:
     <li>The game ends in one of the two following ways: Case 1. The server abruptly loses connection. If a client does not receive new updates from the server within 10 seconds, it exits to the "lost connection"-screen. Case 2: The game ends with the players losing all their health, and the "Game Over"-screen is displayed. The server does a teardown-procedure which include updating the global highscore, and removes the game from the list of pollable games.    
    
 </div>
+
+</details>
+
 ## Contributors
 
 <table>
