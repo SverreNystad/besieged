@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SverreNystad/progark/ci.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/SverreNystad/progark)
 ![GitHub language count](https://img.shields.io/github/languages/count/SverreNystad/progark)
 [![Project Version](https://img.shields.io/badge/version-1.0.0-blue)](https://img.shields.io/badge/version-1.0.0-blue)
@@ -19,11 +18,16 @@
 - [Group Project in TDT4240 - Software Architecture](#group-project-in-tdt4240---software-architecture)
   - [Introduction](#introduction)
     - [Game play](#game-play)
+    - [Trailer](#trailer)
   - [Installation and Setup](#installation-and-setup)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
   - [How to Play](#how-to-play)
+    - [Desktop](#desktop)
+    - [Android](#android)
+    - [Generating APK in Android Studio](#generating-apk-in-android-studio)
   - [Running the tests](#running-the-tests)
+  - [Architecture](#architecture)
   - [Contributors](#contributors)
 
 </details>
@@ -37,15 +41,21 @@ Besieged! is a cooperative, real-time multiplayer tower defense game inspired by
 <div align="center">
   <div align="center">
     <img src="docs\images\mainmenu.png"alt="main menu"           width="200" height="100">
-    <img src="docs\images\tutorial_besieged.png" alt="tutorial"           width="200" height="100">
+    <img src="docs\images\tutorial_besieged.png" alt="tutorial"  width="200" height="100">
   </div>
   <div align="center">
-    <img src="docs\images\map_choice_menu.png" alt="gameplay"           width="200" height="100">
+    <img src="docs\images\map_choice_menu.png" alt="gameplay"    width="200" height="100">
     <img src="docs\images\gameplay.png" alt="gameplay"           width="200" height="100">
   </div>
 </div>
 
+### Trailer
+
+<div align="center">
+
 [![Trailer](https://img.youtube.com/vi/hZOwTa846p4/0.jpg)](https://www.youtube.com/watch?v=hZOwTa846p4)
+
+</div>
 
 ## Installation and Setup
 
@@ -121,27 +131,41 @@ git clone https://github.com/SverreNystad/besieged.git
 
 The game can be played on both desktop and Android.
 
+### Desktop
+
 To start the game, you can start it on desktop using the following command:
 
 ```cmd
 gradlew desktop:run
 ```
 
-To start the game on Android, you can use the following command:
+### Android
 
-```cmd
-gradlew android:run
-```
+To start the game on Android one needs to run the APK file of the Besieged project. This can either be done by generating this your self or genereting it with tools like Android Studio
+When one have the APK file one can then run it on an emulator or on any android device by executing the file.
+
+### Generating APK in Android Studio
+
+Open the root folder as a project in Android Studio and let it configure itself the first time you open it. It should then automatically make an Android run configuration, so all you have to do is press the green run button on the top bar. Please take a look at [Figure](docs/images/android_running_of_project.png):
 
 ## Running the tests
 
 To run the tests, you can use the following command:
 
 ```cmd
-./gradlew test
+gradlew test
 ```
 
-### General overview of how the game runs when starting either a singleplayer or multiplayer-match
+## Architecture
+
+- [Requirements](docs/architectural_documents/Requirements.pdf)
+- [Architectural Design](docs/architectural_documents/Architectural%20Design.pdf)
+- [Implementation](docs/architectural_documents/Implementation%20Report.pdf)
+
+<details>
+
+<summary> General overview of how the game runs when starting either a singleplayer or multiplayer-match
+</summary>
 
 <div>
     <li> The GameApp, which is the entry point of the application, creates the GameLauncher. 
