@@ -179,6 +179,11 @@ To run the tests, you can use the following command:
     <li>The game ends in one of the two following ways: Case 1. The server abruptly loses connection. If a client does not receive new updates from the server within 10 seconds, it exits to the "lost connection"-screen. Case 2: The game ends with the players losing all their health, and the "Game Over"-screen is displayed. The server does a teardown-procedure which include updating the global highscore, and removes the game from the list of pollable games.    
    
 </div>
+
+<div align="center">
+  <img src="docs\images\tim_image.jpg" alt="logo"      />
+</div>
+
 ## Contributors
 
 <table>
