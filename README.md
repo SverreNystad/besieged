@@ -94,7 +94,7 @@ _ Alternatively, if you are using a Gradle Wrapper script (gradlew or gradlew.ba
 <ul>
   <details> 
     <summary><b>Android SDK (if you want to run the game on Android)</b></summary>
-    When testing the Android app one can run it either by connecting your Android phone via USB to your computer, or you could use an Android emulator (virtual device). To do this, you need to have the Android SDK installed.
+    When testing the Android app you can run it either by connecting your Android phone via USB to your computer, or you could use an Android emulator (virtual device). To do this, you need to have the Android SDK installed.
     details> 
     <summary><b> Android SDK (if you want to run the game on Android) </b></summary>
     To set up the Android SDK for running the game on an emulator, you need to create a file called `local.properties` in the root of the project and add the path to your SDK with the following line:
@@ -133,7 +133,7 @@ The game can be played on both desktop and Android.
 
 ### Desktop
 
-To start the game, you can start it on desktop using the following command:
+You can start it on desktop using the following command:
 
 ```cmd
 gradlew desktop:run
@@ -141,8 +141,8 @@ gradlew desktop:run
 
 ### Android
 
-To start the game on Android one needs to run the APK file of the Besieged project. This can either be done by generating this your self or genereting it with tools like Android Studio
-When one have the APK file one can then run it on an emulator or on any android device by executing the file.
+To start the game on Android you need to run the APK file of Besieged. This can either be done by generating this yourself or with tools like Android Studio.
+When you have the APK file you can run it on an emulator or on any Android-device by executing the file.
 
 ### Generating APK in Android Studio
 
