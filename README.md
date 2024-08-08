@@ -34,7 +34,7 @@
 
 ## Introduction
 
-Besieged! is a cooperative, real-time multiplayer tower defense game inspired by Viking and Norse mythology, supporting both singleplayer and multiplayer. Players collaborate to defend their village against waves of mythological creatures. Gameplay involves purchasing and strategically placing combination of "tower-cards"—on the map to build unique towers that attack invading enemies. Each kill grants players money to acquire more cards. Enemies spawn in waves and follow a set path toward your village; if they succeed in destroying it, the game ends. Besieged! innovates on traditional tower defense mechanics, such as those in Bloons Tower Defense 4, by enabling dynamic tower creation through card combinations.
+Besieged! is a cooperative, real-time multiplayer tower defense game inspired by Viking and Norse mythology, supporting both singleplayer and multiplayer. Players collaborate to defend their village against waves of mythological creatures. Gameplay involves purchasing and strategically placing combination of "tower-cards" on the map to build unique towers that attack invading enemies. Each kill grants players money to acquire more cards. Enemies spawn in waves and follow a set path toward your village; if they succeed in destroying it, the game ends. Besieged! innovates on traditional tower defense mechanics, such as those in Bloons Tower Defense 4, by enabling dynamic tower creation through card combinations.
 
 ### Gameplay
 
